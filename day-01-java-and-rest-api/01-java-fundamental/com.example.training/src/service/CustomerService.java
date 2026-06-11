@@ -42,6 +42,13 @@ public class CustomerService {
             customer.setPhoneNumber(phoneNumber);
         }
     }
+
+    public void updateCustomerEmail(Long id, String email) {
+        Customer customer = customerStorage.get(id);
+        if (customer != null) {
+            customer.setEmail(email);
+        }
+    }
     public void deleteCustomer(Long id) {
         customerStorage.remove(id);
     }
