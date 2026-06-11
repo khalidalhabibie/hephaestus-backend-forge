@@ -20,7 +20,10 @@ Estimasi waktu: 20-30 menit.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+tempat untuk menyimpan data dan bisa digunakan untuk menjalankan prorgram tertentu, misal saya punya variabel :
+String nama; -> artinya `nama` adalah sebuah variabel yang bertipe string dan bisa digunakan untuk kebutuhan membuat suatu program nantinya
+
+
 ```
 
 ### 2. Apa itu data type?
@@ -28,7 +31,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+tipe data adalah tipe dari suatu variabel, 
+tipe data membatasi apa apa saja yang bisa dilakukan.
+jika kita asign ke 1 variabel : misal `int usia` artinya usia hanya bisa di isi dengan int/integer/angka bilangan bulat saja.
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
@@ -36,7 +41,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+text : String, varchar, Text (kalo di database), char dll
+number : int, double, float, numeric dll
+true false : boolean
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
@@ -44,7 +51,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variabel Declaration : variabel yang dideklarasikan dan bisa digunakan nantinya untuk membuat program tertentu, dan variabel ini tanpa value default.
+
+Variable Assignment :  variabel yang dideklarasikan dan bisa digunakan nantinya untuk membuat program tertentu, namun variabel ini memiliki value default. contoh : String nama = steven;
 ```
 
 ### 5. Apa itu camelCase?
@@ -52,7 +61,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Standar yang ditetapakan untuk menamai variabel, fungsi class dll - biasanya ditandai dengan awlan huruf pertama kecil dan huruf kedua besar : getCustomer, tambahData dll.
 ```
 
 ## Section B - Class and Object
@@ -62,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class adalah blue print untuk membuat sebuah objek, di dalam kelas bisa di isi dengan attribut kelas : field/variabelnya, method di dalamnya, konstruktor, setter getter dll. 
 ```
 
 ### 7. Apa itu object?
@@ -70,7 +79,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+objek adalah hasil isian dari kelas yang sudah dibuat/blueprint. dari blue print/kelas yang kita buat kita bisa membuat banyak objek : 
+- Class Manusia -> atributnya ; nama dan usia
+objeknya -> kita bisa menggunakan kelas sebagai blue print dan mengisi nama dan usia ini berkali kali
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -78,7 +89,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kelas adalah blueprintnya dan object adalah hasil dari blueprint
 ```
 
 ## Section C - Field, Method, Constructor
@@ -88,7 +99,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+variabel yang ada di dalam kelas yang dibuat. contoh :
+kelas mahasisa punya atribut : nama , nim, tanggal lahir dll
 ```
 
 ### 10. Apa itu method?
@@ -96,7 +108,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+method/function adalah hal yang bisa dilakukan - biasanya berisikan beberapa baris code untuk melakukan sesuatu hal. 
+
+kalo dalam kalimat pendek itu "dia bisa ngapain aja?" contoh kalo class mahasiswa punyam method : belajar(), mencontek() dll
 ```
 
 ### 11. Apa itu parameter?
@@ -104,7 +118,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+parameter adalah masukan yang diterima oleh suatu method yang dibutuhkan untuk mengeksekusi tindakan atau kode tertentu
+ -> misal kita punya method Tambah(int a, int b) 
+ -> artinya fungsi tambah ini harus mendapatkan masukan a dan b yg berupa angka untuk melakukan eksekusi kode di dalam method/fungsi tsb.
 ```
 
 ### 12. Apa itu return value?
@@ -112,7 +128,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+keluaran yang dihasilkan oleh suatu method contoh dalam method tambah tadi kita return hasil penambahan antara a dan b 
 ```
 
 ### 13. Apa itu constructor?
@@ -120,7 +136,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+method yang pertamakali disi saat kita ingin membuat suatu objek, karena pada saat kita membuat objek kita akan mengisi kontruktor terlebih dahylu baru di teruskan ke field classnya.
 ```
 
 ## Section D - Access Modifier
@@ -130,7 +146,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+private hanya bisa di gunakan di 1 file yang sama - contoh kita punya nama file :
+mahasiswa.java - di dalam file ini kita punya  `private String name` artinya, nama hanya bisa di akses id mahasiswa.java saja.
 ```
 
 ### 15. Apa fungsi public?
@@ -138,7 +155,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+berbeda dengan private, public bisa di akses disemua file : jadi jika aku punya nama file dosen.java kita bisa memanggil nama yang ada di mahasiswa.java dst
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
@@ -146,7 +163,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar tidak sembarangan bisa di akses oleh kelas lain dan meminimilisir kesalahan dalam penulisan code dan penggunaannya.
 ```
 
 ## Section E - Getter and Setter
@@ -156,7 +173,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+getter digunakan dalam mengambil suatu field yang adaa di dalam kelas tertentu - getter diciptakan agar kita ga langsung akses ke kelasnya namun lewat method getter
 ```
 
 ### 18. Apa fungsi setter?
@@ -164,7 +181,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Stter digunakan untuk mengeset value tertentu didalam suatu objek, kaya update gtu.
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
@@ -172,7 +189,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar lebih aman dan tidak digunakan secara sembarangan, untuk mengaksesnya hanya bisa lewat setter atau getternya.
 ```
 
 ## Section F - Collection
@@ -182,7 +199,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+suatu data struktur yang berisikan value tertentu dan banyak -> biasanya digambarkan dengan [] 
 ```
 
 ### 21. Apa itu Map?
@@ -190,7 +207,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+map adalah suatu data struktur yang berisikan gabungan key dan values -> kalo di python dictionary{key : value}
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -198,7 +215,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+list digunakan jika kita tidak memerluakan value tertentu sebaliknya map harus digunakan jika terdapat value didalamnya , misal kita perlu tau namanya siapa : 
+{nama : steven} - kalo di list hasilnya akan [nama, steven ].
 ```
 
 ## Section G - OOP Basic
@@ -208,7 +226,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+peraturan yang dibuat untuk akses modifier ; public private protect.
 ```
 
 ### 24. Apa itu interface?
@@ -216,7 +234,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+interface adalah sebuah kontrak yang harus di dilakukan/implementasikan jika kita mengadopsinya/implement.
 ```
 
 ### 25. Apa itu abstract class?
@@ -224,7 +242,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+abstract adalah sebuah kontrak namun kita bisa mengimplemntasikannya atau tidak itu terserah kita -> lebih bebas
+selain itu abstract class tidak bisa digunakan dalam membuat objek beda dengan class biasa
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
@@ -232,7 +251,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+kalo interface hukumnya harus dilakukan/diimplemntasikan jika kita mengadopisnya kalo abstract tidak harus. 
+
+selain itu abstract class tidak bisa digunakan dalam membuat objek
 ```
 
 ## Self Assessment
@@ -241,10 +262,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [ ] | [ok] |
+| Class and object | [ ] | [ ] | [ok] |
+| Field/method/constructor | [ ] | [ ] | [ok] |
+| Access modifier | [ ] | [ ] | [ok] |
+| Getter/setter | [ ] | [ok] | [ ] |
+| List/Map | [ ] | [ ] | [ok] |
+| Interface/abstract class | [ ] | [ok] | [ ] |
