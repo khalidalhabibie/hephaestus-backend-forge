@@ -46,7 +46,7 @@ c. boolean true;
 Jawaban:
 
 ```text
-Variable declaration itu untuk mendeklarasikan tipe data si variable tsb. Supaya gak salah tampil data juga. Misal kalo di python kan kita ga declare, takutnya gada batasan variable tsb. Karena tipe data ini juga ada fungsi untuk mengelola jumlah karakternya. Contoh kayak int dan float. Kalo int itu kan hanya untuk angka bulat saja, sementara float itu engga.
+Variable declaration itu untuk mendeklarasikan tipe data si variable tsb. Supaya gak salah tampil data juga. Misal kalo di python kan kita ga declare, takutnya gada batasan variable tsb. Karena tipe data ini juga ada fungsi untuk mengelola jumlah karakternya. Contoh kayak int dan float. Kalo int itu kan hanya untuk angka bulat saja, sementara float itu engga. Assignment itu kayak String name = "Name";
 ```
 
 ### 5. Apa itu camelCase?
