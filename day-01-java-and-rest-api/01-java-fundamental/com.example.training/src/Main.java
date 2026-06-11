@@ -19,7 +19,7 @@ public class Main {
         customerService.createCustomer("Manusia Tiga", "manusiatiga@mail.com", "081232443434");
         System.out.println(customerService.getCustomerById(3L).getDisplayName());
         System.out.println(customerService.getCustomerById(3L).getEmail());
-        customerService.updateCustomerEmail(3L, "manusiatiga@mail.com");
+        customerService.updateCustomerEmail(3L, "manusiatigaedit@mail.com");
         System.out.println(customerService.getCustomerById(3L).getEmail());
         customerService.deleteCustomer(3L);
         System.out
