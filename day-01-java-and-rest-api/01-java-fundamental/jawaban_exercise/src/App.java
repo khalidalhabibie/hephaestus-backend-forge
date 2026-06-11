@@ -8,6 +8,11 @@ public class App {
 
         customerService.createCustomer("Budi Santoso", "budi@mail.com", "08123456789");
         customerService.createCustomer("Siti Aminah", "siti@mail.com", "082222222");
+        customerService.createCustomer("Bennett", "bennett@mail.com", "083333333");
+
+        customerService.updateCustomerEmail(1L, "budi.updated@mail.com");
+
+        customerService.deleteCustomer(2L);
 
         System.out.println("\nAll Customers:");
 

@@ -26,6 +26,21 @@ public class CustomerService {
     public void createCustomer(String fullName, String email, String phoneNumber) {
         Customer customer = new Customer(sequence, fullName, email, phoneNumber);
 
+        if(fullName == null || fullName.isEmpty()) {
+            System.out.println("Full name is required");
+            return;
+        }
+
+        if(email == null || email.isEmpty()) {
+            System.out.println("Email is required");
+            return;
+        }
+
+        if(phoneNumber == null || phoneNumber.isEmpty()) {
+            System.out.println("Phone number is required");
+            return;
+        }
+
         customerStorage.put(sequence, customer);
 
         sequence++;
@@ -38,5 +53,16 @@ public class CustomerService {
 
     public ArrayList<Customer> getAllCustomer() {
         return new ArrayList<>(customerStorage.values());
+    }
+
+    public void updateCustomerEmail(Long id, String newEmail) {
+        Customer customer = customerStorage.get(id);
+        if (customer != null) {
+            customer.setEmail(newEmail);
+        }
+    }
+
+    public void deleteCustomer(Long id) {
+        customerStorage.remove(id);
     }
 }
