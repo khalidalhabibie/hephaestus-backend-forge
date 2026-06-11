@@ -23,5 +23,37 @@ public class CustomerService {
     public List<Customer> getAllCustomers() {
         return new ArrayList<>(customerStorage.values());
     }
+
+    public Customer updateCustomer(Long id, String email) {
+        Customer customer = customerStorage.get(id);
+        if (customer != null) {
+            customer.setEmail(email);
+            customerStorage.put(id, customer);
+            return customer;
+        }
+        return null;
+    }
+
+    public boolean deleteCustomer(Long id) {
+        if (customerStorage.containsKey(id)) {
+            customerStorage.remove(id);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Customer> searchCustomersByName(String name) {
+        List<Customer> result = new ArrayList<>();
+        for (Customer customer : customerStorage.values()) {
+            if (customer.getFullName().toLowerCase().contains(name.toLowerCase())) {
+                result.add(customer);
+            }
+        }
+        return result;
+    }
+
+
+
+
     
 }

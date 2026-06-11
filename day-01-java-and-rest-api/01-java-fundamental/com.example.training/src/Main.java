@@ -20,6 +20,26 @@ public class Main {
         System.out.println("Customer Detail:");
         System.out.println(customerService.getCustomerById(1L).getDisplayName());
 
+        System.out.println("\nUpdating Customer Email:");
+        Customer updatedCustomer = customerService.updateCustomer(1L, "newemail@mail.com");
+        if (updatedCustomer != null) {
+            System.out.println("Customer updated successfully.");
+        } else {
+            System.out.println("Customer not found.");
+        }
 
+        System.out.println("\nDeleting Customer:");
+        boolean isDeleted = customerService.deleteCustomer(1L);
+        if (isDeleted) {
+            System.out.println("Customer deleted successfully.");
+        } else {
+            System.out.println("Customer not found.");
+        }
+
+        System.out.println("\nSearching Customers by Name:");
+        List<Customer> searchResults = customerService.searchCustomersByName("Siti");
+        for (Customer customer : searchResults) {
+            System.out.println(customer.getFullName() + " - " + customer.getEmail() + " - " + customer.getPhoneNumber());
+        }   
     }
 }
