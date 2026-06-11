@@ -14,6 +14,13 @@ public class App {
             "Siti Aminah", 
             "siti@mail.com", 
             "08222222222");
+        customerService.createCustomer(
+            "", 
+            "sitihh@mail.com", 
+            "08222222222");
+
+        customerService.deleteCustomer(2L);
+        customerService.updateCustomerEmail(1L, "budiaja@gmail.com");
             
         List<Customer> customers = customerService.getAllCustomers();
         System.out.println("All Customers : ");
@@ -24,6 +31,8 @@ public class App {
 
         System.out.println("\nCustomer Detail : ");
         System.out.println(customerService.getCustomerById(1L).getDisplayName());
+
+        
         
     }
 }
