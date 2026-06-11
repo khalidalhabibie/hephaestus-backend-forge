@@ -245,10 +245,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [ ] | [x] |
+| Class and object | [ ] | [x] | [ ] |
+| Field/method/constructor | [ ] | [ ] | [x] |
+| Access modifier | [ ] | [x] | [ ] |
+| Getter/setter | [ ] | [ ] | [x] |
+| List/Map | [ ] | [ ] | [x] |
+| Interface/abstract class | [ ] | [x] | [ ] |
