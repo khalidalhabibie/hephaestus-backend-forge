@@ -24,6 +24,10 @@ tempat untuk menyimpan data dan bisa digunakan untuk menjalankan prorgram terten
 String nama; -> artinya `nama` adalah sebuah variabel yang bertipe string dan bisa digunakan untuk kebutuhan membuat suatu program nantinya
 
 
+tempat untuk menyimpan data dan bisa digunakan untuk menjalankan prorgram tertentu, misal saya punya variabel :
+String nama; -> artinya `nama` adalah sebuah variabel yang bertipe string dan bisa digunakan untuk kebutuhan membuat suatu program nantinya
+
+
 ```
 
 ### 2. Apa itu data type?
@@ -31,6 +35,9 @@ String nama; -> artinya `nama` adalah sebuah variabel yang bertipe string dan bi
 Jawaban:
 
 ```text
+tipe data adalah tipe dari suatu variabel, 
+tipe data membatasi apa apa saja yang bisa dilakukan.
+jika kita asign ke 1 variabel : misal `int usia` artinya usia hanya bisa di isi dengan int/integer/angka bilangan bulat saja.
 tipe data adalah tipe dari suatu variabel, 
 tipe data membatasi apa apa saja yang bisa dilakukan.
 jika kita asign ke 1 variabel : misal `int usia` artinya usia hanya bisa di isi dengan int/integer/angka bilangan bulat saja.
@@ -44,6 +51,9 @@ Jawaban:
 text : String, varchar, Text (kalo di database), char dll
 number : int, double, float, numeric dll
 true false : boolean
+text : String, varchar, Text (kalo di database), char dll
+number : int, double, float, numeric dll
+true false : boolean
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
@@ -51,6 +61,9 @@ true false : boolean
 Jawaban:
 
 ```text
+Variabel Declaration : variabel yang dideklarasikan dan bisa digunakan nantinya untuk membuat program tertentu, dan variabel ini tanpa value default.
+
+Variable Assignment :  variabel yang dideklarasikan dan bisa digunakan nantinya untuk membuat program tertentu, namun variabel ini memiliki value default. contoh : String nama = steven;
 Variabel Declaration : variabel yang dideklarasikan dan bisa digunakan nantinya untuk membuat program tertentu, dan variabel ini tanpa value default.
 
 Variable Assignment :  variabel yang dideklarasikan dan bisa digunakan nantinya untuk membuat program tertentu, namun variabel ini memiliki value default. contoh : String nama = steven;
@@ -62,6 +75,7 @@ Jawaban:
 
 ```text
 Standar yang ditetapakan untuk menamai variabel, fungsi class dll - biasanya ditandai dengan awlan huruf pertama kecil dan huruf kedua besar : getCustomer, tambahData dll.
+Standar yang ditetapakan untuk menamai variabel, fungsi class dll - biasanya ditandai dengan awlan huruf pertama kecil dan huruf kedua besar : getCustomer, tambahData dll.
 ```
 
 ## Section B - Class and Object
@@ -71,6 +85,7 @@ Standar yang ditetapakan untuk menamai variabel, fungsi class dll - biasanya dit
 Jawaban:
 
 ```text
+Class adalah blue print untuk membuat sebuah objek, di dalam kelas bisa di isi dengan attribut kelas : field/variabelnya, method di dalamnya, konstruktor, setter getter dll. 
 Class adalah blue print untuk membuat sebuah objek, di dalam kelas bisa di isi dengan attribut kelas : field/variabelnya, method di dalamnya, konstruktor, setter getter dll. 
 ```
 
@@ -82,6 +97,9 @@ Jawaban:
 objek adalah hasil isian dari kelas yang sudah dibuat/blueprint. dari blue print/kelas yang kita buat kita bisa membuat banyak objek : 
 - Class Manusia -> atributnya ; nama dan usia
 objeknya -> kita bisa menggunakan kelas sebagai blue print dan mengisi nama dan usia ini berkali kali
+objek adalah hasil isian dari kelas yang sudah dibuat/blueprint. dari blue print/kelas yang kita buat kita bisa membuat banyak objek : 
+- Class Manusia -> atributnya ; nama dan usia
+objeknya -> kita bisa menggunakan kelas sebagai blue print dan mengisi nama dan usia ini berkali kali
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -89,6 +107,7 @@ objeknya -> kita bisa menggunakan kelas sebagai blue print dan mengisi nama dan 
 Jawaban:
 
 ```text
+Kelas adalah blueprintnya dan object adalah hasil dari blueprint
 Kelas adalah blueprintnya dan object adalah hasil dari blueprint
 ```
 
@@ -101,6 +120,8 @@ Jawaban:
 ```text
 variabel yang ada di dalam kelas yang dibuat. contoh :
 kelas mahasisa punya atribut : nama , nim, tanggal lahir dll
+variabel yang ada di dalam kelas yang dibuat. contoh :
+kelas mahasisa punya atribut : nama , nim, tanggal lahir dll
 ```
 
 ### 10. Apa itu method?
@@ -108,6 +129,9 @@ kelas mahasisa punya atribut : nama , nim, tanggal lahir dll
 Jawaban:
 
 ```text
+method/function adalah hal yang bisa dilakukan - biasanya berisikan beberapa baris code untuk melakukan sesuatu hal. 
+
+kalo dalam kalimat pendek itu "dia bisa ngapain aja?" contoh kalo class mahasiswa punyam method : belajar(), mencontek() dll
 method/function adalah hal yang bisa dilakukan - biasanya berisikan beberapa baris code untuk melakukan sesuatu hal. 
 
 kalo dalam kalimat pendek itu "dia bisa ngapain aja?" contoh kalo class mahasiswa punyam method : belajar(), mencontek() dll
@@ -121,6 +145,9 @@ Jawaban:
 parameter adalah masukan yang diterima oleh suatu method yang dibutuhkan untuk mengeksekusi tindakan atau kode tertentu
  -> misal kita punya method Tambah(int a, int b) 
  -> artinya fungsi tambah ini harus mendapatkan masukan a dan b yg berupa angka untuk melakukan eksekusi kode di dalam method/fungsi tsb.
+parameter adalah masukan yang diterima oleh suatu method yang dibutuhkan untuk mengeksekusi tindakan atau kode tertentu
+ -> misal kita punya method Tambah(int a, int b) 
+ -> artinya fungsi tambah ini harus mendapatkan masukan a dan b yg berupa angka untuk melakukan eksekusi kode di dalam method/fungsi tsb.
 ```
 
 ### 12. Apa itu return value?
@@ -129,6 +156,7 @@ Jawaban:
 
 ```text
 keluaran yang dihasilkan oleh suatu method contoh dalam method tambah tadi kita return hasil penambahan antara a dan b 
+keluaran yang dihasilkan oleh suatu method contoh dalam method tambah tadi kita return hasil penambahan antara a dan b 
 ```
 
 ### 13. Apa itu constructor?
@@ -136,6 +164,7 @@ keluaran yang dihasilkan oleh suatu method contoh dalam method tambah tadi kita 
 Jawaban:
 
 ```text
+method yang pertamakali disi saat kita ingin membuat suatu objek, karena pada saat kita membuat objek kita akan mengisi kontruktor terlebih dahylu baru di teruskan ke field classnya.
 method yang pertamakali disi saat kita ingin membuat suatu objek, karena pada saat kita membuat objek kita akan mengisi kontruktor terlebih dahylu baru di teruskan ke field classnya.
 ```
 
@@ -148,6 +177,8 @@ Jawaban:
 ```text
 private hanya bisa di gunakan di 1 file yang sama - contoh kita punya nama file :
 mahasiswa.java - di dalam file ini kita punya  `private String name` artinya, nama hanya bisa di akses id mahasiswa.java saja.
+private hanya bisa di gunakan di 1 file yang sama - contoh kita punya nama file :
+mahasiswa.java - di dalam file ini kita punya  `private String name` artinya, nama hanya bisa di akses id mahasiswa.java saja.
 ```
 
 ### 15. Apa fungsi public?
@@ -156,6 +187,7 @@ Jawaban:
 
 ```text
 berbeda dengan private, public bisa di akses disemua file : jadi jika aku punya nama file dosen.java kita bisa memanggil nama yang ada di mahasiswa.java dst
+berbeda dengan private, public bisa di akses disemua file : jadi jika aku punya nama file dosen.java kita bisa memanggil nama yang ada di mahasiswa.java dst
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
@@ -163,6 +195,7 @@ berbeda dengan private, public bisa di akses disemua file : jadi jika aku punya 
 Jawaban:
 
 ```text
+agar tidak sembarangan bisa di akses oleh kelas lain dan meminimilisir kesalahan dalam penulisan code dan penggunaannya.
 agar tidak sembarangan bisa di akses oleh kelas lain dan meminimilisir kesalahan dalam penulisan code dan penggunaannya.
 ```
 
@@ -174,6 +207,7 @@ Jawaban:
 
 ```text
 getter digunakan dalam mengambil suatu field yang adaa di dalam kelas tertentu - getter diciptakan agar kita ga langsung akses ke kelasnya namun lewat method getter
+getter digunakan dalam mengambil suatu field yang adaa di dalam kelas tertentu - getter diciptakan agar kita ga langsung akses ke kelasnya namun lewat method getter
 ```
 
 ### 18. Apa fungsi setter?
@@ -182,6 +216,7 @@ Jawaban:
 
 ```text
 Stter digunakan untuk mengeset value tertentu didalam suatu objek, kaya update gtu.
+Stter digunakan untuk mengeset value tertentu didalam suatu objek, kaya update gtu.
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
@@ -189,6 +224,7 @@ Stter digunakan untuk mengeset value tertentu didalam suatu objek, kaya update g
 Jawaban:
 
 ```text
+agar lebih aman dan tidak digunakan secara sembarangan, untuk mengaksesnya hanya bisa lewat setter atau getternya.
 agar lebih aman dan tidak digunakan secara sembarangan, untuk mengaksesnya hanya bisa lewat setter atau getternya.
 ```
 
@@ -200,6 +236,7 @@ Jawaban:
 
 ```text
 suatu data struktur yang berisikan value tertentu dan banyak -> biasanya digambarkan dengan [] 
+suatu data struktur yang berisikan value tertentu dan banyak -> biasanya digambarkan dengan [] 
 ```
 
 ### 21. Apa itu Map?
@@ -208,6 +245,7 @@ Jawaban:
 
 ```text
 map adalah suatu data struktur yang berisikan gabungan key dan values -> kalo di python dictionary{key : value}
+map adalah suatu data struktur yang berisikan gabungan key dan values -> kalo di python dictionary{key : value}
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -215,6 +253,8 @@ map adalah suatu data struktur yang berisikan gabungan key dan values -> kalo di
 Jawaban:
 
 ```text
+list digunakan jika kita tidak memerluakan value tertentu sebaliknya map harus digunakan jika terdapat value didalamnya , misal kita perlu tau namanya siapa : 
+{nama : steven} - kalo di list hasilnya akan [nama, steven ].
 list digunakan jika kita tidak memerluakan value tertentu sebaliknya map harus digunakan jika terdapat value didalamnya , misal kita perlu tau namanya siapa : 
 {nama : steven} - kalo di list hasilnya akan [nama, steven ].
 ```
@@ -227,6 +267,7 @@ Jawaban:
 
 ```text
 peraturan yang dibuat untuk akses modifier ; public private protect.
+peraturan yang dibuat untuk akses modifier ; public private protect.
 ```
 
 ### 24. Apa itu interface?
@@ -234,6 +275,7 @@ peraturan yang dibuat untuk akses modifier ; public private protect.
 Jawaban:
 
 ```text
+interface adalah sebuah kontrak yang harus di dilakukan/implementasikan jika kita mengadopsinya/implement.
 interface adalah sebuah kontrak yang harus di dilakukan/implementasikan jika kita mengadopsinya/implement.
 ```
 
@@ -244,6 +286,8 @@ Jawaban:
 ```text
 abstract adalah sebuah kontrak namun kita bisa mengimplemntasikannya atau tidak itu terserah kita -> lebih bebas
 selain itu abstract class tidak bisa digunakan dalam membuat objek beda dengan class biasa
+abstract adalah sebuah kontrak namun kita bisa mengimplemntasikannya atau tidak itu terserah kita -> lebih bebas
+selain itu abstract class tidak bisa digunakan dalam membuat objek beda dengan class biasa
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
@@ -251,6 +295,9 @@ selain itu abstract class tidak bisa digunakan dalam membuat objek beda dengan c
 Jawaban:
 
 ```text
+kalo interface hukumnya harus dilakukan/diimplemntasikan jika kita mengadopisnya kalo abstract tidak harus. 
+
+selain itu abstract class tidak bisa digunakan dalam membuat objek
 kalo interface hukumnya harus dilakukan/diimplemntasikan jika kita mengadopisnya kalo abstract tidak harus. 
 
 selain itu abstract class tidak bisa digunakan dalam membuat objek
