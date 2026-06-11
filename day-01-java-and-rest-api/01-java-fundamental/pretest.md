@@ -250,10 +250,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik                    | Belum paham | Mulai paham | Cukup paham |
 | ------------------------ | ----------- | ----------- | ----------- |
-| Basic syntax             | [ ]         | [ ]         | [ ]         |
-| Class and object         | [ ]         | [ ]         | [ ]         |
-| Field/method/constructor | [ ]         | [ ]         | [ ]         |
-| Access modifier          | [ ]         | [ ]         | [ ]         |
-| Getter/setter            | [ ]         | [ ]         | [ ]         |
-| List/Map                 | [ ]         | [ ]         | [ ]         |
-| Interface/abstract class | [ ]         | [ ]         | [ ]         |
+| Basic syntax             | [ ]         | [ ]         | [X]         |
+| Class and object         | [ ]         | [ ]         | [X]         |
+| Field/method/constructor | [ ]         | [ ]         | [X]         |
+| Access modifier          | [ ]         | [ ]         | [X]         |
+| Getter/setter            | [ ]         | [ ]         | [X]         |
+| List/Map                 | [ ]         | [ ]         | [X]         |
+| Interface/abstract class | [ ]         | [ ]         | [X]         |
