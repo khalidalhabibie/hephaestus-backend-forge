@@ -1,7 +1,7 @@
 import model.Customer;
 import service.CustomerService;
 
-public class App {
+public class Main {
     public static void main(String[] args) throws Exception {
         CustomerService customerService = new CustomerService();
         customerService.createCustomer("Budi Santoso", "budi@mail.com", "08123456789");
