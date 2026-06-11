@@ -12,7 +12,10 @@ public class CustomerService {
     private Long sequence = 1L;
 
     public Customer createCustomer(String fullName, String email, String phoneNumber) {
-
+        if (fullName == null) {
+            System.out.println("Fullname cannot be null");
+            return null;
+        }
         Customer newCust = new Customer(sequence, fullName, email, phoneNumber);
         customerStorage.put(sequence, newCust);
         sequence++;
