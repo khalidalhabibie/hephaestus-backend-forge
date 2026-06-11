@@ -30,7 +30,7 @@ Contoh -> String nama = "Risjad"
 Jawaban:
 
 ```text
-Data type atau tipe data adalah tipe dari sebuah data, atau variable. Ada beberapa Tipe data, contohnya yang umum digunakan adalah Integer, String, Boolean, Float, dan lain lain. 
+Data type atau tipe data adalah tipe dari sebuah data, atau variable. Ada beberapa Tipe data, contohnya yang umum digunakan adalah Integer, String, Boolean, Float, dan lain lain.
 Biasanya tipe data ini disebutkan saat kita mendeklarasi sebuah variabel dan disebutkan juga tipe datanya.
 ```
 
@@ -47,7 +47,7 @@ Text -> String, Number -> Integer/float, True/False -> Boolean.
 Jawaban:
 
 ```text
-Variabel deklarasi adalah pembuatan variabel diawal, dan disebutkan tipe datanya. 
+Variabel deklarasi adalah pembuatan variabel diawal, dan disebutkan tipe datanya.
 Contoh -> String Nama;
 
 Assignment adalah menentukan value dari sebuah variabel yang sudah dibuat.
@@ -59,7 +59,7 @@ Contoh -> Nama = "Risjad"
 Jawaban:
 
 ```text
-camel case adalah cara penulisan dua kata atau lebih tanpa spasi, tapi menggunakan huruf kapital di setiap kata barunya. 
+camel case adalah cara penulisan dua kata atau lebih tanpa spasi, tapi menggunakan huruf kapital di setiap kata barunya.
 
 Contoh -> String phoneNumber.
 ```
@@ -81,7 +81,7 @@ Contoh -> Class Hewan
 Jawaban:
 
 ```text
-Object adalah hasil implementasi dari sebuah class. 
+Object adalah hasil implementasi dari sebuah class.
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -107,7 +107,7 @@ Field bisa disebut juga variabel yang ada disebuah class.
 Jawaban:
 
 ```text
-Method adalah kumpulan instruksi yang disatukan didalam sebuah fungsi atau procedure. 
+Method adalah kumpulan instruksi yang disatukan didalam sebuah fungsi atau procedure.
 Method yang mereturn sebuah value disebut fungsi, dan method yang tidak mereturn apa apa disebut procedure.
 ```
 
@@ -184,7 +184,7 @@ Setter adalah sebuah method untuk mengassign sebuah attribut / field dari sebuah
 Jawaban:
 
 ```text
-Agar field yang bersifat rahasia tidak bisa diaskes secara langsung dari luar classnya. 
+Agar field yang bersifat rahasia tidak bisa diaskes secara langsung dari luar classnya.
 Biasanya field tersebut masih bisa diakses melalui getter atau setter yang telah dibuat.
 ```
 
@@ -203,7 +203,7 @@ List adalah sebuah stuktur data untuk menyimpan banyak data yang biasanya memili
 Jawaban:
 
 ```text
-Map adalah sebuah struktur data untuk menyimpan banyak data yang terdiri dari key dan value. 
+Map adalah sebuah struktur data untuk menyimpan banyak data yang terdiri dari key dan value.
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -211,7 +211,7 @@ Map adalah sebuah struktur data untuk menyimpan banyak data yang terdiri dari ke
 Jawaban:
 
 ```text
-Kita menggunakan list ketika data tunggal dan map ketika data yang ingin kita simpan terdiri dari key dan value. 
+Kita menggunakan list ketika data tunggal dan map ketika data yang ingin kita simpan terdiri dari key dan value.
 ```
 
 ## Section G - OOP Basic
@@ -221,7 +221,7 @@ Kita menggunakan list ketika data tunggal dan map ketika data yang ingin kita si
 Jawaban:
 
 ```text
-Enkapsulasi adalah sebuah konsep dalam OOP, yaitu sebagai pembungkus.
+Enkapsulasi adalah sebuah konsep dalam OOP, yaitu sebagai pembungkus. Jadi attribut-attribut private di dalam sebuah class tidak bisa diakses langsung, tetapi harus menggunakan setter dan getter
 ```
 
 ### 24. Apa itu interface?
@@ -237,7 +237,7 @@ Interface digunakan untuk mendeklarasikan rule rule apa saja yang harus dimiliki
 Jawaban:
 
 ```text
-Abstract class adalah sebuah template atau blueprint sebuah class yang class itu sendiri tidak bisa dijadikan sebuah object. 
+Abstract class adalah sebuah template atau blueprint sebuah class yang class itu sendiri tidak bisa dijadikan sebuah object.
 Melainkan class tersebut akan mewarisi sifat sifat ke anak class yang mengExtend class tersebut.
 ```
 
@@ -246,7 +246,7 @@ Melainkan class tersebut akan mewarisi sifat sifat ke anak class yang mengExtend
 Jawaban:
 
 ```text
-Interface bisa dibilang juga kontrak yang mendeklarasikan fungsi atau method apa saja yang harus ada di class yang implement interface tersebut. Abstract class menyediakan template dari sebuah class. 
+Interface bisa dibilang juga kontrak yang mendeklarasikan fungsi atau method apa saja yang harus ada di class yang implement interface tersebut. Abstract class menyediakan template dari sebuah class.
 
 Sebuah class bisa mengimplement BANYAK interface, dan sebuah class hanya bisa memiliki SATU induk class.
 ```
@@ -255,12 +255,12 @@ Sebuah class bisa mengimplement BANYAK interface, dan sebuah class hanya bisa me
 
 Beri tanda sesuai pemahaman kamu saat ini.
 
-| Topik | Belum paham | Mulai paham | Cukup paham |
-| --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [X] |
-| Class and object | [ ] | [ ] | [X] |
-| Field/method/constructor | [ ] | [ ] | [X] |
-| Access modifier | [ ] | [X] | [ ] |
-| Getter/setter | [ ] | [ ] | [X] |
-| List/Map | [ ] | [X] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [X] |
+| Topik                    | Belum paham | Mulai paham | Cukup paham |
+| ------------------------ | ----------- | ----------- | ----------- |
+| Basic syntax             | [ ]         | [ ]         | [X]         |
+| Class and object         | [ ]         | [ ]         | [X]         |
+| Field/method/constructor | [ ]         | [ ]         | [X]         |
+| Access modifier          | [ ]         | [X]         | [ ]         |
+| Getter/setter            | [ ]         | [ ]         | [X]         |
+| List/Map                 | [ ]         | [X]         | [ ]         |
+| Interface/abstract class | [ ]         | [ ]         | [X]         |
