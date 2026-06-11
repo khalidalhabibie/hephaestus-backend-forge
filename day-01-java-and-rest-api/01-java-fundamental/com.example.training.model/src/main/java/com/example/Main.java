@@ -8,6 +8,7 @@ public class Main {
         CustomerService cust1 = new CustomerService();
         cust1.createCustomer("Dhimas", "dhimaswibowo999@gmail.com", "12345678");
         cust1.createCustomer("Adnan", "adnan999@gmail.com", "12345678");
+        cust1.createCustomer("Rendy", "rendy999@gmail.com", "12345678");
 
         System.out.println("All Customer: ");
         for(Customer customer : cust1.getAllCustomer()){
@@ -16,5 +17,17 @@ public class Main {
         System.out.println("");
         System.out.println("Customer by ID");
         System.out.println(cust1.getCustomerbyId(1L).getDisplayName());
+    
+        cust1.updateCustomer(1L, "dhimas123@gmail.com");
+        System.out.println(cust1.getCustomerbyId(1L).getEmail());
+        cust1.deleteCustomer(1L);
+
+        System.out.println("");
+        System.out.println("All Customer Update: ");
+        for (Customer customer : cust1.getAllCustomer()) {
+            System.out.println(customer.getId() + ". " + customer.getFullName() + " - " + customer.getEmail() + " - "
+                    + customer.getPhoneNumber());
+        }
+    
     }
 }

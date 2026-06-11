@@ -30,6 +30,15 @@ public class CustomerService {
         return new ArrayList<>(customerStorage.values());
     }
 
+    public void updateCustomer(Long id, String email){
+       Customer ubahCustomer = customerStorage.get(id);
+       ubahCustomer.setEmail(email);
+    }
+
+    public void deleteCustomer(Long id){
+        customerStorage.remove(id);
+    }
+
 }
 
 
