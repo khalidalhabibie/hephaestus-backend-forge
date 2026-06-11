@@ -19,14 +19,16 @@ Estimasi waktu: 20-30 menit.
 
 Jawaban:
 
-```tempat untuk menyimpan data sementara.
+```
+tempat untuk menyimpan data sementara
 ```
 
 ### 2. Apa itu data type?
 
 Jawaban:
 
-```nilai atau isi data tersimpan dalam variabel yang masuk kategori int,string,float,dsb yang dimana disesuaikan dengan kebutuhan dari program atau sistem
+```
+nilai atau isi data tersimpan dalam variabel yang masuk kategori int,string,float,dsb yang dimana disesuaikan dengan kebutuhan dari program atau sistem
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
