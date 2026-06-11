@@ -269,7 +269,7 @@ Jawaban:
 
 ```text
 Encapsulation adalah pembungkusan sekumpulan variabel dan method dalam suatu
-class sebagai suatu kesatuan.
+class sebagai suatu kesatuan yang bisa diatur aksesnya seperti public, private, protected, dsb.
 ```
 
 ### 24. Apa itu interface?
