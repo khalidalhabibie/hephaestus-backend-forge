@@ -7,7 +7,7 @@ Jawab pertanyaan berikut setelah membaca materi dan mengerjakan exercise Java Fu
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variable adalah nilai yang disimpan  di dalam program yang nantinya dapat berubah sesuai dengan yang kita setting.
 ```
 
 ### 2. Apa perbedaan String, int, Long, dan boolean?
@@ -15,7 +15,12 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+String -> menyimpan teks (e.g. Kayla)
+int -> menyimpan bilangan bulat (e.g. 1, 2, 3, dan etc)
+Long -> menyimpan bilangan bulat (e.g. 1L)
+boolean -> true/false
+
+int dan Long memiliki perbedaan pada nilai kapasitas nilainya, di mana Long dapat menyimpan nilai yang lebih besar.
 ```
 
 ### 3. Kenapa Java menggunakan camelCase untuk variable?
@@ -23,7 +28,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+camelCase merupakan format penulisan yang mempermudah kita dalam membaca kode karena bentuknya konsisten.
 ```
 
 ### 4. Apa perbedaan class dan object?
@@ -31,7 +36,11 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class -> merupakan blueprint atau template yang nantinya akan diwariskan kepada setiap Object.
+
+Object -> merupakan hasil dari blueprint yang terwariskan nilai-nilai.
+
+E.g. Class Hewan dan Object Kucing.
 ```
 
 ### 5. Apa itu field?
@@ -39,7 +48,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field adalah attribute dari setiap Object yang kita buat (e.g. Kucing memiliki nama dan warna).
 ```
 
 ### 6. Apa itu method?
@@ -47,7 +56,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Method ada kode yang mirip seperti Function tetapi dimiliki suatu Class (e.g.addPayment).
 ```
 
 ### 7. Apa itu parameter?
@@ -55,7 +64,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Parameter adalah patokan untuk memanggil suatu variabel (e.g. ingin memanggil nama atau warna pada kucing)
 ```
 
 ### 8. Apa itu return value?
@@ -63,7 +72,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Return value adalah nilai yang dikembalikan setelah nilainya disimpan.
 ```
 
 ### 9. Apa fungsi constructor?
@@ -71,7 +80,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Constructor adalah sebuah kumpulan yang menyimpan Object.
 ```
 
 ### 10. Apa fungsi `this`?
@@ -79,7 +88,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+this berfungsi untuk mereferensikan Object yang ingin kita gunakan (e.g. this.warna = warna).
 ```
 
 ### 11. Kenapa field dibuat private?
@@ -87,7 +96,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field dibuat provate agar aksesnya dapat dikelola sesuai dengan yang kita inginkan dan tidak dapat diubah sembarangan dari luar Class-nya.
 ```
 
 ### 12. Apa fungsi getter dan setter?
@@ -95,7 +104,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Getter -> berfungsi untuk mengambil atau membaca nilai field, di mana sering digunakan ketika field bersifat private.
+Setter -> berfungsi untuk mengubah nilai yang tadinya sudah dipanggil.
 ```
 
 ### 13. Apa itu encapsulation?
@@ -103,7 +113,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Encapsulation adalah sesuatu yang dapat menyembunyikan nilai agar tidak dapat diakses sembarang.
 ```
 
 ### 14. Apa perbedaan List dan Map?
@@ -111,7 +121,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+List -> berfungsi untuk mengumpulkan data yang disimpan.
+Map -> berfungsi untuk mengumpulkan data yang disimpan, namun dengan pasangan key serta value-nya.
 ```
 
 ### 15. Kenapa CustomerService menggunakan Map<Long, Customer>?
@@ -119,7 +130,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+CustomerService menggunakan Map<Long,Customer> karena dapat mempermudah dalam mereferensikan Customer dengan setiap ID-nya yang unik.
 ```
 
 ### 16. Kenapa getAllCustomers mengembalikan List<Customer>?
@@ -127,7 +138,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+getAllCustomers mengembalikan List<Customer> agar nilai yang disimpan dapat dikembalikan.
 ```
 
 ### 17. Apa itu interface?
@@ -135,7 +146,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Interface adalah suatu method yang digunkan pada Class-nya (e.g. method Sound yang dapat digunakan untuk Class-nya dengan memanggil Interface yang sudah kita buat).
 ```
 
 ### 18. Apa perbedaan interface dan abstract class?
@@ -143,7 +154,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Interface -> hanya untuk mengarahkan apa yang harus dilakukan Class.
+Abstract -> memiliki constructor sehingga memiliki konsep yang lebih jelas.
 ```
 
 ### 19. Dari exercise, jelaskan flow createCustomer.
@@ -151,7 +163,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Flow pertamanya dimulai dari menentukan Parameter yang ingin dipanggil dalam Method createCustomer, kemudian membuat Object Customer untuk menentukan field nilai yang ingin kita ambil dari Customer. Nilai kemudian disimpan dan dikembalikan menggunakan Return.
 ```
 
 ### 20. Bagian mana yang paling sulit?
@@ -159,5 +171,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menurut saya bagian yang paling sulit adalah penggunaan Sequence untuk ID Customer generated secara otomatis karena saya belum terlalu terbiasa menggunakan Sequence ini.
 ```
