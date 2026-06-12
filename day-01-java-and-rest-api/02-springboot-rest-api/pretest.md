@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring adalah framework backend java yang berjalan di server side. Sedangkan springboot adalah tools untuk memudahkan menjalankan Spring.
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+REST adalah kumpulan peraturan yang mengatur struktur API. REST API adalah API yang mengimplementasi peraturan peraturan REST.
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+HTTP HyperText Transfer Protocol adalah protocol yang digunakan untuk komunikasi antar protokol.
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JSON (Javasrcipt Object Notation) adalah format data yang ringan yang biasa digunakan untuk standar data komunikasi antar aplikasi.
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Endpoint pada Backend adalah titik masuk berupa URL yang bisa diakses oleh client untuk mengakses backend kita.
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request adalah permintaan yang dikirim dari client untuk meminta data atau mengakses suatu proses.
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Response adalah jawaban dari server setelah client mengakses atau mengirimkan request.
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+GET adalah method yang dikirimkan oleh client untuk mengakses server dengan tujuan mengambil dan mengakses data.
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+POST adalah method yang dikirimkan oleh client untuk menagakses server dengan tujuan menyimpan data.
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+PUT adalah method yang dikirimkan oleh client untuk menagakses server dengan tujuan meperbarui data.
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DELETE adalah method yang dikirimkan oleh client untuk menagakses server dengan tujuan menghapus data.
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika server berhasil mengirimkan kembali response mengambil data
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -103,7 +103,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika server berhasil mengirimkan kembali response mengupload / menyimpan sebuah data
 ```
 
 ### 14. Kapan menggunakan 400 Bad Request?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika server menerima request yang tidak jelas dari client
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika server menerima request dari client yang tidak menemukan request yang diminta.
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika server menemukan masalah dan kondisi yang tidak diharapkan
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +135,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Path parameter adalah parameter yang dikirimkan melalui path atau url.
+
+Contoh -> /api/v1/users/
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +145,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Query parameter adalah parameter yang dikirimkan melalui url dengan cara ada key dan valuenya.
 ```
 
 ### 19. Apa itu request body?
@@ -151,7 +153,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request body adalah data payload data yang dikirimkan saat client request.
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +161,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Controller adalah bagian yang menangani request dari client.
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +169,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Service adalah bagian yang beirisi logic dari bisnis.
 ```
 
 ### 22. Apa itu DTO?
@@ -175,7 +177,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Object yang digunakan untuk membawa data antar layer dalam aplikasi.
 ```
 
 ### 23. Apa itu Model?
@@ -183,7 +185,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Model adalah represntasi dari tabel pada database.
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +193,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar lebih modular dan future proof supaya ketika methode response diubah, tidak perlu banyak yang diubah.
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +201,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar pengiriman data saat request dan response tidak mengirimkan data sensitif.
 ```
