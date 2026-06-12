@@ -6,112 +6,112 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+Spring boot merupakan salah satu framework back end yang menggunakan bahasa java yang biasa digunakan untuk pengembangan aplikasi.
 ```
 
 ### 2. Apa itu REST API?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+REST API adalah suatu metode untuk menghubungkan satu aplikasi dengan aplikasi lain agar bisa berkomunikasi dengan aturan tertentu
 ```
 
 ### 3. Apa itu HTTP?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+protokol yang digunakan untuk mengirim dan menerima respon data di internet biasanya antara browser dengan server 
 ```
 
 ### 4. Apa itu JSON?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+JSON adalah format data test yang dipergunakan agar mudah dibaca manusia yang biasanya digunakan untuk bertugas data dari aplikasi satu dengan lainnya
 ```
 
 ### 5. Apa itu endpoint?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+alamat URL di aplikasi web atau API tempat client mengirim request
 ```
 
 ### 6. Apa itu request?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+permintaan yang dikirim client ke server
 ```
 
 ### 7. Apa itu response?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+jawaban dari server sesuai yang diminta oleh client
 ```
 
 ### 8. Apa fungsi GET?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk mendapatkan suatu data
 ```
 
 ### 9. Apa fungsi POST?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk mengirim data
 ```
 
 ### 10. Apa fungsi PUT?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk mengupdate data 
 ```
 
 ### 11. Apa fungsi DELETE?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk menghapus suatu data
 ```
 
 ### 12. Kapan menggunakan 200 OK?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+digunakaan saat server berhasil memproses request dan mengembalikannya dengan berhasil
 ```
 
 ### 13. Kapan menggunakan 201 Created?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+saat server berhasil membuat data baru
 ```
 
 ### 14. Kapan menggunakan 400 Bad Request?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk memberikan respon saat request tidak valid karena datanya salah atau tidak sesuai format
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat endpoint atau resource tidak ada dan tidak ditemukan
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat server mengalami suatu permasalahan bisa berupa kesalahan dari sisi server
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+merupakan bagian yang ada di URL yang mewakili nilai unik untuk mengidentifikasi resource tertentu
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +143,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+parameter tambahan di URL setelah tanda ?, biasanya untuk filter, sorting, atau pagination.
 ```
 
 ### 19. Apa itu request body?
@@ -151,7 +151,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+data yang dikirim dalam isi request, biasanya untuk POST, PUT, PATCH data biasanya dalam format JSON
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +159,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+penghubung antara request dari client dan logic aplikasi yaitu service/model
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Mengolah data dan menjalankan logika bisnis aplikasi
 ```
 
 ### 22. Apa itu DTO?
@@ -175,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Objek yang digunakan untuk membawa data antar lapisan aplikasi, misalnya dari controller ke service atau dari server ke client
 ```
 
 ### 23. Apa itu Model?
@@ -183,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+representasi data tabel yang ditulis dalam bentuk java
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena controller seharusnya hanya bertugas untuk menangani request dan response saja. Jika business logic ditempatkan di controller, maka kode akan menjadi sulit dibaca, sulit dirawat (maintain), dan sulit digunakan kembali (reusable).
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +199,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request dan response perlu menggunakan DTO agar data yang dikirim dan diterima lebih terstruktur, aman, dan terkontrol.
 ```
