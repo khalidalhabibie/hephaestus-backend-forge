@@ -19,7 +19,6 @@ public class Main {
         }
 
         customerService.updateCustomerEmail(1L, "thor@gmail.com");
-
         customerService.deleteCustomer(2L);
     }
 }
