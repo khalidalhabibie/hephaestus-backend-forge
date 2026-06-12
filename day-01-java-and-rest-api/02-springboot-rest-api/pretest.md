@@ -1,4 +1,4 @@
-# Pretest - Spring Boot REST API
+    # Pretest - Spring Boot REST API
 
 Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boot REST API.
 
@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Framework untuk membuat backend service dalam bahasa pemograman java.
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+REST API dibagi menjadi 2 kata
+-> Rest - sebuah standar dalam penulisan API
+-> API - Application programming interface yang berisikan protokol request response untuk berkomunikasi.
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+protokol untuk komunikasi di internet.
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+format file yang berbentuk key dan value - basisnya dari javascript.
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Titik alamat api untuk mengeksekusi komunikasi client dan server
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Komunikasi untuk meminta suatu service ke server, biasanya bisa tanpa payload atau dengan payload.
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Response adalah keluaran yang diberikan oleh server dalam eksekusi logika service,  diterima oleh siapapun yang  melakukan request.
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+HTTP method untuk meminta seesuatu/data ke server
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+HTTP method untuk memberikan seesuatu/data ke server untuk disimpan.
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +81,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Method http untuk mengedit data di server lewat api
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +89,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Method http untuk menghapus data di server lewat api
+
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -95,7 +98,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat service yang dijalankan lewat api berhasil dilakukan.
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -103,7 +106,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat kita menginput sesuatu yang harus disimpan oleh server
 ```
 
 ### 14. Kapan menggunakan 400 Bad Request?
@@ -111,7 +114,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat server menolak karena pe request melakukan kesalahan input dll
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +122,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat data yang seharusnya diberikan oleh server namun tidak ada datanya.
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +130,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat server mengalami kendala yang tidak terduga.
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +138,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bagian dari url di api yang menunjuk langsung ke data/objek yang ingin diambil secara spesifik
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +146,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+kunci nilai opsional pada link api untuk memfilter data yang dibutuhkan
 ```
 
 ### 19. Apa itu request body?
@@ -151,7 +154,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Body/payload atau masukan yang harus di isi untuk melakukan request
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +162,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+menerima request dari user dan menuruskannya ke service agar bisa diproses di logika bisnis
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +170,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menjalan logika bisnis dari data yang diteruskan oleh kontroller
 ```
 
 ### 22. Apa itu DTO?
@@ -175,7 +178,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Template data yang digunakan untuk standar / request body dan response body yang harus diikuti. yang akan diberikan atau diterima oleh backend.
 ```
 
 ### 23. Apa itu Model?
@@ -183,7 +186,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+representasi struktur data murni dari database.
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +194,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengisolasi agar kontroller hanya fokus pada satu tugas yaitu mengatur alur masuk dan keluar data.
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +202,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+membatasi dan menyaring data agar ketika data diterima oleh database tidak berbeda formatnya, mencegah eror, dan juga kebocoran data yang tidak perlu.
 ```
