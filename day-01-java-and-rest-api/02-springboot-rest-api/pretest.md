@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Boot adalah sebuah framework yang membantu untuk connecting DB ke backend.
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+REST API adalah sebuah perantara yang membantu mengirimkan atau menukarkan informasi antarmedia, saya analogikan sebagai pengantar surat.
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+HTTP adalah sebuah protokol yang membantu mengirimkan atau menukarkan data.
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JSON adalah format data yang digunakan untuk membangun komunakasi data.
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Endpoint adalah sebuah format URL yang digunakan untuk mengirimkan atau menukarkan data.
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request berfungsi untuk memberitahukan bahwa ada permintaan dari client, sehingga client mengirimkan permintaan ke server.
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Response adalah jawaban dari server ke client sesuai dengan apa yang di-request.
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+GET berfungsi untuk mengambil data (e.g. mengambil ID atau name dari Customer).
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+POST berfungsi untuk membuat data baru (e.g. membuat data Customer baru).
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+PUT berfungis untuk mengubah data yang sudah ada (e.g. mengubah data Customer).
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DELETE berfungsi untuk menghapus data (e.g. menghapus data Customer dengan ID tertentu).
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+404 Bad Request digunakan ketika request client ke server tidak valid.
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+404 Not Found digunakan ketikan URL tujuan tidak valid.
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+500 Internal Server Error digunakan ketikan terjadi kesalahan pada server.
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Path parameter adalah sebuah format yang dipakai oleh URL.
 ```
 
 ### 18. Apa itu query parameter?
@@ -159,7 +159,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Controller bertugas untuk mengontrol alur komunikasi data atau informasi.
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Service bertugas untuk menampung business logic.
 ```
 
 ### 22. Apa itu DTO?
@@ -183,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Model adalah sebuah kumpulan Class berisikan Objects.
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Business logic sebaiknya tidak ditaruh di Controller agar perubahan-perubahan yang terjadi pada Controller tidak merusak business logic yang ada. Sepengetahuan saya bahwa business logic sangat crucial dan minim terjadi perubahan karena logic tersebut adalah pondasi dari business process.
 ```
 
 ### 25. Kenapa request/response perlu DTO?
