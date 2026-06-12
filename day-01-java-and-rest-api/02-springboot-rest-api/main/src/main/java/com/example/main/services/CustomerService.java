@@ -5,53 +5,33 @@ import org.springframework.stereotype.Service;
 import com.example.main.dto.CreateCustomerRequest;
 import com.example.main.dto.CustomerResponse;
 import com.example.main.models.Customer;
+import com.example.main.repositories.CustomerRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
 
-    private final Map<Long, Customer> customerDatabase = new ConcurrentHashMap<>();
-    
-    private final AtomicLong idGenerator = new AtomicLong(1);
+    private final CustomerRepository customerRepository;
 
-    public CustomerService() {
-        initDummyData();
-    }
-
-    private void initDummyData() {
-        insertDummy("davin ben", "dav@mail.com", "08123456789");
-        insertDummy("abcacacaac", "acacacac@mail.com", "08987654321");
-        insertDummy("qqqqqq", "sdxsdsdsd@mail.com", "08111222333");
-    }
-
-    private void insertDummy(String fullName, String email, String phoneNumber) {
-        Long newId = idGenerator.getAndIncrement();
-        Customer customer = new Customer(newId, fullName, email, phoneNumber);
-        customerDatabase.put(newId, customer);
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
-        Long newId = idGenerator.getAndIncrement();
+        Customer customer = new Customer();
+        customer.setFullName(request.getFullName());
+        customer.setEmail(request.getEmail());
+        customer.setPhoneNumber(request.getPhoneNumber());
+
+        Customer savedCustomer = customerRepository.save(customer);
         
-        Customer customer = new Customer(
-            newId, 
-            request.getFullName(), 
-            request.getEmail(), 
-            request.getPhoneNumber()
-        );
-        
-        customerDatabase.put(newId, customer);
-        
-        return toResponse(customer);
+        return toResponse(savedCustomer);
     }
 
     public CustomerResponse getCustomerById(Long id) {
-        Customer customer = customerDatabase.get(id);
+        Customer customer = customerRepository.findById(id);
         if (customer == null) {
             return null;
         }
@@ -59,19 +39,17 @@ public class CustomerService {
     }
 
     public List<CustomerResponse> getAllCustomers() {
-        List<CustomerResponse> responses = new ArrayList<>();
-        for (Customer customer : customerDatabase.values()) {
-            responses.add(toResponse(customer));
-        }
-        return responses;
+        return customerRepository.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     public boolean deleteCustomer(Long id) {
-        return customerDatabase.remove(id) != null;
+        return customerRepository.deleteById(id);
     }
 
     public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
-        Customer existingCustomer = customerDatabase.get(id);
+        Customer existingCustomer = customerRepository.findById(id);
         if (existingCustomer == null) {
             return null;
         }
@@ -80,18 +58,15 @@ public class CustomerService {
         existingCustomer.setEmail(request.getEmail());
         existingCustomer.setPhoneNumber(request.getPhoneNumber());
         
-        customerDatabase.put(id, existingCustomer);
-        return toResponse(existingCustomer);
+        Customer updatedCustomer = customerRepository.save(existingCustomer);
+        
+        return toResponse(updatedCustomer);
     }
 
     public List<CustomerResponse> searchByName(String name) {
-        List<CustomerResponse> responses = new ArrayList<>();
-        for (Customer customer : customerDatabase.values()) {
-            if (customer.getFullName().toLowerCase().contains(name.toLowerCase())) {
-                responses.add(toResponse(customer));
-            }
-        }
-        return responses;
+        return customerRepository.searchByName(name).stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     private CustomerResponse toResponse(Customer customer) {
