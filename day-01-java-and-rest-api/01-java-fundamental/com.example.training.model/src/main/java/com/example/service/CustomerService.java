@@ -13,7 +13,7 @@ public class CustomerService {
 
     public Customer createCustomer(String fullName, String email, String phoneNumber){
         Long ids = sequence;
-        sequence++;
+        ids++;
 
         Customer cust = new Customer(ids, fullName, email, phoneNumber);
 
