@@ -46,4 +46,23 @@ public class CustomerService {
         );
     }
 
+    public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
+        if (!customerMap.containsKey(id)) {
+            throw new IllegalArgumentException("Customer dengan ID " + id + " tidak ditemukan");
+        }
+        Customer existingCustomer = customerMap.get(id);
+        existingCustomer.setFullName(request.getFullName());
+        existingCustomer.setEmail(request.getEmail());
+        existingCustomer.setPhoneNumber(request.getPhoneNumber());
+        return convertToResponse(existingCustomer);
+
+    }
+
+    public void deleteCustomer(Long id) {
+        if (!customerMap.containsKey(id)) {
+            throw new IllegalArgumentException("Customer dengan ID " + id + " tidak ditemukan");
+        }
+        customerMap.remove(id);
+    }
+
 }
