@@ -1,12 +1,15 @@
 package com.example.training.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.training.dto.CreateCustomerRequest;
 import com.example.training.dto.CustomerResponse;
+import com.example.training.dto.UpdateCustomerRequest;
 import com.example.training.service.CustomerService;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
@@ -34,7 +37,10 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerResponse>> getAllCustomer() {
+    public ResponseEntity<List<CustomerResponse>> getAllCustomer(@RequestParam(required = false) String full_name) {
+        if (full_name != null && !full_name.isEmpty()) {
+            return ResponseEntity.ok(customerService.searchCustomerByName(full_name));
+        }
         return ResponseEntity.ok(customerService.getCustomers());
     }
 
@@ -45,6 +51,15 @@ public class CustomerController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomerResponse> deleteCustomerById(@PathVariable long id) {
-        return ResponseEntity.ok();
+        CustomerResponse response = customerService.deleteCustomerById(id);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponse> updateCustomerById(@PathVariable long id,
+            @RequestBody UpdateCustomerRequest request) {
+        CustomerResponse response = customerService.updateCustomerById(id, request);
+        return ResponseEntity.ok(response);
     }
 }

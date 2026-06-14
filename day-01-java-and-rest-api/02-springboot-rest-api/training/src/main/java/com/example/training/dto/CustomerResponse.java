@@ -14,4 +14,5 @@ public class CustomerResponse {
     private String email;
     @JsonProperty("phone_number")
     private String phoneNumber;
+    private String message;
 }
