@@ -7,7 +7,7 @@ Jawab pertanyaan berikut setelah membaca materi dan membuat Customer REST API.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Boot adalah salah satu framework/kerangka kerja dari bahasa pemrograman Java sebagai service BackEnd untuk membuat API dan koneksi ke database dengan lebih mudah
 ```
 
 ### 2. Apa fungsi Spring Initializr?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Initializr digunakan untuk membuat kerangka awal project Spring Boot dengan dependency apa saja yang dibutuhkan
 ```
 
 ### 3. Saat membuat project, kenapa memilih Maven?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Maven dipilih ialah karena memudahkan dalam manajemen dependency dan proses build project yang terstruktur
 ```
 
 ### 4. Apa fungsi dependency Spring Web?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Web digunakan untuk membuat REST API dan menangani request serta response HTTP
 ```
 
 ### 5. Kenapa Day 1 belum menambahkan dependency database?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena fokus awal ialah memahami dasar REST API sebelum masuk ke integrasi database
 ```
 
 ### 6. Apa fungsi file pom.xml?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+pom.xml sendiri berfungsi untuk mengatur dependency, konfigurasi project, dan juga build lifecycle project Maven
 ```
 
 ### 7. Apa fungsi TrainingApplication.java?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+File tersebut merupakan entry point untuk menjalankan aplikasi Spring Boot
 ```
 
 ### 8. Apa fungsi @SpringBootApplication?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Annotation tersebut menandai class utama dan mengaktifkan konfigurasi dari Spring Boot
 ```
 
 ### 9. Bagaimana cara menjalankan Spring Boot dari IDE?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Boot dijalankan dengan menekan tombol Run pada class utama di IDE
 ```
 
 ### 10. Bagaimana cara menjalankan Spring Boot dari terminal?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Boot dijalankan dengan perintah `mvn spring-boot:run` di terminal
 ```
 
 ### 11. Jika membuka http://localhost:8080 dan hasilnya 404, apakah selalu error? Jelaskan.
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Tidak selalu error, karena bisa saja belum ada endpoint yang dipetakan ke root path (/)
 ```
 
 ### 12. Apa itu REST API?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+REST API adalah cara komunikasi antar sistem menggunakan HTTP dengan prinsip REST
 ```
 
 ### 13. Apa itu endpoint?
@@ -103,7 +103,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Endpoint ialah URL yang digunakan untuk mengakses suatu fungsi pada REST API
 ```
 
 ### 14. Apa perbedaan request dan response?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request merupakan permintaan dari client ke server, sedangkan response adalah balasan dari server ke client
 ```
 
 ### 15. Kenapa JSON menggunakan snake_case, sedangkan Java menggunakan camelCase?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena JSON mengikuti konvensi umum API, sedangkan Java mengikuti standar penamaan variabel bahasa Java
 ```
 
 ### 16. Apa fungsi @JsonProperty?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@JsonProperty digunakan untuk memetakan nama field JSON ke atribut Java yang berbeda
 ```
 
 ### 17. Apa tugas Controller?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Controller bertugas menerima request dari client dan mengarahkan ke service yang sesuai
 ```
 
 ### 18. Apa tugas Service?
@@ -143,7 +143,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Service bertugas menjalankan business logic aplikasi
 ```
 
 ### 19. Apa itu DTO?
@@ -151,7 +151,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DTO adalah object khusus untuk membawa data antara request atau response tanpa logika bisnis
 ```
 
 ### 20. Apa itu Model?
@@ -159,7 +159,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Model adalah representasi tabel dalam database yang ditulis dalam bentuk kode Java
 ```
 
 ### 21. Kenapa request body tidak langsung menggunakan model?
@@ -167,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar struktur data request lebih aman dan tidak bergantung langsung pada entity
 ```
 
 ### 22. Kenapa response tidak langsung menggunakan model?
@@ -175,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Supaya data yang dikirim ke client bisa dikontrol dan tidak membocorkan field yang sensitif
 ```
 
 ### 23. Kenapa business logic tidak boleh ditaruh di Controller?
@@ -183,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena akan membuat kode sulit dirawat dan maintenance
 ```
 
 ### 24. Kapan menggunakan 200 OK?
@@ -191,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Status 200 OK digunakan saat request berhasil diproses tanpa membuat data baru
 ```
 
 ### 25. Kapan menggunakan 201 Created?
@@ -199,7 +199,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Status 201 Created digunakan saat berhasil membuat data baru melalui request POST
 ```
 
 ### 26. Apa bedanya path parameter dan query parameter?
@@ -207,7 +207,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Path parameter adalah bagian dari URL, sedangkan query parameter ada setelah tanda "?"
 ```
 
 ### 27. Jelaskan flow POST /api/v1/customers dari request sampai response.
@@ -215,7 +215,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request masuk ke controller, diproses oleh service, lalu hasilnya dikembalikan sebagai response
 ```
 
 ### 28. Bagian mana yang paling sulit saat membuat Spring Boot REST API?
@@ -223,7 +223,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Bagian tersulit adalah memahami alur data dan pemisahan tanggung jawab antar layer
 ```
 
 ### 29. Error apa yang kamu temui dan bagaimana cara menyelesaikannya?
@@ -231,7 +231,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Error yang sering muncul adalah mapping endpoint, dan solusinya dengan mengecek annotation dan URL
 ```
 
 ### 30. Apa yang ingin kamu pelajari berikutnya?
@@ -239,5 +239,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saya ingin mempelajari terkait integrasi database dan JPA di Spring Boot
 ```
