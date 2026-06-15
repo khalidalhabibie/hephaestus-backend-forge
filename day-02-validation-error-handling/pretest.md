@@ -57,7 +57,7 @@ Jawaban:
 
 Jawaban:
 validasi teknis : fokus pada bentuk data (memastikan data tidak kosong atau null)
-validasi bisnis : fokus pada aturan domain (contoh/ email harus ada @ nya ataupun harus sesuai dengan domaoin)
+validasi bisnis : fokus pada aturan domain (contoh/ email harus ada @ nya ataupun harus sesuai dengan domain)
 
 ## Section B - Bean Validation
 
