@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.adnan.exercisespring.dto.CreateCustomerRequest;
 import com.adnan.exercisespring.dto.CustomerResponse;
+import com.adnan.exercisespring.exception.CustomerNotFoundException;
 import com.adnan.exercisespring.model.Customer;
 
 @Service
@@ -19,9 +20,6 @@ public class CustomerService {
     CustomerResponse customerResponse = new CustomerResponse(entity.getFullName(), entity.getEmail(),
         entity.getPhoneNumber());
 
-    if (customerResponse.getFullName().isEmpty()) {
-      return null;
-    }
     Customer customer = new Customer(sequence, customerResponse.getFullName(), customerResponse.getEmail(),
         customerResponse.getPhoneNumber());
     customerStorage.put(sequence++, customer);
@@ -50,6 +48,10 @@ public class CustomerService {
 
   public CustomerResponse getCustomerById(long id) {
     Customer customer = customerStorage.get(id);
+    if (customer == null) {
+      throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
+    }
+
     CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFullName(),
         customer.getEmail(),
         customer.getPhoneNumber());
@@ -59,10 +61,7 @@ public class CustomerService {
   public CustomerResponse updateCustomer(long id, CreateCustomerRequest entity) {
     Customer customer = customerStorage.get(id);
     if (customer == null) {
-      return null;
-    }
-    if (entity.getFullName() == null || entity.getFullName().isEmpty()) {
-      return null;
+      throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
     }
     customer.setFullName(entity.getFullName());
     customer.setEmail(entity.getEmail());
@@ -78,7 +77,7 @@ public class CustomerService {
   public CustomerResponse deleteCustomer(long id) {
     Customer customer = customerStorage.get(id);
     if (customer == null) {
-      return null;
+      throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
     }
 
     customerStorage.remove(id);
