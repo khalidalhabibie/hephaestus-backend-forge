@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.fif.exercise02.dto.CreateCustomerRequest;
 import com.fif.exercise02.dto.CustomerResponse;
+import com.fif.exercise02.exception.CustomerNotFoundException;
 import com.fif.exercise02.model.Customer;
 
 @Service
@@ -19,7 +20,7 @@ public class CustomerService {
     private Map<Long, Customer> customerStorage = new HashMap<>();
     private Long sequence = 1L;
 
-    public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
         Customer customer = new Customer(sequence, request.getFullName(), request.getEmail(), request.getPhoneNumber());
 
         customerStorage.put(sequence, customer);
@@ -53,7 +54,7 @@ public class CustomerService {
         CustomerResponse response = new CustomerResponse();
         
         if (cust == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
+            throw new CustomerNotFoundException("customer tidak ditemukan dengan id:" + id);
         }
 
         response.setId(cust.getId());
@@ -85,4 +86,33 @@ public class CustomerService {
 
         return response;
     }
+
+    public void deleteCustomer(Long id) {
+        Customer customer = customerStorage.get(id);
+
+        if (customer == null) {
+            throw new CustomerNotFoundException("customer tidak ditemukan dengan id: " + id);
+        }
+
+        customerStorage.remove(id);
+    }
+    
+    public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
+        Customer customer = customerStorage.get(id);
+
+        if (customer == null) {
+            throw new CustomerNotFoundException("customer tidak ditemukan dengan id: " + id);
+        }
+
+        customer.setFullName(request.getFullName());
+        customer.setEmail(request.getEmail());
+        customer.setPhoneNumber(request.getPhoneNumber());
+
+        return buildCustomerResponse(
+                customer.getId(),
+                customer.getFullName(),
+                customer.getEmail(),
+                customer.getPhoneNumber());
+    }
+    
 }
