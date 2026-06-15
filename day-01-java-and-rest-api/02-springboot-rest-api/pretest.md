@@ -151,7 +151,7 @@ Query parameter adalah data tambahan yang dikirim lewat URL untuk filter, search
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request body adalah data yang dikirim oleh client ke server melalui bagian body (isi) dari HTTP request, biasanya digunakan untuk mengirim informasi seperti form, JSON, atau data input ke API.
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +159,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Controller bertugas untuk menerima request dari client, mengatur alur proses, dan mengembalikan response ke client.
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Service bertugas untuk menjalankan business logic atau aturan bisnis dalam aplikasi.
 ```
 
 ### 22. Apa itu DTO?
@@ -175,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DTO (Data Transfer Object) adalah objek yang digunakan untuk membawa data antara layer dalam aplikasi, biasanya dari client ke backend (atau sebaliknya) tanpa membawa logic bisnis.
 ```
 
 ### 23. Apa itu Model?
@@ -183,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Model adalah representasi data dalam aplikasi yang biasanya mencerminkan struktur data di database dan digunakan untuk menyimpan serta mengelola informasi.
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Business logic tidak ditaruh di Controller karena Controller hanya bertugas menangani request dan response, sedangkan business logic perlu dipisahkan agar kode lebih rapi, terstruktur, dan mudah di-maintain.
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +199,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request/response perlu DTO karena untuk mengontrol dan membatasi data yang dikirim antara client dan server, sehingga lebih aman, terstruktur, dan sesuai kebutuhan API.
 ```
