@@ -17,26 +17,27 @@ import com.andyana.exerciseday02.dto.CreateCustomerRequest;
 import com.andyana.exerciseday02.dto.CustomerResponse;
 import com.andyana.exerciseday02.service.CustomerService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerController {
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        CustomerResponse response = customerService.getCustomerById(id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -46,22 +47,14 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody CreateCustomerRequest request) {
-        try {
-            CustomerResponse response = customerService.updateCustomer(id, request);
-            return ResponseEntity.ok(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @RequestBody @Valid CreateCustomerRequest request) {
+        CustomerResponse response = customerService.updateCustomer(id, request);
+        return ResponseEntity.ok(response);
     }
     
-   @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
-        if (customerService.getCustomerById(id).isPresent()) {
-            customerService.deleteCustomer(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 }

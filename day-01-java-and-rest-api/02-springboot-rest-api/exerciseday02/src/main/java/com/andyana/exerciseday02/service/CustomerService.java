@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.andyana.exerciseday02.dto.CreateCustomerRequest;
 import com.andyana.exerciseday02.dto.CustomerResponse;
+import com.andyana.exerciseday02.exception.CustomerNotFoundException;
 import com.andyana.exerciseday02.model.Customer;
 
 @Service
@@ -24,9 +25,12 @@ public class CustomerService {
     }
     
 
-    public Optional<CustomerResponse> getCustomerById(Long id) {
+    public CustomerResponse getCustomerById(Long id) {
     return Optional.ofNullable(customerMap.get(id))
-            .map(this::convertToResponse);
+            .map(this::convertToResponse)
+            .orElseThrow(() ->
+                    new CustomerNotFoundException(
+                            "Customer dengan ID " + id + " tidak ditemukan"));
 }
     
     public List<CustomerResponse> getAllCustomers() {
@@ -48,7 +52,7 @@ public class CustomerService {
 
     public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
         if (!customerMap.containsKey(id)) {
-            throw new IllegalArgumentException("Customer dengan ID " + id + " tidak ditemukan");
+            throw new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan");
         }
         Customer existingCustomer = customerMap.get(id);
         existingCustomer.setFullName(request.getFullName());
@@ -59,10 +63,10 @@ public class CustomerService {
     }
 
     public void deleteCustomer(Long id) {
-        if (!customerMap.containsKey(id)) {
-            throw new IllegalArgumentException("Customer dengan ID " + id + " tidak ditemukan");
-        }
-        customerMap.remove(id);
+    if (!customerMap.containsKey(id)) {
+        throw new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan");
     }
+    customerMap.remove(id);
+}
 
 }
