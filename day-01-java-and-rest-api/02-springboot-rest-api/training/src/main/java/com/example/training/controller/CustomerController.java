@@ -8,6 +8,9 @@ import com.example.training.dto.CreateCustomerRequest;
 import com.example.training.dto.CustomerResponse;
 import com.example.training.dto.UpdateCustomerRequest;
 import com.example.training.service.CustomerService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +34,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -58,7 +61,7 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerResponse> updateCustomerById(@PathVariable long id,
-            @RequestBody UpdateCustomerRequest request) {
+            @Valid @RequestBody UpdateCustomerRequest request) {
         CustomerResponse response = customerService.updateCustomerById(id, request);
         return ResponseEntity.ok(response);
     }

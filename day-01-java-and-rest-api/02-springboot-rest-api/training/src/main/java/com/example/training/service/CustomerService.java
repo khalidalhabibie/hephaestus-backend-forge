@@ -1,5 +1,7 @@
 package com.example.training.service;
 
+import com.example.training.exception.CustomerNotFoundException;
+import com.example.training.exception.GlobalExceptionHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +17,13 @@ import com.example.training.model.Customer;
 
 @Service
 public class CustomerService {
+    private final GlobalExceptionHandler globalExceptionHandler;
     private Map<Long, Customer> customerStorage = new HashMap<>();
     private Long sequence = 1L;
+
+    CustomerService(GlobalExceptionHandler globalExceptionHandler) {
+        this.globalExceptionHandler = globalExceptionHandler;
+    }
 
     public List<CustomerResponse> getCustomers() {
         List<CustomerResponse> responses = new ArrayList<>();
@@ -51,8 +58,8 @@ public class CustomerService {
     public CustomerResponse getCustomerById(@PathVariable Long id) {
         Customer cust = customerStorage.get(id);
 
-         if (cust == null) {
-            throw new RuntimeException("Customer tidak ditemukan");
+        if (cust == null) {
+            throw new CustomerNotFoundException(id);
         }
 
         CustomerResponse response = new CustomerResponse();
