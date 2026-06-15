@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari Vali
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melakukan validasi terhadap request untuk memastikan data yang masuk sesuai dengan ketentuan yang ada.
 ```
 
 ### 2. Kenapa backend tetap perlu validasi walaupun frontend sudah validasi?
@@ -17,7 +17,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena validasi di frontend lebih berfokus pada menyaring data yang masuk sedangkan validasi backend lebih berfokus pada validasi business logic.
 ```
 
 ### 3. Apa fungsi @Valid?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melakukan validasi pada field-field di aplikasi.
 ```
 
 ### 4. Apa fungsi @NotBlank?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melakukan validasi bahwa field tidak boleh null, kosong, atau hanya berisi spasi.
 ```
 
 ### 5. Apa perbedaan @NotBlank dan @NotNull?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotBlank berguna untuk melakukan validasi bahwa field tidak boleh null, kosong, atau hanya berisi spasi, sedangkan @NotNull hanya memastikan bahwa field tidak boleh null, tapi boleh spasi.
 ```
 
 ### 6. Apa fungsi @Email?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melakukan validasi bahwa field email merupakan alamat email yang valid (mis: @gmail.com, @yahoo.com)
 ```
 
 ### 7. Apa fungsi @Size?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melakukan validasi bahwa value di field tidak lebih dari batas max dan tidak kurang dari batas min.
 ```
 
 ### 8. Apa yang terjadi jika request gagal validasi?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Maka request body tidak akan lolos ke dto dan prosesnya akan terhenti pada exception handling.
 ```
 
 ### 9. Apa itu MethodArgumentNotValidException?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Exception handling untuk menangani keadaan di mana input nya tidak lolos validasi.
 ```
 
 ### 10. Apa itu standard error response?
@@ -81,7 +81,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Standard error response adalah error message yang dimunculkan oleh program secata otomatis tanpa kustomisasi.
 ```
 
 ### 11. Kenapa error response perlu konsisten?
@@ -89,7 +89,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar standar dan mudah dipahami oleh berbagai pihak yang terlibat dalam project aplikasi tsb.
 ```
 
 ### 12. Apa itu field-level error?
@@ -97,7 +97,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field-level error adalah jenis error yang terjadi pada field  tertentu, biasanya terkait dengan validasi input.
 ```
 
 ### 13. Apa itu custom exception?
@@ -105,7 +105,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Exception yang dibuat sendiri secara custom dengan message dan parameter sendiri untuk memenuhi kebutuhan bisnis, tidak menggunakan jenis exception built-in dari Spring.
 ```
 
 ### 14. Kenapa CustomerNotFoundException lebih baik daripada RuntimeException biasa?
@@ -113,7 +113,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena bersifat lebih spesifik, bahwa error terjadi karena resource yang dicari tidak ditemukan.
 ```
 
 ### 15. Apa fungsi @ControllerAdvice?
@@ -121,7 +121,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ControllerAdvice adalah anotasi di Spring yang berfungsi untuk menangani exception global yang berlaku di seluruh controller.
 ```
 
 ### 16. Apa fungsi @ExceptionHandler?
@@ -129,7 +129,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ExceptionHandler adalah anotasi di Spring yang berfungsi untuk menangani exception tertentu secara spesifik di dalam aplikasi.
 ```
 
 ### 17. Kenapa error handling sebaiknya centralized?
@@ -137,7 +137,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar lebih mudah untuk di-mantain dan di-scale serta lebih konsisten dalam mapping exception handling nya.
 ```
 
 ### 18. Kapan menggunakan 400 Bad Request?
@@ -145,7 +145,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika request dari client tidak valid, misalnya tidak memenuhi validasi yang sudah ditentukan.
 ```
 
 ### 19. Kapan menggunakan 404 Not Found?
@@ -153,7 +153,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika resource tidak ditemukan, misalnya ketika mengakses halaman yang belum dibuat routing API nya.
 ```
 
 ### 20. Kapan menggunakan 500 Internal Server Error?
@@ -161,7 +161,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika ada error dari sisi server, misalnya crash.
 ```
 
 ### 21. Kenapa stack trace tidak boleh dikirim ke client?
@@ -169,7 +169,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena dapat menyebabkan risiko keamanan, kebocoran informasi, serta berpotensi membuat pengalaman user yang buruk.
 ```
 
 ### 22. Jelaskan flow ketika POST /api/v1/customers menerima email invalid.
@@ -177,7 +177,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Client kirim request -> Request masuk ke Controller -> Proses validasi dilakukan -> Validasi gagal karena email invalid -> Exception ditangkap oleh MethodArgumentNotValidException yang sudah di-set -> Melakukan ekstraksi field-level error -> Error message dikirim ke client (response)
 ```
 
 ### 23. Jelaskan flow ketika GET /api/v1/customers/999 tidak menemukan data.
@@ -185,7 +185,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Client kirim request -> Request masuk ke Controller -> Sistem mencari data sesuai dengan path parameter -> Data tidak ditemukan -> Exception ditangkap oleh CustomerNotFoundException yang sudah di-set -> Error message dikirim ke client (response)
 ```
 
 ### 24. Apa perbedaan validation error, business error, dan system error?
@@ -193,7 +193,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validation error -> terjadi karena input customer tidak valid
+Business error -> terjadi karena business logic tidak terpenuhi meskipun inputnya valid
+System error -> terjadi karena masalah di sistem, misalnya server crash/error
 ```
 
 ### 25. Bagian mana yang paling sulit dari exercise Day 2?
@@ -201,7 +203,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Melakukan set up exception handling untuk berbagai jenis exception.
 ```
 
 ## Reflection
@@ -209,20 +211,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. HTTP Status Code
+2. Jenis-jenis exception
+3. Custom Exception
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. Melakukan coding untuk custom exception
+2. Cara menggabungkan beberapa error dalam 1 list
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+Bagaimana cara nya agar terbiasa melakukan coding, terutama ketika sudah semakin kompleks dengan exception2?
 ```
