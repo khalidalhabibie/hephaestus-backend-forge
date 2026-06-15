@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class CustomerResponse {
-
     @Getter
     @Setter
+
     private Long id;
 
     @Getter

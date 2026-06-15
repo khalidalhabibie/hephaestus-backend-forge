@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.training.dto.CreateCustomerRequest;
 import com.example.training.dto.CustomerResponse;
+import com.example.training.dto.UpdateCustomerRequest;
+import com.example.training.exception.CustomerNotFoundException;
 import com.example.training.model.Customer;
 
 @Service
@@ -49,34 +51,52 @@ public class CustomerService {
 	// @GetMapping("/{id}")
 	public CustomerResponse getCustomerById(@PathVariable Long id) {
         Customer customer = customerStorage.get(id);
-
+        if(customer == null) {
+            throw new CustomerNotFoundException(id);
+        }
+        
 		CustomerResponse response = new CustomerResponse();
 		response.setId(id);
 		response.setFullName(customer.getFullName());
 		response.setEmail(customer.getEmail());
 		response.setPhoneNumber(customer.getPhoneNumber());
+        
         return response;
     } 
 
-    // private CustomerResponse getDefaultCustomer() {
-    //     return buildCustomerResponse(
-    //         1L, 
-    //         "Budi Santoso", 
-    //         "budi@gmail.com", 
-    //         "081122334455");
-    // }
+    public CustomerResponse deleteCustomerById(@PathVariable Long id) {
+        Customer customer = customerStorage.get(id);
+        if(customer == null) {
+            throw new CustomerNotFoundException(id);
+        }
+        customerStorage.remove(id);
 
-    // private CustomerResponse buildCustomerResponse(
-    //     Long id,
-    //     String fullName,
-    //     String email,
-    //     String phoneNumber
-    // ) {
-    //     CustomerResponse response = new CustomerResponse();
-    //     response.setId(id);
-    //     response.setFullName(fullName);
-    //     response.setEmail(email);
-    //     response.setPhoneNumber(phoneNumber);
-    //     return response;
-    // }
+        CustomerResponse response = new CustomerResponse();
+		response.setId(id);
+		response.setFullName(customer.getFullName());
+		response.setEmail(customer.getEmail());
+		response.setPhoneNumber(customer.getPhoneNumber());
+        
+        return response;
+    }
+
+    public CustomerResponse updateCustomerById(@PathVariable Long id, @RequestBody UpdateCustomerRequest entity) {
+        Customer customer = customerStorage.get(id);
+        if(customer == null) {
+            throw new CustomerNotFoundException(id);
+        }
+        customer.setEmail(entity.getEmail());
+        customer.setFullName(entity.getFullName());
+        customer.setPhoneNumber(entity.getPhoneNumber());
+        customerStorage.put(id, customer);
+
+        CustomerResponse response = new CustomerResponse();
+		response.setId(id);
+		response.setFullName(customer.getFullName());
+		response.setEmail(customer.getEmail());
+		response.setPhoneNumber(customer.getPhoneNumber());
+        
+        return response;
+    }
+ 
 }
