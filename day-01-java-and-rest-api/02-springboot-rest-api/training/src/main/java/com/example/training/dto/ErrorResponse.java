@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonPropertyOrder
 public class ErrorResponse<T> {
+    @JsonProperty
     private String code;
     private String message;
     private List<FieldErrorResponse> fieldErrorResponses;

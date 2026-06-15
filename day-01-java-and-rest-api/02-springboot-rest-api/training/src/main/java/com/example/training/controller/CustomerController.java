@@ -55,6 +55,8 @@ public class CustomerController {
     // berdasarkan ID yang dikirim lewat URL.
     @DeleteMapping("/{id}")
     public ResponseEntity<CustomerResponse> deleteCustomerById(@PathVariable Long id) {
-        return (ResponseEntity<CustomerResponse>) ResponseEntity.ok();
+        return ResponseEntity.ok(customerService.deleteCustomer(id));
     }
+
+    
 }

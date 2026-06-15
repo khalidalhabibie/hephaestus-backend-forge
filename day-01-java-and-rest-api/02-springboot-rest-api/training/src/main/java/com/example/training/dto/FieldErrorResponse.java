@@ -1,6 +1,6 @@
 package com.example.training.dto;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @AllArgsConstructor
-@JsonPropertyOrder
 public class FieldErrorResponse<T> {
+    @JsonProperty
     private String field;
     private String message;
 

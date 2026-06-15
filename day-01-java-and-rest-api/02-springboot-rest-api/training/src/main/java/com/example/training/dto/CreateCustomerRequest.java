@@ -29,6 +29,12 @@ public class CreateCustomerRequest {
     @Min(10)
     private String phoneNumber;
 
+    public CreateCustomerRequest(@NotBlank @Size(min = 3, max = 100) String fullName, @NotNull @Email String email,
+            @NotNull @Min(10) String phoneNumber) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
     // nah ini getter and setter 
     public String getFullName() {
         return fullName;

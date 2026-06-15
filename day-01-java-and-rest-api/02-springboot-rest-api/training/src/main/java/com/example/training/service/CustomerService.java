@@ -6,7 +6,10 @@ import java.util.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.stereotype.Service;
-import com.example.training.exception.*;
+import com.example.training.controller.*;
+import com.example.training.exception.GlobalExceptionHandler;
+import com.example.training.service.*;
+import com.example.training.exception.CustomerNotFoundException;
 
 // Class ini adalah Service layer yang berisi logika bisnis untuk mengelola data Customer.
 // Data disimpan sementara di dalam Map (bukan database), jadi data akan hilang kalau aplikasi di-restart
@@ -60,7 +63,7 @@ public class CustomerService {
         Customer kastomer = customerStorage.get(id);
 
         if(kastomer == null) {
-            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id: 999", null);
+            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id:999 ", null);
         }
 
         CustomerResponse response = new CustomerResponse();
@@ -68,6 +71,36 @@ public class CustomerService {
         response.setFullName(kastomer.getFullName());
         response.setEmail(kastomer.getEmail());
         response.setPhoneNumber(kastomer.getPhoneNumber());
+        return response;
+    }
+
+    public CustomerResponse updateCustomer(@PathVariable Long id, CreateCustomerRequest entity) throws CustomerNotFoundException {
+        Customer kastomer = customerStorage.get(id);
+
+        if(kastomer == null) {
+            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id: 999", null);
+        }
+        kastomer.setFullName(entity.getFullName());
+        kastomer.setEmail(entity.getEmail());
+        kastomer.setPhoneNumber(entity.getPhoneNumber());
+
+        customerStorage.put(id, kastomer);
+
+        CustomerResponse response = new CustomerResponse(kastomer.getId(), kastomer.getFullName(), kastomer.getEmail(), kastomer.getPhoneNumber());
+
+        return response;
+        
+    }
+
+    public CustomerResponse deleteCustomer(long id) throws CustomerNotFoundException {
+    Customer kastomer = customerStorage.get(id);
+        if (kastomer == null) {
+            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id:999 ", null);
+            // throw new CustomerNotFoundException(String.format("Customer not found with id: %s", id), null, null);
+        }
+
+        customerStorage.remove(id);
+        CustomerResponse response = new CustomerResponse(kastomer.getId(), kastomer.getFullName(), kastomer.getEmail(), kastomer.getPhoneNumber());
         return response;
     }
 

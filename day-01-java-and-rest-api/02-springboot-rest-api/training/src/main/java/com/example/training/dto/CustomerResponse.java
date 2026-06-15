@@ -1,40 +1,25 @@
 package com.example.training.dto;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonPropertyOrder
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+@Data
 public class CustomerResponse {
     //disini buat fields apa aja sih yang sekiranya bakal 
     // dikirim ke client setelah berhasil create customer, 
     // misalnya id, fullName, email, phoneNumber.
+    @JsonProperty
     private Long id;
     private String fullName;
     private String email;
     private String phoneNumber;
 
-    //Getter and Setters
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
+    public CustomerResponse(){}
+
+    public CustomerResponse(Long id, String fullName, String email, String phoneNumber) {
         this.id = id;
-    }
-    public String getFullName() {
-        return fullName;
-    }
-    public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
         this.email = email;
-    }
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+    //Getter and Setters
 }
