@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.dto.CreateCustomerRequest;
 import com.example.demo.dto.CustomerResponse;
+import com.example.demo.exception.CustomerNotFoundException;
 import com.example.demo.model.Customer;
 
 @Service
@@ -81,6 +82,11 @@ public class CustomerService {
 
 	public CustomerResponse getCustomerResponseById(Long id){
 		CustomerResponse response = new CustomerResponse();
+
+        if(customerStorage.get(id) == null){
+            throw new CustomerNotFoundException(id);
+        }
+
 		Customer customer = customerStorage.get(id);
 
 		response.setFullName(customer.getFullName());
@@ -92,6 +98,9 @@ public class CustomerService {
 	}
 
     public String deleteCustomerResponseById(@PathVariable Long id){
+        if(customerStorage.get(id) == null){
+            throw new CustomerNotFoundException(id);
+        }
         customerStorage.remove(id);
         return String.format("Berhasil menghapus customer dengan ID: %s", id);
     }

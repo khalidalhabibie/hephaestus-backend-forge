@@ -18,6 +18,8 @@ import com.example.demo.dto.CreateCustomerRequest;
 import com.example.demo.dto.CustomerResponse;
 import com.example.demo.service.CustomerService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v2/customers")
 class CustomerControllerV2{
@@ -28,14 +30,14 @@ class CustomerControllerV2{
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest request){
+    public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request){
         CustomerResponse response = customerService.createCustomer(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 	
     @GetMapping
-    public ResponseEntity<List<CustomerResponse>> getCustomers(@RequestParam(required = false) String name) {
+    public ResponseEntity<List<CustomerResponse>> getCustomers(@Valid @RequestParam(required = false) String name) {
 
         if (name != null) {
             return ResponseEntity.ok(customerService.getCustomerResponsesByName(name));
@@ -58,7 +60,7 @@ class CustomerControllerV2{
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> putCustomerById(@PathVariable Long id, @RequestBody CreateCustomerRequest request){
+    public ResponseEntity<CustomerResponse> putCustomerById(@PathVariable Long id, @Valid @RequestBody CreateCustomerRequest request){
         return ResponseEntity.ok(customerService.putCustomerResponseById(id, request));
     }
 
