@@ -1,243 +1,305 @@
-# Posttest - Spring Boot REST API
+# Pretest - Validation & Error Handling
 
-Jawab pertanyaan berikut setelah membaca materi dan membuat Customer REST API.
+## Objective
 
-### 1. Apa itu Spring Boot?
+Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang validasi request dan error handling pada REST API.
+
+## Instructions
+
+- Jawab dengan singkat dan jelas.
+- Tidak perlu membuka dokumentasi.
+- Tidak dinilai hanya dari benar atau salah, tetapi dari cara berpikir.
+- Estimasi waktu: 20-30 menit.
+
+## Section A - Validation Basic
+
+### 1. Apa itu validasi request?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi Request adalah proses validasi atau pengecekan dari sisi request yang masuk untuk memastikan data yang dikirim dari request sesuai dengan ketentuan.
 ```
 
-### 2. Apa fungsi Spring Initializr?
+### 2. Kenapa backend tetap perlu melakukan validasi walaupun frontend sudah melakukan validasi?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena backend service kita tidak hanya digunakan oleh frontend saja, tapi juga bisa di gunakan oleh service backend server lainnya. Jadi jika hanya dilakukan validasi di frontend tapi tidak di backend, bisa saja validasi tidak terjadi jika service yang akan hit backend kita.
 ```
 
-### 3. Saat membuat project, kenapa memilih Maven?
+### 3. Apa risiko jika API menerima data kosong atau format data yang salah?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Server / service kita bisa rentan dan error karena data yang dikirimkan tidak sesuai dengan standarnya.
 ```
 
-### 4. Apa fungsi dependency Spring Web?
+### 4. Sebutkan contoh validasi untuk field full_name.
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Contoh validasi yang ditempel di modelnya. Menggunakan Annotation @NotBlank untuk menjaga agar fullname tidak boleh kosong.
+
+@NotBlank(message = "Nama lengkap tidak boleh kosong")
+private String fullname;
 ```
 
-### 5. Kenapa Day 1 belum menambahkan dependency database?
+### 5. Sebutkan contoh validasi untuk field email.
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Contoh validasi yang ditempel di modelnya. Menggunakan Annotation @NotBlank, @Email, @Size untuk menjaga agar email tidak boleh kosong, menjaga agar sesuai format email, dan tidak boleh lebih dari 100 karakter.
+
+@NotBlank(message = "Email tidak boleh kosong")
+@Email(message = "Format email tidak valid")
+@Size(max = 100, message = "Email maksimal 100 karakter")
+private String email;
 ```
 
-### 6. Apa fungsi file pom.xml?
+### 6. Sebutkan contoh validasi untuk field phone_number.
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Contoh validasi yang ditempel di modelnya. Menggunakan Annotation @NotBlank, @Pattern untuk menjaga agar phoneNumber tidak boleh kosong, dan sesuai pattern untuk nomor telfon.
+
+@NotBlank(message = "Nomor telepon tidak boleh kosong")
+@Pattern(regexp = "^(\\+62|0)[0-9]{9,12}$", message = "Nomor telepon harus dimulai dengan +62 atau 0, diikuti 9-12 digit")
+private String phoneNumber;
 ```
 
-### 7. Apa fungsi TrainingApplication.java?
+### 7. Apa perbedaan validasi teknis dan validasi bisnis?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi teknis adalah validasi atau pengecekan di sisi teknis seperti @NotBlank, @Pattern, @Email. Jadi validasi yang bertujuan untuk memastikan bisa berjalan dengan benar sesuai teknis.
+Contoh -> fullName tidak boleh kosong, format email harus benar.
+
+Validasi bisnis adalah validasi yang dilakukan disisi bisnis, memastikan bahwa flow yang dijalankan sesuai dengan bisnis rule.
+Contoh -> Pada proses pengajuan kredit, pengecekan apakah umur calon kustomer sudah melewati minimal umur yang ditentukan.
 ```
 
-### 8. Apa fungsi @SpringBootApplication?
+## Section B - Bean Validation
+
+### 8. Apa fungsi annotation @Valid?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Valid adalah anotasi java untuk melakukan validasi automatis pada suatu objek. @Valid ini biasanya digunakan untuk validasi RequestBody dan juga bisa declare langsung untuk field pada objek.
 ```
 
-### 9. Bagaimana cara menjalankan Spring Boot dari IDE?
+### 9. Apa fungsi annotation @NotBlank?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotBlank adalah anotasi java untuk melakukan validasi text values, memastikan bahaw property tersebut tidak null atau tidak hanya spasi.
 ```
 
-### 10. Bagaimana cara menjalankan Spring Boot dari terminal?
+### 10. Apa fungsi annotation @NotNull?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotNull adalah anotasi java untuk melakukan validasi properti tidak boleh null.
 ```
 
-### 11. Jika membuka http://localhost:8080 dan hasilnya 404, apakah selalu error? Jelaskan.
+### 11. Apa fungsi annotation @Email?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Email adalah anotasi java untuk melakukan validasi properti email address untuk memastikan format email itu valid.
 ```
 
-### 12. Apa itu REST API?
+### 12. Apa fungsi annotation @Size?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Size adalah anotasi java untuk melakukan validasi pengecekan attribute itu tidak melebihi size tertentu atau tidak kurang dari minimal size yang telah ditentukan.
 ```
 
-### 13. Apa itu endpoint?
+### 13. Apa perbedaan @NotBlank dan @NotNull?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotNull -> memastikan suatu nuilai itu tidak boleh bernilai null. -> untuk semua tipe data.
+@NotBlank -> memastikan bahwa suatu nilai tidak bernilai null, bukan string kosong, minimal memiliki satu karakter selain spasi. -> Hanya di tipe data String.
 ```
 
-### 14. Apa perbedaan request dan response?
+### 14. Di Spring Boot, validasi biasanya diletakkan di object apa?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotBlank -> untuk memastikan bahwa property tidak null
+@Email -> untuk memastikan format email benar
+@Min, @Max -> untuk memastikan sebuah value sesuai dengan ketentuan.
 ```
 
-### 15. Kenapa JSON menggunakan snake_case, sedangkan Java menggunakan camelCase?
+## Section C - Error Handling
+
+### 15. Apa itu error handling?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Error Handling adalah proses antisipasi, deteksi yang terjadi di sebuah program yang sedang berjalan.
 ```
 
-### 16. Apa fungsi @JsonProperty?
+### 16. Kenapa error response perlu dibuat konsisten?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memudahkan integrasi sistem, mempercepat proses debugging. Memudahkan developer frontend dan mobile untuk konsume api kita.
 ```
 
-### 17. Apa tugas Controller?
+### 17. Apa risiko jika stack trace dikirim ke client?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Informasi yang diberikan client bisa saja sangat fatal dan risiko keamanan. Yang hanya bisa diliat oleh developer.
 ```
 
-### 18. Apa tugas Service?
+### 18. Apa perbedaan HTTP status 400, 404, dan 500?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+400 -> Bad Request
+404 -> Not Found
+500 -> Internal server error
 ```
 
-### 19. Apa itu DTO?
+### 19. Kapan menggunakan 400 Bad Request?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika kesalahan ini pada sisi client
 ```
 
-### 20. Apa itu Model?
+### 20. Kapan menggunakan 404 Not Found?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika resource yang dicari tidak ada.
 ```
 
-### 21. Kenapa request body tidak langsung menggunakan model?
+### 21. Kapan menggunakan 500 Internal Server Error?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kesalahan dari server.
 ```
 
-### 22. Kenapa response tidak langsung menggunakan model?
+## Section D - Exception
+
+### 22. Apa itu exception?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Sebuah kejadian tidak normal saat program berjalan.
 ```
 
-### 23. Kenapa business logic tidak boleh ditaruh di Controller?
+### 23. Apa itu RuntimeException?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika terjadi mendadak saat program sedang berjalan.
 ```
 
-### 24. Kapan menggunakan 200 OK?
+### 24. Apa itu custom exception?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Exceptopn yang dibuat sendiri untuk mewakili logika bisnis sendiri.
 ```
 
-### 25. Kapan menggunakan 201 Created?
+### 25. Kenapa kita perlu membuat CustomerNotFoundException?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menjelaskan kejelasan spesifikan mengenai kegagalan logika bisnis. Untuk handle jika customer yang dicari tidak ditemukan.
 ```
 
-### 26. Apa bedanya path parameter dan query parameter?
+### 26. Apa perbedaan validation error, business error, dan system error?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validation Error -> data yang dimasukan formatnya salah atau tidak lengkap
+
+Business error -> input sudah benar, tapi logika bisnis salah.
+
+System error -> Kesalahan internal dari komputer atau program yang crash.
 ```
 
-### 27. Jelaskan flow POST /api/v1/customers dari request sampai response.
+## Section E - Global Exception Handler
+
+### 27. Apa itu @ControllerAdvice?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+anotasi dalam framework untuk membuat penanganan error global untuk seluruh controller dalam aplikasi
 ```
 
-### 28. Bagian mana yang paling sulit saat membuat Spring Boot REST API?
+### 28. Apa itu @ExceptionHandler?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menandai sebuah fungsi sebagai pemroses khusus untuk error tertentu.
 ```
 
-### 29. Error apa yang kamu temui dan bagaimana cara menyelesaikannya?
+### 29. Kenapa error handling sebaiknya tidak ditulis berulang di setiap Controller?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Duplikasi kode, sulit dimaintenance, format response tidak konsisten
 ```
 
-### 30. Apa yang ingin kamu pelajari berikutnya?
+### 30. Apa manfaat centralized error handling?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kode lebih clean, format respon konsisten, mudah di rawat, keamanan terjamin.
+```
+
+## Self Assessment
+
+| Area                    | Score 1-5 |
+| ----------------------- | --------- |
+| Request validation      | 3         |
+| Bean Validation         | 2         |
+| HTTP status code        | 5         |
+| Exception               | 2         |
+| Custom exception        | 2         |
+| Global error handling   | 2         |
+| Standard error response | 2         |
+
+## Notes
+
+```text
+Tulis bagian yang masih membingungkan.
 ```
