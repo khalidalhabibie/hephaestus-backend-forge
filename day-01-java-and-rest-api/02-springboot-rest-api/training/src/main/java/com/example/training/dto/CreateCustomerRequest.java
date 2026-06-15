@@ -1,4 +1,12 @@
 package com.example.training.dto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Min;
+// import jakarta.validation.constraints
 
 // ini adalah constructor yang akan digunakan untuk menerima data 
 // dari client ketika ingin membuat customer baru, 
@@ -9,8 +17,16 @@ public class CreateCustomerRequest {
     // untuk buat customer baru.
     // nah disini cthnya kita butuh nama lengkap, email, dan nomor telepon 
     // untuk buat customer baru.
+    @NotBlank
+    @Size(min =  3, max = 100)
+
+    @JsonProperty
     private String fullName;
+    @NotNull
+    @Email
     private String email;
+    @NotNull
+    @Min(10)
     private String phoneNumber;
 
     // nah ini getter and setter 

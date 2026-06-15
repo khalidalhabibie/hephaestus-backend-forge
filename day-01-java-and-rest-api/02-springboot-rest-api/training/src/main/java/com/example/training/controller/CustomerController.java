@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.example.training.service.CustomerService;
+import jakarta.validation.Valid;
 import com.example.training.dto.*;
 import java.util.*;
 import org.springframework.http.HttpStatus;
@@ -17,21 +18,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("api/v3/customers")
 public class CustomerController {
-
+    
     // Deklarasi variabel customerService yang akan digunakan untuk memanggil logika bisnis Customer
     private final CustomerService customerService;
-
+    
     // Constructor ini digunakan untuk menyuntikkan (inject) CustomerService ke dalam controller,
     // sehingga controller bisa menggunakan fungsi-fungsi yang ada di service
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
-
+    
     // Method ini menangani request POST ke "/api/v3/customers", fungsinya untuk membuat data Customer baru.
     // Data customer dikirim lewat request body, lalu dikembalikan response berisi data customer yang berhasil dibuat
     // dengan HTTP status 201 Created
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

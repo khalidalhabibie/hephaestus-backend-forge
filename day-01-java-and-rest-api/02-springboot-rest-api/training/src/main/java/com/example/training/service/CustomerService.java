@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.stereotype.Service;
+import com.example.training.exception.*;
 
 // Class ini adalah Service layer yang berisi logika bisnis untuk mengelola data Customer.
 // Data disimpan sementara di dalam Map (bukan database), jadi data akan hilang kalau aplikasi di-restart
@@ -55,10 +56,12 @@ public class CustomerService {
     // Method ini untuk mengambil satu data Customer berdasarkan ID.
     // Kalau customer dengan ID tersebut tidak ditemukan, block if-nya kosong sehingga tidak ada penanganan error,
     // dan kode akan lanjut jalan dan menyebabkan NullPointerException saat mengakses kastomer yang null
-    public CustomerResponse getCustomerById(@PathVariable Long id) {
+    public CustomerResponse getCustomerById(@PathVariable Long id) throws CustomerNotFoundException {
         Customer kastomer = customerStorage.get(id);
 
-        if(kastomer == null) {}
+        if(kastomer == null) {
+            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id: 999", null);
+        }
 
         CustomerResponse response = new CustomerResponse();
         response.setId(kastomer.getId());

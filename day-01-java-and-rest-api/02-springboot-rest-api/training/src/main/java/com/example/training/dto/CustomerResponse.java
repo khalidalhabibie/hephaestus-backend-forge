@@ -1,5 +1,8 @@
 package com.example.training.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder
 public class CustomerResponse {
     //disini buat fields apa aja sih yang sekiranya bakal 
     // dikirim ke client setelah berhasil create customer, 
