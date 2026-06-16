@@ -23,7 +23,8 @@ public class GlobalExceptionHandler {
 
         for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
             FieldErrorResponse error = new FieldErrorResponse(
-                    fieldError.getField(), fieldError.getDefaultMessage());
+                    fieldError.getField(),
+                    fieldError.getDefaultMessage());
             errors.add(error);
         }
 
