@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.fif.training.exercisespringboot.DTO.CreateCustomerRequest;
 import com.fif.training.exercisespringboot.DTO.CustomerResponse;
+import com.fif.training.exercisespringboot.DTO.PatchCustomerRequest;
 import com.fif.training.exercisespringboot.Exception.CustomerNotFoundException;
 import com.fif.training.exercisespringboot.Model.Customer;
 
@@ -90,6 +91,12 @@ public class CustomerService {
 
     // Service editCustomerById
     public CustomerResponse editCustomerById(Long id, CreateCustomerRequest request) {
+
+        // Check Customer is Exist or not
+        if (customerStorage.get(id) == null) {
+            throw new CustomerNotFoundException(id);
+        }
+
         Customer customer = customerStorage.get(id);
 
         // Fullname Validation
@@ -110,6 +117,31 @@ public class CustomerService {
         }
 
         // Mapping Response
+        CustomerResponse response = toCustomerResponse(customer);
+        return response;
+    }
+
+    // Service patchCustomer
+    public CustomerResponse patchCustomerById(Long id, PatchCustomerRequest request) {
+
+        // Get User by ID
+        Customer customer = customerStorage.get(id);
+        // Check Customer is Exist or not
+        if (customer == null) {
+            throw new CustomerNotFoundException(id);
+        }
+
+        // Check Request is filled or not
+        if (request.getFullName() != null) {
+            customer.setFullName(request.getFullName().trim().toLowerCase());
+        }
+        if (request.getEmail() != null) {
+            customer.setEmail(request.getEmail().trim().toLowerCase());
+        }
+        if (request.getPhoneNumber() != null) {
+            customer.setPhoneNumber(request.getPhoneNumber().trim().toLowerCase());
+        }
+
         CustomerResponse response = toCustomerResponse(customer);
         return response;
     }

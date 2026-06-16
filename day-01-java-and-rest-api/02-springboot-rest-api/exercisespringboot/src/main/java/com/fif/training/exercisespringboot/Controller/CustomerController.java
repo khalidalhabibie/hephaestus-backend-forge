@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fif.training.exercisespringboot.DTO.ApiResponse;
 import com.fif.training.exercisespringboot.DTO.CreateCustomerRequest;
 import com.fif.training.exercisespringboot.DTO.CustomerResponse;
+import com.fif.training.exercisespringboot.DTO.PatchCustomerRequest;
 import com.fif.training.exercisespringboot.Service.CustomerService;
 
 import jakarta.validation.Valid;
@@ -73,6 +75,15 @@ public class CustomerController {
             @Valid @RequestBody CreateCustomerRequest request) {
 
         CustomerResponse response = service.editCustomerById(id, request);
+        return new ApiResponse<>("Customer data updated successfully", response);
+    }
+
+    // Patch Customer By ID API
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<CustomerResponse> patchCustomerById(@PathVariable Long id,
+            @Valid @RequestBody PatchCustomerRequest request) {
+        CustomerResponse response = service.patchCustomerById(id, request);
         return new ApiResponse<>("Customer data updated successfully", response);
     }
 
