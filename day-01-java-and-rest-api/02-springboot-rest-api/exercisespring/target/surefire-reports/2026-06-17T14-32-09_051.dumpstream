@@ -1,0 +1,5 @@
+# Created at 2026-06-17T14:32:10.159
+Boot Manifest-JAR contains absolute paths in classpath 'D:\MT FIFGROUP\In Class Training\2 - External Class\6 - Service Layer (Backend)\hephaestus-backend-forge\day-01-java-and-rest-api\02-springboot-rest-api\exercisespring\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
