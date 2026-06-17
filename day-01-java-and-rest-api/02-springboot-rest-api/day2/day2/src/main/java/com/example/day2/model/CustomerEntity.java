@@ -1,5 +1,8 @@
 package com.example.day2.model;
 
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,4 +23,10 @@ public class CustomerEntity {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "created_at")
+    private ZonedDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private ZonedDateTime updatedAt;
 }

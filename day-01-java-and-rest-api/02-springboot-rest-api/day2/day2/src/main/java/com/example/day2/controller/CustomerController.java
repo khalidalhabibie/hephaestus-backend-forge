@@ -11,8 +11,14 @@ import com.example.day2.dto.CustomerResponse;
 import com.example.day2.dto.WebResponse;
 import com.example.day2.service.CustomerService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "", description = "")
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/v0/customers")
+@Deprecated
 public class CustomerController {
 
     private final CustomerService customerService;

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Deprecated
 public class CustomerService {
 
     private final Map<Long, Customer> customerMap = new ConcurrentHashMap<>();
@@ -57,11 +58,11 @@ public class CustomerService {
 
         Customer customer = new Customer();
         
-        if (request.getId() == null) {
-            customer.setId(sequence.getAndIncrement());
-        } else {
-            customer.setId(request.getId());
-        }
+        // if (request.getId() == null) {
+        //     customer.setId(sequence.getAndIncrement());
+        // } else {
+        //     customer.setId(request.getId());
+        // }
 
         customer.setFullName(request.getFullName());
         customer.setEmail(request.getEmail());

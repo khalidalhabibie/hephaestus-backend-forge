@@ -2,12 +2,21 @@ package com.example.day2.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.day2.dto.CreateCustomerRequest;
 import com.example.day2.dto.CustomerResponse;
+import com.example.day2.dto.PatchCustomerRequest;
+import com.example.day2.dto.PutCustomerRequest;
 import com.example.day2.model.CustomerEntity;
 import com.example.day2.repository.CustomerRepository;
-import com.example.day2.utils.CustomerNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,50 +30,74 @@ public class CustomerServiceV2 {
         this.customerRepository = customerRepository;
     }
 
+    public Page<CustomerResponse> getAllCustomerWithPage(Pageable pageable) {
+        Page<CustomerEntity> entityPage = customerRepository.findAll(pageable);
+        return entityPage.map(this::convertToResponse);
+    }
+
     public List<CustomerResponse> getAllCustomer() {
-        log.info("V2: Fetching all customers from H2 database");
-        return customerRepository.findAll().stream()
+        List<CustomerEntity> entities = customerRepository.findAll();
+        return entities.stream()
                 .map(this::convertToResponse)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
-        log.info("V2: Creating new customer into H2 database");
-        
-
         CustomerEntity entity = new CustomerEntity();
-        BeanUtils.copyProperties(request, entity);
         
-        entity.setId(null);
-
+        entity.setFullName(request.getFullName());
+        entity.setEmail(request.getEmail());
+        entity.setPhoneNumber(request.getPhoneNumber());
+        
+        entity.setCreatedAt(ZonedDateTime.now());
+        entity.setUpdatedAt(ZonedDateTime.now());
+        
         CustomerEntity savedEntity = customerRepository.save(entity);
         return convertToResponse(savedEntity);
     }
 
     public CustomerResponse getCustomerById(Long id) {
-        log.info("V2: Fetching customer with ID: {}", id);
         CustomerEntity entity = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
         return convertToResponse(entity);
     }
 
-    public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
-        log.info("V2: Updating customer with ID: {}", id);
-        CustomerEntity entity = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan"));
+    public CustomerResponse getCustomerByEmail(String email) {
+        CustomerEntity entity = customerRepository.findFirstByEmailContainingIgnoreCase(email);
+        return convertToResponse(entity);
+    }
 
+    public CustomerResponse updateCustomer(Long id, PutCustomerRequest request) {
+        CustomerEntity entity = customerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+        
         entity.setFullName(request.getFullName());
         entity.setEmail(request.getEmail());
         entity.setPhoneNumber(request.getPhoneNumber());
+        
+        entity.setUpdatedAt(ZonedDateTime.now());
+        
+        CustomerEntity updatedEntity = customerRepository.save(entity);
+        return convertToResponse(updatedEntity);
+    }
+
+    public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
+        CustomerEntity entity = customerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
+
+        if (request.getFullName() != null) entity.setFullName(request.getFullName());
+        if (request.getEmail() != null) entity.setEmail(request.getEmail());
+        if (request.getPhoneNumber() != null) entity.setPhoneNumber(request.getPhoneNumber());
+
+        entity.setUpdatedAt(ZonedDateTime.now());
 
         CustomerEntity updatedEntity = customerRepository.save(entity);
         return convertToResponse(updatedEntity);
     }
 
     public void deleteCustomerById(Long id) {
-        log.info("V2: Deleting customer with ID: {}", id);
         if (!customerRepository.existsById(id)) {
-            throw new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found");
         }
         customerRepository.deleteById(id);
     }
@@ -81,8 +114,13 @@ public class CustomerServiceV2 {
     }
 
     private CustomerResponse convertToResponse(CustomerEntity entity) {
-        CustomerResponse response = new CustomerResponse();
-        BeanUtils.copyProperties(entity, response);
-        return response;
+        return CustomerResponse.builder()
+                .id(entity.getId())
+                .fullName(entity.getFullName())
+                .email(entity.getEmail())
+                .phoneNumber(entity.getPhoneNumber())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt()) 
+                .build();
     }
 }
