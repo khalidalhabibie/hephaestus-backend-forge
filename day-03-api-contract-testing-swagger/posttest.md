@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari API 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+API contract adalah kesepakatan yang berisikan bagaimana client dan server saling berkomunikasi, termasuk HTTP method yang ada.
 ```
 
 ### 2. Apa saja isi API contract?
@@ -17,7 +17,13 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Endpoint;
+- HTTP Method (e.g. GET, POST, PUT, PATCH, DELETE);
+- Request parameter;
+- Request body;
+- Response body;
+- Status code; and;
+- etc.
 ```
 
 ### 3. Kenapa API contract penting untuk frontend/mobile developer?
@@ -25,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karene frontend membutuhkan komunikasi dengan API, sehingga API contract dapat menjadi pacuan bagi frontend dalam menggunakan API tanpa menunggu proses development backend selesai. 
 ```
 
 ### 4. Apa itu DTO?
@@ -33,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DTO adalah object yang digunakan untuk mengirim dan menerima data antara client dan server.
 ```
 
 ### 5. Apa bedanya request DTO dan response DTO?
@@ -41,7 +47,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request DTO -> menerima data dari client.
+Response DTO -> mengirim data ke client.
 ```
 
 ### 6. Kenapa DTO dan model sebaiknya dipisah?
@@ -49,7 +56,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena code akan menjadi lebih rapih dan hal ini menyebabkan proses pembacaan dan pengelolaan kode menjadi lebih baik. Database juga tidak akan langsung terakses, meningkatkan perlindungan data.
 ```
 
 ### 7. Apa fungsi @JsonProperty?
@@ -57,7 +64,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@JsonProperty berfungsi untuk menentukannama field yang digunakan (e.g. name, age, salary).
 ```
 
 ### 8. Apa fungsi @RequestBody?
@@ -65,7 +72,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@RequestBody berfungsi untuk mengambil data dari request body.
 ```
 
 ### 9. Apa fungsi @PathVariable?
@@ -73,7 +80,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@PathVariable berfungsi untuk mengambil nilai parameter yang berada di URL atau endpoint (e.g. mengambil ID pada /customers/id sehingga data yang diambil hanya data dengan ID tersebut).
 ```
 
 ### 10. Apa fungsi @Valid?
@@ -81,7 +88,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Valid berfungsi untuk menjalankan validasi data request.
 ```
 
 ### 11. Apa perbedaan POST dan GET?
@@ -89,7 +96,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+POST -> membuat data baru yang belum exist (e.g. data Customer baru).
+GET -> mengambil data (e.g. data Customer dengan ID tertentu atau list Customers).
 ```
 
 ### 12. Apa perbedaan PUT dan PATCH?
@@ -97,7 +105,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+PUT -> mengubah seluruh data yang ada (e.g. mengubah seluruh field pada data Customer).
+PATCH -> mengubah sebagian data yang ada (e.g. mengubah fiel name Customer saja).
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -105,7 +114,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+201 Created digunakan ketika proses pembuatan data baru berhasil dilakukan.
 ```
 
 ### 14. Kapan menggunakan 200 OK?
@@ -113,7 +122,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+200 OK digunakan ketikan request berhasil diproses dan menampilkan hasil yang diminta.
 ```
 
 ### 15. Kapan menggunakan 400 Bad Request?
@@ -121,7 +130,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+400 Bad Request digunakan ketikan request yang dikirim client ke server tidak valid (e.g. format data salah, email tidak menggunakan format mail).
 ```
 
 ### 16. Kapan menggunakan 404 Not Found?
@@ -129,7 +138,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+404 Not Found ketika data yang di-request tidak ditemukan.
 ```
 
 ### 17. Apa itu API testing?
@@ -137,7 +146,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+API testing adalah proses testing pengujian API untuk memastikan API bekerja sesuai dengan ketetapan yang ditentukan di awal.
 ```
 
 ### 18. Apa saja yang perlu dicek saat API testing?
@@ -145,7 +154,11 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Endpoint;
+- Status code dari setiap request;
+- JSON hasil request;
+- Error handling;
+- etc.
 ```
 
 ### 19. Apa perbedaan actual response dan expected response?
@@ -153,7 +166,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Actual response -> hasil yang benar-benar dikembalikan ketika transfering data melalui API.
+Expected response -> hasil yang seharusnya dikembalikan berdasarkan API contract yang sudah dibuat.
 ```
 
 ### 20. Apa itu Swagger?
@@ -161,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Swagger adalah tools yang membantu mendokumentasikan proses pengujian API berbasis OpenAPI.
 ```
 
 ### 21. Apa itu OpenAPI?
@@ -169,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+OpenAPi adalah spesifikasi API dalam format JSON.
 ```
 
 ### 22. Apa manfaat Swagger UI?
@@ -177,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Swagger UI bermanfaat untuk mendokumentasikan API secara otomatis, sehingga proses testing dapat berlangsung dengan lebih cepat dan baik menyesuaikan API contract yang sudah dibuat sebelumnya.
 ```
 
 ### 23. URL apa yang digunakan untuk membuka Swagger UI?
@@ -185,7 +199,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ### 24. URL apa yang digunakan untuk membuka OpenAPI JSON?
@@ -193,7 +207,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+http://localhost:8080/v3/api-docs
 ```
 
 ### 25. Apa fungsi @Tag?
@@ -201,7 +215,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Tag berfungsi untuk mengelompokan endpoint API di Swagger UI.
 ```
 
 ### 26. Apa fungsi @Operation?
@@ -209,7 +223,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Operation berfungsi untuk memberikan informasi mengenai endpoint API.
 ```
 
 ### 27. Apa fungsi @ApiResponse?
@@ -217,7 +231,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ApiResponse berfungsi untuk mendokumentasikan response yang mungkin dikembalikan oleh endpoint.
 ```
 
 ### 28. Apa perbedaan Swagger UI dan Postman?
@@ -225,7 +239,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Swagger UI -> mendokumentasi API secara otomatis dan sangat baik digunakan untuk testing API dengan menyesuaikan API contract.
+Postman -> hanya untuk testing API yang tidak terintegrasi dengan OpenAPI.
 ```
 
 ### 29. Apa yang harus dicek jika Swagger UI 404?
@@ -233,7 +248,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Mengecek dependency dan URL yang digunakan.
 ```
 
 ### 30. Bagian mana yang paling sulit dari Day 3?
@@ -241,7 +256,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memahami semuanya secara keseluruhan dari flow awal.
 ```
 
 ## Reflection
@@ -249,20 +264,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. Membuat API Contract
+2. Melakukan testing menggunakan Swagger UI
+3. Mendokumentasikan API testing menggunakan Swagger
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. Fitur Swagger secara detail
+2. Flow secara konsistennya
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+Bagaimana API Contract dapat menjadi patokan yang terintegrasi serta konsisten antara backend dan frontend.
 ```
