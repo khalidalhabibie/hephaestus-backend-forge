@@ -87,11 +87,13 @@ None
       "phone_number": "08123456789"
     }
   ],
-  "page": 0,
-  "size": 10,
-  "total_pages": 3,
-  "has_next": true,
-  "has_previous": false
+  "meta_data": {
+    "page": 0,
+    "size": 10,
+    "total_pages": 3,
+    "has_next": true,
+    "has_previous": false
+  }
 }
 ```
 
