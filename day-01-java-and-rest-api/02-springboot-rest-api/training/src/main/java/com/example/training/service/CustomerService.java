@@ -6,9 +6,7 @@ import java.util.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.stereotype.Service;
-import com.example.training.controller.*;
-import com.example.training.exception.GlobalExceptionHandler;
-import com.example.training.service.*;
+
 import com.example.training.exception.CustomerNotFoundException;
 
 // Class ini adalah Service layer yang berisi logika bisnis untuk mengelola data Customer.
@@ -74,6 +72,18 @@ public class CustomerService {
         return response;
     }
 
+    
+    public CustomerResponse deleteCustomer(long id) throws CustomerNotFoundException {
+        Customer kastomer = customerStorage.get(id);
+        if (kastomer == null) {
+            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id: " + id, null);
+            // throw new CustomerNotFoundException(String.format("Customer not found with id: %s", id), null, null);
+        }
+        
+        customerStorage.remove(id);
+        CustomerResponse response = new CustomerResponse(kastomer.getId(), kastomer.getFullName(), kastomer.getEmail(), kastomer.getPhoneNumber());
+        return response;
+    }
     public CustomerResponse updateCustomer(@PathVariable Long id, CreateCustomerRequest entity) throws CustomerNotFoundException {
         Customer kastomer = customerStorage.get(id);
 
@@ -92,15 +102,27 @@ public class CustomerService {
         
     }
 
-    public CustomerResponse deleteCustomer(long id) throws CustomerNotFoundException {
-    Customer kastomer = customerStorage.get(id);
-        if (kastomer == null) {
-            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer not found with id: " + id, null);
-            // throw new CustomerNotFoundException(String.format("Customer not found with id: %s", id), null, null);
+    public CustomerResponse patchCustomer(@PathVariable Long id, PatchCustomerRequest broski) {
+        Customer kastomer = customerStorage.get(id);
+
+        if(kastomer == null) {
+            throw new CustomerNotFoundException("CUSTOMER_NOT_FOUND", "Customer dengan id " + id + "tidak ditemukan", null);
+
+        }
+        if(broski.getFullName() != null){
+            kastomer.setFullName(broski.getFullName());
+        }
+        if(broski.getEmail() != null){
+            kastomer.setEmail(broski.getEmail());
+        }
+        if(broski.getPhoneNumber() != null){
+            kastomer.setPhoneNumber(broski.getPhoneNumber());
         }
 
-        customerStorage.remove(id);
+        customerStorage.put(id, kastomer);
+
         CustomerResponse response = new CustomerResponse(kastomer.getId(), kastomer.getFullName(), kastomer.getEmail(), kastomer.getPhoneNumber());
+
         return response;
     }
 
@@ -121,4 +143,5 @@ public class CustomerService {
 
         return response;
     }
+
 }
