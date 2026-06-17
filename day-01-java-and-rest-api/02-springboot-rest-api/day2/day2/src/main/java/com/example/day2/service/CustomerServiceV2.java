@@ -2,9 +2,13 @@ package com.example.day2.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.time.ZonedDateTime;
 import java.util.List;
 import com.example.day2.dto.CreateCustomerRequest;
 import com.example.day2.dto.CustomerResponse;
+import com.example.day2.dto.PatchCustomerRequest;
+import com.example.day2.dto.PutCustomerRequest;
 import com.example.day2.model.CustomerEntity;
 import com.example.day2.repository.CustomerRepository;
 import com.example.day2.utils.CustomerNotFoundException;
@@ -36,6 +40,7 @@ public class CustomerServiceV2 {
         BeanUtils.copyProperties(request, entity);
         
         entity.setId(null);
+        entity.setCreatedAt(ZonedDateTime.now());
 
         CustomerEntity savedEntity = customerRepository.save(entity);
         return convertToResponse(savedEntity);
@@ -48,7 +53,7 @@ public class CustomerServiceV2 {
         return convertToResponse(entity);
     }
 
-    public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
+    public CustomerResponse putCustomer(Long id, PutCustomerRequest request) {
         log.info("V2: Updating customer with ID: {}", id);
         CustomerEntity entity = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan"));
@@ -56,7 +61,31 @@ public class CustomerServiceV2 {
         entity.setFullName(request.getFullName());
         entity.setEmail(request.getEmail());
         entity.setPhoneNumber(request.getPhoneNumber());
+        entity.setUpdatedAt(ZonedDateTime.now());
+        
 
+        CustomerEntity updatedEntity = customerRepository.save(entity);
+        return convertToResponse(updatedEntity);
+    }
+
+    public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
+        log.info("V2: Updating customer with ID: {}", id);
+        CustomerEntity entity = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer dengan ID " + id + " tidak ditemukan"));
+        
+        if (request.getFullName() != null) {
+            entity.setFullName(request.getFullName());
+        }
+    
+        if (request.getEmail() != null) {
+            entity.setEmail(request.getEmail());
+        }
+        
+        if (request.getPhoneNumber() != null) {
+            entity.setPhoneNumber(request.getPhoneNumber());
+        }
+        
+        entity.setUpdatedAt(ZonedDateTime.now());
         CustomerEntity updatedEntity = customerRepository.save(entity);
         return convertToResponse(updatedEntity);
     }

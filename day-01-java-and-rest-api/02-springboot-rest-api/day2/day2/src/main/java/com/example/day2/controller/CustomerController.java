@@ -12,7 +12,8 @@ import com.example.day2.dto.WebResponse;
 import com.example.day2.service.CustomerService;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/v0/customers")
+@Deprecated
 public class CustomerController {
 
     private final CustomerService customerService;
