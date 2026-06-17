@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCustomerRequest {
+public class UpdateCustomerRequest {
   @JsonProperty("full_name")
   @NotBlank
   @Size(min = 3, max = 100)

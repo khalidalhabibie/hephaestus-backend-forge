@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import com.adnan.exercisespring.dto.CreateCustomerRequest;
+import com.adnan.exercisespring.dto.UpdateCustomerRequest;
 import com.adnan.exercisespring.dto.CustomerResponse;
+import com.adnan.exercisespring.dto.PatchCustomerRequest;
 import com.adnan.exercisespring.exception.CustomerNotFoundException;
 import com.adnan.exercisespring.model.Customer;
 
@@ -17,7 +19,7 @@ public class CustomerService {
   private Long sequence = 1L;
 
   public CustomerResponse createCustomer(CreateCustomerRequest entity) {
-    CustomerResponse customerResponse = new CustomerResponse(entity.getFullName(), entity.getEmail(),
+    CustomerResponse customerResponse = new CustomerResponse(sequence, entity.getFullName(), entity.getEmail(),
         entity.getPhoneNumber());
 
     Customer customer = new Customer(sequence, customerResponse.getFullName(), customerResponse.getEmail(),
@@ -58,7 +60,7 @@ public class CustomerService {
     return customerResponse;
   }
 
-  public CustomerResponse updateCustomer(long id, CreateCustomerRequest entity) {
+  public CustomerResponse updateCustomer(long id, UpdateCustomerRequest entity) {
     Customer customer = customerStorage.get(id);
     if (customer == null) {
       throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
@@ -66,6 +68,29 @@ public class CustomerService {
     customer.setFullName(entity.getFullName());
     customer.setEmail(entity.getEmail());
     customer.setPhoneNumber(entity.getPhoneNumber());
+
+    customerStorage.put(id, customer);
+
+    CustomerResponse response = new CustomerResponse(customer.getId(), customer.getFullName(), customer.getEmail(),
+        customer.getPhoneNumber());
+    return response;
+  }
+
+  public CustomerResponse patchCustomer(long id, PatchCustomerRequest entity) {
+    Customer customer = customerStorage.get(id);
+    if (customer == null) {
+      throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
+    }
+
+    if (entity.getFullName() != null) {
+      customer.setFullName(entity.getFullName());
+    }
+    if (entity.getEmail() != null) {
+      customer.setEmail(entity.getEmail());
+    }
+    if (entity.getPhoneNumber() != null) {
+      customer.setPhoneNumber(entity.getPhoneNumber());
+    }
 
     customerStorage.put(id, customer);
 
