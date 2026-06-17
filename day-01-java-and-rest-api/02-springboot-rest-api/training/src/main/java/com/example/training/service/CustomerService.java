@@ -2,6 +2,8 @@ package com.example.training.service;
 
 import com.example.training.dto.*;
 import com.example.training.model.*;
+
+import java.time.ZonedDateTime;
 import java.util.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,26 +25,37 @@ public class CustomerService {
 
     // Method ini untuk mengambil semua data Customer yang ada di customerStorage,
     // lalu dikonversi satu per satu menjadi CustomerResponse dan dikumpulkan dalam List
-    public List<CustomerResponse> getCustomers() {
-        List<CustomerResponse> responses = new ArrayList<>();
-        for (Customer customer : customerStorage.values()) {
-            CustomerResponse customerResponse = new CustomerResponse();
-            customerResponse.setId(customer.getId());
-            customerResponse.setFullName(customer.getFullName());
-            customerResponse.setEmail(customer.getEmail());
-            customerResponse.setPhoneNumber(customer.getPhoneNumber());
-            customerResponse.setCreatedAt(customer.getCreatedAt());
-            customerResponse.setUpdatedAt(customer.getUpdatedAt());
-
-            responses.add(customerResponse);
+    public PageResponse<CustomerResponse> getCustomers(String email, int page, int size) {
+    List<CustomerResponse> all = new ArrayList<>();
+    for (Customer customer : customerStorage.values()) {
+        if (email != null && !customer.getEmail().equalsIgnoreCase(email)) {
+            continue;
         }
-        return responses;
+        CustomerResponse cr = new CustomerResponse();
+        cr.setId(customer.getId());
+        cr.setFullName(customer.getFullName());
+        cr.setEmail(customer.getEmail());
+        cr.setPhoneNumber(customer.getPhoneNumber());
+        cr.setCreatedAt(customer.getCreatedAt());
+        cr.setUpdatedAt(customer.getUpdatedAt());
+        all.add(cr);
     }
+
+    // manual pagination
+    int fromIndex = page * size;
+    int toIndex = Math.min(fromIndex + size, all.size());
+    List<CustomerResponse> paged = fromIndex >= all.size() ? new ArrayList<>() : all.subList(fromIndex, toIndex);
+
+    return new PageResponse<>(paged, page, size, all.size());
+    // note: total_pages dihitung dari all.size(), bukan paged
+}
 
     // Method ini untuk membuat Customer baru berdasarkan data yang dikirim dari request.
     // Customer disimpan ke customerStorage, lalu dikembalikan sebagai CustomerResponse.
     public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest entity) {
-        Customer newCustomer = new Customer(sequence, entity.getFullName(), entity.getEmail(), entity.getPhoneNumber(), entity.getCreatedAt(), entity.getUpdatedAt());
+        ZonedDateTime now = ZonedDateTime.now();
+        Customer newCustomer = new Customer(sequence, entity.getFullName(), entity.getEmail(), entity.getPhoneNumber(), now, now);
+        
         customerStorage.put(sequence, newCustomer);
         sequence++;
 
@@ -99,8 +112,8 @@ public class CustomerService {
         kastomer.setFullName(entity.getFullName());
         kastomer.setEmail(entity.getEmail());
         kastomer.setPhoneNumber(entity.getPhoneNumber());
-        kastomer.setCreatedAt(entity.getCreatedAt());
-        kastomer.setUpdatedAt(entity.getUpdatedAt());
+        kastomer.setCreatedAt(ZonedDateTime.now());
+        kastomer.setUpdatedAt(ZonedDateTime.now());
         customerStorage.put(id, kastomer);
 
         CustomerResponse response = new CustomerResponse(kastomer.getId(), kastomer.getFullName(), kastomer.getEmail(), kastomer.getPhoneNumber(), kastomer.getCreatedAt(), kastomer.getUpdatedAt());

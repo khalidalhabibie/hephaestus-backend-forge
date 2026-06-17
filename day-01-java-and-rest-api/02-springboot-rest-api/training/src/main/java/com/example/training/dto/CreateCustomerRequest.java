@@ -22,31 +22,30 @@ public class CreateCustomerRequest {
     @Min(10)
     @JsonProperty("phone_number")
     private String phoneNumber;
-    @JsonProperty("created_at")
-    private ZonedDateTime createdAt;
-    @JsonProperty("updated_at")
-    private ZonedDateTime updatedAt;
+    // @JsonProperty("created_at")
+    // private ZonedDateTime createdAt;
+    // @JsonProperty("updated_at")
+    // private ZonedDateTime updatedAt;
 
     public CreateCustomerRequest(@NotBlank @Size(min = 3, max = 100) String fullName, @NotNull @Email String email,
         @NotNull @Min(10) String phoneNumber, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        // this.createdAt = createdAt;
+        // this.updatedAt = updatedAt;
     }
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    public ZonedDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-    public void setUpdatedAt(ZonedDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    // public ZonedDateTime getCreatedAt() {
+    //     return createdAt;
+    // }
+    // public void setCreatedAt(ZonedDateTime createdAt) {
+    //     this.createdAt = createdAt;
+    // }
+    // public ZonedDateTime getUpdatedAt() {
+    //     return updatedAt;
+    // }
+    // public void setUpdatedAt(ZonedDateTime updatedAt) {
+        // this.updatedAt = updatedAt;
     // nah ini getter and setter 
     public String getFullName() {
         return fullName;
