@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.main.dto.CreateCustomerRequest;
 import com.example.main.dto.CustomerResponse;
+import com.example.main.dto.PatchCustomerRequest;
 import com.example.main.exceptions.CustomerNotFoundException;
 import com.example.main.models.Customer;
 import com.example.main.repositories.CustomerRepository;
@@ -71,6 +72,29 @@ public class CustomerService {
         return customerRepository.searchByName(name).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
+        Customer existingCustomer = customerRepository.findById(id);
+        if (existingCustomer == null) {
+            throw new CustomerNotFoundException(id); 
+        }
+
+        if (request.getFullName() != null) {
+            existingCustomer.setFullName(request.getFullName());
+        }
+        
+        if (request.getEmail() != null) {
+            existingCustomer.setEmail(request.getEmail());
+        }
+        
+        if (request.getPhoneNumber() != null) {
+            existingCustomer.setPhoneNumber(request.getPhoneNumber());
+        }
+
+        Customer updatedCustomer = customerRepository.save(existingCustomer);
+        
+        return toResponse(updatedCustomer);
     }
 
     private CustomerResponse toResponse(Customer customer) {
