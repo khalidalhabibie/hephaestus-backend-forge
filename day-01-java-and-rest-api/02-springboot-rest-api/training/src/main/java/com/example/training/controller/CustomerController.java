@@ -85,7 +85,7 @@ public class CustomerController {
     }
 
     @PatchMapping("/{id}")
-    @Operation(summary = "Update customer data.", description = "Updates customer data based on id.")
+    @Operation(summary = "Update customer data.", description = "Updates selected fields in customer data based on id.")
     @ApiResponse(responseCode = "200", description = "Customer data updated successfully.")
     @ApiResponse(responseCode = "401", description = "Customer not found.")
     public ResponseEntity<CustomerResponse> patchCustomer(@PathVariable Long id, @Valid @RequestBody PatchCustomerRequest request) {
