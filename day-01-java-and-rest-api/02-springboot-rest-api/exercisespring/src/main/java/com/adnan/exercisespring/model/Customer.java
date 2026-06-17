@@ -1,6 +1,6 @@
 package com.adnan.exercisespring.model;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +20,6 @@ public class Customer {
     this.phoneNumber = phoneNumber;
   }
 
-  private LocalDateTime createdAt;
-  private LocalDateTime updatedAt;
+  private ZonedDateTime createdAt;
+  private ZonedDateTime updatedAt;
 }

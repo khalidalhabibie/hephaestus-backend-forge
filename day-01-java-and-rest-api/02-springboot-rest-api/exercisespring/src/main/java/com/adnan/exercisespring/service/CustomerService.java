@@ -1,6 +1,6 @@
 package com.adnan.exercisespring.service;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ public class CustomerService {
   private Long sequence = 1L;
 
   public CustomerResponse createCustomer(CreateCustomerRequest entity) {
-    LocalDateTime now = LocalDateTime.now();
+    ZonedDateTime now = ZonedDateTime.now();
 
     CustomerResponse customerResponse = new CustomerResponse(sequence, entity.getFullName(), entity.getEmail(),
         entity.getPhoneNumber());
@@ -75,7 +75,7 @@ public class CustomerService {
   }
 
   public CustomerResponse updateCustomer(long id, UpdateCustomerRequest entity) {
-    LocalDateTime now = LocalDateTime.now();
+    ZonedDateTime now = ZonedDateTime.now();
 
     Customer customer = customerStorage.get(id);
     if (customer == null) {
@@ -97,7 +97,7 @@ public class CustomerService {
   }
 
   public CustomerResponse patchCustomer(long id, PatchCustomerRequest entity) {
-    LocalDateTime now = LocalDateTime.now();
+    ZonedDateTime now = ZonedDateTime.now();
 
     Customer customer = customerStorage.get(id);
     if (customer == null) {

@@ -1,6 +1,6 @@
 package com.adnan.exercisespring.dto;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,8 +30,8 @@ public class CustomerResponse {
     }
 
     @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
+    private ZonedDateTime updatedAt;
 }
