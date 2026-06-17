@@ -1,10 +1,12 @@
 package com.fif.training.exercisespringboot.Model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
+@Builder
 public class Customer {
 
     private Long id;
