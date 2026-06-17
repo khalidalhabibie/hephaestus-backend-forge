@@ -50,8 +50,9 @@ public class CustomerController {
   @GetMapping
   @Operation(summary = "Get customer list", description = "Get all customers")
   @ApiResponse(responseCode = "200", description = "Customer list returned")
-  public ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestParam(required = false) String name) {
-    return ResponseEntity.ok(customerService.getAllCustomers(name));
+  public ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestParam(required = false) String name,
+      @RequestParam(required = false) String email) {
+    return ResponseEntity.ok(customerService.getAllCustomers(name, email));
   }
 
   @GetMapping("/{id}")

@@ -64,6 +64,9 @@ Optional query parameter:
 
 ```text
 ?name=Budi
+&email=budi@mail.com
+&page=0
+&size=10
 ```
 
 ### Request Body
@@ -75,14 +78,21 @@ None
 **Status:** `200 OK`
 
 ```json
-[
-  {
-    "email": "budi@mail.com",
-    "full_name": "Budi Santoso",
-    "id": 1,
-    "phone_number": "08123456789"
-  }
-]
+{
+  "data": [
+    {
+      "id": 1,
+      "full_name": "Budi Santoso",
+      "email": "budi@mail.com",
+      "phone_number": "08123456789"
+    }
+  ],
+  "page": 0,
+  "size": 10,
+  "total_pages": 3,
+  "has_next": true,
+  "has_previous": false
+}
 ```
 
 ### Error Response

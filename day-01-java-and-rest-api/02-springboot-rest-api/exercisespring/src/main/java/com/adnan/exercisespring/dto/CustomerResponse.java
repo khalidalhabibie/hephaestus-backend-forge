@@ -1,5 +1,7 @@
 package com.adnan.exercisespring.dto;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -20,10 +22,16 @@ public class CustomerResponse {
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    public CustomerResponse(String fullName, String email, String phoneNumber) {
+    public CustomerResponse(Long id, String fullName, String email, String phoneNumber) {
+        this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 }

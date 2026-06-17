@@ -1,5 +1,6 @@
 package com.adnan.exercisespring.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,17 +20,23 @@ public class CustomerService {
   private Long sequence = 1L;
 
   public CustomerResponse createCustomer(CreateCustomerRequest entity) {
+    LocalDateTime now = LocalDateTime.now();
+
     CustomerResponse customerResponse = new CustomerResponse(sequence, entity.getFullName(), entity.getEmail(),
         entity.getPhoneNumber());
+    customerResponse.setCreatedAt(now);
+    customerResponse.setUpdatedAt(now);
 
     Customer customer = new Customer(sequence, customerResponse.getFullName(), customerResponse.getEmail(),
         customerResponse.getPhoneNumber());
+    customer.setCreatedAt(now);
+    customer.setUpdatedAt(now);
     customerStorage.put(sequence++, customer);
 
     return customerResponse;
   }
 
-  public List<CustomerResponse> getAllCustomers(String searchByName) {
+  public List<CustomerResponse> getAllCustomers(String searchByName, String searchByEmail) {
     List<Customer> customerList = new ArrayList<>(customerStorage.values());
     List<CustomerResponse> result = new ArrayList<>();
 
@@ -38,9 +45,14 @@ public class CustomerService {
       if (searchByName != null && !customer.getFullName().toLowerCase().contains(searchByName.toLowerCase())) {
         match = false;
       }
+      if (searchByEmail != null && !customer.getEmail().toLowerCase().contains(searchByEmail.toLowerCase())) {
+        match = false;
+      }
       if (match) {
         CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFullName(),
             customer.getEmail(), customer.getPhoneNumber());
+        customerResponse.setCreatedAt(customer.getCreatedAt());
+        customerResponse.setUpdatedAt(customer.getUpdatedAt());
         result.add(customerResponse);
       }
     }
@@ -57,10 +69,14 @@ public class CustomerService {
     CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFullName(),
         customer.getEmail(),
         customer.getPhoneNumber());
+    customerResponse.setCreatedAt(customer.getCreatedAt());
+    customerResponse.setUpdatedAt(customer.getUpdatedAt());
     return customerResponse;
   }
 
   public CustomerResponse updateCustomer(long id, UpdateCustomerRequest entity) {
+    LocalDateTime now = LocalDateTime.now();
+
     Customer customer = customerStorage.get(id);
     if (customer == null) {
       throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
@@ -68,15 +84,21 @@ public class CustomerService {
     customer.setFullName(entity.getFullName());
     customer.setEmail(entity.getEmail());
     customer.setPhoneNumber(entity.getPhoneNumber());
+    customer.setUpdatedAt(now);
 
     customerStorage.put(id, customer);
 
-    CustomerResponse response = new CustomerResponse(customer.getId(), customer.getFullName(), customer.getEmail(),
+    CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFullName(),
+        customer.getEmail(),
         customer.getPhoneNumber());
-    return response;
+    customerResponse.setCreatedAt(customer.getCreatedAt());
+    customerResponse.setUpdatedAt(now);
+    return customerResponse;
   }
 
   public CustomerResponse patchCustomer(long id, PatchCustomerRequest entity) {
+    LocalDateTime now = LocalDateTime.now();
+
     Customer customer = customerStorage.get(id);
     if (customer == null) {
       throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));
@@ -91,12 +113,16 @@ public class CustomerService {
     if (entity.getPhoneNumber() != null) {
       customer.setPhoneNumber(entity.getPhoneNumber());
     }
+    customer.setUpdatedAt(now);
 
     customerStorage.put(id, customer);
 
-    CustomerResponse response = new CustomerResponse(customer.getId(), customer.getFullName(), customer.getEmail(),
+    CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFullName(),
+        customer.getEmail(),
         customer.getPhoneNumber());
-    return response;
+    customerResponse.setCreatedAt(customer.getCreatedAt());
+    customerResponse.setUpdatedAt(now);
+    return customerResponse;
   }
 
   public CustomerResponse deleteCustomer(long id) {
@@ -107,8 +133,11 @@ public class CustomerService {
 
     customerStorage.remove(id);
 
-    CustomerResponse response = new CustomerResponse(customer.getId(), customer.getFullName(), customer.getEmail(),
+    CustomerResponse customerResponse = new CustomerResponse(customer.getId(), customer.getFullName(),
+        customer.getEmail(),
         customer.getPhoneNumber());
-    return response;
+    customerResponse.setCreatedAt(customer.getCreatedAt());
+    customerResponse.setUpdatedAt(customer.getUpdatedAt());
+    return customerResponse;
   }
 }
