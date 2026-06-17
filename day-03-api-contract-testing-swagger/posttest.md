@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari API 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+kesepakatan antara backend dan frontend tentang bagaimana API digunakan (endpoint, request, response, dll)
 ```
 
 ### 2. Apa saja isi API contract?
@@ -17,7 +17,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+endpoint, HTTP method, request, response, status code, dan format data
 ```
 
 ### 3. Kenapa API contract penting untuk frontend/mobile developer?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena menjadi kesepakatan resmi antara frontend/mobile dan backend
 ```
 
 ### 4. Apa itu DTO?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+object untuk transfer data antara layer (dari controller ke client)
 ```
 
 ### 5. Apa bedanya request DTO dan response DTO?
@@ -41,7 +41,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+request DTO -> Objek yang dikirim dari client (frontend/mobile) ke backend
+
+response DTO -> Objek yang dikirim dari backend ke client
 ```
 
 ### 6. Kenapa DTO dan model sebaiknya dipisah?
@@ -49,7 +51,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar lebih aman, fleksibel, dan tidak terhubung ke database langsung
 ```
 
 ### 7. Apa fungsi @JsonProperty?
@@ -57,7 +59,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk mapping nama field JSON ke field di Java
 ```
 
 ### 8. Apa fungsi @RequestBody?
@@ -65,7 +67,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengubah (deserialize) data dari format request (biasanya JSON) menjadi object (DTO) di backend
 ```
 
 ### 9. Apa fungsi @PathVariable?
@@ -73,7 +75,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengambil data langsung dari URL (endpoint) dan mengubahnya menjadi parameter di method
 ```
 
 ### 10. Apa fungsi @Valid?
@@ -81,7 +83,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memastikan data request sesuai aturan validasi sebelum diproses oleh backend
 ```
 
 ### 11. Apa perbedaan POST dan GET?
@@ -89,7 +91,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- POST = membuat atau submit data
+- GET = mengambil data
 ```
 
 ### 12. Apa perbedaan PUT dan PATCH?
@@ -97,7 +100,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- PUT = update semua field
+- PATCH = hanya sebagian field
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -105,7 +109,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat berhasil membuat data baru
 ```
 
 ### 14. Kapan menggunakan 200 OK?
@@ -113,7 +117,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat request berhasil diproses
 ```
 
 ### 15. Kapan menggunakan 400 Bad Request?
@@ -121,7 +125,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat request tidak valid atau error dari client
 ```
 
 ### 16. Kapan menggunakan 404 Not Found?
@@ -129,7 +133,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat data yang dicari tidak ditemukan
 ```
 
 ### 17. Apa itu API testing?
@@ -137,7 +141,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+menguji API untuk memastikan berjalan sesuai fungsi
 ```
 
 ### 18. Apa saja yang perlu dicek saat API testing?
@@ -145,7 +149,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+status code, response body, error handling, dan validasi data
 ```
 
 ### 19. Apa perbedaan actual response dan expected response?
@@ -153,7 +157,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- actual response = response yang benar-benar diterima dari sistem saat dijalankan
+
+- expected response = response yang diharapkan sesuai dengan API contract
 ```
 
 ### 20. Apa itu Swagger?
@@ -161,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+tool untuk dokumentasi dan testing API secara otomatis
 ```
 
 ### 21. Apa itu OpenAPI?
@@ -169,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+standar spesifikasi untuk mendefinisikan API
 ```
 
 ### 22. Apa manfaat Swagger UI?
@@ -177,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk melihat dan mencoba API langsung di browser
 ```
 
 ### 23. URL apa yang digunakan untuk membuka Swagger UI?
@@ -185,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ### 24. URL apa yang digunakan untuk membuka OpenAPI JSON?
@@ -193,7 +199,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+http://localhost:8080/v3/api-docs
 ```
 
 ### 25. Apa fungsi @Tag?
@@ -201,7 +207,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengelompokkan endpoint API agar lebih rapi dan mudah dibaca di Swagger UI
 ```
 
 ### 26. Apa fungsi @Operation?
@@ -209,7 +215,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memberikan deskripsi detail pada satu endpoint API
 ```
 
 ### 27. Apa fungsi @ApiResponse?
@@ -217,7 +223,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mendokumentasikan response yang mungkin dikembalikan oleh suatu endpoint API
 ```
 
 ### 28. Apa perbedaan Swagger UI dan Postman?
@@ -225,7 +231,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Swagger untuk dokumentasi dan testing API, sedangkan Postman fokus untuk testing API saja
 ```
 
 ### 29. Apa yang harus dicek jika Swagger UI 404?
@@ -233,7 +239,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+buka /v3/api-docs dan membenarkan di setup Swagger
 ```
 
 ### 30. Bagian mana yang paling sulit dari Day 3?
@@ -241,7 +247,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+cukup banyak, karena saya tidak masuk pada hari jumat karena cuti wisuda sehingga saya ketinggalan materi dan merasa belum paham secara detail
 ```
 
 ## Reflection
@@ -249,20 +255,19 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. cara mengecek API menggunakan postman
+2. cara springboot bekerja
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. syntax yang digunakan
+2. menentukan saya harus menambahkan pada file yang mana
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+apakah saya bisa menanyakan materi yang tertinggal secara privat? karena jika dikelas saya merasa diburu waktu untuk memahami (tidak semua materi masuk dengan jelas, karena pace-nya cepat)
 ```
