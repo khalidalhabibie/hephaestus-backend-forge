@@ -2,6 +2,8 @@ package com.example.training.service;
 
 import com.example.training.exception.CustomerNotFoundException;
 import com.example.training.exception.GlobalExceptionHandler;
+
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.example.training.dto.CreateCustomerRequest;
 import com.example.training.dto.CustomerResponse;
+import com.example.training.dto.PatchCustomerRequest;
 import com.example.training.dto.UpdateCustomerRequest;
 import com.example.training.model.Customer;
 
@@ -33,6 +36,8 @@ public class CustomerService {
             customerResponse.setFullName(customer.getFullName());
             customerResponse.setEmail(customer.getEmail());
             customerResponse.setPhoneNumber(customer.getPhoneNumber());
+            customerResponse.setCreatedAt(customer.getCreatedAt());
+            customerResponse.setUpdatedAt(customer.getUpdatedAt());
 
             responses.add(customerResponse);
         }
@@ -49,7 +54,8 @@ public class CustomerService {
         response.setFullName(newCust.getFullName());
         response.setEmail(newCust.getEmail());
         response.setPhoneNumber(newCust.getPhoneNumber());
-        response.setMessage("Berhasil menambahkan customer");
+        response.setCreatedAt(newCust.getCreatedAt());
+        response.setUpdatedAt(newCust.getUpdatedAt());
 
         sequence++;
         return response;
@@ -67,7 +73,8 @@ public class CustomerService {
         response.setEmail(cust.getEmail());
         response.setFullName(cust.getFullName());
         response.setPhoneNumber(cust.getPhoneNumber());
-        response.setMessage("Berhasil mendapatkan Customer");
+        response.setCreatedAt(cust.getCreatedAt());
+        response.setUpdatedAt(cust.getUpdatedAt());
 
         return response;
     }
@@ -82,6 +89,9 @@ public class CustomerService {
         response.setFullName(fullName);
         response.setEmail(email);
         response.setPhoneNumber(phoneNumber);
+        response.setCreatedAt(ZonedDateTime.now());
+        response.setUpdatedAt(ZonedDateTime.now());
+
         return response;
     }
 
@@ -98,7 +108,6 @@ public class CustomerService {
         response.setEmail(cust.getEmail());
         response.setFullName(cust.getFullName());
         response.setPhoneNumber(cust.getPhoneNumber());
-        response.setMessage("Customer id-" + id + " berhasil di delete");
 
         return response;
     }
@@ -120,6 +129,7 @@ public class CustomerService {
             cust.setPhoneNumber(entity.getPhoneNumber());
         }
 
+        cust.setUpdatedAt(ZonedDateTime.now());
         customerStorage.put(id, cust);
 
         CustomerResponse response = new CustomerResponse();
@@ -127,7 +137,6 @@ public class CustomerService {
         response.setFullName(cust.getFullName());
         response.setEmail(cust.getEmail());
         response.setPhoneNumber(cust.getPhoneNumber());
-        response.setMessage("Customer berhasil di update");
 
         return response;
     }
@@ -148,5 +157,53 @@ public class CustomerService {
         }
 
         return responses;
+    }
+
+    public List<CustomerResponse> searchCustomerByEmail(String email) {
+        List<CustomerResponse> responses = new ArrayList<>();
+
+        for (Customer customer : customerStorage.values()) {
+            if (customer.getEmail().toLowerCase().contains(email.toLowerCase())) {
+                CustomerResponse customerResponse = new CustomerResponse();
+                customerResponse.setId(customer.getId());
+                customerResponse.setFullName(customer.getFullName());
+                customerResponse.setEmail(customer.getEmail());
+                customerResponse.setPhoneNumber(customer.getPhoneNumber());
+
+                responses.add(customerResponse);
+            }
+        }
+
+        return responses;
+    }
+
+    public CustomerResponse patchCustomerById(@PathVariable Long id, @RequestBody PatchCustomerRequest entity) {
+        Customer cust = customerStorage.get(id);
+
+        if (cust == null) {
+            throw new RuntimeException("Customer dengan ID " + id + " tidak ditemukan");
+        }
+
+        // Update hanya field yang tidak null
+        if (entity.getFullName() != null && !entity.getFullName().isEmpty()) {
+            cust.setFullName(entity.getFullName());
+        }
+        if (entity.getEmail() != null && !entity.getEmail().isEmpty()) {
+            cust.setEmail(entity.getEmail());
+        }
+        if (entity.getPhoneNumber() != null && !entity.getPhoneNumber().isEmpty()) {
+            cust.setPhoneNumber(entity.getPhoneNumber());
+        }
+
+        cust.setUpdatedAt(ZonedDateTime.now());
+        customerStorage.put(id, cust);
+
+        CustomerResponse response = new CustomerResponse();
+        response.setId(cust.getId());
+        response.setFullName(cust.getFullName());
+        response.setEmail(cust.getEmail());
+        response.setPhoneNumber(cust.getPhoneNumber());
+
+        return response;
     }
 }
