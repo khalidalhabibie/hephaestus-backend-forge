@@ -1,5 +1,7 @@
 package com.andyana.exerciseday02.dto;
 
+import java.time.ZonedDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -19,4 +21,10 @@ public class CustomerResponse {
     
     @JsonProperty("phone_number")
     private String phoneNumber;
+
+    @JsonProperty("created_at")
+    private ZonedDateTime createdAt;
+    
+    @JsonProperty("updated_at")
+    private ZonedDateTime updatedAt;
 }
