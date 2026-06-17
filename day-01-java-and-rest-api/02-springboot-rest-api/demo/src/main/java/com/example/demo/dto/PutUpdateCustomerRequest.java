@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CreateCustomerRequest {
+public class PutUpdateCustomerRequest {
 
 	@JsonProperty("full_name")
 	@NotBlank
@@ -20,7 +20,6 @@ public class CreateCustomerRequest {
 	@Size(max = 10)
 	@JsonProperty("phone_number")
 	private String phoneNumber;
-	
 
 	public String getFullName() {
 		return fullName;

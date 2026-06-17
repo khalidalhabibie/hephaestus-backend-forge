@@ -1,6 +1,19 @@
 package com.example.demo.dto;
 
+import java.time.ZonedDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 
 public class CustomerResponse {
 
@@ -13,6 +26,10 @@ public class CustomerResponse {
 	private String email;
 	@JsonProperty("phone_number")
 	private String phoneNumber;
+	@JsonProperty("created_at")
+	private ZonedDateTime createdAt;
+	@JsonProperty("updated_at")
+	private ZonedDateTime updatedAt;
 
 	public Long getId() {
 		return id;
