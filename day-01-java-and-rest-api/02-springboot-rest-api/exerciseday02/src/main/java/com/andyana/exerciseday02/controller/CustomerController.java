@@ -29,7 +29,9 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody //artinya bahwa data yang dikirim oleh klien dalam body request akan diikat (bind) ke objek CreateCustomerRequest
+        @Valid //artinya bahwa objek CreateCustomerRequest yang diterima dari body request akan divalidasi berdasarkan anotasi validasi yang ada pada kelas CreateCustomerRequest. 
+        CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

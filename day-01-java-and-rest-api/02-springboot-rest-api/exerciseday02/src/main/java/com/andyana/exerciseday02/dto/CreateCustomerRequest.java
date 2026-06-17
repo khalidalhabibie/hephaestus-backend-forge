@@ -25,6 +25,6 @@ public class CreateCustomerRequest {
     
     @JsonProperty("phone_number")
     @NotBlank(message = "Mohon Isi Nomor Telepon Anda")
-    @Size(max = 10, message = "Nomor Telepon maksimal 10 karakter")
+    @Size(min = 10, max = 12, message = "Nomor Telepon harus antara 10-12 karakter")
     private String phoneNumber;
 }
