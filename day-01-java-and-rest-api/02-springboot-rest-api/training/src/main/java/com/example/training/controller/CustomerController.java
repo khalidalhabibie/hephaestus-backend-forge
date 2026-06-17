@@ -2,6 +2,7 @@ package com.example.training.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.example.training.service.CustomerService;
 import jakarta.validation.Valid;
@@ -49,6 +50,13 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
+    }
+
+    //Method Change
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponse> updateCustomerById(@PathVariable Long id, @Valid @RequestBody CreateCustomerRequest entity) {
+        CustomerResponse response = customerService.updateCustomer(id, entity);
+        return ResponseEntity.ok(response);
     }
 
     // Method ini menangani request DELETE ke "/api/v3/customers/{id}", fungsinya untuk menghapus data Customer
