@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+spring boot adalah framework backend Java
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+rest api adalah protokol yang berfungsi sebagai jembatan komunikasi
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+protokol untuk bertukar informasi di internet
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+format data berbasis teks untuk menampung data
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+endpoint adalah titik atau lokasi untuk meminta atau mengirimkan data
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+permintaan yang dikirim klien ke server melalui API
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+jawaban yang dikirim oleh server ke klien melalui API
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengambil suatu data atau membaca data dari server
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+menambahkan suatu data atau mengirim data baru ke server
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengupdate suatu data di server
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+menghapus suatu data di server
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika request berhasil dikirim dan response berhasil diproses dan ditampilkan
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -103,7 +103,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika request berhasil dikirim dan berhasil menambahkan suatu data baru
 ```
 
 ### 14. Kapan menggunakan 400 Bad Request?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+server tidak bisa membaca atau menolak request dari klien dikarenakan kesalahan dari klien
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+server tidak bisa menemukan request dari klien
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+server tidak bisa menerima request dikarenakan server mengalami masalah
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tau
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +143,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tau
 ```
 
 ### 19. Apa itu request body?
@@ -151,7 +151,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+isi dari request yang dikirim ke sever
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +159,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+berfungsi mengatur traffic request dan response
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memproses logic atau function yang nantinya akan dikirim kembali ke klien dalam bentuk response
 ```
 
 ### 22. Apa itu DTO?
@@ -175,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah template response yang ditampilkan ke klien
 ```
 
 ### 23. Apa itu Model?
@@ -183,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+model merepresentasikan struktur data dalam database
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena itu tugasnya service, controller hanya berfungsi mengoper request dan response
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +199,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar format data yang diminta dan diterima oleh klien sesuai
 ```
