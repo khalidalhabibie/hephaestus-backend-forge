@@ -210,8 +210,8 @@ Make sure JSON appears.
 
 ## Optional Challenge
 
-- Add `created_at` and `updated_at` in `CustomerResponse`.
-- Add query parameter search by email.
+- Add `created_at` and `updated_at` in `CustomerResponse`. done
+- Add query parameter search by email. done
 - Add simple pagination contract.
 - Add OpenAPI description for `ErrorResponse`.
 - Add screenshots of Swagger UI result.
