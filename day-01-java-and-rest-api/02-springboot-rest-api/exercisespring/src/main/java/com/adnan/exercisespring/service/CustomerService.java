@@ -12,14 +12,26 @@ import com.adnan.exercisespring.dto.UpdateCustomerRequest;
 import com.adnan.exercisespring.dto.CustomerResponse;
 import com.adnan.exercisespring.dto.PatchCustomerRequest;
 import com.adnan.exercisespring.exception.CustomerNotFoundException;
+import com.adnan.exercisespring.exception.ForbiddenException;
 import com.adnan.exercisespring.model.Customer;
+import com.adnan.exercisespring.security.SecurityUtil;
+import com.adnan.exercisespring.user.entity.Role;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
+  private final SecurityUtil securityUtil;
+
   private Map<Long, Customer> customerStorage = new HashMap<>();
   private Long sequence = 1L;
 
   public CustomerResponse createCustomer(CreateCustomerRequest entity) {
+    if (!securityUtil.hasRole(Role.ADMIN) && !securityUtil.hasRole(Role.STAFF)) {
+      throw new ForbiddenException("You do not have permission");
+    }
+
     ZonedDateTime now = ZonedDateTime.now();
 
     CustomerResponse customerResponse = new CustomerResponse(sequence, entity.getFullName(), entity.getEmail(),
@@ -31,6 +43,7 @@ public class CustomerService {
         customerResponse.getPhoneNumber());
     customer.setCreatedAt(now);
     customer.setUpdatedAt(now);
+
     customerStorage.put(sequence++, customer);
 
     return customerResponse;
@@ -60,7 +73,7 @@ public class CustomerService {
     return result;
   }
 
-  public CustomerResponse getCustomerById(long id) {
+  public CustomerResponse getCustomerById(Long id) {
     Customer customer = customerStorage.get(id);
     if (customer == null) {
       throw new CustomerNotFoundException(String.format("Customer not found with id: %d", id));

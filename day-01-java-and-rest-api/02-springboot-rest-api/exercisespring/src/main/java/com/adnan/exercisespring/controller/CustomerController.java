@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,13 +31,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/v1/customers")
+@RequiredArgsConstructor
 @Tag(name = "Customer API", description = "API for managing customers")
 public class CustomerController {
   private final CustomerService customerService;
-
-  public CustomerController(CustomerService customerService) {
-    this.customerService = customerService;
-  }
 
   @PostMapping
   @Operation(summary = "Create customer", description = "Create a new customer")
@@ -59,7 +57,7 @@ public class CustomerController {
   @Operation(summary = "Get customer by id", description = "Get one customer by id")
   @ApiResponse(responseCode = "200", description = "Customer found")
   @ApiResponse(responseCode = "404", description = "Customer not found")
-  public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable long id) {
+  public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
     return ResponseEntity.ok(customerService.getCustomerById(id));
   }
 
@@ -68,7 +66,7 @@ public class CustomerController {
   @ApiResponse(responseCode = "200", description = "Customer updated")
   @ApiResponse(responseCode = "400", description = "Invalid request")
   @ApiResponse(responseCode = "404", description = "Customer not found")
-  public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable long id,
+  public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id,
       @RequestBody @Valid UpdateCustomerRequest request) {
     CustomerResponse response = customerService.updateCustomer(id, request);
     return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -78,7 +76,7 @@ public class CustomerController {
   @Operation(summary = "Patch customer", description = "Update provided customer fields only")
   @ApiResponse(responseCode = "200", description = "Customer patched")
   @ApiResponse(responseCode = "404", description = "Customer not found")
-  public ResponseEntity<CustomerResponse> patchCustomer(@PathVariable long id,
+  public ResponseEntity<CustomerResponse> patchCustomer(@PathVariable Long id,
       @RequestBody @Valid PatchCustomerRequest request) {
     CustomerResponse response = customerService.patchCustomer(id, request);
     return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -88,7 +86,7 @@ public class CustomerController {
   @Operation(summary = "Delete customer", description = "Delete customer by id")
   @ApiResponse(responseCode = "200", description = "Customer deleted")
   @ApiResponse(responseCode = "404", description = "Customer not found")
-  public ResponseEntity<CustomerResponse> deleteCustomer(@PathVariable long id) {
+  public ResponseEntity<CustomerResponse> deleteCustomer(@PathVariable Long id) {
     CustomerResponse response = customerService.deleteCustomer(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }

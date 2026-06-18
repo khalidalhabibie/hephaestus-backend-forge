@@ -14,7 +14,7 @@ import com.adnan.exercisespring.dto.FieldErrorResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler {
         @ExceptionHandler(MethodArgumentNotValidException.class)
-        public ResponseEntity<ErrorResponse<Void>> badRequest(MethodArgumentNotValidException exception) {
+        public ResponseEntity<ErrorResponse<Void>> errorValidation(MethodArgumentNotValidException exception) {
                 List<FieldErrorResponse> errors = exception.getBindingResult()
                                 .getFieldErrors()
                                 .stream()
@@ -26,13 +26,46 @@ public class GlobalExceptionHandler {
                                 .body(ErrorResponse.error("VALIDATION_ERROR", "Invalid request", errors));
         }
 
+        @ExceptionHandler(BadRequestException.class)
+        public ResponseEntity<ErrorResponse<Void>> badRequest(BadRequestException exception) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(ErrorResponse.error("VALIDATION_ERROR", "Invalid request", null));
+        }
+
         @ExceptionHandler(CustomerNotFoundException.class)
-        public ResponseEntity<ErrorResponse<Void>> notFound(CustomerNotFoundException exception) {
+        public ResponseEntity<ErrorResponse<Void>> notFoundCustomer(CustomerNotFoundException exception) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                 .body(ErrorResponse.error("CUSTOMER_NOT_FOUND",
                                                 exception.getMessage() != null ? exception.getMessage()
                                                                 : "Data not found",
                                                 null));
+        }
+
+        @ExceptionHandler(LoanApplicationNotFoundException.class)
+        public ResponseEntity<ErrorResponse<Void>> notFoundLoanApplication(LoanApplicationNotFoundException exception) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(ErrorResponse.error("LOAN_APPLICATION_NOT_FOUND",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Data not found",
+                                                null));
+        }
+
+        @ExceptionHandler(NotFoundException.class)
+        public ResponseEntity<ErrorResponse<Void>> notFound(NotFoundException exception) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(ErrorResponse.error("NOT_FOUND", "Resource not found", null));
+        }
+
+        @ExceptionHandler(ForbiddenException.class)
+        public ResponseEntity<ErrorResponse<Void>> forbidden(ForbiddenException exception) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                .body(ErrorResponse.error("FORBIDDEN", "Access denied", null));
+        }
+
+        @ExceptionHandler(UnauthorizedException.class)
+        public ResponseEntity<ErrorResponse<Void>> unauthorized(UnauthorizedException exception) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(ErrorResponse.error("UNAUTHORIZED", "Authentication is required", null));
         }
 
         @ExceptionHandler(Exception.class)
