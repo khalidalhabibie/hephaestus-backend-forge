@@ -11,20 +11,14 @@ import org.springframework.stereotype.Service;
 
 import com.example.training.exception.CustomerNotFoundException;
 
-// Class ini adalah Service layer yang berisi logika bisnis untuk mengelola data Customer.
-// Data disimpan sementara di dalam Map (bukan database), jadi data akan hilang kalau aplikasi di-restart
 @Service
 public class CustomerService {
 
-    // customerStorage adalah "database sementara" berbentuk Map, key-nya adalah ID customer (Long),
-    // value-nya adalah objek Customer
+    
     private Map<Long, Customer> customerStorage = new HashMap<>();
 
-    // sequence digunakan sebagai auto-increment ID untuk setiap customer baru yang dibuat
     private Long sequence = 1L;
 
-    // Method ini untuk mengambil semua data Customer yang ada di customerStorage,
-    // lalu dikonversi satu per satu menjadi CustomerResponse dan dikumpulkan dalam List
     public PageResponse<CustomerResponse> getCustomers(String email, int page, int size) {
     List<CustomerResponse> all = new ArrayList<>();
     for (Customer customer : customerStorage.values()) {
@@ -52,7 +46,7 @@ public class CustomerService {
 
     // Method ini untuk membuat Customer baru berdasarkan data yang dikirim dari request.
     // Customer disimpan ke customerStorage, lalu dikembalikan sebagai CustomerResponse.
-    public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest entity) {
+    public CustomerResponse createCustomer(CreateCustomerRequest entity) {
         ZonedDateTime now = ZonedDateTime.now();
         Customer newCustomer = new Customer(sequence, entity.getFullName(), entity.getEmail(), entity.getPhoneNumber(), now, now);
         
