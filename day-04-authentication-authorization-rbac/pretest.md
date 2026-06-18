@@ -345,13 +345,13 @@ Timestamp, ID User, IP Address, Endpoint yang diakses, dan status respon.
 
 | Area | Score 1-5 |
 | --- | --- |
-| Authentication | |
-| Authorization | |
-| JWT | |
-| RBAC | |
-| Resource ownership | |
-| 401 vs 403 | |
-| Audit log | |
+| Authentication |4|
+| Authorization |4|
+| JWT |3|
+| RBAC |1|
+| Resource ownership |1|
+| 401 vs 403 |3|
+| Audit log |2|
 
 ## Notes
 
