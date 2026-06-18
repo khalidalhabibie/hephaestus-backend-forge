@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.dto.CreateCustomerRequest;
 import com.example.demo.dto.CustomerResponse;
@@ -44,7 +42,7 @@ public class CustomerService {
         return responses;
     }
 
-    public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
         Customer customer = new Customer();
         customerStorage.put(sequence, customer);
         customer.setId(sequence);
@@ -85,7 +83,7 @@ public class CustomerService {
         return response;
     }
 
-    public DeleteCustomerResponse deleteCustomerResponseById(@PathVariable Long id) {
+    public DeleteCustomerResponse deleteCustomerResponseById(Long id) {
         if (customerStorage.get(id) == null) {
             throw new CustomerNotFoundException(id);
         }
@@ -97,8 +95,8 @@ public class CustomerService {
         return response;
     }
 
-    public CustomerResponse putCustomerResponseById(@PathVariable Long id,
-            @RequestBody PutUpdateCustomerRequest request) {
+    public CustomerResponse putCustomerResponseById(Long id,
+            PutUpdateCustomerRequest request) {
 
         if (customerStorage.get(id) == null) {
             throw new CustomerNotFoundException(id);
@@ -123,8 +121,8 @@ public class CustomerService {
         return response;
     }
 
-    public CustomerResponse patchCustomerResponseById(@PathVariable Long id,
-            @RequestBody PatchUpdateCustomerRequest request) {
+    public CustomerResponse patchCustomerResponseById(Long id,
+            PatchUpdateCustomerRequest request) {
 
         if (customerStorage.get(id) == null) {
             throw new CustomerNotFoundException(id);
