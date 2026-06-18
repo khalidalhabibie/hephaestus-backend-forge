@@ -203,6 +203,7 @@ public class CustomerService {
         if (result.isEmpty()) {
             throw new CustomerNotFoundException(
                     "Customer tidak ditemukan dengan email: " + email);
+                    //best practice: return.ListOf();
         }
 
         return result;
