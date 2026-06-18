@@ -19,40 +19,46 @@ Estimasi waktu: 20-30 menit.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+tempat untuk menyimpan data sementara
 ```
 
 ### 2. Apa itu data type?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+nilai atau isi data tersimpan dalam variabel yang masuk kategori int,string,float,dsb yang dimana disesuaikan dengan kebutuhan dari program atau sistem
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+text biasanya pakei string contohnya adalah untuk menyimpan nama, String name;
+
+number biasanyta dimasukkan dalam type data yang bermacam-macam menyesuaikan kebutuhan seperti int, float, double misalnya kalau umur bisa int umur;
+
+true false pakek boolean 
+
+
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+kalau declaration untuk ngasih tau program dari suatu variable, kalau assignment adalah untuk memberikan nilai atau mengisi value awal di suatu variable
 ```
 
 ### 5. Apa itu camelCase?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+camelCase itu menulis variable dari gabungan huruf besar dan kecil
 ```
 
 ## Section B - Class and Object
@@ -61,24 +67,24 @@ Tulis jawaban di sini.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+class itu seperti template yang jadi kerangka dasar 
 ```
 
 ### 7. Apa itu object?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+hasil dari class atau bentuk yang berisi value sesuai dari yang template atau classnya
 ```
 
 ### 8. Apa perbedaan class dan object?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+kalau class itu cetaknnya kalau object itu bentuk hasil dari cetakannya, 
 ```
 
 ## Section C - Field, Method, Constructor
@@ -88,39 +94,39 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+field itu suatu bagian 
 ```
 
 ### 10. Apa itu method?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+perintah yang dibuat untuk melakukan sesuatu 
 ```
 
 ### 11. Apa itu parameter?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+variable dalam method/fungsi untuk menampung nilai yang terinput
 ```
 
 ### 12. Apa itu return value?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+buat mengembalikan hasil ke pemanggilnya
 ```
 
 ### 13. Apa itu constructor?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+fungsi dalam class yang dibuat khusus yang dijalankan otomatis waktu buat pertama kali object dibuat
 ```
 
 ## Section D - Access Modifier
@@ -129,24 +135,24 @@ Tulis jawaban di sini.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+agar nilainya tidak bisa diakses langsung 
 ```
 
 ### 15. Apa fungsi public?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+agar fungsinya bisa dipakai semuanya
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+mengamankan data agar tidak diubah sembarangan
 ```
 
 ## Section E - Getter and Setter
@@ -155,24 +161,24 @@ Tulis jawaban di sini.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk mendapatkan nilai
 ```
 
 ### 18. Apa fungsi setter?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk setting atau mengubah suatu nilai pada data
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+agar data aman tidak diubah oleh yang tidak memiliki hak mengubah atau mengaksesnya
 ```
 
 ## Section F - Collection
@@ -181,24 +187,24 @@ Tulis jawaban di sini.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk menyimpan data secara berurutan
 ```
 
 ### 21. Apa itu Map?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+untuk menyimpan data yang berpasangan (isinya key dan value) bisa berisi type data yang berbeda
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+kalau mau menyimpan data yang urut kalau Map yang membutuhkan dipasangkan misalnya mau dipasangkan dengan nilai pengenalnya atau pasangannya
 ```
 
 ## Section G - OOP Basic
@@ -207,32 +213,32 @@ Tulis jawaban di sini.
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+pembungkus method untuk membatasi akses dari luar dengan mengeset variablenya ke private yang nantinya diimplementasikan getter setter
 ```
 
 ### 24. Apa itu interface?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+isinya adalah kontrak atau blue print yang isinya method saja dan konstantanya, jadi dalam interface tidak ada isi atau implementasinya untuk method didalamnya 
 ```
 
 ### 25. Apa itu abstract class?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+belum tau ini dan belum memahaminya
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
+```
+tidak tahu
 ```
 
 ## Self Assessment
@@ -241,10 +247,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [v] | [ ] |
+| Class and object | [ ] | [v] | [ ] |
+| Field/method/constructor | [v] | [ ] | [ ] |
+| Access modifier | [ ] | [v] | [ ] |
+| Getter/setter | [ ] | [v] | [ ] |
+| List/Map | [ ] | [v] | [ ] |
+| Interface/abstract class | [v] | [ ] | [ ] |
