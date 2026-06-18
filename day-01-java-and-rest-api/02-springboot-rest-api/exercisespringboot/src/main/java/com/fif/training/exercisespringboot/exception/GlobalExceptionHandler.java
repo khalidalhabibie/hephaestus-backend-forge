@@ -21,9 +21,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationError(MethodArgumentNotValidException ex) {
-        List<FieldErrorResponse> errors = ex.getBindingResult().getFieldErrors().stream()
-                .map(this::toFieldErrorResponse)
-                .collect(Collectors.toList());
+        List<FieldErrorResponse> errors = new ArrayList<>();
+
+        for (FieldErrorResponse error : errors) {
+            System.out.println("Field: " + error.getField() + ", Message: " + error.getMessage());
+            var result = new FieldErrorResponse(error.getField(), error.getMessage());
+            errors.add(result);
+        }
         ErrorResponse response = new ErrorResponse(
                 "VALIDATION_ERROR",
                 "Invalid request",
@@ -52,7 +56,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
-    private FieldErrorResponse toFieldErrorResponse(FieldErrorResponse error) {
-        return new FieldErrorResponse(error.getField(), error.getDefaultMessage());
-    }
 }

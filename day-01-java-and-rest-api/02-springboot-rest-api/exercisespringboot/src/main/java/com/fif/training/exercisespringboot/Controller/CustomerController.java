@@ -3,14 +3,18 @@ package com.fif.training.exercisespringboot.Controller;
 import com.fif.training.exercisespringboot.DTO.ApiResponse;
 import com.fif.training.exercisespringboot.DTO.CreateCustomerRequest;
 import com.fif.training.exercisespringboot.DTO.CustomerResponse;
-import com.fif.training.exercisespringboot.Service.CustomerService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import com.fif.training.exercisespringboot.DTO.UpdateCustomerRequest;
+import com.fif.training.exercisespringboot.Model.User;
+import com.fif.training.exercisespringboot.Security.AuthContext;
+import com.fif.training.exercisespringboot.Security.AuthUtil;
+import com.fif.training.exercisespringboot.Security.RoleValidator;
+import com.fif.training.exercisespringboot.Service.CustomerService;
 
-import com.fif.training.exercisespringboot.DTO.PatchCustomerRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,81 +29,204 @@ public class CustomerController {
 
     CustomerService service = new CustomerService();
 
-    // GET All Customer API
+    // ========================= HELPER RBAC =========================
+    private User validateToken(HttpServletRequest request) {
+        String token = AuthUtil.getToken(request);
+        return AuthContext.getUserByToken(token);
+    }
+
+    private ResponseEntity<ApiResponse<CustomerResponse>> unauthorizedResponse() {
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponse<>(
+                        "UNAUTHORIZED",
+                        "Authentication required",
+                        List.of()));
+    }
+
+    private ResponseEntity<ApiResponse<CustomerResponse>> forbiddenResponse() {
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponse<>(
+                        "FORBIDDEN",
+                        "You do not have permission to access this resource",
+                        List.of()));
+    }
+    // =============================================================
+
+    // ✅ GET ALL (ADMIN, STAFF, APPROVER)
     @GetMapping
     @Operation(summary = "Get All Customer", description = "Get All Customer API")
     @ResponseStatus(HttpStatus.OK)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Successfully retrieved all customers")
-    public ResponseEntity<List<CustomerResponse>> getAllCustomer() {
+    public ResponseEntity<List<CustomerResponse>> getAllCustomer(HttpServletRequest request) {
+
+        User user = validateToken(request);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllCustomer());
     }
 
-    // POST Customer API
+    // ✅ CREATE (ADMIN, STAFF)
     @PostMapping
     @Operation(summary = "Create Customer", description = "Create a new customer")
     @ResponseStatus(HttpStatus.CREATED)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "Customer created successfully")
     public ResponseEntity<ApiResponse<CustomerResponse>> createCustomer(
-            @Valid @RequestBody CreateCustomerRequest request) {
+            @Valid @RequestBody CreateCustomerRequest request,
+            HttpServletRequest httpRequest) {
+
+        User user = validateToken(httpRequest);
+
+        if (user == null) {
+            return unauthorizedResponse();
+        }
+
+        if (!RoleValidator.allow(user.getRole(), "ADMIN", "STAFF")) {
+            return forbiddenResponse();
+        }
+
         CustomerResponse response = service.createCustomer(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse<>("Customer Created!", response));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.<CustomerResponse>builder()
+                        .code("CUSTOMER_CREATED")
+                        .message("Customer created successfully")
+                        .data(response)
+                        .build());
     }
 
-    // GET Customer By ID API
+    // ✅ GET BY ID (ADMIN, STAFF, APPROVER)
     @GetMapping("/{id}")
     @Operation(summary = "Get Customer by ID", description = "Get a customer by their ID")
     @ResponseStatus(HttpStatus.OK)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Successfully retrieved the customer")
-    public ResponseEntity<CustomerResponse> getCustomerbyId(@PathVariable Long id) {
+    public ResponseEntity<?> getCustomerbyId(@PathVariable Long id,
+            HttpServletRequest request) {
+
+        User user = validateToken(request);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponse<CustomerResponse>("UNAUTHORIZED", null));
+        }
+
         CustomerResponse response = service.getCustomerById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("CUSTOMER_NOT_FOUND", null));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<CustomerResponse>(response));
     }
 
-    // DELETE Customer By ID API
+    // ✅ DELETE (ADMIN ONLY)
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete Customer by ID", description = "Delete a customer by their ID")
     @ResponseStatus(HttpStatus.OK)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Customer deleted successfully")
-    public ResponseEntity<ApiResponse<CustomerResponse>> deleteCustomerById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<CustomerResponse>> deleteCustomerById(
+            @PathVariable Long id,
+            HttpServletRequest request) {
+
+        User user = validateToken(request);
+
+        if (user == null) {
+            return unauthorizedResponse();
+        }
+
+        if (!RoleValidator.allow(user.getRole(), "ADMIN")) {
+            return forbiddenResponse();
+        }
+
         CustomerResponse response = service.deleteCustomerById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<>("Customer Deleted!", response));
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("CUSTOMER_NOT_FOUND", null));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ApiResponse<>("Customer Deleted!", response));
     }
 
-    // PUT Customer By ID API
+    // ✅ PUT (ADMIN, STAFF)
     @PutMapping("/{id}")
     @Operation(summary = "Update Customer by ID", description = "Update a customer by their ID")
     @ResponseStatus(HttpStatus.OK)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Customer data updated successfully")
-    public ResponseEntity<ApiResponse<CustomerResponse>> putCustomerById(@PathVariable Long id,
-            @Valid @RequestBody UpdateCustomerRequest request) {
+    public ResponseEntity<ApiResponse<CustomerResponse>> putCustomerById(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateCustomerRequest request,
+            HttpServletRequest httpRequest) {
+
+        User user = validateToken(httpRequest);
+
+        if (user == null) {
+            return unauthorizedResponse();
+        }
+
+        if (!RoleValidator.allow(user.getRole(), "ADMIN", "STAFF")) {
+            return forbiddenResponse();
+        }
 
         CustomerResponse response = service.putCustomerById(id, request);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("CUSTOMER_NOT_FOUND", null));
+        }
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse<>("Customer data updated successfully", response));
     }
 
-    // PATCH Customer By ID API
+    // ✅ PATCH (ADMIN, STAFF)
     @PatchMapping("/{id}")
     @Operation(summary = "Partially Update Customer by ID", description = "Partially update a customer by their ID")
     @ResponseStatus(HttpStatus.OK)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Customer data updated successfully")
-    public ResponseEntity<ApiResponse<CustomerResponse>> patchCustomerById(@PathVariable Long id,
-            @Valid @RequestBody PatchCustomerRequest request) {
+    public ResponseEntity<ApiResponse<CustomerResponse>> patchCustomerById(
+            @PathVariable Long id,
+            @Valid @RequestBody com.fif.training.exercisespringboot.DTO.PatchCustomerRequest request,
+            HttpServletRequest httpRequest) {
+
+        User user = validateToken(httpRequest);
+
+        if (user == null) {
+            return unauthorizedResponse();
+        }
+
+        if (!RoleValidator.allow(user.getRole(), "ADMIN", "STAFF")) {
+            return forbiddenResponse();
+        }
 
         CustomerResponse response = service.patchCustomerById(id, request);
+
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse<>("CUSTOMER_NOT_FOUND", null));
+        }
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ApiResponse<>("Customer data updated successfully", response));
     }
 
-    // GET Customer By Email API (Query Param)
+    // ✅ SEARCH (ADMIN, STAFF, APPROVER)
     @GetMapping("/search")
     @Operation(summary = "Search Customer by Email", description = "Search customer by email using query parameter")
     @ResponseStatus(HttpStatus.OK)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Successfully retrieved customers by email")
-    public ResponseEntity<List<CustomerResponse>> searchCustomerByEmail(
-            @RequestParam String email) {
+    public ResponseEntity<?> searchCustomerByEmail(
+            @RequestParam String email,
+            HttpServletRequest request) {
+
+        User user = validateToken(request);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ApiResponse<>("UNAUTHORIZED", null));
+        }
 
         List<CustomerResponse> response = service.searchCustomerByEmail(email);
+
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

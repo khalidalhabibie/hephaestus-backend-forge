@@ -1,4 +1,5 @@
-package main.java.com.fif.training.exercisespringboot.DTO;
+package com.fif.training.exercisespringboot.DTO;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
