@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring Boot adalah salah satu framework Java Spring untuk mengembangkan web services dengan fitur security, authorization, dan pembuatan API.
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+REST API adalah Representative State Transfer Application Programming Interface, salah satu API yang memungkinkan aplikasi berkomunikasi via internet menggunakan HTTP
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Hyper Text Transfer Protocol, salah satu protokol yang biasa kita lihat di alamat website.
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JavaScript Object Notation adalah metode pertukaran data.
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Titik Akhir
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Permintaan pada jaringan yang dikirim
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Reaksi suatu pihak atas request yang diberikan. Contoh 200 OK, 404, 504, dll.
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Mengambil data
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menambah value data yang baru
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memperbarui seluruh data
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menghapus data
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat request direspon dengan sukses
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -103,15 +103,14 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
-```
+Sehabis suatu permintaan berhasil membuat resource baru```
 
 ### 14. Kapan menggunakan 400 Bad Request?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika request nya invalid/salah
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +118,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika permintaan/request yang diminta tidak ditemukan jawaban/solusinya
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +126,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika ada kesalahan jaringan internal seperti wifi dll.
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +134,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Nilai yang jadi bagian diluar URL yang biasanya digunakan utk mengidentifikasi resource tertentu.
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +142,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Parameter yang berada setelah tanda ? untuk menandakan sorting, pagination, dkk.
 ```
 
 ### 19. Apa itu request body?
@@ -151,7 +150,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Bagian dari request pada http
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +158,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Mengelola dan menghubungkan model dan view, sebagai perantara. 
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +166,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menjalankan logika bisnis
 ```
 
 ### 22. Apa itu DTO?
@@ -175,15 +174,14 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
-```
+Untuk mengirim data antar layer aplikasi```
 
 ### 23. Apa itu Model?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Salah satu bagian dari MVC yang bertugas sebagai kontainer logic yang ada di sistem tsb.
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +189,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar tidak tumpang tindih
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +197,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar request/response nya valid dan tersaring
 ```
