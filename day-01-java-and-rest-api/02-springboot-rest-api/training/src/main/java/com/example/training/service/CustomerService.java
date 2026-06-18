@@ -62,8 +62,9 @@ public class CustomerService {
         return responses;
     }
 
-	// @PostMapping
-	public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
+	// @PostMapping - di level service gak perlu ada annotation @RequestBody lagi
+	// BEFORE: public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
         Customer newCust = new Customer(sequence, request.getFullName(), request.getEmail(), request.getPhoneNumber());
         customerStorage.put(sequence, newCust);
         sequence++;
@@ -115,8 +116,9 @@ public class CustomerService {
         return response;
     }
 
-    // @PutMapping
-    public CustomerResponse updateCustomerById(@PathVariable Long id, @RequestBody UpdateCustomerRequest entity) {
+    // @PutMapping - di level service gak perlu ada annotation @RequestBody lagi
+    // BEFORE: public CustomerResponse updateCustomerById(@PathVariable Long id, @RequestBody UpdateCustomerRequest entity) {
+    public CustomerResponse updateCustomerById(@PathVariable Long id, UpdateCustomerRequest entity) {
         Customer customer = customerStorage.get(id);
         if(customer == null) {
             throw new CustomerNotFoundException(id);
@@ -138,7 +140,8 @@ public class CustomerService {
     }
 
     // @PatchMapping
-    public CustomerResponse patchCustomer(@PathVariable Long id, @Valid @RequestBody PatchCustomerRequest entity) {
+    // BEFORE: public CustomerResponse patchCustomer(@PathVariable Long id, @Valid @RequestBody PatchCustomerRequest entity) {
+    public CustomerResponse patchCustomer(@PathVariable Long id, @Valid PatchCustomerRequest entity) {
         Customer customer = customerStorage.get(id);
 
         if(customer == null) {
