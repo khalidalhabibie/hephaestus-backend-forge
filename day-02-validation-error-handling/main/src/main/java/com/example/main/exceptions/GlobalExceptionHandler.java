@@ -1,8 +1,8 @@
 package com.example.main.exceptions;
 
-import com.example.main.dto.FieldErrorResponse;
-import com.example.main.template.Response;
-import com.example.main.utils.FormattingText;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.main.dto.FieldErrorResponse;
+import com.example.main.template.Response;
+import com.example.main.utils.FormattingText;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,11 +32,46 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    // Unauthorized
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Response<Object>> handleUnauthorizedException(UnauthorizedException ex) {
+        Response<Object> response = Response.errorSpec(
+                "UNAUTHORIZED", 
+                ex.getMessage(), 
+                new ArrayList<>()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    // Forbidden
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Response<Object>> handleForbiddenException(ForbiddenException ex) {
+        Response<Object> response = Response.errorSpec(
+                "FORBIDDEN", 
+                "You do not have permission to access this resource", 
+                new ArrayList<>()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
     // Customer Not Found
-    @ExceptionHandler(CustomerNotFoundException.class)
-    public ResponseEntity<Response<Object>> handleCustomerNotFoundException(CustomerNotFoundException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Response<Object>> handleCustomerNotFoundException(NotFoundException ex) {
         
-        Response<Object> response = Response.errorSpec("CUSTOMER_NOT_FOUND", ex.getMessage(), new ArrayList<>());
+        Response<Object> response = Response.errorSpec("NOT_FOUND", ex.getMessage(), new ArrayList<>());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    // Loan Application Not Found
+    @ExceptionHandler(LoanApplicationNotFoundException.class)
+    public ResponseEntity<Response<Object>> handleLoanApplicationNotFoundException(
+            LoanApplicationNotFoundException ex) {
+        
+        Response<Object> response = Response.errorSpec(
+                "LOAN_APPLICATION_NOT_FOUND", 
+                ex.getMessage(), 
+                new java.util.ArrayList<>()
+        );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 

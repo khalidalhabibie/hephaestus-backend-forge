@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.main.dto.CreateCustomerRequest;
 import com.example.main.dto.PatchCustomerRequest;
+import com.example.main.security.RequiresRoles;
+import com.example.main.security.UserRole;
 import com.example.main.dto.CustomerResponse;
 import com.example.main.services.CustomerService;
 
@@ -32,6 +34,7 @@ public class CustomerController {
     }
 
     @PostMapping
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF})
     @Operation(summary = "Membuat customer baru", description = "Menambahkan data customer baru ke dalam sistem in-memory.")
     @ApiResponses({
         @ApiResponse(responseCode = "201", description = "Customer berhasil dibuat"),
@@ -43,6 +46,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER})
     @Operation(summary = "Mendapatkan customer berdasarkan ID", description = "Mengambil data detail customer berdasarkan ID unik.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Data customer ditemukan"),
@@ -54,6 +58,7 @@ public class CustomerController {
     }
 
     @GetMapping
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER})
     @Operation(summary = "Mendapatkan semua daftar customer", description = "Mengambil seluruh data customer yang tersimpan di dalam memory.")
     @ApiResponse(responseCode = "200", description = "Berhasil mendapatkan seluruh daftar customer")
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
@@ -61,6 +66,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
+    @RequiresRoles({UserRole.ADMIN})
     @Operation(summary = "Menghapus customer berdasarkan ID", description = "Menghapus data customer dari memori berdasarkan ID.")
     @ApiResponses({
         @ApiResponse(responseCode = "204", description = "No Content"),
@@ -73,6 +79,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF})
     @Operation(summary = "Memperbarui data customer secara penuh (PUT)", description = "Mengganti seluruh field data customer lama dengan data baru.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Customer berhasil diperbarui"),
@@ -87,6 +94,7 @@ public class CustomerController {
     }
 
     @PatchMapping("/{id}")
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF})
     @Operation(summary = "Memperbarui data customer secara parsial (PATCH)", description = "Hanya memperbarui field yang dikirimkan saja.")
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Customer berhasil diperbarui sebagian"),

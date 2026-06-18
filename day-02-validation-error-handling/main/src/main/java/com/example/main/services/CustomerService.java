@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.main.dto.CreateCustomerRequest;
 import com.example.main.dto.CustomerResponse;
 import com.example.main.dto.PatchCustomerRequest;
-import com.example.main.exceptions.CustomerNotFoundException;
+import com.example.main.exceptions.NotFoundException;
 import com.example.main.models.Customer;
 import com.example.main.repositories.CustomerRepository;
 
@@ -35,7 +35,7 @@ public class CustomerService {
     public CustomerResponse getCustomerById(Long id) {
         Customer customer = customerRepository.findById(id);
         if (customer == null) {
-            throw new CustomerNotFoundException(id);
+            throw new NotFoundException(id);
         }
         return toResponse(customer);
     }
@@ -49,14 +49,14 @@ public class CustomerService {
     public void deleteCustomer(Long id) {
         boolean isDeleted = customerRepository.deleteById(id);
         if (!isDeleted) {
-            throw new CustomerNotFoundException(id);
+            throw new NotFoundException(id);
         }
     }
 
     public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
         Customer existingCustomer = customerRepository.findById(id);
         if (existingCustomer == null) {
-            throw new CustomerNotFoundException(id);
+            throw new NotFoundException(id);
         }
         
         existingCustomer.setFullName(request.getFullName());
@@ -77,7 +77,7 @@ public class CustomerService {
     public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
         Customer existingCustomer = customerRepository.findById(id);
         if (existingCustomer == null) {
-            throw new CustomerNotFoundException(id); 
+            throw new NotFoundException(id); 
         }
 
         if (request.getFullName() != null) {
