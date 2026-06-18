@@ -41,35 +41,35 @@ public class GlobalExceptionHandler {
                                                 null));
         }
 
-        @ExceptionHandler(LoanApplicationNotFoundException.class)
-        public ResponseEntity<ErrorResponse<Void>> notFoundLoanApplication(LoanApplicationNotFoundException exception) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ErrorResponse.error("LOAN_APPLICATION_NOT_FOUND",
-                                                exception.getMessage() != null ? exception.getMessage()
-                                                                : "Data not found",
-                                                null));
-        }
-
         @ExceptionHandler(NotFoundException.class)
         public ResponseEntity<ErrorResponse<Void>> notFound(NotFoundException exception) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                .body(ErrorResponse.error("NOT_FOUND", "Resource not found", null));
+                                .body(ErrorResponse.error("NOT_FOUND",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Resource not found",
+                                                null));
         }
 
         @ExceptionHandler(ForbiddenException.class)
         public ResponseEntity<ErrorResponse<Void>> forbidden(ForbiddenException exception) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                .body(ErrorResponse.error("FORBIDDEN", "Access denied", null));
+                                .body(ErrorResponse.error("FORBIDDEN",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Access denied",
+                                                null));
         }
 
         @ExceptionHandler(UnauthorizedException.class)
         public ResponseEntity<ErrorResponse<Void>> unauthorized(UnauthorizedException exception) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                .body(ErrorResponse.error("UNAUTHORIZED", "Authentication is required", null));
+                                .body(ErrorResponse.error("UNAUTHORIZED",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Authentication is required",
+                                                null));
         }
 
         @ExceptionHandler(Exception.class)
-        public ResponseEntity<ErrorResponse<Void>> generic(Exception exception) {
+        public ResponseEntity<ErrorResponse<Void>> internalServerError(Exception exception) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(ErrorResponse.error("INTERNAL_SERVER_ERROR", "Unexpected error occurred", null));
         }

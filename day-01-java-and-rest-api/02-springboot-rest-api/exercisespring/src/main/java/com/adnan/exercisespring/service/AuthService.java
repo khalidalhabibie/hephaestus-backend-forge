@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.adnan.exercisespring.dto.LoginRequest;
 import com.adnan.exercisespring.dto.LoginResponse;
-import com.adnan.exercisespring.exception.BadRequestException;
+import com.adnan.exercisespring.exception.UnauthorizedException;
 import com.adnan.exercisespring.security.JwtTokenProvider;
 import com.adnan.exercisespring.security.SecurityUtil;
 import com.adnan.exercisespring.user.entity.User;
@@ -23,7 +23,7 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
         User user = userService.findByEmail(request.getEmail());
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new BadRequestException("Invalid credentials");
+            throw new UnauthorizedException("Invalid credentials");
         }
 
         return new LoginResponse(

@@ -29,7 +29,7 @@ public class CustomerService {
 
   public CustomerResponse createCustomer(CreateCustomerRequest entity) {
     if (!securityUtil.hasRole(Role.ADMIN) && !securityUtil.hasRole(Role.STAFF)) {
-      throw new ForbiddenException("You do not have permission");
+      throw new ForbiddenException("You do not have permission to access this resource");
     }
 
     ZonedDateTime now = ZonedDateTime.now();

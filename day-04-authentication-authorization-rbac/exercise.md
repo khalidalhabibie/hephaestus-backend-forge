@@ -1,4 +1,3 @@
-
 # Exercise - Authentication, Authorization & Loan Application API
 
 ## Objective
@@ -19,53 +18,53 @@ Pada exercise ini, sistem memiliki fitur:
 
 Sistem memiliki 3 role:
 
-| Role | Description |
-|---|---|
-| ADMIN | Bisa mengakses semua endpoint |
-| STAFF | Bisa membuat customer dan loan application |
+| Role     | Description                                           |
+| -------- | ----------------------------------------------------- |
+| ADMIN    | Bisa mengakses semua endpoint                         |
+| STAFF    | Bisa membuat customer dan loan application            |
 | APPROVER | Bisa melihat data dan approve/reject loan application |
 
 ## Endpoints
 
 ### Auth API
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/auth/login` | Login user |
-| GET | `/api/v1/auth/me` | Get current logged-in user |
+| Method | Endpoint             | Description                |
+| ------ | -------------------- | -------------------------- |
+| POST   | `/api/v1/auth/login` | Login user                 |
+| GET    | `/api/v1/auth/me`    | Get current logged-in user |
 
 ### Customer API
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/customers` | Create customer |
-| GET | `/api/v1/customers` | Get all customers |
-| GET | `/api/v1/customers/{id}` | Get customer by ID |
+| Method | Endpoint                 | Description        |
+| ------ | ------------------------ | ------------------ |
+| POST   | `/api/v1/customers`      | Create customer    |
+| GET    | `/api/v1/customers`      | Get all customers  |
+| GET    | `/api/v1/customers/{id}` | Get customer by ID |
 
 ### Loan Application API
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/loan-applications` | Create loan application |
-| GET | `/api/v1/loan-applications` | Get all loan applications |
-| GET | `/api/v1/loan-applications/{id}` | Get loan application by ID |
-| PATCH | `/api/v1/loan-applications/{id}/approve` | Approve loan application |
-| PATCH | `/api/v1/loan-applications/{id}/reject` | Reject loan application |
+| Method | Endpoint                                 | Description                |
+| ------ | ---------------------------------------- | -------------------------- |
+| POST   | `/api/v1/loan-applications`              | Create loan application    |
+| GET    | `/api/v1/loan-applications`              | Get all loan applications  |
+| GET    | `/api/v1/loan-applications/{id}`         | Get loan application by ID |
+| PATCH  | `/api/v1/loan-applications/{id}/approve` | Approve loan application   |
+| PATCH  | `/api/v1/loan-applications/{id}/reject`  | Reject loan application    |
 
 ## Authorization Rules
 
-| Endpoint | ADMIN | STAFF | APPROVER |
-|---|---|---|---|
-| `POST /api/v1/auth/login` | Yes | Yes | Yes |
-| `GET /api/v1/auth/me` | Yes | Yes | Yes |
-| `POST /api/v1/customers` | Yes | Yes | No |
-| `GET /api/v1/customers` | Yes | Yes | Yes |
-| `GET /api/v1/customers/{id}` | Yes | Yes | Yes |
-| `POST /api/v1/loan-applications` | Yes | Yes | No |
-| `GET /api/v1/loan-applications` | Yes | Yes | Yes |
-| `GET /api/v1/loan-applications/{id}` | Yes | Yes | Yes |
-| `PATCH /api/v1/loan-applications/{id}/approve` | Yes | No | Yes |
-| `PATCH /api/v1/loan-applications/{id}/reject` | Yes | No | Yes |
+| Endpoint                                       | ADMIN | STAFF | APPROVER |
+| ---------------------------------------------- | ----- | ----- | -------- |
+| `POST /api/v1/auth/login`                      | Yes   | Yes   | Yes      |
+| `GET /api/v1/auth/me`                          | Yes   | Yes   | Yes      |
+| `POST /api/v1/customers`                       | Yes   | Yes   | No       |
+| `GET /api/v1/customers`                        | Yes   | Yes   | Yes      |
+| `GET /api/v1/customers/{id}`                   | Yes   | Yes   | Yes      |
+| `POST /api/v1/loan-applications`               | Yes   | Yes   | No       |
+| `GET /api/v1/loan-applications`                | Yes   | Yes   | Yes      |
+| `GET /api/v1/loan-applications/{id}`           | Yes   | Yes   | Yes      |
+| `PATCH /api/v1/loan-applications/{id}/approve` | Yes   | No    | Yes      |
+| `PATCH /api/v1/loan-applications/{id}/reject`  | Yes   | No    | Yes      |
 
 ## Technical Requirements
 
@@ -91,10 +90,10 @@ Sistem memiliki 3 role:
 
 Gunakan user berikut:
 
-| Username | Password | Role | Token |
-|---|---|---|---|
-| admin | admin123 | ADMIN | token-admin |
-| staff | staff123 | STAFF | token-staff |
+| Username | Password    | Role     | Token          |
+| -------- | ----------- | -------- | -------------- |
+| admin    | admin123    | ADMIN    | token-admin    |
+| staff    | staff123    | STAFF    | token-staff    |
 | approver | approver123 | APPROVER | token-approver |
 
 ## Protected Request Header
@@ -103,7 +102,7 @@ Gunakan format berikut untuk protected endpoint:
 
 ```text
 Authorization: Bearer token-admin
-````
+```
 
 Contoh lain:
 
@@ -670,44 +669,44 @@ src/main/java/com/example/training/
 
 # Acceptance Criteria
 
-* [ ] Application bisa berjalan di `localhost:8080`.
-* [ ] Login admin menghasilkan `token-admin`.
-* [ ] Login staff menghasilkan `token-staff`.
-* [ ] Login approver menghasilkan `token-approver`.
-* [ ] Login salah menghasilkan `401 Unauthorized`.
-* [ ] Request tanpa token menghasilkan `401 Unauthorized`.
-* [ ] Request dengan token tidak valid menghasilkan `401 Unauthorized`.
-* [ ] `GET /api/v1/auth/me` berjalan.
-* [ ] Customer API tetap berjalan.
-* [ ] `LoanApplicationService` berhasil dibuat.
-* [ ] `POST /api/v1/loan-applications` berjalan.
-* [ ] `GET /api/v1/loan-applications` berjalan.
-* [ ] `GET /api/v1/loan-applications/{id}` berjalan.
-* [ ] `PATCH /api/v1/loan-applications/{id}/approve` berjalan.
-* [ ] `PATCH /api/v1/loan-applications/{id}/reject` berjalan.
-* [ ] Staff bisa create loan application.
-* [ ] Staff tidak bisa approve loan application.
-* [ ] Approver bisa approve loan application.
-* [ ] Approver bisa reject loan application.
-* [ ] Approver tidak bisa create customer.
-* [ ] Admin bisa mengakses semua endpoint.
-* [ ] Akses tanpa permission menghasilkan `403 Forbidden`.
-* [ ] Response JSON menggunakan `snake_case`.
-* [ ] Controller tidak berisi business logic utama.
-* [ ] Service berisi business logic.
-* [ ] Data disimpan di memory.
-* [ ] Tidak menggunakan database.
-* [ ] Pull Request dibuat ke branch `master`.
+- [x] Application bisa berjalan di `localhost:8080`.
+- [x] Login admin menghasilkan `token-admin`.
+- [x] Login staff menghasilkan `token-staff`.
+- [x] Login approver menghasilkan `token-approver`.
+- [x] Login salah menghasilkan `401 Unauthorized`.
+- [x] Request tanpa token menghasilkan `401 Unauthorized`.
+- [x] Request dengan token tidak valid menghasilkan `401 Unauthorized`.
+- [x] `GET /api/v1/auth/me` berjalan.
+- [x] Customer API tetap berjalan.
+- [x] `LoanApplicationService` berhasil dibuat.
+- [x] `POST /api/v1/loan-applications` berjalan.
+- [x] `GET /api/v1/loan-applications` berjalan.
+- [x] `GET /api/v1/loan-applications/{id}` berjalan.
+- [x] `PATCH /api/v1/loan-applications/{id}/approve` berjalan.
+- [x] `PATCH /api/v1/loan-applications/{id}/reject` berjalan.
+- [x] Staff bisa create loan application.
+- [x] Staff tidak bisa approve loan application.
+- [x] Approver bisa approve loan application.
+- [x] Approver bisa reject loan application.
+- [x] Approver tidak bisa create customer.
+- [x] Admin bisa mengakses semua endpoint.
+- [x] Akses tanpa permission menghasilkan `403 Forbidden`.
+- [x] Response JSON menggunakan `snake_case`.
+- [x] Controller tidak berisi business logic utama.
+- [x] Service berisi business logic.
+- [x] Data disimpan di memory.
+- [x] Tidak menggunakan database.
+- [x] Pull Request dibuat ke branch `master`.
 
 # Optional Challenge
 
 Jika tugas utama sudah selesai, coba tambahkan:
 
-* `GET /api/v1/loan-applications?status=SUBMITTED`
-* `GET /api/v1/loan-applications?customer_id=1`
-* `PATCH /api/v1/loan-applications/{id}/cancel`
-* Role baru: `MANAGER`
-* Manager hanya boleh approve loan application di atas nominal tertentu.
+- `GET /api/v1/loan-applications?status=SUBMITTED`
+- `GET /api/v1/loan-applications?customer_id=1`
+- `PATCH /api/v1/loan-applications/{id}/cancel`
+- Role baru: `MANAGER`
+- Manager hanya boleh approve loan application di atas nominal tertentu.
 
 ```
 

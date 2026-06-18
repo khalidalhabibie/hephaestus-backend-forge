@@ -6,7 +6,7 @@ import java.util.*;
 import com.adnan.exercisespring.dto.CreateLoanApplicationRequest;
 import com.adnan.exercisespring.dto.LoanApplicationResponse;
 import com.adnan.exercisespring.exception.ForbiddenException;
-import com.adnan.exercisespring.exception.LoanApplicationNotFoundException;
+import com.adnan.exercisespring.exception.NotFoundException;
 import com.adnan.exercisespring.model.LoanApplication;
 import com.adnan.exercisespring.security.SecurityUtil;
 import com.adnan.exercisespring.user.entity.Role;
@@ -23,7 +23,7 @@ public class LoanApplicationService {
 
   public LoanApplicationResponse createLoanApplication(CreateLoanApplicationRequest request) {
     if (!securityUtil.hasRole(Role.ADMIN) && !securityUtil.hasRole(Role.STAFF)) {
-      throw new ForbiddenException("You do not have permission");
+      throw new ForbiddenException("You do not have permission to access this resource");
     }
 
     LoanApplication loanApplication = new LoanApplication(sequence, request.getCustomerId(), request.getLoanAmount(),
@@ -49,19 +49,19 @@ public class LoanApplicationService {
   public LoanApplicationResponse getLoanApplicationById(Long id) {
     LoanApplication loan = storage.get(id);
     if (loan == null) {
-      throw new LoanApplicationNotFoundException(String.format("Loan Application not found with id: %d", id));
+      throw new NotFoundException(String.format("Loan Application not found with id: %d", id));
     }
     return mapToResponse(loan);
   }
 
   public LoanApplicationResponse approve(Long id) {
     if (!securityUtil.hasRole(Role.ADMIN) && !securityUtil.hasRole(Role.APPROVER)) {
-      throw new ForbiddenException("You do not have permission");
+      throw new ForbiddenException("You do not have permission to access this resource");
     }
 
     LoanApplication loan = storage.get(id);
     if (loan == null) {
-      throw new LoanApplicationNotFoundException(String.format("Loan Application not found with id: %d", id));
+      throw new NotFoundException(String.format("Loan Application not found with id: %d", id));
     }
     loan.setStatus("APPROVED");
     return mapToResponse(loan);
@@ -69,12 +69,12 @@ public class LoanApplicationService {
 
   public LoanApplicationResponse reject(Long id) {
     if (!securityUtil.hasRole(Role.ADMIN) && !securityUtil.hasRole(Role.APPROVER)) {
-      throw new ForbiddenException("You do not have permission");
+      throw new ForbiddenException("You do not have permission to access this resource");
     }
 
     LoanApplication loan = storage.get(id);
     if (loan == null) {
-      throw new LoanApplicationNotFoundException(String.format("Loan Application not found with id: %d", id));
+      throw new NotFoundException(String.format("Loan Application not found with id: %d", id));
     }
     loan.setStatus("REJECTED");
     return mapToResponse(loan);
