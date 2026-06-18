@@ -55,4 +55,24 @@ public class GlobalExceptionHandler {
                         .build());
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> UnauthorizedException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ErrorResponse.builder()
+                        .code("UNAUTHORIZED")
+                        .message(exception.getMessage())
+                        .errors(List.of())
+                        .build());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> ForbiddenException(Exception exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ErrorResponse.builder()
+                        .code("FORBIDDEN")
+                        .message(exception.getMessage())
+                        .errors(List.of())
+                        .build());
+    }
+
 }

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.fif.training.exercisespringboot.DTO.CreateCustomerRequest;
 import com.fif.training.exercisespringboot.DTO.CustomerResponse;
 import com.fif.training.exercisespringboot.DTO.PatchCustomerRequest;
@@ -13,6 +15,7 @@ import com.fif.training.exercisespringboot.DTO.UpdateCustomerRequest;
 import com.fif.training.exercisespringboot.Exception.CustomerNotFoundException;
 import com.fif.training.exercisespringboot.Model.Customer;
 
+@Service
 public class CustomerService {
 
     // Database Using Map
