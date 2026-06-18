@@ -18,7 +18,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang validasi req
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi request ini merupakan sebuah prosedur dalam program untuk melakukan pengecekan terhadap data atau permintaan yang masuk melalui API.
 ```
 
 ### 2. Kenapa backend tetap perlu melakukan validasi walaupun frontend sudah melakukan validasi?
@@ -26,7 +26,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi di level backend tetap harus dilakukan walau di frontend sudah dilakukan adalah meminimalisir terjadinya kesalahan akibat adanya celah validasi di frontend dan langsung masuk ke database karena tidak ada validasi di backend
 ```
 
 ### 3. Apa risiko jika API menerima data kosong atau format data yang salah?
@@ -34,7 +34,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Risiko jika API menerima data kosong atau format data yang salah adalah menyebabkan terjadinya error atau logic error apalagi jika data salah itu sampai masuk ke database
 ```
 
 ### 4. Sebutkan contoh validasi untuk field full_name.
@@ -42,7 +42,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi untuk field name dapat berupa maksimal karakter, tidak boleh kosong, tidak boleh ada angka
 ```
 
 ### 5. Sebutkan contoh validasi untuk field email.
@@ -50,7 +50,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+validasi untuk field email dapat berupa formatnya harus email (dengan @email), maksimal panjang karakter, tidak boleh dikosongkan, tidak boleh ada huruf kapital
 ```
 
 ### 6. Sebutkan contoh validasi untuk field phone_number.
@@ -58,7 +58,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi untuk field phone_number dapat berupa inputan yang dimasukkan harus berupa angka, ,maksimal dan minimal jumlah digit nomor, tidak boleh dikosongkan
 ```
 
 ### 7. Apa perbedaan validasi teknis dan validasi bisnis?
@@ -66,7 +66,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Perbedaan validasi teknis dan validasi bisnis adalah validasi teknis biasanya terkait dengan kesesuaian format data yang masuk ke program sedangkan validasi bisnis berkaitan dengan ketentuan yang berkaitan dengan rule bisnis contoh seperti batas usia
 ```
 
 ## Section B - Bean Validation
@@ -76,7 +76,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Anotation @Valid berfungsi untuk memicu proses validasi terhadap objek yang diterima berdasarkan aturan validasi yang telah didefinisikan menggunakan annotation seperti @NotNull, @Size, @Email, dan lain-lain.
 ```
 
 ### 9. Apa fungsi annotation @NotBlank?
@@ -84,7 +84,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotBlank digunakan untuk melakukan validasi bahwa inputan yang masuk tidak boleh kosong
 ```
 
 ### 10. Apa fungsi annotation @NotNull?
@@ -92,7 +92,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotNull itu untuk melakukan validasi tidak boleh value data tidak boleh bernilai NULL
 ```
 
 ### 11. Apa fungsi annotation @Email?
@@ -100,7 +100,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Anotasi @email itu untuk memastikan bahwa data yang masuk itu memiliki format email
 ```
 
 ### 12. Apa fungsi annotation @Size?
@@ -108,7 +108,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi @Size ini untuk melakukan validasi maksimal panjang karakter yang diizinkan
 ```
 
 ### 13. Apa perbedaan @NotBlank dan @NotNull?
@@ -116,7 +116,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Perbedaan @NotBlank dan @NotNull adalah jika @NotBlank tidak boleh kosong nilai datanya, sedangkan @NotNull masih boleh tapi tidak boleh bernilai NULL
 ```
 
 ### 14. Di Spring Boot, validasi biasanya diletakkan di object apa?
@@ -124,7 +124,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi di Spring Boot biasanya diletakkan di object DTO (Data Transfer Object), khususnya pada field-field di dalam class tersebut menggunakan annotation seperti @NotNull, @Size, @Email, dan lain-lain.
 ```
 
 ## Section C - Error Handling
@@ -134,7 +134,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Error handling adalah proses menangani error atau exception yang terjadi dalam aplikasi agar tidak menyebabkan crash dan dapat memberikan respon yang jelas kepada client.
 ```
 
 ### 16. Kenapa error response perlu dibuat konsisten?
@@ -142,7 +142,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+
+Error response perlu konsisten agar mudah dipahami oleh client (frontend atau API consumer), memudahkan debugging, dan menjaga standar komunikasi antar sistem.
+
 ```
 
 ### 17. Apa risiko jika stack trace dikirim ke client?
@@ -150,7 +152,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Mengirim stack trace ke client berisiko membocorkan informasi internal aplikasi seperti struktur kode, library yang digunakan, dan logic bisnis.
 ```
 
 ### 18. Apa perbedaan HTTP status 400, 404, dan 500?
@@ -158,7 +160,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+
+- 400 Bad Request: Client mengirim request yang tidak valid (misalnya format salah).
+- 404 Not Found: Resource yang diminta tidak ditemukan.
+- 500 Internal Server Error: Terjadi kesalahan di server yang tidak dapat diprediksi.
 ```
 
 ### 19. Kapan menggunakan 400 Bad Request?
@@ -166,7 +171,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Digunakan ketika request dari client tidak valid, seperti data tidak sesuai format, missing field, atau gagal validasi.
 ```
 
 ### 20. Kapan menggunakan 404 Not Found?
@@ -174,7 +179,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Digunakan ketika resource yang diminta tidak ditemukan, misalnya ID tidak ada di database
 ```
 
 ### 21. Kapan menggunakan 500 Internal Server Error?
@@ -182,7 +187,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Digunakan ketika terjadi kesalahan di server yang tidak diketahui atau tidak tertangani, seperti null pointer exception atau error sistem lainnya.
 ```
 
 ## Section D - Exception
@@ -192,7 +197,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Exception adalah kondisi error yang terjadi saat program dijalankan (runtime) yang mengganggu alur normal program.
 ```
 
 ### 23. Apa itu RuntimeException?
@@ -200,7 +205,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+RuntimeException adalah jenis exception yang terjadi saat runtime dan tidak wajib ditangani (unchecked exception), seperti NullPointerException atau IllegalArgumentException.
 ```
 
 ### 24. Apa itu custom exception?
@@ -208,7 +213,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Custom exception adalah exception yang dibuat sendiri oleh developer untuk merepresentasikan kondisi error tertentu sesuai dengan kebutuhan bisnis aplikasi.
+
 ```
 
 ### 25. Kenapa kita perlu membuat CustomerNotFoundException?
@@ -216,7 +222,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk merepresentasikan error spesifik ketika data customer tidak ditemukan, sehingga code lebih jelas, terstruktur, dan mudah dibaca dibanding menggunakan exception umum.
 ```
 
 ### 26. Apa perbedaan validation error, business error, dan system error?
@@ -224,7 +230,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validation error: Error karena input tidak valid (misalnya format salah).
+Business error: Error karena melanggar aturan bisnis (misalnya saldo tidak cukup).
+System error: Error karena masalah teknis sistem (misalnya server crash atau koneksi database gagal).
 ```
 
 ## Section E - Global Exception Handler
@@ -234,7 +242,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ControllerAdvice adalah annotation di Spring yang digunakan untuk menangani exception secara global di seluruh controller.
 ```
 
 ### 28. Apa itu @ExceptionHandler?
@@ -242,7 +250,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ExceptionHandler digunakan untuk mendefinisikan method yang menangani jenis exception tertentu.
 ```
 
 ### 29. Kenapa error handling sebaiknya tidak ditulis berulang di setiap Controller?
@@ -250,7 +258,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena akan menyebabkan duplikasi kode, sulit dipelihara, dan tidak konsisten dalam response error.
 ```
 
 ### 30. Apa manfaat centralized error handling?
@@ -258,23 +266,23 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memudahkan maintain code, menghindari duplikasi, memastikan konsistensi response error, dan mempermudah logging serta debugging.
 ```
 
 ## Self Assessment
 
-| Area | Score 1-5 |
-| --- | --- |
-| Request validation | |
-| Bean Validation | |
-| HTTP status code | |
-| Exception | |
-| Custom exception | |
-| Global error handling | |
-| Standard error response | |
+| Area                    | Score 1-5 |
+| ----------------------- | --------- |
+| Request validation      | 4         |
+| Bean Validation         | 3         |
+| HTTP status code        | 4         |
+| Exception               | 3         |
+| Custom exception        | 3         |
+| Global error handling   | 3         |
+| Standard error response | 3         |
 
 ## Notes
 
 ```text
-Tulis bagian yang masih membingungkan.
+
 ```
