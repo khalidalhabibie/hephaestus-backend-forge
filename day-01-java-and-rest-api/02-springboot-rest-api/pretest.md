@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ Framework Java yang digunakan untuk membuat aplikasi Java (terutama aplikasi web dan REST API) dengan cepat dan mudah. Spring Boot merupakan pengembangan dari Spring Framework yang menyederhanakan konfigurasi.
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+REST API (Representational State Transfer Application Programming Interface) adalah cara atau standar yang digunakan agar dua aplikasi bisa saling berkomunikasi melalui internet.
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+HTTP (HyperText Transfer Protocol) adalah protokol (aturan komunikasi) yang digunakan untuk mengirim dan menerima data di internet, terutama antara browser (client) dan server.
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JSON (JavaScript Object Notation) itu adalah format data yang mudah dibaca dan sering dipakai buat ngirim data antara aplikasi (misalnya dari backend ke frontend).
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Endpoint itu adalah alamat URL di API yang bisa diakses untuk melakukan sesuatu (ambil data, kirim data, dll).
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Request itu adalah permintaan yang dikirim oleh client ke server.
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Response itu adalah jawaban dari server setelah menerima request dari client.
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+GET adalah salah satu method di HTTP yang fungsinya untuk mengambil / membaca data dari server.
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+POST adalah method di HTTP yang fungsinya untuk mengirim data ke server (biasanya untuk menambah data baru).
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+PUT adalah method di HTTP yang fungsinya untuk mengupdate / mengganti data yang sudah ada di server.
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DELETE adalah method di HTTP yang fungsinya untuk menghapus data di server.
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+200 OK dipakai ketika request dari client berhasil diproses dengan sukses oleh server.
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -103,7 +103,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+201 Created dipakai ketika request berhasil dan server berhasil membuat data baru.
 ```
 
 ### 14. Kapan menggunakan 400 Bad Request?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+400 Bad Request dipakai ketika request dari client itu salah / tidak valid, jadi server gak bisa memproses request tersebut.
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+404 Not Found dipakai ketika resource / data yang diminta tidak ditemukan di server.
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+500 Internal Server Error dipakai ketika server mengalami error saat memproses request, padahal request dari client sebenarnya sudah benar.
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Path parameter adalah nilai yang dikirim lewat URL untuk menunjuk resource tertentu (biasanya berdasarkan ID).
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +143,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Query parameter adalah data tambahan yang dikirim lewat URL untuk filter, search, atau kondisi tertentu.
 ```
 
 ### 19. Apa itu request body?
