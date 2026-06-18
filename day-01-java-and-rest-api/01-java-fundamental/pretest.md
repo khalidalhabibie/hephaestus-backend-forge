@@ -20,7 +20,7 @@ Estimasi waktu: 20-30 menit.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variable adalah penamaan atas tipe data yang di declare. Contoh String name, name itu variable nya.
 ```
 
 ### 2. Apa itu data type?
@@ -28,7 +28,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Tipe data adalah yang ada di Java seperti integer, float, String, double, varchar, char, dan boolean.
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
@@ -36,7 +36,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+a. String nama;
+b. int angka;
+c. boolean true;
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
@@ -44,7 +46,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variable declaration itu untuk mendeklarasikan tipe data si variable tsb. Supaya gak salah tampil data juga. Misal kalo di python kan kita ga declare, takutnya gada batasan variable tsb. Karena tipe data ini juga ada fungsi untuk mengelola jumlah karakternya. Contoh kayak int dan float. Kalo int itu kan hanya untuk angka bulat saja, sementara float itu engga. Assignment itu kayak String name = "Name";
 ```
 
 ### 5. Apa itu camelCase?
@@ -52,7 +54,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+camelCase adalah cara formatting pengetikan di Java, cth. kelas main activity, di Java di-rename nya "mainActivity.java"
 ```
 
 ## Section B - Class and Object
@@ -62,7 +64,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class biasanya ada di kayak "public class xxxx", class ini harus sesuai dengan nama file yang dinamain.
 ```
 
 ### 7. Apa itu object?
@@ -70,7 +72,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Object itu bisa dikonotasikan sebagai anakan dari Class. Jadi 1 class itu bisa punya banyak Object. cth.
+class nya Mahasiswa, objectnya itu mhs1, jadi ntar penulisannya :
+Mahasiswa mhs1 = new Mahasiswa();
+Mahasiswa ini adalah classnya, mhs1 ini object barunya, nah new Mahasiswa() ini untuk menyatakan bahwa ada object baru nih di kelas Mahasiswa, yaitu si mhs1 ini.
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -78,7 +83,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class bisa terdiri dari banyak object.
 ```
 
 ## Section C - Field, Method, Constructor
@@ -88,7 +93,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menurut saya, field itu kayak si parameternya.
 ```
 
 ### 10. Apa itu method?
@@ -96,7 +101,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Method adalah fungsi yang dioperasikan di Java (kalau di Python dia kayak function). Nah, method ini nantinya dapat dipanggil di kelas di package tsb. Fungsinya adalah untuk menyederhanakan proses program di Java, supaya gak redundan.
 ```
 
 ### 11. Apa itu parameter?
@@ -104,7 +109,11 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Parameter itu variable yang digunakan di method tertentu. Misal method nya public void bacaBuku (String buku, String jenisBuku){
+    xxxx
+}
+
+nah yang didalam () itu adalah parameter. Parameter ini harus sudah di declare sebelum dipanggil.
 ```
 
 ### 12. Apa itu return value?
@@ -112,7 +121,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Return value adalah nilai yang dikembalikan suatu fungsi. Umumnya untuk method yang ada pengolahannya
 ```
 
 ### 13. Apa itu constructor?
@@ -120,7 +129,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Constructor itu mirip method tapi dia memberikan nilai.
 ```
 
 ## Section D - Access Modifier
@@ -130,7 +139,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Private adalah tipe akses di Java, ketika dia private maka tidak bisa diakses oleh kelas lain semudah itu. Butuh Getter Setter. cth. Private int angka; , Private class XXX;
 ```
 
 ### 15. Apa fungsi public?
@@ -138,7 +147,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Public adalah tipe akses di Java, ketika dia public, maka kelas itu akan dapat diakses oleh kelas lainnya. contoh Public Class xxx.
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
@@ -146,7 +155,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar kelas lain tidak bisa sembarangan mengakses field tersebut.
 ```
 
 ## Section E - Getter and Setter
@@ -156,7 +165,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Getter adalah cara untuk membaca data pada kelas lain yang dibungkus oleh akses private.
 ```
 
 ### 18. Apa fungsi setter?
@@ -164,7 +173,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Setter adalah cara untuk merubah data pada kelas lain yang dibungkus oleh akses private di kelas tersebut.
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
@@ -172,7 +181,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menjaga keamanan data dari data leak dan unconfirmed execution.
 ```
 
 ## Section F - Collection
@@ -182,7 +191,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+List itu misal kayak nama1, nama2, nama3. Hanya kumpulan data tanpa nilai didalamnya.
+
 ```
 
 ### 21. Apa itu Map?
@@ -190,7 +200,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Map itu kayak dictionary dia misal ada angka = 1.
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -198,7 +208,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kalo data cuma 1 dan gada di-assign kemana2 dan gaada nilai nya, pake List cukup.
 ```
 
 ## Section G - OOP Basic
@@ -208,7 +218,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Encapsulation adalah salah satu metode untuk memberikan akses kepada sebuah field.
 ```
 
 ### 24. Apa itu interface?
@@ -216,7 +226,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Interface adalah sebuah blueprint yang memanggil semua method/property yang ada
 ```
 
 ### 25. Apa itu abstract class?
@@ -224,7 +234,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Abstract class itu gaperlu manggil semua method/property
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
@@ -232,7 +242,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Abstract class itu gaperlu manggil semua method/property
 ```
 
 ## Self Assessment
@@ -241,10 +251,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [ ] | [v] |
+| Class and object | [ ] | [ ] | [v] |
+| Field/method/constructor | [ ] | [v] | [ ] |
+| Access modifier | [ ] | [ ] | [v] |
+| Getter/setter | [ ] | [v] | [ ] |
+| List/Map | [v] | [ ] | [ ] |
+| Interface/abstract class | [v] | [ ] | [ ] |
