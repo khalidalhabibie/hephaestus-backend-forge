@@ -15,9 +15,15 @@ import com.example.demo.dto.PatchUpdateCustomerRequest;
 import com.example.demo.dto.PutUpdateCustomerRequest;
 import com.example.demo.exception.CustomerNotFoundException;
 import com.example.demo.model.Customer;
+import com.example.demo.model.Role;
+import com.example.demo.security.RoleValidation;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
+    private final RoleValidation roleValidation;
 
 
     private Map<Long, Customer> customerStorage = new HashMap<>();
@@ -25,6 +31,8 @@ public class CustomerService {
 
 
     public List<CustomerResponse> getCustomers() {
+        roleValidation.assign(Role.ADMIN, Role.STAFF, Role.APPROVER);
+
         List<CustomerResponse> responses = new ArrayList<>();
 
         for (Customer customer : customerStorage.values()) {
@@ -43,13 +51,16 @@ public class CustomerService {
     }
 
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
+        roleValidation.assign(Role.ADMIN, Role.STAFF);
         Customer customer = new Customer();
-        customerStorage.put(sequence, customer);
+        
         customer.setId(sequence);
         customer.setFullName(request.getFullName());
         customer.setEmail(request.getEmail());
         customer.setPhoneNumber(request.getPhoneNumber());
         customer.setCreatedAt(ZonedDateTime.now());
+
+        customerStorage.put(sequence, customer);
 
         sequence++;
 
@@ -65,6 +76,7 @@ public class CustomerService {
     }
 
     public CustomerResponse getCustomerResponseById(Long id) {
+        roleValidation.assign(Role.ADMIN, Role.STAFF, Role.APPROVER);
         CustomerResponse response = new CustomerResponse();
 
         if (customerStorage.get(id) == null) {
@@ -84,6 +96,8 @@ public class CustomerService {
     }
 
     public DeleteCustomerResponse deleteCustomerResponseById(Long id) {
+        roleValidation.assign(Role.ADMIN, Role.STAFF, Role.APPROVER);
+
         if (customerStorage.get(id) == null) {
             throw new CustomerNotFoundException(id);
         }
@@ -97,6 +111,7 @@ public class CustomerService {
 
     public CustomerResponse putCustomerResponseById(Long id,
             PutUpdateCustomerRequest request) {
+        roleValidation.assign(Role.ADMIN, Role.STAFF, Role.APPROVER);
 
         if (customerStorage.get(id) == null) {
             throw new CustomerNotFoundException(id);
@@ -123,6 +138,8 @@ public class CustomerService {
 
     public CustomerResponse patchCustomerResponseById(Long id,
             PatchUpdateCustomerRequest request) {
+
+        roleValidation.assign(Role.ADMIN, Role.STAFF, Role.APPROVER);
 
         if (customerStorage.get(id) == null) {
             throw new CustomerNotFoundException(id);
@@ -158,6 +175,7 @@ public class CustomerService {
     }
 
     public List<CustomerResponse> getCustomerResponsesByNameOrEmail(String name, String email) {
+        roleValidation.assign(Role.ADMIN, Role.STAFF, Role.APPROVER);
 
         List<CustomerResponse> responses = new ArrayList<>();
 

@@ -44,10 +44,23 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(LoanApplicationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> loanApplicationNotFoundException(LoanApplicationNotFoundException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(ErrorResponse.builder().code("LOAN_APPLICATION_NOT_FOUND").message(exception.getMessage()).errors(List.of()).build());
+
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> exception(Exception exception){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ErrorResponse.builder().code("INTERNAL_SERVER_ERROR").message(exception.getMessage()).errors(List.of()).build());
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> forbiddenException(ForbiddenException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(ErrorResponse.builder().code("FORBIDDEN").message(exception.getMessage()).errors(List.of()).build());
     }
     
 }

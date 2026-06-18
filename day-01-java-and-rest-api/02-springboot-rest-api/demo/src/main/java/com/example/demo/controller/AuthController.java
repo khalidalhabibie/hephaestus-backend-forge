@@ -1,12 +1,9 @@
 package com.example.demo.controller;
 
 
-// import com.aegira.loan.auth.dto.LoginRequest;
-// import com.aegira.loan.auth.dto.LoginResponse;
-// import com.aegira.loan.common.dto.ApiResponse;
+
 import lombok.RequiredArgsConstructor;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
