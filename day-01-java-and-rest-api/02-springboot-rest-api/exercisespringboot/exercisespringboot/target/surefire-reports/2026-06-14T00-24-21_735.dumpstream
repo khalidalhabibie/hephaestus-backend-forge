@@ -1,0 +1,5 @@
+# Created at 2026-06-14T00:24:21.950
+Boot Manifest-JAR contains absolute paths in classpath 'D:\FIFGROUP\belajarcoding\hephaestus-backend-forge\day-01-java-and-rest-api\02-springboot-rest-api\exercisespringboot\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
