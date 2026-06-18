@@ -20,7 +20,7 @@ Estimasi waktu: 20-30 menit.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variabel merupakan tempat menyimpan suatu data dalam suatu program yang memiliki nama.
 ```
 
 ### 2. Apa itu data type?
@@ -28,7 +28,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Data type merupakan jenis atau format dari suatu data baik itu berupa angka, text, atau lain sebagainya.
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
@@ -36,7 +36,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+contoh tipe data
+1. text: String, char
+2. number: Integer, double, long, short, float
+3. true/ false: boolean
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
@@ -44,7 +47,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+1. Variable declaration merupakan proses dalam menginisiasi suqatu variabel yang seblumnya belum ada
+2. Variable assigment merupakan sebuah proses memasukkan sebuah value atau data ke dalam sebuah variabel
 ```
 
 ### 5. Apa itu camelCase?
@@ -52,7 +56,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+CamelCase merupakan sebuah aturan penulisan dimana dalam menghubungan beberapa kata tanpa spasi dimana untuk memisahkan antar kata menggunakan penanda berupa huruf capital
 ```
 
 ## Section B - Class and Object
@@ -62,7 +66,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class merupakan sebuah entitas di dalam suatu bahasa pemrograman yang merupakan sebuah cetakan dimana di dalam terdapat berbagai atribut ataupun method
 ```
 
 ### 7. Apa itu object?
@@ -70,7 +74,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Object adalah bentuk implementasi dari class yang digunakan dalam suatu pemrograman
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -78,7 +82,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class masih berupa blue print atau cetakan sedangkan object merupakan bentuk implementasi dari class yang digunakan dalam suatu program.
 ```
 
 ## Section C - Field, Method, Constructor
@@ -88,7 +92,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field merupakan variabel-variabel yang tersimpan dalam suatu class
 ```
 
 ### 10. Apa itu method?
@@ -96,7 +100,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Method merupakan seuatu fungsi atau prosedur yang dapat digunakan untuk melakukan sesuatu atau menghasilkan sesuatu
 ```
 
 ### 11. Apa itu parameter?
@@ -104,7 +108,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Parameter merupakan inputan dari suatu class atau method yang akan digunakan dalam proses
 ```
 
 ### 12. Apa itu return value?
@@ -112,7 +116,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Return value merupakan nilai balik atau hasil dari suatu program yang dijalankan
 ```
 
 ### 13. Apa itu constructor?
@@ -120,7 +124,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Constructor merupakan program pertama yang diajalankan pada suatu class atau bisa dibilang atribut yang melekat pada suatu class.
 ```
 
 ## Section D - Access Modifier
@@ -130,7 +134,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi private dalam pemrograman adalah untuk membatasi akses dari variabel ataupun method dalam suatu class sehingga hanya dapat diakses pada class yang sama jika tidak diberi getter dan setter
 ```
 
 ### 15. Apa fungsi public?
@@ -138,7 +142,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi public adalah untuk membrikan akses kepada suatu class untuk mengambil method ataupun variabel dari suatu class lain
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
@@ -146,7 +150,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field biasa dibuat private karena untuk membatasi akses sehingga data yang ditampilkan kepada user itu dapat disesuikan hanya yang berkaitan atau diziinkan saja.
 ```
 
 ## Section E - Getter and Setter
@@ -156,7 +160,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+fungsi getter adalah merupakan suatu method yang diberikan oleh suatu class untuk memberikan akses kepada kelas lain untuk mengakses nilai suatu variabel yang sifatnya adalah privat
 ```
 
 ### 18. Apa fungsi setter?
@@ -164,7 +168,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+fungsi setter adalah merupakan suatu method yang diberikan oleh suatu class untuk memberikan akses kepada kelas lain untuk mengubah atau menambahkan nilai suatu variabel yang sifatnya adalah privat
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
@@ -172,7 +176,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Tidak semua field dibuat public agar dapat meningkatkan keamanan dari suatu program karena suatu data dalam class hanya dapat diakses oleh class lain hanya yang diizinkan saja
 ```
 
 ## Section F - Collection
@@ -182,7 +186,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+List merupakan suatu tipe data dimana berisi beberapa value dan dapat diambil bagian dari kumpulan value itu
 ```
 
 ### 21. Apa itu Map?
@@ -190,7 +194,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Map merupakan kumpulan nilai dimana didalamnya terdapat pasangan antara key dengan valuenya
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -198,7 +202,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+menggunakan list ketika ingin menyimpan beberapa value tanpa ada pasangan dari masing masing value di dalamnya, sedangkan menggunakan map jika menyimpan beberapa value dimana tiap value di dalamnya mempunyai pasangan dengan suatu konteks.
 ```
 
 ## Section G - OOP Basic
@@ -208,7 +212,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Encapsulation merupakan suatu prosedur dalam menentukan akses terhadap field ataupun method dalam suatu class isinya dapat berupa privat, public, ataupun default
 ```
 
 ### 24. Apa itu interface?
@@ -216,7 +220,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Interface merupakan sebuah blueprint yang didalamnya terhadap method atau prosedure yang harus dipunyai class yanh melakukan implementasi terhadap semua method atau prosedure dalam interface itu
 ```
 
 ### 25. Apa itu abstract class?
@@ -224,7 +228,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Abstract class merupakan sebuah blueprint dimana di dalamnya terdapat method atau prosedur dimana di dalamnya bisa ditentukan mana yang wajib dimiliki anak anaknya dan mana yang tidak perlu
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
@@ -232,7 +236,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Perbedaan interface  dengan abstract adalah jika interface semua methode dan atribut didalamnya wajib digunakan semua oleh anak anaknya, sedangkan abstract tidak semua method atau prosedurnya harus digunakan oleh anak anaknya. Serta untuk class dapat melakukan implementasi dari beberapa interface sementara class hanya dapat melakukan extend dari satu abstrak saja.
 ```
 
 ## Self Assessment
@@ -241,10 +245,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [ ] | [x] |
+| Class and object | [ ] | [x] | [ ] |
+| Field/method/constructor | [ ] | [ ] | [x] |
+| Access modifier | [ ] | [x] | [ ] |
+| Getter/setter | [ ] | [ ] | [x] |
+| List/Map | [ ] | [ ] | [x] |
+| Interface/abstract class | [ ] | [x] | [ ] |
