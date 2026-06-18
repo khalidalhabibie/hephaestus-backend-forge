@@ -122,18 +122,18 @@ src/main/java/com/example/training/
 
 ## Acceptance Criteria
 
-- [ ] Program bisa berjalan dari `Main`.
-- [ ] Field pada `Customer` menggunakan `private`.
-- [ ] `Customer` memiliki constructor.
-- [ ] `Customer` memiliki getter dan setter.
-- [ ] `Customer` memiliki method `getDisplayName()`.
-- [ ] `CustomerService` menggunakan `Map<Long, Customer>`.
-- [ ] Method `createCustomer` berjalan dengan benar.
-- [ ] Method `getCustomerById` berjalan dengan benar.
-- [ ] Method `getAllCustomers` berjalan dengan benar.
-- [ ] ID auto-increment dimulai dari 1.
-- [ ] Tidak menggunakan Spring Boot.
-- [ ] Tidak menggunakan database.
+- [v ] Program bisa berjalan dari `Main`.
+- [ v] Field pada `Customer` menggunakan `private`.
+- [ v] `Customer` memiliki constructor.
+- [ v] `Customer` memiliki getter dan setter.
+- [ v] `Customer` memiliki method `getDisplayName()`.
+- [ v] `CustomerService` menggunakan `Map<Long, Customer>`.
+- [ v] Method `createCustomer` berjalan dengan benar.
+- [ v] Method `getCustomerById` berjalan dengan benar.
+- [ v] Method `getAllCustomers` berjalan dengan benar.
+- [ v] ID auto-increment dimulai dari 1.
+- [ v] Tidak menggunakan Spring Boot.
+- [ v] Tidak menggunakan database.
 
 ## Optional Challenge
 
