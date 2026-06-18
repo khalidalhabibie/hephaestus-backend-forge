@@ -117,4 +117,15 @@ public class CustomerService {
         customerStorage.remove(id);
     }
 
+    public CustomerResponse getCustomerByEmail(String email) {
+        Customer cs = customerStorage.values()
+                .stream()
+                .filter(customer -> customer.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElseThrow(() -> new CustomerNotFoundException(
+                        "Customer dengan email (" + email + ") tidak bisa ditemukan"));
+
+        return toResponse(cs);
+    }
+
 }

@@ -84,4 +84,13 @@ public class CustomerControllerV1 {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "Get customer by email", description = "Retrieves a customer by their email address")
+    @ApiResponse(responseCode = "200", description = "Customer retrieved successfully")
+    @ApiResponse(responseCode = "404", description = "Customer not found")
+    public ResponseEntity<CustomerResponse> getCustomerByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(
+            customerService.getCustomerByEmail(email));
+    }
+
 }
