@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,14 +22,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import com.fif.exercise02.dto.CreateCustomerRequest;
 import com.fif.exercise02.dto.CustomerResponse;
+import com.fif.exercise02.dto.ErrorResponse;
 import com.fif.exercise02.dto.PatchCustomerRequest;
 import com.fif.exercise02.dto.PatchCustomerResponse;
+import com.fif.exercise02.security.AuthContext;
+import com.fif.exercise02.security.AuthUtil;
+import com.fif.exercise02.security.RoleValidator;
 import com.fif.exercise02.service.CustomerService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v2/customers")
+@RequestMapping("/api/v1/customers")
 @Tag(name = "Customer API", description = "API untuk mengelola data customer")
 public class CustomerControllerV2 {
 
@@ -44,12 +49,22 @@ public class CustomerControllerV2 {
             @ApiResponse(responseCode = "201", description = "Customer berhasil dibuat"),
             @ApiResponse(responseCode = "400", description = "Request tidak valid")
     })
-    public ResponseEntity<CustomerResponse> createCustomer(
-            @Valid @RequestBody CreateCustomerRequest request) {
 
-        CustomerResponse response = customerService.createCustomer(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+        public ResponseEntity<?> createCustomer(
+                @RequestHeader("Authorization") String header,
+                @Valid @RequestBody CreateCustomerRequest request) {
+
+        var ctx = getAuth(header);
+        if (ctx == null) return unauthorized();
+
+        if (!RoleValidator.isAllowed(ctx.getRole(), "ADMIN", "STAFF")) {
+                return forbidden();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(customerService.createCustomer(request));
+        }
+
 
     @GetMapping
     @Operation(summary = "Get all customers", description = "Mengambil semua data customer")
@@ -134,5 +149,24 @@ public class CustomerControllerV2 {
 
         return ResponseEntity.ok(customerService.getCustomerByEmail(email));
     }      
+
+
+
+    private AuthContext getAuth(String header) {
+    return AuthUtil.parseToken(AuthUtil.extractToken(header));
+}
+
+private ResponseEntity<?> unauthorized() {
+        return ResponseEntity.status(401)
+                        .body(ErrorResponse.error("401", "UNAUTHORIZED", null));
+}    
+
+private ResponseEntity<?> forbidden() {
+
+        return ResponseEntity.status(403)
+                        .body(ErrorResponse.error("403", "FORBIDDEN", null));
+    
+}
+
 
 }
