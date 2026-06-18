@@ -7,7 +7,7 @@ Jawab pertanyaan berikut dengan bahasa sendiri sebelum membaca materi Spring Boo
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SpringBoot adalah framework untuk mempermudah backend dalam proses pembuatan dan handle Rest Api
 ```
 
 ### 2. Apa itu REST API?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+cara komunikasi antara client dan server dengan HTTP yang dimana data biasanya dikirim dalam bentuk JSON
 ```
 
 ### 3. Apa itu HTTP?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+protokol komunikasi yang digunakan untuk tukar data antara client dan server
 ```
 
 ### 4. Apa itu JSON?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+format data yang dikirimkan selama pertukaran data
 ```
 
 ### 5. Apa itu endpoint?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+url untuk mengakses suatu service ataupunt resource berupa tampilan dan data
 ```
 
 ### 6. Apa itu request?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+permintaan yang dikirimkan client kepada server
 ```
 
 ### 7. Apa itu response?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+jawaban yang diberikan oleh server atas permintaan request dari client
 ```
 
 ### 8. Apa fungsi GET?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bertujuan untuk mendapatkan sebuah data dari server
 ```
 
 ### 9. Apa fungsi POST?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bertujuan untuk mengirimkan data baru kepada server
 ```
 
 ### 10. Apa fungsi PUT?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bertujuan untuk memberikan update baru kepada data yang sudah di post sebelumnya.
 ```
 
 ### 11. Apa fungsi DELETE?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bertujuan untuk menghapus data yang ada di server sesuai kebutuhan
 ```
 
 ### 12. Kapan menggunakan 200 OK?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika proses request dan data berhasil di proses
 ```
 
 ### 13. Kapan menggunakan 201 Created?
@@ -103,7 +103,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika proses post data baru berhasil terbuat di sisi server
 ```
 
 ### 14. Kapan menggunakan 400 Bad Request?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika request dari client bersifat salah
 ```
 
 ### 15. Kapan menggunakan 404 Not Found?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika request data yang dibutuhkan tidak ditemukan
 ```
 
 ### 16. Kapan menggunakan 500 Internal Server Error?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika terjadi kesalahan di sisi server
 ```
 
 ### 17. Apa itu path parameter?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+parameter yang berada di URL path untuk menunjuk resource tertentu dan mengirimkan data melalui pathnya
 ```
 
 ### 18. Apa itu query parameter?
@@ -143,7 +143,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+parameter tambahan di URL yang digunakan untuk filter data
 ```
 
 ### 19. Apa itu request body?
@@ -151,7 +151,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+data yang dikirim oleh client ke server dalam request
 ```
 
 ### 20. Apa tugas Controller?
@@ -159,7 +159,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bertugas menerima request dari client dan mengembalikan response
 ```
 
 ### 21. Apa tugas Service?
@@ -167,7 +167,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bertugas menjalankan business logic dari aplikasi
 ```
 
 ### 22. Apa itu DTO?
@@ -175,7 +175,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+objek sederhana yang digunakan untuk membawa data antar proses
 ```
 
 ### 23. Apa itu Model?
@@ -183,7 +183,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebagai blueprint tempat mengatur data dan aturan penyimpanan data
 ```
 
 ### 24. Kenapa business logic tidak ditaruh di Controller?
@@ -191,7 +191,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar lebih rapih, mudah dalam maintenance, dan juga dalam pengembangan
 ```
 
 ### 25. Kenapa request/response perlu DTO?
@@ -199,5 +199,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar data yang dikirim lebih aman dan tidak langsung memperlihatkan struktur database
 ```
