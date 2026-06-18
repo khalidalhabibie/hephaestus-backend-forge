@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
-    private FieldErrorResponse toFieldErrorResponse(FieldError error) {
+    private FieldErrorResponse toFieldErrorResponse(FieldErrorResponse error) {
         return new FieldErrorResponse(error.getField(), error.getDefaultMessage());
     }
 }
