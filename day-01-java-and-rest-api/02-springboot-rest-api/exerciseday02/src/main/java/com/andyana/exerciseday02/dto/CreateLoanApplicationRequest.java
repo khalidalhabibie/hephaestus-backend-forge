@@ -10,20 +10,20 @@ import lombok.Data;
 @Data
 public class CreateLoanApplicationRequest {
     
-    @NotNull(message = "Customer ID is required")
+    @NotNull(message = "Tolong isi ID customernya")
     @JsonProperty("customer_id")
     private Long customerId;
     
-    @NotNull(message = "Loan amount is required")
-    @Min(value = 1, message = "Loan amount must be greater than 0")
+    @NotNull(message = "Tolong isi Loan Amountnya")
+    @Min(value = 1, message = "Loan amount lebih dari 0")
     @JsonProperty("loan_amount")
     private Long loanAmount;
     
-    @NotNull(message = "Tenor month is required")
-    @Min(value = 1, message = "Tenor month must be greater than 0")
+    @NotNull(message = "Tolong isi tenornya berapa bulan")
+    @Min(value = 1, message = "Harus lebih dari 0")
     @JsonProperty("tenor_month")
     private Integer tenorMonth;
     
-    @NotBlank(message = "Purpose is required")
+    @NotBlank(message = "Tolong isi tujuan pinjaman")
     private String purpose;
 }
