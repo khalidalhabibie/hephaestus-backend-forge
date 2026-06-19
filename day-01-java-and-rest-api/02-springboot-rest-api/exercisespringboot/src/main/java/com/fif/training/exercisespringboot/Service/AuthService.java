@@ -19,6 +19,7 @@ public class AuthService {
         users.add(new User("admin", "admin123", "ADMIN", "token-admin"));
         users.add(new User("staff", "staff123", "STAFF", "token-staff"));
         users.add(new User("approver", "approver123", "APPROVER", "token-approver"));
+        users.add(new User("manager", "manager123", "MANAGER", "token-manager"));
     }
 
     public User authenticate(String username, String password) {

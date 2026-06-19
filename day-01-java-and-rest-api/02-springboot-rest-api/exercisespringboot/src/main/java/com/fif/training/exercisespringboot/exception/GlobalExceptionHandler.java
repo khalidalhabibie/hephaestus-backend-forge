@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -35,7 +34,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(LoanApplicationNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleLoanApplicationNotFound(LoanApplicationNotFoundException ex) {
-        ErrorResponse response = new ErrorResponse("LOAN_APPLICATION_NOT_FOUND", ex.getMessage(), Collections.emptyList());
+        ErrorResponse response = new ErrorResponse("LOAN_APPLICATION_NOT_FOUND", ex.getMessage(),
+                Collections.emptyList());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
@@ -53,7 +53,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralError(Exception ex) {
-        ErrorResponse response = new ErrorResponse("INTERNAL_SERVER_ERROR", "Unexpected error occurred", Collections.emptyList());
+        ErrorResponse response = new ErrorResponse("INTERNAL_SERVER_ERROR", "Unexpected error occurred",
+                Collections.emptyList());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex) {
+        ErrorResponse response = new ErrorResponse(
+                "BAD_REQUEST",
+                ex.getMessage(),
+                Collections.emptyList());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }

@@ -10,25 +10,25 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    @Bean
-    public OpenAPI customOpenAPI() {
+        @Bean
+        public OpenAPI customOpenAPI() {
 
-        final String securitySchemeName = "bearerAuth";
+                final String securitySchemeName = "bearerAuth";
 
-        return new OpenAPI()
-                .info(new Info()
-                        .title("Loan Application API")
-                        .version("1.0")
-                        .description("API Documentation"))
-                .addSecurityItem(
-                        new SecurityRequirement()
-                                .addList(securitySchemeName))
-                .schemaRequirement(
-                        securitySchemeName,
-                        new SecurityScheme()
-                                .name(securitySchemeName)
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
-                                .bearerFormat("JWT"));
-    }
+                return new OpenAPI()
+                                .info(new Info()
+                                                .title("Loan Application API")
+                                                .version("1.0")
+                                                .description("API Documentation"))
+                                .addSecurityItem(
+                                                new SecurityRequirement()
+                                                                .addList(securitySchemeName))
+                                .schemaRequirement(
+                                                securitySchemeName,
+                                                new SecurityScheme()
+                                                                .name(securitySchemeName)
+                                                                .type(SecurityScheme.Type.HTTP)
+                                                                .scheme("bearer")
+                                                                .bearerFormat("JWT"));
+        }
 }

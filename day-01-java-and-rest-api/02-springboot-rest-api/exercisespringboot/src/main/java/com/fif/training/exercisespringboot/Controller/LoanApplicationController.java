@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fif.training.exercisespringboot.DTO.CreateLoanApplicationRequest;
 import com.fif.training.exercisespringboot.DTO.LoanApplicationResponse;
+import com.fif.training.exercisespringboot.Model.LoanStatus;
 import com.fif.training.exercisespringboot.Model.User;
 import com.fif.training.exercisespringboot.Security.AuthContext;
 import com.fif.training.exercisespringboot.Security.AuthUtil;
@@ -22,13 +24,11 @@ import com.fif.training.exercisespringboot.Service.LoanApplicationService;
 import com.fif.training.exercisespringboot.exception.ForbiddenException;
 import com.fif.training.exercisespringboot.exception.UnauthorizedException;
 
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/loan-applications")
-@SecurityRequirement(name = "bearerAuth")
 public class LoanApplicationController {
 
     private final LoanApplicationService loanApplicationService;
@@ -63,9 +63,19 @@ public class LoanApplicationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications(HttpServletRequest request) {
+    public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications(
+            @RequestParam(required = false) String status,
+            @RequestParam(name = "customer_id", required = false) Long customerId,
+            HttpServletRequest request) {
+
         validateToken(request);
-        return ResponseEntity.ok(loanApplicationService.getAll());
+
+        LoanStatus filterStatus = null;
+        if (status != null && !status.isBlank()) {
+            filterStatus = LoanStatus.valueOf(status.toUpperCase());
+        }
+
+        return ResponseEntity.ok(loanApplicationService.getAll(filterStatus, customerId));
     }
 
     @GetMapping("/{id}")
@@ -82,8 +92,8 @@ public class LoanApplicationController {
             @PathVariable Long id,
             HttpServletRequest request) {
         User user = validateToken(request);
-        checkRole(user, "ADMIN", "APPROVER");
-        LoanApplicationResponse response = loanApplicationService.approve(id);
+        checkRole(user, "ADMIN", "APPROVER", "MANAGER");
+        LoanApplicationResponse response = loanApplicationService.approve(id, user);
         return ResponseEntity.ok(response);
     }
 
@@ -94,6 +104,16 @@ public class LoanApplicationController {
         User user = validateToken(request);
         checkRole(user, "ADMIN", "APPROVER");
         LoanApplicationResponse response = loanApplicationService.reject(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<LoanApplicationResponse> cancelLoanApplication(
+            @PathVariable Long id,
+            HttpServletRequest request) {
+        User user = validateToken(request);
+        checkRole(user, "ADMIN", "STAFF", "MANAGER");
+        LoanApplicationResponse response = loanApplicationService.cancel(id);
         return ResponseEntity.ok(response);
     }
 }

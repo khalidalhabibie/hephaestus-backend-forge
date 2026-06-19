@@ -12,6 +12,7 @@ public class TokenValidator {
         TOKEN_ROLE_MAP.put("token-admin", "ADMIN");
         TOKEN_ROLE_MAP.put("token-staff", "STAFF");
         TOKEN_ROLE_MAP.put("token-approver", "APPROVER");
+        TOKEN_ROLE_MAP.put("token-manager", "MANAGER"); // ← baru
     }
 
     public boolean isValid(String token) {
