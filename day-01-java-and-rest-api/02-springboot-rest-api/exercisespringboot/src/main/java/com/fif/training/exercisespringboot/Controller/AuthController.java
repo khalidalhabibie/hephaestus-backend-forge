@@ -34,7 +34,6 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getCurrentUser(@RequestHeader("Authorization") String token) {
         String fixToken = token.replace("Bearer ", "");
-        System.out.println("Token received: " + fixToken);
         UserResponse userResponse = authService.getCurrentUser(fixToken);
         return ResponseEntity.ok(userResponse);
     }

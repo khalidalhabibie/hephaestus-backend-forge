@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoanApplicationResponse {
-
     private Long id;
 
     @JsonProperty("customer_id")

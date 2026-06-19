@@ -1,30 +1,25 @@
 package com.fif.training.exercisespringboot.DTO;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-@JsonPropertyOrder({
-        "full_name",
-        "email",
-        "phone_number"
-})
-
+@JsonPropertyOrder({ "full_name", "email", "phone_number" })
 public class PatchCustomerRequest {
     @JsonProperty("full_name")
     @Size(max = 100, message = "Maksimal 100 karakter", min = 3)
-    public String fullName;
+    private String fullName;
 
     @Email
-    public String email;
+    private String email;
 
     @JsonProperty("phone_number")
     @Size(min = 10, message = "Minimal 10 karakter")
-    public String phoneNumber;
+    private String phoneNumber;
 }

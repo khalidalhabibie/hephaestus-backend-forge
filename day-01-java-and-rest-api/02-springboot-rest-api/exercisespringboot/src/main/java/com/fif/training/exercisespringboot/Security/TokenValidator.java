@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TokenValidator {
-
     private static final Map<String, String> TOKEN_ROLE_MAP = new HashMap<>();
 
     static {
@@ -23,4 +22,3 @@ public class TokenValidator {
         return TOKEN_ROLE_MAP.get(token);
     }
 }
-

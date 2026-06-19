@@ -11,23 +11,19 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@JsonPropertyOrder({
-		"full_name",
-		"email",
-		"phone_number"
-})
+@JsonPropertyOrder({ "full_name", "email", "phone_number" })
 public class CreateCustomerRequest {
-	@JsonProperty("full_name")
-	@NotBlank(message = "Nama harus diisi dengan benar")
-	@Size(max = 100, message = "Maksimal 100 karakter", min = 3)
-	public String fullName;
+    @JsonProperty("full_name")
+    @NotBlank(message = "Nama harus diisi dengan benar")
+    @Size(max = 100, message = "Maksimal 100 karakter", min = 3)
+    private String fullName;
 
-	@NotBlank(message = "Email harus diisi dengan benar")
-	@Email
-	public String email;
+    @NotBlank(message = "Email harus diisi dengan benar")
+    @Email
+    private String email;
 
-	@JsonProperty("phone_number")
-	@NotBlank(message = "Phone number harus diisi dengan benar")
-	@Size(min = 10, message = "Minimal 10 karakter")
-	public String phoneNumber;
+    @JsonProperty("phone_number")
+    @NotBlank(message = "Phone number harus diisi dengan benar")
+    @Size(min = 10, message = "Minimal 10 karakter")
+    private String phoneNumber;
 }

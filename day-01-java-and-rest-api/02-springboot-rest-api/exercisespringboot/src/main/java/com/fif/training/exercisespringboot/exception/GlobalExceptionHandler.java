@@ -1,6 +1,5 @@
 package com.fif.training.exercisespringboot.exception;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
-//import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,39 +19,41 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationError(MethodArgumentNotValidException ex) {
-        List<FieldErrorResponse> errors = new ArrayList<>();
+        List<FieldErrorResponse> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> new FieldErrorResponse(fieldError.getField(), fieldError.getDefaultMessage()))
+                .collect(Collectors.toList());
 
-        for (FieldErrorResponse error : errors) {
-            System.out.println("Field: " + error.getField() + ", Message: " + error.getMessage());
-            var result = new FieldErrorResponse(error.getField(), error.getMessage());
-            errors.add(result);
-        }
-        ErrorResponse response = new ErrorResponse(
-                "VALIDATION_ERROR",
-                "Invalid request",
-                errors);
-
+        ErrorResponse response = new ErrorResponse("VALIDATION_ERROR", "Invalid request", errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCustomerNotFound(CustomerNotFoundException ex) {
-        ErrorResponse response = new ErrorResponse(
-                "CUSTOMER_NOT_FOUND",
-                ex.getMessage(),
-                Collections.emptyList());
-
+        ErrorResponse response = new ErrorResponse("CUSTOMER_NOT_FOUND", ex.getMessage(), Collections.emptyList());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(LoanApplicationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleLoanApplicationNotFound(LoanApplicationNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse("LOAN_APPLICATION_NOT_FOUND", ex.getMessage(), Collections.emptyList());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex) {
+        ErrorResponse response = new ErrorResponse("UNAUTHORIZED", ex.getMessage(), Collections.emptyList());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbidden(ForbiddenException ex) {
+        ErrorResponse response = new ErrorResponse("FORBIDDEN", ex.getMessage(), Collections.emptyList());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneralError(Exception ex) {
-        ErrorResponse response = new ErrorResponse(
-                "INTERNAL_SERVER_ERROR",
-                "Unexpected error occurred",
-                Collections.emptyList());
-
+        ErrorResponse response = new ErrorResponse("INTERNAL_SERVER_ERROR", "Unexpected error occurred", Collections.emptyList());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-
 }
