@@ -225,7 +225,7 @@ Fungsi @Id adalah untuk menandai sebuah field (atribut) dalam entity sebagai pri
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi @GeneratedValue adalah untuk mengatur bagaimana nilai primary key dibuat secara otomatis oleh sistem.
 ```
 
 27. Apa itu Repository?
@@ -249,7 +249,7 @@ Fungsi JpaRepository adalah untuk menyediakan berbagai method siap pakai dalam m
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Pada Spring Boot 3, import JPA menggunakan jakarta.persistence karena terjadi perubahan namespace dari Java EE ke Jakarta EE.
 ```
 
 ## Section D - Query
@@ -259,7 +259,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Derived query method di Spring Data JPA adalah metode pada repository yang dibuat otomatis berdasarkan nama method tanpa perlu menulis query SQL atau JPQL secara manual.
 ```
 
 31. Apa contoh query method untuk mencari customer berdasarkan email?
@@ -286,7 +286,8 @@ Fungsi @Query adalah untuk menuliskan query secara manual (custom query) pada re
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JPQL (Java Persistence Query Language) adalah query yang ditulis menggunakan nama entity dan field di Java, bukan langsung nama tabel di database. JPQL bersifat lebih fleksibel karena mengikuti konsep ORM.
+Native query adalah query yang ditulis menggunakan SQL asli sesuai dengan database, sehingga menggunakan nama tabel dan kolom secara langsung.
 ```
 
 34. Kapan menggunakan native query?
@@ -294,7 +295,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Native query digunakan ketika query yang dibutuhkan tidak bisa atau sulit dibuat dengan JPQL.
 ```
 
 ## Section E - Flyway
@@ -312,7 +313,7 @@ Database migration adalah proses mengelola perubahan struktur database secara te
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Flyway adalah sebuah tool database migration yang digunakan untuk mengelola dan menjalankan perubahan schema database secara terstruktur dan terkontrol.
 ```
 
 37. Kenapa perubahan schema database perlu versioning?
@@ -328,7 +329,7 @@ Perubahan schema database perlu versioning karena untuk melacak dan mengelola se
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+File V1__create_customers_table.sql adalah file migration pada Flyway yang digunakan untuk menjalankan perubahan pada database.
 ```
 
 39. Apa risiko jika struktur database diubah manual tanpa migration?
@@ -354,7 +355,7 @@ Relationship antar table adalah hubungan atau keterkaitan antara dua atau lebih 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+One-to-many (1:N) adalah jenis relationship dalam database di mana satu data di sebuah tabel dapat berhubungan dengan banyak data di tabel lain.
 ```
 
 42. Apa itu many-to-one?
@@ -362,7 +363,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Many-to-one (N:1) adalah jenis relationship dalam database di mana banyak data di satu tabel berhubungan dengan satu data di tabel lain.
 ```
 
 43. Apa fungsi @ManyToOne?
@@ -370,7 +371,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi @ManyToOne adalah untuk menentukan hubungan many-to-one antara dua entity di JPA/Hibernate.
 ```
 
 44. Apa fungsi @OneToMany?
@@ -378,7 +379,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi @OneToMany adalah untuk menentukan hubungan one-to-many antara dua entity di JPA/Hibernate.
 ```
 
 45. Apa itu lazy loading?
@@ -386,7 +387,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Lazy loading adalah teknik dalam JPA atau Hibernate di mana data relasi tidak langsung diambil dari database saat entity utama diambil, tetapi baru diambil ketika data tersebut benar-benar diakses.
 ```
 
 46. Apa itu eager loading?
@@ -394,7 +395,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Eager loading adalah teknik dalam JPA atau Hibernate di mana data relasi langsung diambil bersamaan dengan entity utama dalam satu waktu (satu query atau langsung saat load).
 ```
 
 47. Apa risiko lazy loading jika tidak dipahami?
@@ -402,7 +403,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Risiko lazy loading jika tidak dipahami adalah dapat menyebabkan masalah performa dan error pada aplikasi.
 ```
 
 48. Apa itu N+1 query problem?
@@ -410,7 +411,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+N+1 query problem adalah kondisi di mana aplikasi menjalankan terlalu banyak query ke database secara tidak efisien.
 ```
 
 49. Apa itu join fetch?
@@ -454,7 +455,9 @@ WHERE status = 'APPROVED';
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT customer_id, SUM(amount) AS total_pembayaran
+FROM repayment
+GROUP BY customer_id;
 ```
 
 ## Self Assessment
