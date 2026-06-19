@@ -115,4 +115,58 @@ public class LoanApplicationService {
         }
         throw new LoanNotFoundException("Loan application not found.");
     } 
+
+    public List<LoanApplicationResponse> searchSubmittedApplication(LoanStatus status) {
+        List<LoanApplicationResponse> response = new ArrayList<>();
+        for(LoanApplication loanApplication : loanApplicationStorage) {
+            LoanApplicationResponse loanApplicationResponse = new LoanApplicationResponse();
+            if(loanApplication.getStatus().equals(LoanStatus.SUBMITTED)) {
+                loanApplicationResponse.setLoanApplicationId(loanApplication.getLoanApplicationId());
+                loanApplicationResponse.setId(loanApplication.getId());
+                loanApplicationResponse.setLoanAmount(loanApplication.getLoanAmount());
+                loanApplicationResponse.setTenorMonth(loanApplication.getTenorMonth());
+                loanApplicationResponse.setPurpose(loanApplication.getPurpose());
+                loanApplicationResponse.setStatus(loanApplication.getStatus());
+
+                response.add(loanApplicationResponse);
+            }
+        }
+        return response;
+    }
+
+    public List<LoanApplicationResponse> searchCustomerId(Long id) {
+        List<LoanApplicationResponse> response = new ArrayList<>();
+        for(LoanApplication loanApplication : loanApplicationStorage) {
+            LoanApplicationResponse loanApplicationResponse = new LoanApplicationResponse();
+            if(loanApplication.getId().equals(id)) {
+                loanApplicationResponse.setLoanApplicationId(loanApplication.getLoanApplicationId());
+                loanApplicationResponse.setId(loanApplication.getId());
+                loanApplicationResponse.setLoanAmount(loanApplication.getLoanAmount());
+                loanApplicationResponse.setTenorMonth(loanApplication.getTenorMonth());
+                loanApplicationResponse.setPurpose(loanApplication.getPurpose());
+                loanApplicationResponse.setStatus(loanApplication.getStatus());
+
+                response.add(loanApplicationResponse);
+            }
+        }
+        return response;
+    }
+
+    public LoanApplicationResponse cancelLoanApplication(@PathVariable UUID uuid) {
+        LoanApplicationResponse response = new LoanApplicationResponse();
+        for (LoanApplication loanApplication : loanApplicationStorage) {
+            if(loanApplication.getLoanApplicationId().equals(uuid)){
+                loanApplication.setStatus(LoanStatus.CANCELLED);
+
+                response.setLoanApplicationId(loanApplication.getLoanApplicationId());
+                response.setId(loanApplication.getId());
+                response.setLoanAmount(loanApplication.getLoanAmount());
+                response.setTenorMonth(loanApplication.getTenorMonth());
+                response.setPurpose(loanApplication.getPurpose());
+                response.setStatus(loanApplication.getStatus());
+                return response;
+            }
+        }
+        throw new LoanNotFoundException("Loan application not found.");
+    } 
 }

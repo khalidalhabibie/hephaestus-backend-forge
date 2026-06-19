@@ -49,12 +49,11 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    @Operation(summary = "Shows customer data.", description = "Shows data of user who is logged in.")
+    @Operation(summary = "Shows user data.", description = "Displays user data when logged in.")
     @ApiResponse(responseCode = "200", description = "Customer data retrieved successfully.")
     @ApiResponse(responseCode = "401", description = "Unauthorized.")
-    
-    // public ResponseEntity<UserResponse> userData(@RequestHeader("Authorization") String authorizationHeader) { // Pakai @RequestHeader
     public ResponseEntity<UserResponse> userData(HttpServletRequest request) { // Pakai HttpServletRequest
+        // public ResponseEntity<UserResponse> userData(@RequestHeader("Authorization") String authorizationHeader) { // Pakai @RequestHeader
         
         // 1. Panggil helper di awal method untuk membungkus/memproteksi API ini
         ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
