@@ -66,3 +66,216 @@ Day 3 belum membahas:
 - Docker.
 - Deployment.
 - Advanced OpenAPI customization.
+
+-------------------------------------------------------------
+
+## API Contract
+
+### POST /api/v1/customers
+- Method: POST
+- URL: /api/v1/customers
+- Description: Create a new customer.
+- Request body: 
+``` json
+{
+"full_name": "edith",
+"email": "edith@mail.com",
+"phone_number": "082233445566"
+}
+```
+- Success response: "[201 Created] New customer created."
+``` json
+{
+    "id": 1,
+    "email": "edith@mail.com",
+    "full_name": "edith",
+    "phone_number": "082233445566",
+    "created_at": "2026-06-17T22:51:21.6333799+07:00",
+    "updated_at": "2026-06-17T22:51:21.6333799+07:00"
+}
+``` json
+- Error response: "[400 Bad Request] Invalid user input."
+``` json
+{
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request",
+    "errors": [
+        {
+            "field": "fullName",
+            "message": "size must be between 3 and 100"
+        }
+    ]
+}
+```
+
+### GET /api/v1/customers
+- Method: GET
+- URL: /api/v1/customers
+- Description: Get all customers.
+- Request body: -
+- Success response: "[200 OK] All customers retrieved successfully."
+``` json
+{
+    "id": 1,
+    "email": "edith@mail.com",
+    "full_name": "edith",
+    "phone_number": "082233445566",
+    "created_at": "2026-06-17T22:51:21.6333799+07:00",
+    "updated_at": "2026-06-17T22:51:21.6333799+07:00"
+}
+```
+- Error response: 
+``` json
+[]
+```
+
+### GET /api/v1/customers/{id}
+- Method: GET
+- URL: /api/v1/customers/1
+- Description: Get customer data by id.
+- Request body: -
+- Success response: "[200 OK] Customer data retrieved successfully."
+```json
+{
+    "id": 1,
+    "email": "edith@mail.com",
+    "full_name": "edith",
+    "phone_number": "082233445566",
+    "created_at": "2026-06-17T22:51:21.6333799+07:00",
+    "updated_at": "2026-06-17T22:51:21.6333799+07:00"
+}
+```
+- URL: /api/v1/customers/2 --> Error response: "[404 Not Found] Customer not found."
+```json
+{
+    "code": "CUSTOMER_NOT_FOUND",
+    "message": "Customer not found with id: 2",
+    "errors": null
+}
+```
+
+### DELETE /api/v1/customers/{id}
+- Method: DELETE
+- URL: /api/v1/customers/1
+- Description: Get customer data by id.
+- Request body: -
+- Success response: "[200 OK] Customer data deleted successfully."
+``` json
+{
+    "id": 1,
+    "full_name": "hehe",
+    "email": "haha@mail.com",
+    "phone_number": "082233445599",
+    "created_at": "2026-06-17T22:51:21.6333799+07:00",
+    "updated_at": "2026-06-17T22:51:21.6333799+07:00"
+}
+```
+- URL: /api/v1/customers/2 --> Error response: "[404 Not Found] Customer not found."
+``` json
+{
+    "code": "CUSTOMER_NOT_FOUND",
+    "message": "Customer not found with id: 2",
+    "errors": null
+}
+```
+
+### PUT /api/v1/customers/{id}
+- Method: PUT
+- URL: /api/v1/customers/1
+- Description: Updates all fields in customer data based on id.
+- Request body: 
+``` json
+{
+    "email": "haha@mail.com",
+    "full_name": "haha",
+    "phone_number": "082233445599"
+}
+```
+- Success response: "[200 OK] All fields in customer data updated successfully."
+``` json
+{
+    "id": 1,
+    "full_name": "haha",
+    "email": "haha@mail.com",
+    "phone_number": "082233445599",
+    "created_at": "2026-06-17T22:51:21.6333799+07:00",
+    "updated_at": "2026-06-17T22:51:21.6333799+07:00"
+}
+```
+- URL: /api/v1/customers/2 --> Error response: "[404 Not Found] Customer not found."
+``` json
+{
+    "code": "CUSTOMER_NOT_FOUND",
+    "message": "Customer not found with id: 2",
+    "errors": null
+}
+```
+- if full_name: "ha" --> 400 Bad Request
+``` json
+{
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request",
+    "errors": [
+        {
+            "field": "fullName",
+            "message": "size must be between 3 and 100"
+        }
+    ]
+}
+```
+- if full_name is blank --> 400 Bad Request
+``` json
+{
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request",
+    "errors": [
+        {
+            "field": "fullName",
+            "message": "must not be blank"
+        }
+    ]
+}
+```
+
+### PATCH /api/v1/customers/{id}
+- Method: PATCH
+- URL: /api/v1/customers/1
+- Description: Updates selected fields in customer data based on id.
+- Request body: 
+``` json
+{
+    "full_name": "hehe",
+}
+```
+- Success response: "[200 OK] Customer data updated successfully."
+``` json
+{
+    "id": 1,
+    "full_name": "hehe",
+    "email": "haha@mail.com",
+    "phone_number": "082233445599",
+    "created_at": "2026-06-17T22:51:21.6333799+07:00",
+    "updated_at": "2026-06-17T22:51:21.6333799+07:00"
+}
+```
+- URL: /api/v1/customers/2 --> Error response: "[404 Not Found] Customer not found."
+``` json
+{
+    "code": "CUSTOMER_NOT_FOUND",
+    "message": "Customer not found with id: 2",
+    "errors": null
+}
+```
+- if full_name: "ha" --> 400 Bad Request
+``` json
+{
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request",
+    "errors": [
+        {
+            "field": "fullName",
+            "message": "size must be between 3 and 100"
+        }
+    ]
+}
+```
