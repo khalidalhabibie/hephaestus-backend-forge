@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +26,7 @@ import java.util.List;
 @Tag(name = "Loan Application", description = "API untuk pengajuan dan pengelolaan pinjaman")
 @SecurityRequirement(name = "bearerAuth")
 public class LoanApplicationController {
-
+    
     private final LoanApplicationService loanApplicationService;
 
     @PostMapping

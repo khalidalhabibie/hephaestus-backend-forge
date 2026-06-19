@@ -3,6 +3,7 @@ package com.example.day2.repository;
 import com.example.day2.enum_auth.LoanStatus;
 import com.example.day2.model.LoanApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
@@ -11,4 +12,5 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     List<LoanApplication> findByStatus(LoanStatus status);
     List<LoanApplication> findByCustomerId(Long customerId);
     List<LoanApplication> findByStatusAndCustomerId(LoanStatus status, Long customerId);
+
 }
