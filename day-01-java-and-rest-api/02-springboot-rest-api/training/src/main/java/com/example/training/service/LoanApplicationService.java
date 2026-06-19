@@ -16,7 +16,7 @@ import com.example.training.model.LoanStatus;
 public class LoanApplicationService {
     private final List<LoanApplication> loans = new ArrayList<>();
 
-    public LoanApplication create(CreateLoanApplicationRequest request) {
+    public LoanApplicationResponse create(CreateLoanApplicationRequest request) {
         LoanApplication loan = new LoanApplication(
                 UUID.randomUUID(),
                 request.getCustomerId(),
@@ -25,30 +25,31 @@ public class LoanApplicationService {
                 request.getPurpose(),
                 LoanStatus.SUBMITTED);
         loans.add(loan);
-        return loan;
+
+        return toLoanApplicationResponse(loan);
     }
 
     public List<LoanApplicationResponse> findAll(String status, UUID customerUuid) {
-        List<LoanApplicationResponse> loanApplicationResponses = new ArrayList<>();
+        List<LoanApplicationResponse> responses = new ArrayList<>();
 
         for (LoanApplication loan : loans) {
-            LoanApplicationResponse loanApplicationResponse = new LoanApplicationResponse();
+
+            boolean match = true;
+
             if (status != null && !status.isEmpty()) {
-                if (loan.getStatus().toString().equals(status)) {
-                    loanApplicationResponse = toLoanApplicationResponse(loan);
-                    loanApplicationResponses.add(loanApplicationResponse);
-                }
-            } else if (customerUuid != null) {
-                if (loan.getCustomerId() == customerUuid) {
-                    loanApplicationResponse = toLoanApplicationResponse(loan);
-                    loanApplicationResponses.add(loanApplicationResponse);
-                }
-            } else {
-                loanApplicationResponse = toLoanApplicationResponse(loan);
-                loanApplicationResponses.add(loanApplicationResponse);
+                match = loan.getStatus().toString().equalsIgnoreCase(status);
+            }
+
+            if (match && customerUuid != null) {
+                match = loan.getCustomerId().equals(customerUuid);
+            }
+
+            if (match) {
+                responses.add(toLoanApplicationResponse(loan));
             }
         }
-        return loanApplicationResponses;
+
+        return responses;
     }
 
     // helper
@@ -70,33 +71,33 @@ public class LoanApplicationService {
                 .orElseThrow(() -> new NotFoundException("Data not found"));
     }
 
-    public LoanApplication approve(UUID id) {
+    public LoanApplicationResponse approve(UUID id) {
 
         LoanApplication loan = findById(id);
 
         loan.setStatus(
                 LoanStatus.APPROVED);
 
-        return loan;
+        return toLoanApplicationResponse(loan);
     }
 
-    public LoanApplication reject(UUID id) {
+    public LoanApplicationResponse reject(UUID id) {
 
         LoanApplication loan = findById(id);
 
         loan.setStatus(
                 LoanStatus.REJECTED);
 
-        return loan;
+        return toLoanApplicationResponse(loan);
     }
 
-    public LoanApplication cancel(UUID id) {
+    public LoanApplicationResponse cancel(UUID id) {
 
         LoanApplication loan = findById(id);
 
         loan.setStatus(
                 LoanStatus.CANCELED);
 
-        return loan;
+        return toLoanApplicationResponse(loan);
     }
 }

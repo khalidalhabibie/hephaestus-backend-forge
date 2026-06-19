@@ -21,42 +21,36 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RequestMapping("/api/v1/auth")
 @SecurityRequirement(name = "bearerAuth")
 public class AuthController {
-    private final AuthService authService;
+        private final AuthService authService;
 
-    public AuthController(AuthService authService){
-        this.authService = authService;
-    }
+        public AuthController(AuthService authService) {
+                this.authService = authService;
+        }
 
-    @PostMapping("/login")
-    public LoginResponse login(
-            @RequestBody LoginRequest request) {
+        @PostMapping("/login")
+        public LoginResponse login(
+                        @RequestBody LoginRequest request) {
 
-        String token =
-                authService.login(request);
+                String token = authService.login(request);
 
-        return new LoginResponse(token);
-    }
+                return new LoginResponse(token);
+        }
 
-    @GetMapping("/me")
-    public UserResponse me(
-            @RequestHeader("Authorization")
-            String authorization) {
+        @GetMapping("/me")
+        public UserResponse me(
+                        @RequestHeader("Authorization") String authorization) {
 
-        String token =
-                AuthHeaderUtil.extractToken(authorization);
+                String token = AuthHeaderUtil.extractToken(authorization);
 
-        String decoded =
-                AuthUtils.decodeToken(token);
+                String decoded = AuthUtils.decodeToken(token);
 
-        String email =
-                decoded.split(":")[0];
+                String email = decoded.split(":")[0];
 
-        User user = authService.validateToken(token);
+                User user = authService.validateToken(token);
 
-        return new UserResponse(
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
-    }
+                return new UserResponse(
+                                user.getId(),
+                                user.getEmail(),
+                                user.getRole());
+        }
 }

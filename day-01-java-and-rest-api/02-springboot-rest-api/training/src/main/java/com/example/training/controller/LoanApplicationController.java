@@ -30,112 +30,112 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @RestController
 @RequestMapping("/api/v1/loan-applications")
 public class LoanApplicationController {
-    private final LoanApplicationService loanService;
-    private final AuthService authService;
+        private final LoanApplicationService loanService;
+        private final AuthService authService;
 
-    public LoanApplicationController(
-            LoanApplicationService loanService,
-            AuthService authService) {
-        this.loanService = loanService;
-        this.authService = authService;
-    }
+        public LoanApplicationController(
+                        LoanApplicationService loanService,
+                        AuthService authService) {
+                this.loanService = loanService;
+                this.authService = authService;
+        }
 
-    @PostMapping
-    public LoanApplicationResponse create(
-            @RequestHeader("Authorization") String authorization,
-            @Valid @RequestBody CreateLoanApplicationRequest entity) {
-        String token = AuthHeaderUtil.extractToken(authorization);
-        User user = authService.validateToken(token);
+        @PostMapping
+        public ResponseEntity<WebResponse<LoanApplicationResponse>> create(
+                        @RequestHeader("Authorization") String authorization,
+                        @Valid @RequestBody CreateLoanApplicationRequest entity) {
+                String token = AuthHeaderUtil.extractToken(authorization);
+                User user = authService.validateToken(token);
 
-        RoleValidator.validate(user, Role.ADMIN, Role.STAFF);
-        LoanApplication loan = loanService.create(entity);
+                RoleValidator.validate(user, Role.ADMIN, Role.STAFF);
+                LoanApplicationResponse loanResponse = loanService.create(entity);
 
-        return toResponse(loan);
-    }
+                return ResponseEntity.ok().body(WebResponse.success("Berhasil mendapatkan data", loanResponse));
+        }
 
-    @GetMapping
-    public ResponseEntity<WebResponse<List<LoanApplicationResponse>>> findAll(
-            @RequestHeader("Authorization") String authorization,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) UUID customerUuid) {
-        String token = AuthHeaderUtil.extractToken(authorization);
-        authService.validateToken(token);
+        @GetMapping
+        public ResponseEntity<WebResponse<List<LoanApplicationResponse>>> findAll(
+                        @RequestHeader("Authorization") String authorization,
+                        @RequestParam(required = false) String status,
+                        @RequestParam(required = false) UUID customerUuid) {
+                String token = AuthHeaderUtil.extractToken(authorization);
+                authService.validateToken(token);
 
-        List<LoanApplicationResponse> responses;
-        responses = loanService.findAll(status, customerUuid);
+                List<LoanApplicationResponse> responses;
+                responses = loanService.findAll(status, customerUuid);
 
-        return ResponseEntity.ok().body(WebResponse.success("Berhasil mendapatkan data", responses));
-    }
+                return ResponseEntity.ok().body(WebResponse.success("Berhasil mendapatkan data", responses));
+        }
 
-    @GetMapping("/{id}")
-    public LoanApplicationResponse findById(@PathVariable UUID id,
-            @RequestHeader("Authorization") String authorization) {
-        String token = AuthHeaderUtil.extractToken(authorization);
-        authService.validateToken(token);
+        @GetMapping("/{id}")
+        public LoanApplicationResponse findById(@PathVariable UUID id,
+                        @RequestHeader("Authorization") String authorization) {
+                String token = AuthHeaderUtil.extractToken(authorization);
+                authService.validateToken(token);
 
-        return toResponse(loanService.findById(id));
-    }
+                return toResponse(loanService.findById(id));
+        }
 
-    @PostMapping("/{id}/approve")
-    public LoanApplicationResponse approve(
-            @PathVariable UUID id,
-            @RequestHeader("Authorization") String authorization) {
+        @PostMapping("/{id}/approve")
+        public ResponseEntity<WebResponse<LoanApplicationResponse>> approve(
+                        @PathVariable UUID id,
+                        @RequestHeader("Authorization") String authorization) {
 
-        String token = AuthHeaderUtil.extractToken(
-                authorization);
+                String token = AuthHeaderUtil.extractToken(
+                                authorization);
 
-        User user = authService.validateToken(token);
+                User user = authService.validateToken(token);
 
-        RoleValidator.validate(
-                user,
-                Role.ADMIN,
-                Role.APPROVER);
+                RoleValidator.validate(
+                                user,
+                                Role.ADMIN,
+                                Role.APPROVER);
 
-        return toResponse(
-                loanService.approve(id));
-    }
+                return ResponseEntity.ok()
+                                .body(WebResponse.success("Berhasil approve data", loanService.approve(id)));
+        }
 
-    @PostMapping("/{id}/reject")
-    public LoanApplicationResponse reject(
-            @PathVariable UUID id,
-            @RequestHeader("Authorization") String authorization) {
+        @PostMapping("/{id}/reject")
+        public ResponseEntity<WebResponse<LoanApplicationResponse>> reject(
+                        @PathVariable UUID id,
+                        @RequestHeader("Authorization") String authorization) {
 
-        String token = AuthHeaderUtil.extractToken(
-                authorization);
+                String token = AuthHeaderUtil.extractToken(
+                                authorization);
 
-        User user = authService.validateToken(token);
+                User user = authService.validateToken(token);
 
-        RoleValidator.validate(
-                user,
-                Role.ADMIN,
-                Role.APPROVER);
+                RoleValidator.validate(
+                                user,
+                                Role.ADMIN,
+                                Role.APPROVER);
 
-        return toResponse(
-                loanService.reject(id));
-    }
+                return ResponseEntity.ok()
+                                .body(WebResponse.success("Berhasil reject data", loanService.reject(id)));
+        }
 
-    @PostMapping("/{id}/cancel")
-    public LoanApplicationResponse cancel(
-            @PathVariable UUID id,
-            @RequestHeader("Authorization") String authorization) {
+        @PostMapping("/{id}/cancel")
+        public ResponseEntity<WebResponse<LoanApplicationResponse>> cancel(
+                        @PathVariable UUID id,
+                        @RequestHeader("Authorization") String authorization) {
 
-        String token = AuthHeaderUtil.extractToken(
-                authorization);
+                String token = AuthHeaderUtil.extractToken(
+                                authorization);
 
-        User user = authService.validateToken(token);
+                User user = authService.validateToken(token);
 
-        RoleValidator.validate(
-                user,
-                Role.ADMIN,
-                Role.APPROVER);
+                RoleValidator.validate(
+                                user,
+                                Role.ADMIN,
+                                Role.APPROVER);
 
-        return toResponse(
-                loanService.cancel(id));
-    }
+                return ResponseEntity.ok()
+                                .body(WebResponse.success("Berhasil cancel data", loanService.cancel(id)));
+        }
 
-    public LoanApplicationResponse toResponse(LoanApplication loan) {
-        return new LoanApplicationResponse(loan.getId(), loan.getCustomerId(), loan.getLoanAmount(),
-                loan.getTenorMonth(), loan.getPurpose(), loan.getStatus());
-    }
+        public LoanApplicationResponse toResponse(LoanApplication loan) {
+                return new LoanApplicationResponse(loan.getId(), loan.getCustomerId(), loan.getLoanAmount(),
+                                loan.getTenorMonth(), loan.getPurpose(), loan.getStatus());
+        }
 
 }
