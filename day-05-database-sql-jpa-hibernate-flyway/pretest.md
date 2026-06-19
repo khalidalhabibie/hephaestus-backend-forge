@@ -488,5 +488,5 @@ GROUP BY C.NAME
 ## Notes
 
 ```text
-Tulis bagian yang masih membingungkan.
+konfigurasi flyaway
 ```
