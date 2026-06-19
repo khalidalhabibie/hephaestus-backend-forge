@@ -76,19 +76,16 @@ public class LoanApplicationService {
       throw new NotFoundException(String.format("Loan Application not found with id: %d", id));
     }
 
-    if (loan.getLoanAmount() >= MIN_LOAN_AMOUNT_MANAGER_APPROVAL) {
-      // Large amount, only MANAGER
-      if (!securityUtil.hasRole(RoleEnum.MANAGER) && !securityUtil.hasRole(RoleEnum.ADMIN)) {
-        throw new BadRequestException("Large loan must be approved by MANAGER");
-      }
-    } else {
-      // Small amount, MANAGER can't approve
-      if (securityUtil.hasRole(RoleEnum.MANAGER)) {
-        throw new BadRequestException("Manager can't approve small loan");
-      }
-      // Only ADMIN and APPROVER
-      if (!securityUtil.hasRole(RoleEnum.ADMIN) && !securityUtil.hasRole(RoleEnum.APPROVER)) {
-        throw new ForbiddenException("You do not have permission to approve this loan");
+    // Filter STAFF
+    if (!securityUtil.hasRole(RoleEnum.ADMIN) && !securityUtil.hasRole(RoleEnum.APPROVER)
+        && !securityUtil.hasRole(RoleEnum.MANAGER)) {
+      throw new ForbiddenException("You do not have permission to approve this loan");
+    }
+
+    // Small amount, Manager can't approve
+    if (securityUtil.hasRole(RoleEnum.MANAGER)) {
+      if (loan.getLoanAmount() < MIN_LOAN_AMOUNT_MANAGER_APPROVAL) {
+        throw new BadRequestException("Manager can only approve large loan");
       }
     }
 
