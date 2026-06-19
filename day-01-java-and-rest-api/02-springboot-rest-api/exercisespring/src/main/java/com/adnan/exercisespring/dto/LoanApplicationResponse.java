@@ -1,5 +1,6 @@
 package com.adnan.exercisespring.dto;
 
+import com.adnan.exercisespring.enums.LoanApplicationStatusEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,5 +20,5 @@ public class LoanApplicationResponse {
   private Integer tenorMonth;
 
   private String purpose;
-  private String status;
+  private LoanApplicationStatusEnum status;
 }

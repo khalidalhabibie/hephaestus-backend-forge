@@ -1,5 +1,7 @@
 package com.adnan.exercisespring.model;
 
+import com.adnan.exercisespring.enums.LoanApplicationStatusEnum;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,5 +13,5 @@ public class LoanApplication {
     private Long loanAmount;
     private Integer tenorMonth;
     private String purpose;
-    private String status; // SUBMITTED, APPROVED, REJECTED
+    private LoanApplicationStatusEnum status; // SUBMITTED, APPROVED, REJECTED, CANCELLED
 }

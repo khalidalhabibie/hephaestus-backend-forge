@@ -9,13 +9,13 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import com.adnan.exercisespring.dto.CreateCustomerRequest;
 import com.adnan.exercisespring.dto.UpdateCustomerRequest;
+import com.adnan.exercisespring.enums.RoleEnum;
 import com.adnan.exercisespring.dto.CustomerResponse;
 import com.adnan.exercisespring.dto.PatchCustomerRequest;
 import com.adnan.exercisespring.exception.CustomerNotFoundException;
 import com.adnan.exercisespring.exception.ForbiddenException;
 import com.adnan.exercisespring.model.Customer;
 import com.adnan.exercisespring.security.SecurityUtil;
-import com.adnan.exercisespring.user.entity.Role;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +28,7 @@ public class CustomerService {
   private Long sequence = 1L;
 
   public CustomerResponse createCustomer(CreateCustomerRequest entity) {
-    if (!securityUtil.hasRole(Role.ADMIN) && !securityUtil.hasRole(Role.STAFF)) {
+    if (!securityUtil.hasRole(RoleEnum.ADMIN) && !securityUtil.hasRole(RoleEnum.STAFF)) {
       throw new ForbiddenException("You do not have permission to access this resource");
     }
 

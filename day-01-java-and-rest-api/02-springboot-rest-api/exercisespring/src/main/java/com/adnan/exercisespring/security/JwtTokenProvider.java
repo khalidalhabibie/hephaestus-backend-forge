@@ -7,7 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.adnan.exercisespring.user.entity.User;
+import com.adnan.exercisespring.model.User;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;

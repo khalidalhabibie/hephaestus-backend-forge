@@ -17,31 +17,37 @@ public class LoanApplicationController {
   private final LoanApplicationService service;
 
   @PostMapping
-  public ResponseEntity<LoanApplicationResponse> create(
+  public ResponseEntity<LoanApplicationResponse> createLoanApplication(
       @RequestBody CreateLoanApplicationRequest request) {
-
     return ResponseEntity
         .status(201)
         .body(service.createLoanApplication(request));
   }
 
   @GetMapping
-  public ResponseEntity<List<LoanApplicationResponse>> getAll() {
-    return ResponseEntity.ok(service.getAllLoanApplications());
+  public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications(
+      @RequestParam(required = false) String status,
+      @RequestParam(name = "customer_id", required = false) Long customerId) {
+    return ResponseEntity.ok(service.getAllLoanApplications(status, customerId));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<LoanApplicationResponse> getById(@PathVariable Long id) {
+  public ResponseEntity<LoanApplicationResponse> getLoanApplicationById(@PathVariable Long id) {
     return ResponseEntity.ok(service.getLoanApplicationById(id));
   }
 
   @PatchMapping("/{id}/approve")
-  public ResponseEntity<LoanApplicationResponse> approve(@PathVariable Long id) {
-    return ResponseEntity.ok(service.approve(id));
+  public ResponseEntity<LoanApplicationResponse> approveLoanApplication(@PathVariable Long id) {
+    return ResponseEntity.ok(service.approveLoanApplication(id));
   }
 
   @PatchMapping("/{id}/reject")
-  public ResponseEntity<LoanApplicationResponse> reject(@PathVariable Long id) {
-    return ResponseEntity.ok(service.reject(id));
+  public ResponseEntity<LoanApplicationResponse> rejectLoanApplication(@PathVariable Long id) {
+    return ResponseEntity.ok(service.rejectLoanApplication(id));
+  }
+
+  @PatchMapping("/{id}/cancel")
+  public ResponseEntity<LoanApplicationResponse> cancelLoanApplication(@PathVariable Long id) {
+    return ResponseEntity.ok(service.cancelLoanApplication(id));
   }
 }

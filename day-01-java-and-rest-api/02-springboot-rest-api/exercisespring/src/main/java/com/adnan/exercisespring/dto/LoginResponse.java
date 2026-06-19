@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.UUID;
 
-import com.adnan.exercisespring.user.entity.Role;
+import com.adnan.exercisespring.enums.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
@@ -15,5 +15,5 @@ public class LoginResponse {
     @JsonProperty("user_id")
     private UUID userId;
     private String email;
-    private Role role;
+    private RoleEnum role;
 }

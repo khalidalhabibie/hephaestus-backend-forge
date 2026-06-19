@@ -1,9 +1,9 @@
 package com.adnan.exercisespring.security;
 
+import com.adnan.exercisespring.enums.RoleEnum;
 import com.adnan.exercisespring.exception.UnauthorizedException;
+import com.adnan.exercisespring.model.User;
 import com.adnan.exercisespring.service.UserService;
-import com.adnan.exercisespring.user.entity.Role;
-import com.adnan.exercisespring.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ public class SecurityUtil {
         return userService.findById(UUID.fromString(authentication.getName()));
     }
 
-    public boolean hasRole(Role role) {
+    public boolean hasRole(RoleEnum role) {
         return currentUser().getRole() == role;
     }
 }

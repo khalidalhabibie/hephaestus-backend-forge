@@ -29,7 +29,10 @@ public class GlobalExceptionHandler {
         @ExceptionHandler(BadRequestException.class)
         public ResponseEntity<ErrorResponse<Void>> badRequest(BadRequestException exception) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                .body(ErrorResponse.error("VALIDATION_ERROR", "Invalid request", null));
+                                .body(ErrorResponse.error("VALIDATION_ERROR",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Invalid request",
+                                                null));
         }
 
         @ExceptionHandler(CustomerNotFoundException.class)

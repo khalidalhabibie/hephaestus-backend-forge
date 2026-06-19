@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import com.adnan.exercisespring.dto.LoginRequest;
 import com.adnan.exercisespring.dto.LoginResponse;
 import com.adnan.exercisespring.exception.UnauthorizedException;
+import com.adnan.exercisespring.model.User;
 import com.adnan.exercisespring.security.JwtTokenProvider;
 import com.adnan.exercisespring.security.SecurityUtil;
-import com.adnan.exercisespring.user.entity.User;
 
 import lombok.RequiredArgsConstructor;
 
