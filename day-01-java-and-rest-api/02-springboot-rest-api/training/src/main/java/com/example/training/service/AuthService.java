@@ -32,6 +32,13 @@ public class AuthService {
             "approver123",
             "APPROVER",
             "token-approver"
+        ),
+        
+        new User(
+            "manager",
+            "manager123",
+            "MANAGER",
+            "token-manager"
         )
     );
     

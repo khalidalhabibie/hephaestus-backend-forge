@@ -9,7 +9,7 @@ public class RoleValidator {
             throw new ForbiddenException("You don't have permission.");
         }
         for (String role : allowedRoles) {
-            if (user.getRole().equalsIgnoreCase(role)) {
+            if (role.equalsIgnoreCase(user.getRole())) {
                 return;
             }
         }
