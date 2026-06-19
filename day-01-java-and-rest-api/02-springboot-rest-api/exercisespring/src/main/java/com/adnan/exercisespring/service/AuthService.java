@@ -26,11 +26,7 @@ public class AuthService {
             throw new UnauthorizedException("Invalid credentials");
         }
 
-        return new LoginResponse(
-                jwtTokenProvider.generate(user),
-                user.getId(),
-                user.getEmail(),
-                user.getRole());
+        return new LoginResponse(jwtTokenProvider.generate(user), user.getId(), user.getEmail(), user.getRole());
     }
 
     public LoginResponse me() {
