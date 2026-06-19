@@ -4,16 +4,21 @@ import com.example.main.dto.LoanApplicationRequest;
 import com.example.main.dto.LoanApplicationResponse;
 import com.example.main.models.LoanApplication;
 import com.example.main.repositories.LoanApplicationRepository;
+import com.example.main.exceptions.LoanApplicationNotFoundException;
+import com.example.main.exceptions.ForbiddenException;
+import com.example.main.security.UserRole;
+import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class LoanApplicationService {
 
     private final LoanApplicationRepository loanApplicationRepository;
+    
+    private static final BigDecimal MANAGER_MINIMUM_AMOUNT = new BigDecimal("10000000");
 
     public LoanApplicationService(LoanApplicationRepository loanApplicationRepository) {
         this.loanApplicationRepository = loanApplicationRepository;
@@ -26,79 +31,58 @@ public class LoanApplicationService {
         loan.setTenorMonth(request.getTenorMonth());
         loan.setPurpose(request.getPurpose());
         loan.setStatus("SUBMITTED");
-
         LoanApplication savedLoan = loanApplicationRepository.save(loan);
-
-        return new LoanApplicationResponse(
-                savedLoan.getId(),
-                savedLoan.getCustomerId(),
-                savedLoan.getLoanAmount(),
-                savedLoan.getTenorMonth(),
-                savedLoan.getPurpose(),
-                savedLoan.getStatus()
-        );
+        return mapToResponse(savedLoan);
     }
 
-    public List<LoanApplicationResponse> getAllLoanApplications() {
+    public List<LoanApplicationResponse> getAllLoanApplications(String status, Long customerId) {
         return loanApplicationRepository.findAll().stream()
-                .map(loan -> new LoanApplicationResponse(
-                        loan.getId(),
-                        loan.getCustomerId(),
-                        loan.getLoanAmount(),
-                        loan.getTenorMonth(),
-                        loan.getPurpose(),
-                        loan.getStatus()
-                ))
+                .filter(loan -> status == null || loan.getStatus().equalsIgnoreCase(status))
+                .filter(loan -> customerId == null || loan.getCustomerId().equals(customerId))
+                .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
 
     public LoanApplicationResponse getLoanApplicationById(Long id) {
         LoanApplication loan = loanApplicationRepository.findById(id)
-                .orElseThrow(() -> new com.example.main.exceptions.LoanApplicationNotFoundException("Loan application not found"));
-
-        return new LoanApplicationResponse(
-                loan.getId(),
-                loan.getCustomerId(),
-                loan.getLoanAmount(),
-                loan.getTenorMonth(),
-                loan.getPurpose(),
-                loan.getStatus()
-        );
+                .orElseThrow(() -> new LoanApplicationNotFoundException("Loan application not found"));
+        return mapToResponse(loan);
     }
 
-    public LoanApplicationResponse approveLoanApplication(Long id) {
+    public LoanApplicationResponse approveLoanApplication(Long id, UserRole userRole) {
         LoanApplication loan = loanApplicationRepository.findById(id)
-                .orElseThrow(() -> new com.example.main.exceptions.LoanApplicationNotFoundException("Loan application not found"));
+                .orElseThrow(() -> new LoanApplicationNotFoundException("Loan application not found"));
+
+        if (userRole == UserRole.MANAGER && loan.getLoanAmount().compareTo(MANAGER_MINIMUM_AMOUNT) <= 0) {
+            throw new ForbiddenException("Manager is only allowed to approve loans above 10,000,000");
+        }
 
         loan.setStatus("APPROVED");
-        
         LoanApplication updatedLoan = loanApplicationRepository.save(loan);
-
-        return new LoanApplicationResponse(
-                updatedLoan.getId(),
-                updatedLoan.getCustomerId(),
-                updatedLoan.getLoanAmount(),
-                updatedLoan.getTenorMonth(),
-                updatedLoan.getPurpose(),
-                updatedLoan.getStatus()
-        );
+        return mapToResponse(updatedLoan);
     }
 
     public LoanApplicationResponse rejectLoanApplication(Long id) {
         LoanApplication loan = loanApplicationRepository.findById(id)
-                .orElseThrow(() -> new com.example.main.exceptions.LoanApplicationNotFoundException("Loan application not found"));
-
+                .orElseThrow(() -> new LoanApplicationNotFoundException("Loan application not found"));
         loan.setStatus("REJECTED");
-        
         LoanApplication updatedLoan = loanApplicationRepository.save(loan);
+        return mapToResponse(updatedLoan);
+    }
 
+    public LoanApplicationResponse cancelLoanApplication(Long id) {
+        LoanApplication loan = loanApplicationRepository.findById(id)
+                .orElseThrow(() -> new LoanApplicationNotFoundException("Loan application not found"));
+        
+        loan.setStatus("CANCELLED");
+        LoanApplication updatedLoan = loanApplicationRepository.save(loan);
+        return mapToResponse(updatedLoan);
+    }
+
+    private LoanApplicationResponse mapToResponse(LoanApplication loan) {
         return new LoanApplicationResponse(
-                updatedLoan.getId(),
-                updatedLoan.getCustomerId(),
-                updatedLoan.getLoanAmount(),
-                updatedLoan.getTenorMonth(),
-                updatedLoan.getPurpose(),
-                updatedLoan.getStatus()
+                loan.getId(), loan.getCustomerId(), loan.getLoanAmount(),
+                loan.getTenorMonth(), loan.getPurpose(), loan.getStatus()
         );
     }
 }

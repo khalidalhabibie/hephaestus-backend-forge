@@ -3,7 +3,8 @@ package com.example.main.security;
 public enum UserRole {
     ADMIN(1, "token-admin"),
     STAFF(2, "token-staff"),
-    APPROVER(3, "token-approver");
+    APPROVER(3, "token-approver"),
+    MANAGER(4, "token-manager");
 
     private final int value;
     private final String token;
