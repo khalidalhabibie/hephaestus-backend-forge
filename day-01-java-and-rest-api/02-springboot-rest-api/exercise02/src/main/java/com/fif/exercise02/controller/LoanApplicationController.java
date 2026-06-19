@@ -156,7 +156,7 @@ public class LoanApplicationController {
     }
 
 
-    // ✅ HELPERS
+    // HELPERS
 
     private AuthContext getAuth(String header) {
         return AuthUtil.parseToken(AuthUtil.extractToken(header));
