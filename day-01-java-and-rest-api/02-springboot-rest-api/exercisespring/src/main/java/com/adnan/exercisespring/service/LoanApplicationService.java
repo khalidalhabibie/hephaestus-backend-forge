@@ -118,7 +118,7 @@ public class LoanApplicationService {
     if (loan == null) {
       throw new NotFoundException(String.format("Loan Application not found with id: %d", id));
     }
-    loan.setStatus(LoanApplicationStatusEnum.CANCELLED);
+    loan.setStatus(LoanApplicationStatusEnum.CANCELED);
     return mapToResponse(loan);
   }
 
