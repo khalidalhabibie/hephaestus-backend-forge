@@ -18,7 +18,7 @@ public class AuthService {
 private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 
-    // username → [password, token, role, userId]
+    // username 
     private Map<String, String[]> users = Map.of(
             "admin", new String[] { "$2a$10$lpcXnZ85rTsDNPCPOF5mFu8vrAgA6jsfkHd6hKxbnwjeYAeblnI0q", "token-admin", "ADMIN", "USR-001","admin" },
             "staff", new String[] { "$2a$10$tawNjd8g3DPaxRBsagnyyeBQMgCoAvYJCxGXYi.lVp6ccDwHTbekq", "token-staff", "STAFF", "USR-002", "staff"},
