@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
@@ -21,16 +22,15 @@ import com.fif.exercise02.model.Customer;
 
 @Service
 public class CustomerService {
-    private Map<Long, Customer> customerStorage = new HashMap<>();
-    private Long sequence = 1L;
+    private Map<String, Customer> customerStorage = new HashMap<>();
 
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
-        Customer customer = new Customer(sequence, request.getFullName(), request.getEmail(), 
+        String id = UUID.randomUUID().toString();
+        Customer customer = new Customer(id, request.getFullName(), request.getEmail(), 
         request.getPhoneNumber(), ZonedDateTime.now(), ZonedDateTime.now()
 );
 
-        customerStorage.put(sequence, customer);
-        sequence++;
+        customerStorage.put(id, customer);
 
         CustomerResponse response = new CustomerResponse();
         response.setId(customer.getId());
@@ -38,7 +38,8 @@ public class CustomerService {
         response.setEmail(customer.getEmail());
         response.setPhoneNumber(customer.getPhoneNumber());
         response.setCreatedAt(customer.getCreatedAt());
-        return response;
+
+        return response;    
 
     }
 
@@ -77,7 +78,7 @@ public class CustomerService {
                 .toList();
     }
 
-    public CustomerResponse getCustomerById(Long id) {
+    public CustomerResponse getCustomerById(String id) {
         Customer cust = customerStorage.get(id);
         CustomerResponse response = new CustomerResponse();
         
@@ -102,7 +103,7 @@ public class CustomerService {
     // }
 
     private CustomerResponse buildCustomerResponse(
-            Long id,
+            String id,
             String fullName,
             String email,
             String phoneNumber,
@@ -120,7 +121,7 @@ public class CustomerService {
         return response;
     }
 
-    public void deleteCustomer(Long id) {
+    public void deleteCustomer(String id) {
         Customer customer = customerStorage.get(id);
 
         if (customer == null) {
@@ -130,7 +131,7 @@ public class CustomerService {
         customerStorage.remove(id);
     }
     
-    public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
+    public CustomerResponse updateCustomer(String id, CreateCustomerRequest request) {
         Customer customer = customerStorage.get(id);
 
         if (customer == null) {
@@ -153,7 +154,7 @@ public class CustomerService {
         );
     }
 
-    public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
+    public CustomerResponse patchCustomer(String id, PatchCustomerRequest request) {
         Customer customer = customerStorage.get(id);
 
         if (customer == null) {

@@ -1,5 +1,6 @@
 package com.fif.exercise02.model;
 
+import com.fif.exercise02.entity.LoanStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,6 @@ public class LoanApplication {
     
     public Integer tenorMonth;
     public String purpose;
-    public String status;
+    public LoanStatus status;
 
 }

@@ -11,7 +11,7 @@ import lombok.Getter;
 @Setter
 @Getter
 public class Customer {
-    private Long id;
+    private String id;
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -20,7 +20,7 @@ public class Customer {
     private ZonedDateTime updatedAt;
 
 
-    public Customer(Long id, String fullName, String email, String phoneNumber, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
+    public Customer(String id, String fullName, String email, String phoneNumber, ZonedDateTime createdAt, ZonedDateTime updatedAt) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;

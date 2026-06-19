@@ -1,11 +1,12 @@
 package com.fif.exercise02.security;
 
+import com.fif.exercise02.entity.Role;
 
 public class RoleValidator {
 
-    public static boolean isAllowed(String role, String... allowedRoles) {
-        for (String allowed : allowedRoles) {
-            if (allowed.equals(role)) {
+    public static boolean isAllowed(Role role, Role... allowedRoles) {
+        for (Role allowed : allowedRoles) {
+            if (role == allowed) {
                 return true;
             }
         }

@@ -1,5 +1,5 @@
 package com.fif.exercise02.dto;
-
+import com.fif.exercise02.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -19,5 +19,5 @@ public class LoginResponse {
     private String token;
     private String userId;
     private String username;
-    private String role;
+    private Role role;
 }

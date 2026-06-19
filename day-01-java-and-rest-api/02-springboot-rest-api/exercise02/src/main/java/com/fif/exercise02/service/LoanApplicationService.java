@@ -4,6 +4,7 @@ package com.fif.exercise02.service;
 import com.fif.exercise02.model.LoanApplication;
 import com.fif.exercise02.dto.CreateLoanApplicationRequest;
 import com.fif.exercise02.dto.LoanApplicationResponse;
+import com.fif.exercise02.entity.LoanStatus;
 
 import java.util.*;
 
@@ -16,7 +17,7 @@ public class LoanApplicationService {
 
         LoanApplication loan = new LoanApplication(id, req.getCustomerId(), req.getAmount(),
                 req.getTenorMonth(),
-                req.getPurpose(), "SUBMITTED");
+                req.getPurpose(), LoanStatus.SUBMITTED);
         db.put(id, loan);
 
         return toResponse(loan);
@@ -31,7 +32,7 @@ public class LoanApplicationService {
         return loan == null ? null : toResponse(loan);
     }
 
-    public LoanApplicationResponse updateStatus(String id, String status) {
+    public LoanApplicationResponse updateStatus(String id, LoanStatus status) {
         LoanApplication loan = db.get(id);
         if (loan == null)
             return null;
@@ -50,10 +51,10 @@ public class LoanApplicationService {
                 loan.getStatus());
     }
 
-    public List<LoanApplicationResponse> getAllFiltered(String status, String customerId) {
+    public List<LoanApplicationResponse> getAllFiltered(LoanStatus status, String customerId) {
 
         return db.values().stream()
-                .filter(l -> status == null || l.getStatus().equalsIgnoreCase(status))
+                .filter(l -> status == null || l.getStatus() == status)
                 .filter(l -> customerId == null || l.getCustomerId().equals(customerId))
                 .map(this::toResponse)
                 .toList();
@@ -65,11 +66,16 @@ public class LoanApplicationService {
         if (loan == null)
             return null;
 
-        if ("APPROVED".equals(loan.getStatus())) {
+        if (loan.getStatus() == LoanStatus.APPROVED) {
             return null;
         }
 
-        loan.setStatus("CANCELLED");
+        loan.setStatus(LoanStatus.CANCELLED);
         return toResponse(loan);
     }
+
+    public LoanApplication getEntity(String id) {
+        return db.get(id);
+    }
+
 }

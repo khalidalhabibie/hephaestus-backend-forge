@@ -1,5 +1,7 @@
 package com.fif.exercise02.controller;
 
+import com.fif.exercise02.entity.Role;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -57,7 +59,7 @@ public class CustomerControllerV2 {
         var ctx = getAuth(header);
         if (ctx == null) return unauthorized();
 
-        if (!RoleValidator.isAllowed(ctx.getRole(), "ADMIN", "STAFF")) {
+        if (!RoleValidator.isAllowed(ctx.getRole(), Role.ADMIN, Role.STAFF)) {
                 return forbidden();
         }
 
@@ -93,7 +95,7 @@ public class CustomerControllerV2 {
             @ApiResponse(responseCode = "200", description = "Customer ditemukan"),
             @ApiResponse(responseCode = "404", description = "Customer tidak ditemukan")
     })
-    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable String id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
@@ -103,7 +105,7 @@ public class CustomerControllerV2 {
             @ApiResponse(responseCode = "204", description = "Customer berhasil dihapus"),
             @ApiResponse(responseCode = "404", description = "Customer tidak ditemukan")
     })
-    public ResponseEntity<?> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable String id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
@@ -116,7 +118,7 @@ public class CustomerControllerV2 {
             @ApiResponse(responseCode = "400", description = "Request tidak valid")
     })
     public ResponseEntity<CustomerResponse> updateCustomer(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody CreateCustomerRequest request) {
 
         CustomerResponse response = customerService.updateCustomer(id, request);
@@ -131,7 +133,7 @@ public class CustomerControllerV2 {
             @ApiResponse(responseCode = "400", description = "Request tidak valid")
     })
     public ResponseEntity<CustomerResponse> patchCustomer(
-            @PathVariable Long id,
+            @PathVariable String id,
             @Valid @RequestBody PatchCustomerRequest request) {
 
         CustomerResponse response = customerService.patchCustomer(id, request);
@@ -151,7 +153,7 @@ public class CustomerControllerV2 {
     }      
 
 
-
+//HELPER
     private AuthContext getAuth(String header) {
     return AuthUtil.parseToken(AuthUtil.extractToken(header));
 }
@@ -162,10 +164,8 @@ private ResponseEntity<?> unauthorized() {
 }    
 
 private ResponseEntity<?> forbidden() {
-
         return ResponseEntity.status(403)
                         .body(ErrorResponse.error("403", "FORBIDDEN", null));
-    
 }
 
 

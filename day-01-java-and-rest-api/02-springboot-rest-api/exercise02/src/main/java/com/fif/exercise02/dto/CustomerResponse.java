@@ -17,7 +17,7 @@ import lombok.Getter;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonPropertyOrder({"id", "fullName", "email", "phoneNumber", "createdAt", "updatedAt"})
 public class CustomerResponse {
-    private Long id;
+    private String id;
     // @JsonProperty("full_name")
     private String fullName;
     private String email;
