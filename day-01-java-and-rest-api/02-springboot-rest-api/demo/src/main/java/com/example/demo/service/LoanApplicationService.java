@@ -186,8 +186,8 @@ public class LoanApplicationService {
 
         LoanApplication loanApplication = loanApplicationStorage.get(id);
 
-        if (loanApplication.getLoanAmount() > 500000000){
-            roleValidation.assign(Role.ADMIN, Role.MANAGER);
+        if (loanApplication.getLoanAmount() < 500000000){
+            roleValidation.assign(Role.ADMIN, Role.APPROVER);
         }
 
         if(status.isBlank()){
