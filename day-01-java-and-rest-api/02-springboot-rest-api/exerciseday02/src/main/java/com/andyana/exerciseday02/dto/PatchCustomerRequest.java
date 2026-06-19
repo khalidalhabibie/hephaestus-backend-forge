@@ -5,8 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class PatchCustomerRequest {
     @JsonProperty("full_name")
     @Size(max = 100, message = "Nama Lengkap maksimal 100 karakter")    

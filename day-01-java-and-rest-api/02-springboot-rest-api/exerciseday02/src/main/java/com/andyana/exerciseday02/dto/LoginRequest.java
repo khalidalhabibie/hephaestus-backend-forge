@@ -2,8 +2,10 @@ package com.andyana.exerciseday02.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class LoginRequest {
     @NotBlank
     private String username;

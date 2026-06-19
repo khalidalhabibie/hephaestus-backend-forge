@@ -56,13 +56,24 @@ public class AuthMiddleware extends OncePerRequestFilter {
 }
 
     @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
+protected boolean shouldNotFilter(HttpServletRequest request) {
+    String path = request.getRequestURI();
 
-        String path = request.getRequestURI();
-
-        // Login tidak perlu token
-        return path.equals("/api/v1/auth/login");
+    // Login tidak perlu token
+    if (path.equals("/api/v1/auth/login")) {
+        return true;
     }
+
+    // Allow Swagger UI dan OpenAPI Docs
+    if (path.startsWith("/swagger-ui") || 
+        path.startsWith("/v3/api-docs") || 
+        path.startsWith("/swagger-resources") || 
+        path.equals("/webjars")) {
+        return true;
+    }
+
+    return false;
+}
 
     @Override
 protected void doFilterInternal(

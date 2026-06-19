@@ -10,6 +10,7 @@ import com.andyana.exerciseday02.dto.UserResponse;
 import com.andyana.exerciseday02.model.User;
 import com.andyana.exerciseday02.service.AuthService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;

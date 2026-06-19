@@ -5,7 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@Data
 public class UpdateCustomerRequest {
     @JsonProperty("full_name")
     @NotBlank(message = "Mohon Isi Nama Lengkap Anda")
