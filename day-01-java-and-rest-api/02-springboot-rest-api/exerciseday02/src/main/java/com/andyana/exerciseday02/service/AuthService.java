@@ -13,6 +13,7 @@ import com.andyana.exerciseday02.model.User;
 @Service
 public class AuthService {
     private final Map<String, User> tokenUserMap = new HashMap<>();
+
     public AuthService() {
         User Admin = new User();
         Admin.setUsername("admin");
@@ -38,54 +39,51 @@ public class AuthService {
     }
 
     public String getTokenByUser(User user) {
-    for (Map.Entry<String, User> entry : tokenUserMap.entrySet()) {
-        if (entry.getValue().getUsername().equals(user.getUsername())) {
-            return entry.getKey();
+        for (Map.Entry<String, User> entry : tokenUserMap.entrySet()) {
+            if (entry.getValue().getUsername().equals(user.getUsername())) {
+                return entry.getKey();
+            }
         }
-    }
-    return null;
-}
-public User getUserByToken(String token) {
-    User user = tokenUserMap.get(token);
-
-    if (user == null) {
-        throw new RuntimeException("Token tidak valid");
+        return null;
     }
 
-    return user;
-}
+    public User getUserByToken(String token) {
+        User user = tokenUserMap.get(token);
+
+        if (user == null) {
+            throw new RuntimeException("Token tidak valid");
+        }
+
+        return user;
+    }
 
     public LoginResponse login(String username, String password) {
         for (User user : tokenUserMap.values()) {
             if (user.getUsername().equals(username) &&
-                user.getPasswordHash().equals(password)) {
+                    user.getPasswordHash().equals(password)) {
 
                 String token = getTokenByUser(user);
 
                 return new LoginResponse(
-                    token,
-                    user.getUsername(),
-                    user.getRole().toString()
-                );
+                        token,
+                        user.getUsername(),
+                        user.getRole().toString());
             }
         }
         return null; // Invalid credentials
     }
 
     public UserResponse getCurrentUser(String authorizationHeader) {
-    String token = authorizationHeader.replace("Bearer ", "");
-    User user = tokenUserMap.get(token);
+        String token = authorizationHeader.replace("Bearer ", "");
+        User user = tokenUserMap.get(token);
 
-    if (user == null) {
-        throw new RuntimeException("Token tidak valid");
+        if (user == null) {
+            throw new RuntimeException("Token tidak valid");
+        }
+
+        return new UserResponse(
+                user.getUsername(),
+                user.getRole().toString());
     }
 
-    return new UserResponse(
-        user.getUsername(),
-        user.getRole().toString()
-);
 }
-
-    }
-
-

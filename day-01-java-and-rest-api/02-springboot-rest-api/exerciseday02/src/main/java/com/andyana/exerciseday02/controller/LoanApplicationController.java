@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andyana.exerciseday02.dto.CreateLoanApplicationRequest;
@@ -29,21 +30,32 @@ public class LoanApplicationController {
     }
 
     @PostMapping
-    public ResponseEntity<LoanApplicationResponse> createLoanApplication(@RequestBody @Valid CreateLoanApplicationRequest request) {
+    public ResponseEntity<LoanApplicationResponse> createLoanApplication(
+            @RequestBody @Valid CreateLoanApplicationRequest request) {
         LoanApplicationResponse response = loanApplicationService.createLoanApplication(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
-    public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications() {
-        List<LoanApplicationResponse> responses = loanApplicationService.getAllLoanApplications();
-        return ResponseEntity.ok(responses);
-    }
+    // @GetMapping("/all")
+    // public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications()
+    // {
+    // List<LoanApplicationResponse> responses =
+    // loanApplicationService.getAllLoanApplications();
+    // return ResponseEntity.ok(responses);
+    // }
 
     @GetMapping("/{id}")
     public ResponseEntity<LoanApplicationResponse> getLoanApplicationById(@PathVariable Long id) {
         LoanApplicationResponse response = loanApplicationService.getLoanApplicationById(id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<LoanApplicationResponse>> getLoanApplications(
+            @RequestParam(required = false) String status,
+            @RequestParam(name = "customer_id", required = false) Long customerId) {
+        return ResponseEntity.ok(
+                loanApplicationService.getLoanApplications(status, customerId));
     }
 
     @PatchMapping("/{id}/approve")
@@ -55,6 +67,12 @@ public class LoanApplicationController {
     @PatchMapping("/{id}/reject")
     public ResponseEntity<LoanApplicationResponse> rejectLoanApplication(@PathVariable Long id) {
         LoanApplicationResponse response = loanApplicationService.rejectLoanApplication(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<LoanApplicationResponse> cancelLoanApplication(@PathVariable Long id) {
+        LoanApplicationResponse response = loanApplicationService.cancelLoanApplication(id);
         return ResponseEntity.ok(response);
     }
 }

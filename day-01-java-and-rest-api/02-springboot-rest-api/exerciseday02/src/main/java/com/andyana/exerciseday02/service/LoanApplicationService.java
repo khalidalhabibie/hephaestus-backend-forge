@@ -36,8 +36,7 @@ public class LoanApplicationService {
                 request.getLoanAmount(),
                 request.getTenorMonth(),
                 request.getPurpose(),
-                "SUBMITTED"
-        );
+                "SUBMITTED");
 
         loanApplicationMap.put(newId, loanApplication);
         return convertToResponse(loanApplication);
@@ -54,6 +53,22 @@ public class LoanApplicationService {
         for (LoanApplication loan : loanApplicationMap.values()) {
             responses.add(convertToResponse(loan));
         }
+        return responses;
+    }
+
+    public List<LoanApplicationResponse> getLoanApplications(String status, Long customerId) {
+        List<LoanApplicationResponse> responses = new ArrayList<>();
+
+        for (LoanApplication loan : loanApplicationMap.values()) {
+
+            boolean matchStatus = (status == null || loan.getStatus().equalsIgnoreCase(status));
+            boolean matchCustomer = (customerId == null || loan.getCustomerId().equals(customerId));
+
+            if (matchStatus && matchCustomer) {
+                responses.add(convertToResponse(loan));
+            }
+        }
+
         return responses;
     }
 
@@ -75,6 +90,15 @@ public class LoanApplicationService {
         return convertToResponse(loan);
     }
 
+    public LoanApplicationResponse cancelLoanApplication(Long id) {
+        LoanApplication loan = loanApplicationMap.get(id);
+        if (loan == null) {
+            throw new LoanApplicationNotFoundException("Loan application not found");
+        }
+        loan.setStatus("CANCELED");
+        return convertToResponse(loan);
+    }
+
     private LoanApplicationResponse convertToResponse(LoanApplication loan) {
         return new LoanApplicationResponse(
                 loan.getId(),
@@ -82,7 +106,6 @@ public class LoanApplicationService {
                 loan.getLoanAmount(),
                 loan.getTenorMonth(),
                 loan.getPurpose(),
-                loan.getStatus()
-        );
+                loan.getStatus());
     }
 }
