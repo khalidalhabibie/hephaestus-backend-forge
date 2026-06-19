@@ -18,7 +18,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang database, SQ
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Database atau basi data adalah kumpulan data yang disimpan secara terstruktur dan dapat diakses/dikelola
 ```
 
 2. Apa perbedaan menyimpan data di Map dan menyimpan data di database?
@@ -26,7 +26,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Map disimpan di memory (sementara), database persistent dan bisa diakses banyak user (multiple user)
 ```
 
 3. Apa itu table?
@@ -34,7 +34,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Table adalah struktur penyimpanan data berbentuk baris dan kolom
 ```
 
 4. Apa itu row?
@@ -42,7 +42,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Row adalah satu record/baris data dalam table
 ```
 
 5. Apa itu column?
@@ -50,7 +50,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Column adalah atribut/field dari data dalam table
 ```
 
 6. Apa itu primary key?
@@ -58,7 +58,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Primary key adalah identifier unik untuk tiap row
 ```
 
 7. Apa itu foreign key?
@@ -66,7 +66,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Foreign key adalah kolom yang mereferensikan primary key di table lain
 ```
 
 8. Kenapa aplikasi backend membutuhkan database driver?
@@ -74,7 +74,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menghubungkan aplikasi dengan database (komunikasi & query execution)
 ```
 
 ## Section B - SQL Basic
@@ -84,7 +84,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT untuk mengambil data
 ```
 
 10. Apa fungsi INSERT?
@@ -92,7 +92,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+INSERT untuk menambah data
 ```
 
 11. Apa fungsi UPDATE?
@@ -100,7 +100,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+UPDATE untuk mengubah data
 ```
 
 12. Apa fungsi DELETE?
@@ -108,7 +108,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DELETE untuk menghapus data
 ```
 
 13. Apa fungsi WHERE?
@@ -116,7 +116,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+WHERE untuk filter data spesifik
 ```
 
 14. Apa perbedaan LIKE dan ILIKE di PostgreSQL?
@@ -124,7 +124,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+LIKE case-sensitive, ILIKE case-insensitive
 ```
 
 15. Apa fungsi ORDER BY?
@@ -132,7 +132,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ORDER BY untuk mengurutkan data
 ```
 
 16. Apa fungsi LIMIT?
@@ -140,7 +140,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+LIMIT untuk membatasi jumlah hasil
 ```
 
 17. Apa itu JOIN?
@@ -148,7 +148,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JOIN untuk menggabungkan data antar table
 ```
 
 18. Apa perbedaan INNER JOIN dan LEFT JOIN?
@@ -156,7 +156,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+INNER JOIN hanya data yang match, LEFT JOIN ambil semua kiri + yang match
 ```
 
 ## Section C - JPA & Hibernate
@@ -166,7 +166,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Salah satu opsi ORM di Java
 ```
 
 20. Apa itu Hibernate?
@@ -174,7 +174,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Implementasi dari JPA
 ```
 
 21. Apa perbedaan JPA dan Hibernate?
@@ -182,7 +182,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JPA = interface, Hibernate = implementasi
 ```
 
 22. Apa itu Entity?
@@ -190,7 +190,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Representasi table dalam class
 ```
 
 23. Apa fungsi @Entity?
@@ -198,7 +198,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Entity menandai class sebagai entity
 ```
 
 24. Apa fungsi @Table?
@@ -206,7 +206,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menentukan nama table
 ```
 
 25. Apa fungsi @Id?
@@ -214,7 +214,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Menandai primary key
 ```
 
 26. Apa fungsi @GeneratedValue?
@@ -222,7 +222,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk auto generate ID
 ```
 
 27. Apa itu Repository?
@@ -230,7 +230,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Sebagai layer akses data
 ```
 
 28. Apa fungsi JpaRepository?
@@ -238,7 +238,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JpaRepository menyediakan CRUD otomatis
 ```
 
 29. Pada Spring Boot 3, kenapa import JPA menggunakan jakarta.persistence, bukan javax.persistence?
@@ -246,7 +246,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena migrasi dari Java EE ke Jakarta EE
 ```
 
 ## Section D - Query
@@ -256,7 +256,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Method query otomatis berdasarkan nama method
 ```
 
 31. Apa contoh query method untuk mencari customer berdasarkan email?
@@ -264,7 +264,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+findByEmail(String email)
 ```
 
 32. Apa fungsi @Query?
@@ -272,7 +272,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menulis query custom
 ```
 
 33. Apa perbedaan JPQL dan native query?
@@ -280,7 +280,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JPQL pakai entity, native query pakai SQL langsung
 ```
 
 34. Kapan menggunakan native query?
@@ -288,7 +288,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat butuh query yang kompleks atau spesifik DB
 ```
 
 ## Section E - Flyway
@@ -298,7 +298,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Proses perubahan struktur database (schema)
 ```
 
 36. Apa itu Flyway?
@@ -306,7 +306,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Tool untuk versioning dan migration DB
 ```
 
 37. Kenapa perubahan schema database perlu versioning?
@@ -314,15 +314,15 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar perubahan terkontrol dan tentunya menjaga ke-konsisten-an
 ```
 
-38. Apa maksud file V1__create_customers_table.sql?
+38. Apa maksud file V1\_\_create_customers_table.sql?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Versi 1 untuk create table customers
 ```
 
 39. Apa risiko jika struktur database diubah manual tanpa migration?
@@ -330,7 +330,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Risiko mismatch antar environment dan error
 ```
 
 ## Section F - Relationship & Lazy Loading
@@ -340,7 +340,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Hubungan antar table melalui forign key
 ```
 
 41. Apa itu one-to-many?
@@ -348,7 +348,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Satu data punya banyak data lain
 ```
 
 42. Apa itu many-to-one?
@@ -356,7 +356,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Banyak data mengarah ke satu data
 ```
 
 43. Apa fungsi @ManyToOne?
@@ -364,7 +364,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Relasi many ke one
 ```
 
 44. Apa fungsi @OneToMany?
@@ -372,7 +372,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Relasi one ke many
 ```
 
 45. Apa itu lazy loading?
@@ -380,7 +380,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Data di-load saat dibutuhkan saja (biasanya pada saat sudah masuk/kelihatan di view aplikasi)
 ```
 
 46. Apa itu eager loading?
@@ -388,7 +388,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Data langsung di-load
 ```
 
 47. Apa risiko lazy loading jika tidak dipahami?
@@ -396,7 +396,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Bisa menyebabkan error
 ```
 
 48. Apa itu N+1 query problem?
@@ -404,7 +404,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Query yang berulang secara berlebihan
 ```
 
 49. Apa itu join fetch?
@@ -412,7 +412,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Join + Fetch data sekaligus
 ```
 
 ## Section G - Finance Case
@@ -422,7 +422,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar tidak duplikasi dan lebih scalable
 ```
 
 51. Dalam sistem cicilan, kenapa repayment schedule perlu table sendiri?
@@ -430,7 +430,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena banyak jadwal per loan
 ```
 
 52. Apa contoh query yang berguna untuk melihat loan berdasarkan status?
@@ -438,7 +438,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT * FROM loan WHERE status = 'APPROVED';
 ```
 
 53. Apa contoh query yang berguna untuk melihat total pembayaran customer?
@@ -446,27 +446,26 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT SUM(p.amount) FROM payment p WHERE p.customer_id = 1;
 ```
 
 ## Self Assessment
 
-| Area | Score 1-5 |
-| --- | --- |
-| Database basic | |
-| SQL basic | |
-| JPA | |
-| Hibernate | |
-| Repository | |
-| Flyway | |
-| Relationship | |
-| Join query | |
-| Lazy loading | |
-| Finance data modeling | |
+| Area                  | Score 1-5 |
+| --------------------- | --------- |
+| Database basic        | 5         |
+| SQL basic             | 5         |
+| JPA                   | 4         |
+| Hibernate             | 4         |
+| Repository            | 4         |
+| Flyway                | 3         |
+| Relationship          | 4         |
+| Join query            | 4         |
+| Lazy loading          | 4         |
+| Finance data modeling | 4         |
 
 ## Notes
 
 ```text
-Tulis bagian yang masih membingungkan.
+Bagian relationship dan lazy loading masih perlu diperdalam.
 ```
-
