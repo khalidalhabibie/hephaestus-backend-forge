@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import com.fif.exercise02.dto.CreateCustomerRequest;
 import com.fif.exercise02.dto.CustomerResponse;
@@ -33,6 +34,7 @@ import com.fif.exercise02.service.CustomerService;
 
 import jakarta.validation.Valid;
 
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/api/v1/customers")
 @Tag(name = "Customer API", description = "API untuk mengelola data customer")
