@@ -34,11 +34,13 @@ public class LoanApplicationController {
 
     @GetMapping
     public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications(
-            @RequestHeader("Authorization") String authorization) {
+            @RequestHeader("Authorization") String authorization,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Long customer_id) {
         String token = AuthUtil.extractToken(authorization);
         String role = authService.getRoleByToken(token);
-        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF", "APPROVER");
-        return ResponseEntity.ok(loanApplicationService.getAllLoanApplications());
+        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF", "APPROVER","MANAGER");
+        return ResponseEntity.ok(loanApplicationService.getAllLoanApplications(status, customer_id));
     }
 
     @GetMapping("/{id}")
@@ -47,7 +49,7 @@ public class LoanApplicationController {
             @PathVariable Long id) {
         String token = AuthUtil.extractToken(authorization);
         String role = authService.getRoleByToken(token);
-        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF", "APPROVER");
+        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF", "APPROVER", "MANAGER");
         return ResponseEntity.ok(loanApplicationService.getLoanApplication(id));
     }
 
@@ -57,8 +59,8 @@ public class LoanApplicationController {
             @PathVariable Long id) {
         String token = AuthUtil.extractToken(authorization);
         String role = authService.getRoleByToken(token);
-        RoleValidator.hasAnyRole(role, "ADMIN", "APPROVER");
-        return ResponseEntity.ok(loanApplicationService.approveLoanApplication(id));
+        RoleValidator.hasAnyRole(role, "ADMIN", "APPROVER", "MANAGER");
+        return ResponseEntity.ok(loanApplicationService.approveLoanApplication(id,role));
     }
 
     @PatchMapping("/{id}/reject")
@@ -67,7 +69,17 @@ public class LoanApplicationController {
             @PathVariable Long id) {
         String token = AuthUtil.extractToken(authorization);
         String role = authService.getRoleByToken(token);
-        RoleValidator.hasAnyRole(role, "ADMIN", "APPROVER");
+        RoleValidator.hasAnyRole(role, "ADMIN", "APPROVER", "MANAGER");
         return ResponseEntity.ok(loanApplicationService.rejectLoanApplication(id));
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<LoanApplicationResponse> cancelLoanApplication(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable Long id) {
+        String token = AuthUtil.extractToken(authorization);
+        String role = authService.getRoleByToken(token);
+        RoleValidator.hasAnyRole(role, "ADMIN", "APPROVER");
+        return ResponseEntity.ok(loanApplicationService.cancelLoanApplication(id));
     }
 }

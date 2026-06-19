@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fif.exercisespring.dto.LoginRequest;
 import com.fif.exercisespring.dto.LoginResponse;
 import com.fif.exercisespring.dto.UserResponse;
+import com.fif.exercisespring.security.AuthUtil;
 // import com.fif.exercisespring.model.User;
 import com.fif.exercisespring.service.AuthService;
 
@@ -63,7 +64,7 @@ public class AuthController {
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
     public ResponseEntity<UserResponse> me(@RequestHeader("Authorization") String authorization) {
-        String token = authorization.replace("Bearer ", "");
+        String token = AuthUtil.extractToken(authorization);
         UserResponse response = authService.me(token);
         return ResponseEntity.ok(response);
     }

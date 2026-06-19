@@ -37,6 +37,13 @@ public class AuthService {
                         "approver123",
                         "APPROVER",
                         "token-approver"));
+
+        users.put("manager", new User(
+                        "manager",
+                        "manager123",
+                        "MANAGER",
+                        "token-manager"));
+        
     }
 
     public LoginResponse login(LoginRequest request) {

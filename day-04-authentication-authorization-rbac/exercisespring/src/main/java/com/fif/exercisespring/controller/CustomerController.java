@@ -51,7 +51,7 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> getCustomer(@RequestHeader(value = "Authorization", required = false) String authorization, @PathVariable Long id) throws CustomerNotFoundException{
         String token = AuthUtil.extractToken(authorization);
         String role = authService.getRoleByToken(token);
-        RoleValidator.hasAnyRole(role,"ADMIN","STAFF","APPROVER");
+        RoleValidator.hasAnyRole(role,"ADMIN","STAFF","APPROVER", "MANAGER");
         CustomerResponse response = customerService.getCustomer(id);
         return ResponseEntity.ok(response);
     }
@@ -68,7 +68,7 @@ public class CustomerController {
     public ResponseEntity<List<CustomerResponse>> getAllCustomers(@RequestHeader("Authorization") String authorization, @RequestParam(required = false) String name, @RequestParam(required = false) String email) {
         String token = AuthUtil.extractToken(authorization);
         String role = authService.getRoleByToken(token);
-        RoleValidator.hasAnyRole(role,"ADMIN","STAFF","APPROVER");
+        RoleValidator.hasAnyRole(role,"ADMIN","STAFF","APPROVER","MANAGER");
         if (email != null && !email.isBlank()) {
             return ResponseEntity.ok(customerService.searchCustomersByEmail(email));
         }
@@ -82,11 +82,11 @@ public class CustomerController {
     @ApiResponse(responseCode = "200", description = "Customer updated")
     @ApiResponse(responseCode = "404", description = "Customer not found")
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> updateCustomer(@RequestHeader("Authorization") String authorization, @PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
+        String token = AuthUtil.extractToken(authorization);
+        String role = authService.getRoleByToken(token);
+        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF");
         CustomerResponse response = customerService.updateCustomer(id, request);
-        if (response == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(response);
     }
     
@@ -94,7 +94,10 @@ public class CustomerController {
     @ApiResponse(responseCode = "204", description = "Customer deleted successfully")
     @ApiResponse(responseCode = "404", description = "Customer not found")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCustomer(@RequestHeader("Authorization") String authorization, @PathVariable Long id) {
+        String token = AuthUtil.extractToken(authorization);
+        String role = authService.getRoleByToken(token);
+        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF");
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
@@ -103,7 +106,10 @@ public class CustomerController {
     @ApiResponse(responseCode = "200", description = "Customer patched")
     @ApiResponse(responseCode = "404",description = "Customer not found")
     @PatchMapping("/{id}")
-    public ResponseEntity<CustomerResponse> patchCustomer(@PathVariable Long id,@RequestBody PatchCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> patchCustomer(@RequestHeader("Authorization") String authorization, @PathVariable Long id,@RequestBody PatchCustomerRequest request) {
+        String token = AuthUtil.extractToken(authorization);
+        String role = authService.getRoleByToken(token);
+        RoleValidator.hasAnyRole(role, "ADMIN", "STAFF");
         CustomerResponse response = customerService.patchCustomer(id, request);
         return ResponseEntity.ok(response);
     }
