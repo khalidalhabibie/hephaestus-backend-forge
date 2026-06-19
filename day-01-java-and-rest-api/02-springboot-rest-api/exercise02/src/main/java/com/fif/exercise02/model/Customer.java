@@ -1,10 +1,6 @@
 package com.fif.exercise02.model;
 
 import java.time.ZonedDateTime;
-import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
 import lombok.Setter;
 import lombok.Getter;
 

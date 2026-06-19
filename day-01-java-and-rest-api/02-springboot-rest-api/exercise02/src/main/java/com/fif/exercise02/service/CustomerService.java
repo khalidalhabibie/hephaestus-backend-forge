@@ -8,15 +8,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import com.fif.exercise02.dto.CreateCustomerRequest;
 import com.fif.exercise02.dto.CustomerResponse;
 import com.fif.exercise02.dto.PatchCustomerRequest;
-import com.fif.exercise02.dto.PatchCustomerResponse;
 import com.fif.exercise02.exception.CustomerNotFoundException;
 import com.fif.exercise02.model.Customer;
 

@@ -1,6 +1,5 @@
 package com.fif.exercise02.security;
 
-import com.fif.exercise02.entity.Role;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

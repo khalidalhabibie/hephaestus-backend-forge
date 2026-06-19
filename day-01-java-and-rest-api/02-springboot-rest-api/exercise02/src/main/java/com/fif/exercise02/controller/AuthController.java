@@ -1,6 +1,5 @@
 package com.fif.exercise02.controller;
 
-import com.fif.exercise02.entity.Role;
 
 import com.fif.exercise02.dto.*;
 import com.fif.exercise02.service.AuthService;
