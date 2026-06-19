@@ -18,6 +18,7 @@ import com.example.training.dto.CustomerResponse;
 import com.example.training.dto.PatchCustomerRequest;
 import com.example.training.dto.UpdateCustomerRequest;
 import com.example.training.exception.CustomerNotFoundException;
+import com.example.training.exception.UnauthorizedException;
 import com.example.training.model.Customer;
 
 import jakarta.validation.Valid;
@@ -66,6 +67,7 @@ public class CustomerService {
 	// BEFORE: public CustomerResponse createCustomer(@RequestBody CreateCustomerRequest request) {
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
         Customer newCust = new Customer(sequence, request.getFullName(), request.getEmail(), request.getPhoneNumber());
+
         customerStorage.put(sequence, newCust);
         sequence++;
 

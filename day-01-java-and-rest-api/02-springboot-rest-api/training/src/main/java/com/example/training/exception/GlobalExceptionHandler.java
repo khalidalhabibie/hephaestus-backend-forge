@@ -20,6 +20,10 @@ public class GlobalExceptionHandler {
     public static final String CUSTOMER_NOT_FOUND = "CUSTOMER_NOT_FOUND";
     public static final String VALIDATION_ERROR = "VALIDATION_ERROR";
     public static final String INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR";
+    public static final String UNAUTHORIZED = "UNAUTHORIZED";
+    public static final String FORBIDDEN = "FORBIDDEN";
+    public static final String LOAN_NOT_FOUND = "LOAN_NOT_FOUND";
+    
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleCustomerNotFound(CustomerNotFoundException ex) {
@@ -39,6 +43,38 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR, "Unexpected error occurred", null);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex) {
+    ErrorResponse errorResponse = new ErrorResponse(
+            UNAUTHORIZED,
+            ex.getMessage(),
+            List.of()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+    }
+
+    @ExceptionHandler (ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbidden(ForbiddenException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                FORBIDDEN,
+                ex.getMessage(),
+                List.of()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+    }
+
+    
+    @ExceptionHandler(LoanNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(LoanNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LOAN_NOT_FOUND,
+                ex.getMessage(),
+                List.of()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
 
     private FieldErrorResponse toFieldError(FieldError fieldError) {
         FieldErrorResponse response = new FieldErrorResponse();

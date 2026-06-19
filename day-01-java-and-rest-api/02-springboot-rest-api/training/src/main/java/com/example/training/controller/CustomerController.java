@@ -18,11 +18,15 @@ import com.example.training.dto.CreateCustomerRequest;
 import com.example.training.dto.CustomerResponse;
 import com.example.training.dto.PatchCustomerRequest;
 import com.example.training.dto.UpdateCustomerRequest;
+import com.example.training.helper.ValidateTokenRoleHelper;
+import com.example.training.model.Role;
+import com.example.training.service.AuthService;
 import com.example.training.service.CustomerService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -32,16 +36,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Tag(name = "CustomerController", description = "API for customer transactions.")
 public class CustomerController {
     private final CustomerService customerService;
+    private final AuthService authService; 
     
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, AuthService authService) {
         this.customerService = customerService;
+        this.authService = authService;
     }
 
     @PostMapping
     @Operation(summary = "Create a new customer.", description = "Creates a new customers with details as shown.")
     @ApiResponse(responseCode = "201", description = "New customer created.")
     @ApiResponse(responseCode = "400", description = "Invalid user input.")
-    public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(
+            @Valid @RequestBody CreateCustomerRequest request, 
+            HttpServletRequest requestContext) {
+        
+        ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
+        tokenHelper.validateTokenRole(requestContext, authService.getUsers(), Role.ADMIN, Role.STAFF);
+
         CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -51,7 +63,10 @@ public class CustomerController {
     @Operation(summary = "Get all customers.", description = "Shows all customer data.")
     @ApiResponse(responseCode = "200", description = "All customers retrieved successfully.")
     @ApiResponse(responseCode = "401", description = "Customer not found.")
-    public ResponseEntity<List<CustomerResponse>> getCustomers(@RequestParam(required = false) String email) {
+    public ResponseEntity<List<CustomerResponse>> getCustomers(@RequestParam(required = false) String email, HttpServletRequest requestContext) {
+        ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
+        tokenHelper.validateTokenRole(requestContext, authService.getUsers(), Role.ADMIN, Role.APPROVER, Role.STAFF);
+        
         List<CustomerResponse> responses;
         if(email != null){
             responses = customerService.searchCustomerByEmail(email);
@@ -64,7 +79,10 @@ public class CustomerController {
     @Operation(summary = "Get customer data by id.", description = "Shows customer data based on id.")
     @ApiResponse(responseCode = "200", description = "Customer data retrieved successfully.")
     @ApiResponse(responseCode = "401", description = "Customer not found.")
-    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id, HttpServletRequest requestContext) {
+        ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
+        tokenHelper.validateTokenRole(requestContext, authService.getUsers(), Role.ADMIN, Role.APPROVER, Role.STAFF);
+
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
@@ -72,7 +90,10 @@ public class CustomerController {
     @Operation(summary = "Delete customer data.", description = "Deletes customer data based on id.")
     @ApiResponse(responseCode = "200", description = "Customer data deleted successfully.")
     @ApiResponse(responseCode = "401", description = "Customer not found.")
-    public ResponseEntity<CustomerResponse> deleteCustomerById(@PathVariable Long id) {
+    public ResponseEntity<CustomerResponse> deleteCustomerById(@PathVariable Long id, HttpServletRequest requestContext) {
+        ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
+        tokenHelper.validateTokenRole(requestContext, authService.getUsers(), Role.ADMIN);
+
         return ResponseEntity.ok(customerService.deleteCustomerById(id));
     }
 
@@ -80,7 +101,10 @@ public class CustomerController {
     @Operation(summary = "Update customer data.", description = "Updates all fields in customer data based on id.")
     @ApiResponse(responseCode = "200", description = "All fields in customer data updated successfully.")
     @ApiResponse(responseCode = "401", description = "Customer not found.")
-    public ResponseEntity<CustomerResponse> updateCustomerById(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> updateCustomerById(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request, HttpServletRequest requestContext) {
+        ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
+        tokenHelper.validateTokenRole(requestContext, authService.getUsers(), Role.ADMIN);
+
         return ResponseEntity.ok(customerService.updateCustomerById(id, request));
     }
 
@@ -88,7 +112,10 @@ public class CustomerController {
     @Operation(summary = "Update customer data.", description = "Updates selected fields in customer data based on id.")
     @ApiResponse(responseCode = "200", description = "Customer data updated successfully.")
     @ApiResponse(responseCode = "401", description = "Customer not found.")
-    public ResponseEntity<CustomerResponse> patchCustomer(@PathVariable Long id, @Valid @RequestBody PatchCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> patchCustomer(@PathVariable Long id, @Valid @RequestBody PatchCustomerRequest request, HttpServletRequest requestContext) {
+        ValidateTokenRoleHelper tokenHelper = new ValidateTokenRoleHelper();
+        tokenHelper.validateTokenRole(requestContext, authService.getUsers(), Role.ADMIN);
+
         return ResponseEntity.ok(customerService.patchCustomer(id, request));
     }
 }
