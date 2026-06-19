@@ -11,7 +11,7 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
         User user = AuthContext.getUserByUsername(request.getUsername());
         if (user != null && user.getPassword().equals(request.getPassword())) {
-            return new LoginResponse(user.getUsername(), user.getRole(), user.getToken());
+            return new LoginResponse(user.getToken(), user.getUsername(), user.getRole());
         }
         return null;
     }

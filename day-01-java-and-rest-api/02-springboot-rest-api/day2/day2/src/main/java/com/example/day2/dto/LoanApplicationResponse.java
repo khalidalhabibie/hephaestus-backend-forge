@@ -11,9 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class LoanApplicationResponse {
-    private String id;
+    private Long id;
     @JsonProperty("customer_id")
-    private String customerId;
-    private Long amount;
+    private Long customerId;
+    @JsonProperty("loan_amount")
+    private Long loanAmount;
+    @JsonProperty("tenor_month")
+    private Integer tenorMonth;
+    private String purpose;
     private String status;
 }

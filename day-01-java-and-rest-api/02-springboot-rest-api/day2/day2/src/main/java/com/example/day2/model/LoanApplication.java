@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class LoanApplication {
-    private String id;
-    private String customerId;
-    private Long amount;
+    private Long id;
+    private Long customerId;
+    private Long loanAmount;
+    private Integer tenorMonth;
+    private String purpose;
     private String status;
 }

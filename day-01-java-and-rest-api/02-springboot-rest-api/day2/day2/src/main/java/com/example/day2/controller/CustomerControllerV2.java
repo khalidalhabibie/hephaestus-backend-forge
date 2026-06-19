@@ -3,15 +3,22 @@ package com.example.day2.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.day2.dto.CreateCustomerRequest;
 import com.example.day2.dto.CustomerResponse;
+import com.example.day2.dto.ErrorResponse;
 import com.example.day2.dto.PatchCustomerRequest;
 import com.example.day2.dto.PutCustomerRequest;
 import com.example.day2.dto.WebResponse;
+import com.example.day2.security.AuthUtil;
+import com.example.day2.security.RoleValidator;
 import com.example.day2.service.CustomerServiceV2;
+import com.example.day2.model.User;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -60,8 +67,13 @@ public class CustomerControllerV2 {
     })
 
     @PostMapping
-    public ResponseEntity<WebResponse<CustomerResponse>> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {        
+    public ResponseEntity<WebResponse<CustomerResponse>> createCustomer(@RequestHeader(value = "Authorization", required = false) String authHeader, 
+                @Valid @RequestBody CreateCustomerRequest request) {        
         CustomerResponse data = customerService.createCustomer(request);
+        
+        User user = AuthUtil.validateToken(authHeader);
+        if (!RoleValidator.hasAccess(user.getRole(), "ADMIN", "STAFF")) 
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to access this resource");
         return new ResponseEntity<>(createWebResponse(HttpStatus.CREATED, "Successfully created new customer", data), HttpStatus.CREATED);
     }
     

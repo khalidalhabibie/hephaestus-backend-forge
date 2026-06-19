@@ -9,7 +9,6 @@ public class AuthContext {
     private static final Map<String, User> TOKENS = new HashMap<>();
 
     static {
-        // Inisialisasi dummy users sesuai spesifikasi soal
         User admin = new User("admin", "admin123", "ADMIN", "token-admin");
         User staff = new User("staff", "staff123", "STAFF", "token-staff");
         User approver = new User("approver", "approver123", "APPROVER", "token-approver");
