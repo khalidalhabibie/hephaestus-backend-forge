@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.LoanApplicationRequest;
@@ -32,8 +33,8 @@ public class LoanApplicationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LoanApplicationResponse>> getLoanApplications() {
-        return ResponseEntity.ok(loanApplicationService.getLoanApplications());
+    public ResponseEntity<List<LoanApplicationResponse>> getLoanApplications(@RequestParam(required = false) Long customerId, @RequestParam(required = false) String status) {
+        return ResponseEntity.ok(loanApplicationService.getLoanApplications(customerId, status));
     }
 
     @GetMapping("/{id}")

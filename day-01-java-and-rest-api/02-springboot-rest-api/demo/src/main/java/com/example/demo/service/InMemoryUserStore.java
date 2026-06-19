@@ -36,9 +36,16 @@ public class InMemoryUserStore {
         user3.setPassword("$2b$10$abcdefghijklmnopqrstuu0SYq8twpcthS10uxQ26rv0s3Obj8Ufu");
         user3.setRole(Role.APPROVER);
 
+        User user4 = new User();
+        user4.setId(UUID.randomUUID());
+        user4.setUsername("manager");
+        user4.setPassword("$2b$10$abcdefghijklmnopqrstuu0SYq8twpcthS10uxQ26rv0s3Obj8Ufu");
+        user4.setRole(Role.MANAGER);
+
         users.put(user1.getUsername(), user1);
         users.put(user2.getUsername(), user2);
         users.put(user3.getUsername(), user3);
+        users.put(user4.getUsername(), user4);
     }
 
     public User findByUsername(String username) {
