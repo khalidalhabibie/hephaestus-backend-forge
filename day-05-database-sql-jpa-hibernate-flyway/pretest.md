@@ -398,8 +398,8 @@ solusi JPQL untuk mengatasi n+1 query problem, memaksa jpa untuk lsgs memuat dat
 ## Section G - Finance Case
 
 50. Dalam sistem pinjaman, kenapa customer dan loan application sebaiknya dipisah ke table berbeda?
-
 Jawaban:
+
 
 ```text
 utk menjaga keamanan data leak
@@ -425,7 +425,7 @@ WHERE status = "Completed"```
 
 Jawaban:
 
-```text
+```sql
 SELECT loanId, loanAmount, customerId
 FROM Customer
 W```
