@@ -11,6 +11,7 @@ import com.example.day2.utils.LoanApplicationNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,8 @@ public class LoanApplicationService {
     private final LoanApplicationRepository loanApplicationRepository;
     private final CustomerRepository customerRepository;
 
-    private static final BigDecimal MANAGER_APPROVAL_THRESHOLD = new BigDecimal("10000000");
+    @Value("${loan.manager.approval-threshold:1000000}")
+    private BigDecimal managerApprovalThreshold;
 
     @Transactional
     public LoanApplicationResponse create(CreateLoanApplicationRequest request) {
@@ -108,9 +110,9 @@ public class LoanApplicationService {
         boolean isManager = auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_MANAGER"));
 
-        if (isManager && loan.getLoanAmount().compareTo(MANAGER_APPROVAL_THRESHOLD) > 0) {
+        if (isManager && loan.getLoanAmount().compareTo(managerApprovalThreshold) < 0) {
             throw new AccessDeniedException(
-                "MANAGER can only approve loans above " + MANAGER_APPROVAL_THRESHOLD);
+                "MANAGER can only approve loans above " + managerApprovalThreshold);
         }
 
         loan.setStatus(LoanStatus.APPROVED);

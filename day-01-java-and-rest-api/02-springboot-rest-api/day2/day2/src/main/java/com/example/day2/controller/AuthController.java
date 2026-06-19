@@ -49,6 +49,7 @@ public class AuthController {
         description = "Hanya ADMIN yang dapat mendaftarkan user baru. Role yang tersedia: STAFF, APPROVER, ADMIN."
     )
     @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<WebResponse<UserResponse>> register(@Valid @RequestBody RegisterRequest request) {
         UserResponse data = authService.register(request);
         return ResponseEntity.status(HttpStatus.CREATED)
