@@ -1,14 +1,20 @@
 package com.example.main.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.example.main.models.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CustomerRepository {
-    Customer save(Customer customer);
-    Customer findById(Long id);
-    List<Customer> findAll();
-    
-    boolean deleteById(Long id);
-    List<Customer> searchByName(String name);
+import com.example.main.entity.CustomerEntity;
+
+public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+    Optional<CustomerEntity> findByNik(String nik);
+
+    Optional<CustomerEntity> findByEmail(String email);
+
+    boolean existsByNik(String nik);
+
+    boolean existsByEmail(String email);
+
+    List<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName);
 }

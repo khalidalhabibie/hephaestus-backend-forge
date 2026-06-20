@@ -10,7 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.example.main.dto.FieldErrorResponse;
+import com.example.main.dto.response.FieldErrorResponse;
 import com.example.main.template.Response;
 import com.example.main.utils.FormattingText;
 
@@ -73,6 +73,28 @@ public class GlobalExceptionHandler {
                 new java.util.ArrayList<>()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    // Duplicate Data
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<Response<Object>> handleDuplicateException(DuplicateException ex) {
+        Response<Object> response = Response.errorSpec(
+                "DUPLICATE_DATA", 
+                ex.getMessage(), 
+                new ArrayList<>()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    // Bad Request
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Response<Object>> handleBadRequestException(BadRequestException ex) {
+        Response<Object> response = Response.errorSpec(
+                "BAD_REQUEST", 
+                ex.getMessage(), 
+                new ArrayList<>()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     // Internal Server Error

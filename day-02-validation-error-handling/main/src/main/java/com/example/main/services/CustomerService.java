@@ -1,13 +1,15 @@
 package com.example.main.services;
 
-import org.springframework.stereotype.Service;
-
-import com.example.main.dto.CreateCustomerRequest;
-import com.example.main.dto.CustomerResponse;
-import com.example.main.dto.PatchCustomerRequest;
+import com.example.main.dto.request.CreateCustomerRequest;
+import com.example.main.dto.request.PatchCustomerRequest;
+import com.example.main.dto.response.CustomerResponse;
+import com.example.main.entity.CustomerEntity;
 import com.example.main.exceptions.NotFoundException;
-import com.example.main.models.Customer;
+import com.example.main.exceptions.DuplicateException;
 import com.example.main.repositories.CustomerRepository;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,86 +23,124 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
-        Customer customer = new Customer();
+        if (customerRepository.existsByNik(request.getNik())) {
+            throw new DuplicateException("NIK already exists");
+        }
+        if (customerRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateException("Email already exists");
+        }
+
+        CustomerEntity customer = new CustomerEntity();
         customer.setFullName(request.getFullName());
+        customer.setNik(request.getNik());
         customer.setEmail(request.getEmail());
         customer.setPhoneNumber(request.getPhoneNumber());
 
-        Customer savedCustomer = customerRepository.save(customer);
-        
+        CustomerEntity savedCustomer = customerRepository.save(customer);
         return toResponse(savedCustomer);
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse getCustomerById(Long id) {
-        Customer customer = customerRepository.findById(id);
-        if (customer == null) {
-            throw new NotFoundException(id);
-        }
+        CustomerEntity customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Customer not found"));
         return toResponse(customer);
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll().stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void deleteCustomer(Long id) {
-        boolean isDeleted = customerRepository.deleteById(id);
-        if (!isDeleted) {
-            throw new NotFoundException(id);
+        if (!customerRepository.existsById(id)) {
+            throw new NotFoundException("Customer not found");
         }
+        customerRepository.deleteById(id);
     }
 
+    @Transactional
     public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
-        Customer existingCustomer = customerRepository.findById(id);
-        if (existingCustomer == null) {
-            throw new NotFoundException(id);
+        CustomerEntity existingCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Customer not found"));
+
+        if (!existingCustomer.getNik().equals(request.getNik()) && customerRepository.existsByNik(request.getNik())) {
+            throw new DuplicateException("NIK already exists");
         }
-        
+        if (!existingCustomer.getEmail().equals(request.getEmail())
+                && customerRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateException("Email already exists");
+        }
+
         existingCustomer.setFullName(request.getFullName());
+        existingCustomer.setNik(request.getNik());
         existingCustomer.setEmail(request.getEmail());
         existingCustomer.setPhoneNumber(request.getPhoneNumber());
-        
-        Customer updatedCustomer = customerRepository.save(existingCustomer);
-        
+
+        CustomerEntity updatedCustomer = customerRepository.save(existingCustomer);
         return toResponse(updatedCustomer);
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> searchByName(String name) {
-        return customerRepository.searchByName(name).stream()
+        if (name == null || name.trim().isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+
+        List<CustomerEntity> customers = customerRepository.findByFullNameContainingIgnoreCase(name.trim());
+        
+        if (customers.isEmpty()) {
+            throw new NotFoundException("Customer with name containing '" + name + "' not found");
+        }
+        
+        return customers.stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
-        Customer existingCustomer = customerRepository.findById(id);
-        if (existingCustomer == null) {
-            throw new NotFoundException(id); 
-        }
+        CustomerEntity existingCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Customer not found"));
 
         if (request.getFullName() != null) {
             existingCustomer.setFullName(request.getFullName());
         }
-        
+
+        if (request.getNik() != null) {
+            if (!existingCustomer.getNik().equals(request.getNik())
+                    && customerRepository.existsByNik(request.getNik())) {
+                throw new DuplicateException("NIK already exists");
+            }
+            existingCustomer.setNik(request.getNik());
+        }
+
         if (request.getEmail() != null) {
+            if (!existingCustomer.getEmail().equals(request.getEmail())
+                    && customerRepository.existsByEmail(request.getEmail())) {
+                throw new DuplicateException("Email already exists");
+            }
             existingCustomer.setEmail(request.getEmail());
         }
-        
+
         if (request.getPhoneNumber() != null) {
             existingCustomer.setPhoneNumber(request.getPhoneNumber());
         }
 
-        Customer updatedCustomer = customerRepository.save(existingCustomer);
-        
+        CustomerEntity updatedCustomer = customerRepository.save(existingCustomer);
         return toResponse(updatedCustomer);
     }
 
-    private CustomerResponse toResponse(Customer customer) {
+    private CustomerResponse toResponse(CustomerEntity customer) {
         CustomerResponse response = new CustomerResponse();
         response.setId(customer.getId());
         response.setFullName(customer.getFullName());
+        response.setNik(customer.getNik());
         response.setEmail(customer.getEmail());
         response.setPhoneNumber(customer.getPhoneNumber());
         return response;

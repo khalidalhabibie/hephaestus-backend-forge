@@ -1,8 +1,8 @@
 package com.example.main.services;
 
-import com.example.main.dto.LoginRequest;
-import com.example.main.dto.LoginResponse;
-import com.example.main.dto.UserMeResponse;
+import com.example.main.dto.request.LoginRequest;
+import com.example.main.dto.response.LoginResponse;
+import com.example.main.dto.response.UserMeResponse;
 import com.example.main.exceptions.UnauthorizedException;
 import com.example.main.models.User;
 import com.example.main.repositories.UserRepository;

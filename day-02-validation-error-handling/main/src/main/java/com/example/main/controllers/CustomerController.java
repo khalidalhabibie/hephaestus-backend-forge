@@ -5,12 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.main.dto.CreateCustomerRequest;
-import com.example.main.dto.PatchCustomerRequest;
+import com.example.main.dto.request.CreateCustomerRequest;
+import com.example.main.dto.request.PatchCustomerRequest;
+import com.example.main.dto.response.CustomerResponse;
+import com.example.main.dto.response.LoanApplicationResponse;
 import com.example.main.security.RequiresRoles;
 import com.example.main.security.UserRole;
-import com.example.main.dto.CustomerResponse;
 import com.example.main.services.CustomerService;
+import com.example.main.services.LoanApplicationService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,9 +30,11 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final LoanApplicationService loanApplicationService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, LoanApplicationService loanApplicationService) {
         this.customerService = customerService;
+        this.loanApplicationService = loanApplicationService;
     }
 
     @PostMapping
@@ -105,6 +109,35 @@ public class CustomerController {
             @PathVariable Long id, 
             @Valid @RequestBody PatchCustomerRequest request) {
         CustomerResponse response = customerService.patchCustomer(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search")
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER})
+    @Operation(summary = "Mencari customer berdasarkan nama", description = "Mencari data customer menggunakan query parameter 'name' (Case-Insensitive).")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Berhasil mendapatkan hasil pencarian customer"),
+        @ApiResponse(responseCode = "400", description = "Query parameter 'name' kosong atau tidak valid")
+    })
+    public ResponseEntity<List<CustomerResponse>> searchCustomers(@RequestParam(name = "name") String name) {
+        List<CustomerResponse> response = customerService.searchByName(name);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{customerId}/loan-applications")
+    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER})
+    @Operation(
+        summary = "Mendapatkan daftar pinjaman berdasarkan ID Customer", 
+        description = "Mengambil seluruh riwayat atau daftar pengajuan loan milik satu customer tertentu."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Berhasil mendapatkan daftar pinjaman customer"),
+        @ApiResponse(responseCode = "404", description = "Customer tidak ditemukan")
+    })
+    public ResponseEntity<List<LoanApplicationResponse>> getLoanApplicationsByCustomer(
+            @PathVariable(name = "customerId") Long customerId) {
+        
+        List<LoanApplicationResponse> response = loanApplicationService.getLoansByCustomerId(customerId);
         return ResponseEntity.ok(response);
     }
 }

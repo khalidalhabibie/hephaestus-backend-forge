@@ -1,8 +1,8 @@
 package com.example.main.controllers;
 
-import com.example.main.dto.LoginRequest;
-import com.example.main.dto.LoginResponse;
-import com.example.main.dto.UserMeResponse;
+import com.example.main.dto.request.LoginRequest;
+import com.example.main.dto.response.LoginResponse;
+import com.example.main.dto.response.UserMeResponse;
 import com.example.main.security.UserRole;
 import com.example.main.services.UserService;
 import org.springframework.http.ResponseEntity;
