@@ -86,6 +86,20 @@ public class LoanApplicationController {
     }
 
     /**
+     * Endpoint summary total loan by status.
+     *
+     * Example:
+     * GET /api/v1/loan-applications/summary/by-status
+     */
+    @GetMapping("/summary/by-status")
+    public ApiResponse<List<LoanSummaryByStatusResponse>> getSummaryByStatus() {
+        return ApiResponse.success(
+                loanService.getSummaryByStatus(),
+                "Loan summary by status retrieved successfully"
+        );
+    }
+
+    /**
      * Get paginated loan applications with optional filters:
      * - status
      * - startDate

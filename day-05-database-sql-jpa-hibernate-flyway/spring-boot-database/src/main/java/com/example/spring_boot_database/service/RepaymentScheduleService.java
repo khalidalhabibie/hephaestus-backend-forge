@@ -15,6 +15,7 @@ import com.example.spring_boot_database.entity.LoanApplicationEntity;
 import com.example.spring_boot_database.entity.PaymentTransactionEntity;
 import com.example.spring_boot_database.entity.RepaymentScheduleEntity;
 import com.example.spring_boot_database.entity.StatusRepayment;
+import com.example.spring_boot_database.exception.BadRequestException;
 import com.example.spring_boot_database.exception.RepaymentScheduleNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,6 @@ public class RepaymentScheduleService {
 
     @Value("${loan.interest.annual-rate}")
     private BigDecimal annualRate;
-
 
     public List<RepaymentScheduleEntity> generateRepaymentSchedule(LoanApplicationEntity loan) {
 
@@ -73,7 +73,6 @@ public class RepaymentScheduleService {
         return result;
     }
 
-  
     @Transactional(readOnly = true)
     public RepaymentScheduleResponse findById(Long id) {
         return scheduleRepo.findById(id)
@@ -81,17 +80,21 @@ public class RepaymentScheduleService {
                 .orElseThrow(() -> new RepaymentScheduleNotFoundException(id));
     }
 
-
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> findAll(String status) {
 
         List<RepaymentScheduleEntity> data;
 
-        if (status != null) {
-            data = scheduleRepo.findAll()
-                    .stream()
-                    .filter(s -> s.getStatus().equalsIgnoreCase(status))
-                    .toList();
+        if (status != null && !status.isBlank()) {
+            StatusRepayment statusRepayment;
+
+            try {
+                statusRepayment = StatusRepayment.valueOf(status.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new BadRequestException("Invalid repayment status. Allowed values: PAID, UNPAID");
+            }
+
+            data = scheduleRepo.findByStatusIgnoreCase(statusRepayment.name());
         } else {
             data = scheduleRepo.findAll();
         }
@@ -100,7 +103,6 @@ public class RepaymentScheduleService {
                 .map(this::toResponse)
                 .toList();
     }
-
 
     @Transactional(readOnly = true)
     public List<PaymentTransactionResponse> findPaymentTransactionByRepaymentId(Long repaymentId) {
@@ -113,7 +115,6 @@ public class RepaymentScheduleService {
                 .toList();
     }
 
-
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> findByLoanId(Long loanId) {
 
@@ -123,9 +124,6 @@ public class RepaymentScheduleService {
                 .toList();
     }
 
-    // ============================
-    // MAPPING
-    // ============================
     public RepaymentScheduleResponse toResponse(RepaymentScheduleEntity e) {
         return RepaymentScheduleResponse.builder()
                 .id(e.getId())

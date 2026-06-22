@@ -1,5 +1,6 @@
 package com.example.spring_boot_database.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.spring_boot_database.dto.CreateCustomerRequest;
 import com.example.spring_boot_database.dto.CustomerResponse;
 import com.example.spring_boot_database.dto.LoanApplicationResponse;
+import com.example.spring_boot_database.dto.OutstandingAmountResponse;
 import com.example.spring_boot_database.entity.CustomerEntity;
 import com.example.spring_boot_database.entity.LoanApplicationEntity;
 import com.example.spring_boot_database.entity.Status;
@@ -15,6 +17,7 @@ import com.example.spring_boot_database.exception.CustomerNotFoundException;
 import com.example.spring_boot_database.exception.DuplicateCustomerException;
 import com.example.spring_boot_database.repository.CustomerRepository;
 import com.example.spring_boot_database.repository.LoanApplicationRepository;
+import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +27,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final LoanApplicationRepository loanApplicationRepository;
+    private final RepaymentScheduleRepository repaymentScheduleRepository;
 
     private void fill(CustomerEntity entity, CreateCustomerRequest req) {
         entity.setNik(req.getNik());
@@ -73,12 +77,26 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> findLoanByCustomer(Long customerId) {
 
-        getById(customerId); // validasi exists
+        getById(customerId);
 
         return loanApplicationRepository.findLoansByCustomerId(customerId)
                 .stream()
                 .map(this::toLoanResponse)
                 .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public OutstandingAmountResponse getOutstandingAmountByCustomer(Long customerId) {
+
+        getById(customerId);
+
+        BigDecimal outstandingAmount =
+                repaymentScheduleRepository.calculateOutstandingAmountByCustomerId(customerId);
+
+        return OutstandingAmountResponse.builder()
+                .customerId(customerId)
+                .outstandingAmount(outstandingAmount)
+                .build();
     }
 
     private LoanApplicationResponse toLoanResponse(LoanApplicationEntity loan) {

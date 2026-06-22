@@ -35,6 +35,11 @@ public class RepaymentScheduleController {
         );
     }
 
+    /**
+     * Filter repayment schedule by status:
+     * GET /api/v1/repayment-schedules?status=PAID
+     * GET /api/v1/repayment-schedules?status=UNPAID
+     */
     @GetMapping
     public ApiResponse<List<RepaymentScheduleResponse>> getAll(
             @RequestParam(required = false) String status) {

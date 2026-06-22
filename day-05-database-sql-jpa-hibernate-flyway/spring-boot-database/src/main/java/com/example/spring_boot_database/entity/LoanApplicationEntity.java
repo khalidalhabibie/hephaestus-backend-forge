@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
@@ -16,9 +17,14 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-
 @Entity
-@Table(name = "loan_applications")
+@Table(
+        name = "loan_applications",
+        indexes = {
+                @Index(name = "idx_loan_applications_customer_id", columnList = "customer_id"),
+                @Index(name = "idx_loan_applications_status", columnList = "status")
+        }
+)
 @Data
 public class LoanApplicationEntity {
 
@@ -59,18 +65,3 @@ public class LoanApplicationEntity {
         updatedAt = LocalDateTime.now();
     }
 }
-
-
-// CREATE TABLE loan_applications (
-//     id BIGSERIAL PRIMARY KEY,
-//     customer_id BIGINT NOT NULL,
-//     loan_amount NUMERIC(15, 2) NOT NULL,
-//     tenor_month INTEGER NOT NULL,
-//     purpose VARCHAR(255) NOT NULL,
-//     status VARCHAR(30) NOT NULL,
-//     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-//     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-//     CONSTRAINT fk_loan_applications_customer
-//         FOREIGN KEY (customer_id)
-//         REFERENCES customers(id)
-// );

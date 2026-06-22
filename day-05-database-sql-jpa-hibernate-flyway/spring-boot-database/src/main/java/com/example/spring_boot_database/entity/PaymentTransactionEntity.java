@@ -9,6 +9,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
@@ -16,9 +17,14 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.Data;
 
-
 @Entity
-@Table(name = "payment_transactions")
+@Table(
+        name = "payment_transactions",
+        indexes = {
+                @Index(name = "idx_payment_transactions_repayment_schedule_id", columnList = "repayment_schedule_id"),
+                @Index(name = "idx_payment_transactions_status", columnList = "status")
+        }
+)
 @Data
 public class PaymentTransactionEntity {
 
@@ -44,7 +50,7 @@ public class PaymentTransactionEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "repayment_schedule_id", nullable = false)
     private RepaymentScheduleEntity repaymentSchedule;
 
@@ -59,17 +65,3 @@ public class PaymentTransactionEntity {
         updatedAt = LocalDateTime.now();
     }
 }
-
-// CREATE TABLE payment_transactions (
-//     id BIGSERIAL PRIMARY KEY,
-//     repayment_schedule_id BIGINT NOT NULL,
-//     payment_reference VARCHAR(100) NOT NULL UNIQUE,
-//     paid_amount NUMERIC(15, 2) NOT NULL,
-//     paid_at TIMESTAMP NOT NULL,
-//     status VARCHAR(30) NOT NULL,
-//     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-//     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
-//     CONSTRAINT fk_payment_transactions_schedule
-//         FOREIGN KEY (repayment_schedule_id)
-//         REFERENCES repayment_schedules(id)
-// );

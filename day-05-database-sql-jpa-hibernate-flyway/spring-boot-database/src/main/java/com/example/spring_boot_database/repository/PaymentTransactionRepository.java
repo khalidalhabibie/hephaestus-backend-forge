@@ -13,6 +13,11 @@ public interface PaymentTransactionRepository extends JpaRepository<PaymentTrans
 
     List<PaymentTransactionEntity> findByRepaymentScheduleId(Long repaymentScheduleId);
 
-    @Query(value = "SELECT COALESCE(SUM(paid_amount), 0) FROM payment_transactions WHERE repayment_schedule_id = :scheduleId AND status = 'SUCCESS'", nativeQuery = true)
+    @Query(value = """
+            SELECT COALESCE(SUM(paid_amount), 0)
+            FROM payment_transactions
+            WHERE repayment_schedule_id = :scheduleId
+              AND status = 'PAID'
+            """, nativeQuery = true)
     BigDecimal sumPaidAmountByScheduleId(@Param("scheduleId") Long scheduleId);
 }

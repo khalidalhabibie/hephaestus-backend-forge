@@ -1,5 +1,6 @@
 package com.example.spring_boot_database.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.spring_boot_database.dto.CreateLoanApplicationRequest;
 import com.example.spring_boot_database.dto.LoanApplicationResponse;
+import com.example.spring_boot_database.dto.LoanSummaryByStatusResponse;
 import com.example.spring_boot_database.dto.RepaymentScheduleResponse;
 import com.example.spring_boot_database.dto.UpdateLoanStatusRequest;
 import com.example.spring_boot_database.entity.CustomerEntity;
@@ -156,6 +158,21 @@ public class LoanApplicationService {
         return scheduleRepo.findByLoanApplicationId(loanId)
                 .stream()
                 .map(scheduleService::toResponse)
+                .toList();
+    }
+
+    /**
+     * Summary total loan grouped by status.
+     */
+    @Transactional(readOnly = true)
+    public List<LoanSummaryByStatusResponse> getSummaryByStatus() {
+        return loanRepo.summarizeTotalLoanByStatus()
+                .stream()
+                .map(row -> LoanSummaryByStatusResponse.builder()
+                        .status(Status.valueOf((String) row[0]))
+                        .totalLoan((Long) row[1])
+                        .totalLoanAmount((BigDecimal) row[2])
+                        .build())
                 .toList();
     }
 

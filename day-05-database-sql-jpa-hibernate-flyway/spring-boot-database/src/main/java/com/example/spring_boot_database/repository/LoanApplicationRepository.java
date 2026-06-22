@@ -1,8 +1,5 @@
 package com.example.spring_boot_database.repository;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -22,7 +19,13 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
     @Query("SELECT l FROM LoanApplicationEntity l JOIN FETCH l.customer WHERE l.id = :id")
     Optional<LoanApplicationEntity> findByIdWithCustomer(@Param("id") Long id);
 
-    @Query("SELECT l FROM LoanApplicationEntity l JOIN l.customer c WHERE c.id = :customerId")
+    @Query("SELECT l FROM LoanApplicationEntity l JOIN FETCH l.customer c WHERE c.id = :customerId")
     List<LoanApplicationEntity> findLoansByCustomerId(@Param("customerId") Long customerId);
-}
 
+    @Query("""
+            SELECT l.status, COUNT(l), COALESCE(SUM(l.loanAmount), 0)
+            FROM LoanApplicationEntity l
+            GROUP BY l.status
+            """)
+    List<Object[]> summarizeTotalLoanByStatus();
+}
