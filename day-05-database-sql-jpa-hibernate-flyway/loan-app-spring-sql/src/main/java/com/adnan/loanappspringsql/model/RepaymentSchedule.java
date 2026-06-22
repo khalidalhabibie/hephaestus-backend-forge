@@ -71,5 +71,5 @@ public class RepaymentSchedule {
         private LoanApplication loanApplication;
 
         @OneToMany(mappedBy = "repaymentSchedule", fetch = FetchType.LAZY)
-        private List<PaymentTransactionEntity> paymentTransactions = new ArrayList<>();
+        private List<PaymentTransaction> paymentTransactions = new ArrayList<>();
 }
