@@ -37,7 +37,7 @@ public class LoanApplicationController {
         LoanApplicationResponse response = service.createLoan(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                ApiResponse.success("Customer created successfully", response));
+                ApiResponse.success("Loan created successfully", response));
     }
 
     // GET BY ID
@@ -52,74 +52,74 @@ public class LoanApplicationController {
                 ApiResponse.success("Loan retrieved successfully", response));
     }
 
-    
-    //GET ALL
+    // GET ALL
     @GetMapping("/loan-applications")
     public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getAll() {
-        
+
         return ResponseEntity.ok(
                 ApiResponse.success("All loans retrieved",
-                service.getAll()));
-            }
-            
-            //GET BY STATUS
-            @GetMapping("/loan-applications/filter")
-            public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getByStatus(
-                @RequestParam String status) {
+                        service.getAll()));
+    }
 
-                    return ResponseEntity.ok(
-                        ApiResponse.success("Filtered loans",
+    // GET BY STATUS
+    @GetMapping("/loan-applications/filter")
+    public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getByStatus(
+            @RequestParam String status) {
+
+        return ResponseEntity.ok(
+                ApiResponse.success("Filtered loans",
                         service.getByStatus(status)));
     }
-    
-    //GET PAGINATION
+
+    // GET PAGINATION
     @GetMapping("/loan-applications/page")
     public ResponseEntity<ApiResponse<Page<LoanApplicationResponse>>> getPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-                
+
         return ResponseEntity.ok(
-            ApiResponse.success("Loans retrieved",
-            service.getAll(page, size)));
-        }
-        
-        //GET BY DATE
-        @GetMapping("/loan-applications/filter-date")
-        public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> filterByDate(
+                ApiResponse.success("Loans retrieved",
+                        service.getAll(page, size)));
+    }
+
+    // GET BY DATE
+    @GetMapping("/loan-applications/filter-date")
+    public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> filterByDate(
             @RequestParam ZonedDateTime start,
             @RequestParam ZonedDateTime end) {
-                
+
         return ResponseEntity.ok(
-            ApiResponse.success("Filtered loans",
-            service.filterByDate(start, end)));
-        }
-        
-        // GET LOAN BY CUSTOMER ID
-        @GetMapping("/customers/{customerId}/loan-applications")
-        @Operation(summary = "Get loan applications by customer ID")
-        public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getByCustomerId(
-            @PathVariable Long customerId) {
-                
-                List<LoanApplicationResponse> response = service.getByCustomerId(customerId);
-                
-                return ResponseEntity.ok(
-                    ApiResponse.success("Customer loans retrieved successfully", response));
+                ApiResponse.success("Filtered loans",
+                        service.filterByDate(start, end)));
     }
-    
+
+    // GET LOAN BY CUSTOMER ID
+    @GetMapping("/customers/{customerId}/loan-applications")
+    @Operation(summary = "Get loan applications by customer ID")
+    public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getByCustomerId(
+            @PathVariable Long customerId) {
+
+        List<LoanApplicationResponse> response = service.getByCustomerId(customerId);
+
+        return ResponseEntity.ok(
+                ApiResponse.success("Customer loans retrieved successfully", response));
+    }
+
     // UPDATE STATUS
     @PatchMapping("/loan-applications/{id}/status")
-    @Operation(summary = "Update loan application status")
     public ResponseEntity<ApiResponse<LoanApplicationResponse>> updateStatus(
-        @PathVariable Long id,
-        @Valid @RequestBody UpdateLoanStatusRequest request) {
-            
-            LoanApplicationResponse response = service.updateStatus(id, request.getStatus());
-            
-            return ResponseEntity.ok(
-                ApiResponse.success("Loan status updated successfully", response));
-            }
+            @PathVariable Long id,
+            @RequestBody Map<String, String> request) {
 
-    //GET SUMMARY BY STATUS
+        String status = request.get("status");
+
+        LoanApplicationResponse response = service.updateStatus(id, status);
+
+        return ResponseEntity.ok(
+                ApiResponse.success("Status updated", response));
+    }
+
+    // GET SUMMARY BY STATUS
     @GetMapping("/loan-applications/summary")
     public ResponseEntity<ApiResponse<List<LoanSummaryDTO>>> summary() {
 
@@ -128,23 +128,21 @@ public class LoanApplicationController {
                         service.getLoanSummaryDTO()));
     }
 
-    
-            
-            // // GET ALL + FILTER STATUS
-            // @GetMapping("/loan-applications")
-            // @Operation(summary = "Get all loan applications / filter by status")
-            // public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getAll(
-            //         @RequestParam(value = "status", required = false) String status) {
-        
-            //     List<LoanApplicationResponse> response;
-        
-            //     if (status != null) {
-            //         response = service.getByStatus(status);
-            //     } else {
-            //         response = service.getAll();
-            //     }
-        
-            //     return ResponseEntity.ok(
-            //             ApiResponse.success("Loans retrieved successfully", response));
-            // }
-        }
+    // // GET ALL + FILTER STATUS
+    // @GetMapping("/loan-applications")
+    // @Operation(summary = "Get all loan applications / filter by status")
+    // public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> getAll(
+    // @RequestParam(value = "status", required = false) String status) {
+
+    // List<LoanApplicationResponse> response;
+
+    // if (status != null) {
+    // response = service.getByStatus(status);
+    // } else {
+    // response = service.getAll();
+    // }
+
+    // return ResponseEntity.ok(
+    // ApiResponse.success("Loans retrieved successfully", response));
+    // }
+}

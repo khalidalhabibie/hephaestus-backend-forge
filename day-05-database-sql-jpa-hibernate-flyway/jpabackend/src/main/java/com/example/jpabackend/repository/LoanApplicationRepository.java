@@ -18,16 +18,13 @@ public interface LoanApplicationRepository
     List<LoanApplicationEntity> findByCustomerId(Long customerId);
 
     List<LoanApplicationEntity> findByStatus(String status);
-
+    
     List<LoanApplicationEntity> findByCreatedAtBetween(
             ZonedDateTime start,
             ZonedDateTime end);
 
     @Query("SELECT l FROM LoanApplicationEntity l JOIN FETCH l.customer WHERE l.id = :id")
     Optional<LoanApplicationEntity> findByIdWithCustomer(@Param("id") Long id);
-
-    @Query("SELECT l FROM LoanApplicationEntity l JOIN l.customer c WHERE c.id = :customerId")
-    List<LoanApplicationEntity> findLoansByCustomerId(@Param("customerId") Long customerId);
 
     @Query("""
                 SELECT l.status, SUM(l.loanAmount)
@@ -42,5 +39,4 @@ public interface LoanApplicationRepository
                 GROUP BY l.status
             """)
     List<LoanSummaryDTO> getLoanSummaryDTO();
-
 }

@@ -19,7 +19,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
 
     boolean existsByEmail(String email);
 
-    List<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName);
+    // List<CustomerEntity> findByFullNameContainingIgnoreCase(String fullName);
 
     @Query("SELECT c FROM CustomerEntity c WHERE c.isDeleted = false")
     List<CustomerEntity> findAllActive();

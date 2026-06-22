@@ -100,22 +100,51 @@ public class LoanApplicationService {
 
         LoanApplicationEntity loan = loanRepo.findById(id)
                 .orElseThrow(() -> new LoanApplicationNotFoundException(id));
-
-        // VALIDASI STATUS
-        if (!List.of("SUBMITTED", "APPROVED", "REJECTED").contains(status)) {
+                
+        status = status.trim().toUpperCase();
+        // VALID STATUS BARU
+        if (!List.of("SUBMITTED", "APPROVED", "REJECTED", "DISBURSED").contains(status)) {
             throw new RuntimeException("INVALID_STATUS");
         }
 
-        if (status.equals("APPROVED")) {
-            repaymentService.generateSchedule(loan);
+        // OPTIONAL: VALIDASI FLOW (biar tidak loncat status)
+        String currentStatus = loan.getStatus().trim().toUpperCase();
+        
+        System.out.println("CURRENT: " + currentStatus);
+        System.out.println("NEW: " + status);
+
+        switch (currentStatus) {
+
+            case "SUBMITTED":
+                if (!status.equals("APPROVED")) {
+                    throw new RuntimeException("INVALID_STATUS_TRANSITION");
+                }
+                break;
+
+            case "APPROVED":
+                if (!status.equals("DISBURSED")) {
+                    throw new RuntimeException("INVALID_STATUS_TRANSITION");
+                }
+                break;
         }
 
+        // ONLY GENERATE ON FIRST DISBURSE
+        
         loan.setStatus(status);
         loan.setUpdatedAt(ZonedDateTime.now());
 
-        loanRepo.save(loan);
+        loanRepo.saveAndFlush(loan);
+
+        // BARU SETELAH STATUS UPDATE
+        if ("DISBURSED".equals(status)
+                && !"DISBURSED".equals(currentStatus)
+                && !repaymentService.existsByLoanId(loan.getId())) {
+
+            repaymentService.generateSchedule(loan.getId());
+        }
 
         return toResponse(loan);
+        
     }
 
     // PAGINATION

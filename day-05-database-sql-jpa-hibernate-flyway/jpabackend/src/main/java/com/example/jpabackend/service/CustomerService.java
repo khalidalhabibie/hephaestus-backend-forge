@@ -70,7 +70,7 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<CustomerResponse> searchByName(String name) {
 
-        return repository.findByFullNameContainingIgnoreCase(name)
+        return repository.searchActive(name)
                 .stream()
                 .map(this::toResponse)
                 .toList();

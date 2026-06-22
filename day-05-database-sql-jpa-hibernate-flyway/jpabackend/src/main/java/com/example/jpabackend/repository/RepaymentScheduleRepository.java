@@ -15,6 +15,8 @@ public interface RepaymentScheduleRepository
     List<RepaymentScheduleEntity> findByLoanApplicationId(Long loanApplicationId);
 
     List<RepaymentScheduleEntity> findByStatus(String status);
+    
+    boolean existsByLoanApplication_Id(Long loanApplicationId);
 
     @Query("SELECT r FROM RepaymentScheduleEntity r JOIN FETCH r.loanApplication WHERE r.id = :id")
     Optional<RepaymentScheduleEntity> findByIdWithLoan(@Param("id") Long id);

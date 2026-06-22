@@ -8,6 +8,7 @@ import com.example.jpabackend.dto.*;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -58,18 +59,32 @@ public class RepaymentScheduleService {
     @Value("${loan.interest.annual-rate}")
     private BigDecimal annualInterestRate;
 
-    @Transactional
-    public void generateSchedule(LoanApplicationEntity loan) {
+    @Transactional(readOnly = true)
+    public boolean existsByLoanId(Long loanId) {
+        return repaymentRepo.existsByLoanApplication_Id(loanId);
+    }
+
+    //GENERATE SCHEDULE
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void generateSchedule(Long loanId) {
+
+        LoanApplicationEntity loan = loanRepo.findById(loanId)
+                .orElseThrow();
+
+        if (repaymentRepo.existsByLoanApplication_Id(loanId)) {
+            return;
+        }
 
         int tenor = loan.getTenorMonth();
         BigDecimal loanAmount = loan.getLoanAmount();
 
-        BigDecimal monthlyRate = annualInterestRate.divide(BigDecimal.valueOf(12), 6, RoundingMode.HALF_UP);
+        BigDecimal monthlyRate = annualInterestRate
+                .divide(BigDecimal.valueOf(12), 6, RoundingMode.HALF_UP);
 
-        BigDecimal principal = loanAmount.divide(BigDecimal.valueOf(tenor), 0, RoundingMode.HALF_UP);
+        BigDecimal principal = loanAmount
+                .divide(BigDecimal.valueOf(tenor), 0, RoundingMode.HALF_UP);
 
         BigDecimal interest = loanAmount.multiply(monthlyRate);
-
         BigDecimal total = principal.add(interest);
 
         for (int i = 1; i <= tenor; i++) {
@@ -125,8 +140,6 @@ public class RepaymentScheduleService {
                 .toList();
     }
 
-    
-
     // MAPPING
     private RepaymentScheduleResponse toResponse(RepaymentScheduleEntity r) {
 
@@ -142,4 +155,5 @@ public class RepaymentScheduleService {
                 r.getCreatedAt(),
                 r.getUpdatedAt());
     }
+
 }
