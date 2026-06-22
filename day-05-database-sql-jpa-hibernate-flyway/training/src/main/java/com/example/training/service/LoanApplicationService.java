@@ -43,7 +43,9 @@ public class LoanApplicationService {
         if (!customerRepository.existsById(request.getCustomerId())) {
             throw new CustomerNotFoundException("Customer not found with id: " + request.getCustomerId());
         }
-
+        if(customerRepository.findUserByIdAndIsDeleted(request.getCustomerId())){
+            throw new CustomerNotFoundException("Customer with id: " + request.getCustomerId() + " is deleted");
+        }
         LoanApplicationEntity loan = LoanApplicationEntity.builder()
                 .customerId(request.getCustomerId())
                 .loanAmount(request.getLoanAmount())
