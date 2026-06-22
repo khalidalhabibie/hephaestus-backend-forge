@@ -29,7 +29,7 @@ public class RepaymentScheduleController {
     }
 
     @GetMapping("/{repayment_schedule_id}/payment-transactions")
-    public ApiResponse<List<PaymentTransactionResponse>> getPaymentTransactionByRepaymentId(@PathVariable Long id) {
-        return ApiResponse.success(repaymentScheduleSevice.findPaymentTransactionByRepaymentId(id), "Customer Found");
+    public ApiResponse<List<PaymentTransactionResponse>> getPaymentTransactionByRepaymentId(@PathVariable Long repayment_schedule_id) {
+        return ApiResponse.success(repaymentScheduleSevice.findPaymentTransactionByRepaymentId(repayment_schedule_id), "Customer Found");
     }
 }

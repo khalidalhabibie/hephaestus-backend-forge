@@ -27,32 +27,33 @@ public class PaymentTransactionService {
                 .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
-    private void fill(PaymentTransactionEntity entity, CreatePaymentTransactionRequest request) {
-        entity.setRepaymentSchedule(getByIdRepayment(request.getRepaymentSchedule_id()));
-        entity.setPaymentReference(request.getPaymentReference());
-        entity.setPaidAmount(request.getPaidAmount());
-        entity.setPaidAt(request.getPaidAt());
+private void fill(PaymentTransactionEntity entity, CreatePaymentTransactionRequest request, RepaymentScheduleEntity schedule) {
+    entity.setRepaymentSchedule(schedule);
+    entity.setPaymentReference(request.getPaymentReference());
+    entity.setPaidAmount(request.getPaidAmount());
+    entity.setPaidAt(request.getPaidAt());
+    entity.setStatus(StatusRepayment.PAID.name());
+}
+
+@Transactional
+public PaymentTransactionResponse createPaymentTransaction(CreatePaymentTransactionRequest request) {
+
+    RepaymentScheduleEntity schedule = getByIdRepayment(request.getRepaymentSchedule_id());
+
+    if (schedule.getStatus().equals(StatusRepayment.PAID.name())) {
+        throw new RuntimeException("This installment is already paid");
     }
 
-    @Transactional
-    public PaymentTransactionResponse createPaymentTransaction(CreatePaymentTransactionRequest request) {
+    PaymentTransactionEntity entity = new PaymentTransactionEntity();
+    fill(entity, request, schedule);
 
-        RepaymentScheduleEntity schedule = getByIdRepayment(request.getRepaymentSchedule_id());
+    PaymentTransactionEntity saved = paymentTransactionRepository.save(entity);
 
-        if (schedule.getStatus() == StatusRepayment.PAID.name()) {
-            throw new RuntimeException("This installment is already paid");
-        }
+    schedule.setStatus(StatusRepayment.PAID.name());
+    repaymentScheduleRepository.save(schedule);
 
-        PaymentTransactionEntity entity = new PaymentTransactionEntity();
-        fill(entity, request); 
-        PaymentTransactionEntity saved = paymentTransactionRepository.save(entity);
-
-        schedule.setStatus(StatusRepayment.PAID.name());
-        repaymentScheduleRepository.save(schedule);
-
-        return toResponse(saved);
-    }
-
+    return toResponse(saved);
+}
 
     public PaymentTransactionResponse toResponse(PaymentTransactionEntity entity) {
 

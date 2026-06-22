@@ -35,7 +35,6 @@ public class CreatePaymentTransactionRequest {
 
     @JsonProperty("paid_at")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @NotBlank(message = "paid_at is required")
     private LocalDateTime paidAt;
 }
 
