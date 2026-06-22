@@ -18,7 +18,6 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
-    // 1. Endpoint untuk membuat Customer Baru (POST /api/customers)
     @PostMapping
     public ResponseEntity<ApiResponse<CustomerResponse>> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
@@ -31,7 +30,7 @@ public class CustomerController {
                 
         return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);
     }
-    // 2. Endpoint untuk mengambil Customer berdasarkan ID (GET /api/customers/{id})
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<CustomerResponse>> getCustomerById(@PathVariable("id") Long id) {
         CustomerResponse response = customerService.getCustomerById(id);
@@ -45,14 +44,12 @@ public class CustomerController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    // 3. Endpoint untuk mengambil semua Customer ATAU mencari berdasarkan nama (GET /api/customers?name=...)
     @GetMapping
     public ResponseEntity<ApiResponse<List<CustomerSummaryResponse>>> getAllCustomers(
             @RequestParam(value = "name", required = false) String name) {
         
         List<CustomerSummaryResponse> response;
         
-        // Jika ada query param ?name=..., lakukan pencarian
         if (name != null && !name.trim().isEmpty()) {
             response = customerService.searchCustomersByName(name);
         } else {
@@ -68,10 +65,9 @@ public class CustomerController {
         return ResponseEntity.ok(apiResponse);
     }
     
-    // mengambil ID berdasarkan search Name
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<CustomerSummaryResponse>>> searchCustomers(
-            @RequestParam(name = "name", required = false) String name){
+            @RequestParam("name") String name){
 
         List<CustomerSummaryResponse> response = customerService.searchCustomersByName(name);
         
@@ -81,6 +77,16 @@ public class CustomerController {
                 .data(response)
                 .build();
                 
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable("id") Long id) {
+        customerService.softDeleteCustomer(id);
+        ApiResponse<Void> apiResponse = ApiResponse.<Void>builder()
+                .success(true)
+                .message("Customer deleted successfully")
+                .build();
         return ResponseEntity.ok(apiResponse);
     }
 }

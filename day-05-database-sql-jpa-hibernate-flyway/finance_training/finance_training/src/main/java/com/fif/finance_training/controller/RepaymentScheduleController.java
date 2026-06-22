@@ -15,12 +15,17 @@ import java.util.List;
 public class RepaymentScheduleController {
     private final RepaymentScheduleService repaymentScheduleService;
 
-    // 1. Get Repayment Schedules by Loan ID (GET /api/v1/loan-applications/{loan_id}/repayment-schedules)
     @GetMapping("/loan-applications/{loan_id}/repayment-schedules")
     public ResponseEntity<ApiResponse<List<RepaymentScheduleResponse>>> getSchedulesByLoanId(
-            @PathVariable("loan_id") Long loanId) {
+            @PathVariable("loan_id") Long loanId,
+            @RequestParam(value = "status", required = false) String status) {
 
-        List<RepaymentScheduleResponse> response = repaymentScheduleService.getSchedulesByLoanId(loanId);
+        List<RepaymentScheduleResponse> response;
+        if (status != null && !status.trim().isEmpty()) {
+            response = repaymentScheduleService.getSchedulesByLoanIdAndStatus(loanId, status);
+        } else {
+            response = repaymentScheduleService.getSchedulesByLoanId(loanId);
+        }
 
         ApiResponse<List<RepaymentScheduleResponse>> apiResponse = ApiResponse.<List<RepaymentScheduleResponse>>builder()
                 .success(true)
@@ -31,7 +36,6 @@ public class RepaymentScheduleController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    // 2. Get Single Repayment Schedule by ID (GET /api/v1/repayment-schedules/{id})
     @GetMapping("/repayment-schedules/{id}")
     public ResponseEntity<ApiResponse<RepaymentScheduleResponse>> getScheduleById(
             @PathVariable("id") Long id) {

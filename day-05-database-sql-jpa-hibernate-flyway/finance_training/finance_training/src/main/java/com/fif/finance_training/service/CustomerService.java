@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public List<CustomerSummaryResponse> getAllCustomers() {
-        return customerRepository.findAll().stream()
+        return customerRepository.findAllActive().stream()
                 .map(this::mapToSummaryResponse)
                 .collect(Collectors.toList());
     }
@@ -60,7 +61,14 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    // Helper mappers
+    @Transactional
+    public void softDeleteCustomer(Long id) {
+        CustomerEntity customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + id));
+        customer.setDeletedAt(LocalDateTime.now());
+        customerRepository.save(customer);
+    }
+
     private CustomerResponse mapToResponse(CustomerEntity entity) {
         return CustomerResponse.builder()
                 .id(entity.getId())
@@ -82,4 +90,3 @@ public class CustomerService {
                 .build();
     }
 }
-

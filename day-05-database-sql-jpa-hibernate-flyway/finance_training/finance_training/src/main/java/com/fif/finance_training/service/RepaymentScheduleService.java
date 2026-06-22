@@ -63,6 +63,14 @@ public class RepaymentScheduleService {
     }
 
     @Transactional(readOnly = true)
+    public List<RepaymentScheduleResponse> getSchedulesByLoanIdAndStatus(Long loanId, String status) {
+        RepaymentStatus repaymentStatus = RepaymentStatus.valueOf(status.toUpperCase());
+        return repaymentScheduleRepository.findByLoanApplicationIdAndStatus(loanId, repaymentStatus).stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public RepaymentScheduleResponse getScheduleById(Long id) {
         RepaymentScheduleEntity entity = repaymentScheduleRepository.findById(id)
                 .orElseThrow(() -> new RepaymentScheduleNotFoundException("Schedule not found with id: " + id));

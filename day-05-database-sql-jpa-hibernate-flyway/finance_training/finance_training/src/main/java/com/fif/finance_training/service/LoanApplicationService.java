@@ -1,8 +1,6 @@
 package com.fif.finance_training.service;
 
-import com.fif.finance_training.dto.CreateLoanApplicationRequest;
-import com.fif.finance_training.dto.LoanApplicationResponse;
-import com.fif.finance_training.dto.UpdateLoanStatusRequest;
+import com.fif.finance_training.dto.*;
 import com.fif.finance_training.entity.CustomerEntity;
 import com.fif.finance_training.entity.LoanApplicationEntity;
 import com.fif.finance_training.entity.RepaymentScheduleEntity;
@@ -14,9 +12,13 @@ import com.fif.finance_training.repository.CustomerRepository;
 import com.fif.finance_training.repository.LoanApplicationRepository;
 import com.fif.finance_training.repository.RepaymentScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -113,10 +115,22 @@ public class LoanApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public List<LoanApplicationResponse> getAllLoans() {
-        return loanApplicationRepository.findAll().stream()
-                .map(this::mapToResponse)
-                .collect(Collectors.toList());
+    public PagedResponse<LoanApplicationResponse> getAllLoans(Pageable pageable) {
+        Page<LoanApplicationEntity> page = loanApplicationRepository.findAll(pageable);
+        return mapToPagedResponse(page);
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<LoanApplicationResponse> getLoansByStatus(String status, Pageable pageable) {
+        LoanStatus loanStatus = LoanStatus.valueOf(status.toUpperCase());
+        Page<LoanApplicationEntity> page = loanApplicationRepository.findByStatus(loanStatus, pageable);
+        return mapToPagedResponse(page);
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<LoanApplicationResponse> getLoansByDateRange(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        Page<LoanApplicationEntity> page = loanApplicationRepository.findByCreatedAtBetween(startDate, endDate, pageable);
+        return mapToPagedResponse(page);
     }
 
     @Transactional(readOnly = true)
@@ -127,11 +141,48 @@ public class LoanApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public List<LoanApplicationResponse> getLoansByStatus(String status) {
-        LoanStatus loanStatus = LoanStatus.valueOf(status.toUpperCase());
-        return loanApplicationRepository.findByStatus(loanStatus).stream()
+    public List<LoanStatusSummaryResponse> getLoanStatusSummary() {
+        List<Object[]> results = loanApplicationRepository.getLoanStatusSummaryRaw();
+        return results.stream()
+                .map(row -> new LoanStatusSummaryResponse(
+                        (String) row[0],
+                        ((Number) row[1]).longValue(),
+                        (BigDecimal) row[2]
+                ))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<CustomerOutstandingResponse> getCustomerOutstanding() {
+        List<Object[]> results = loanApplicationRepository.getCustomerOutstandingRaw();
+        return results.stream()
+                .map(row -> {
+                    BigDecimal totalLoan = (BigDecimal) row[3];
+                    BigDecimal totalPaid = (BigDecimal) row[4];
+                    BigDecimal outstanding = totalLoan.subtract(totalPaid);
+                    return new CustomerOutstandingResponse(
+                            ((Number) row[0]).longValue(),
+                            (String) row[1],
+                            (String) row[2],
+                            totalLoan,
+                            totalPaid,
+                            outstanding
+                    );
+                })
+                .collect(Collectors.toList());
+    }
+
+    private PagedResponse<LoanApplicationResponse> mapToPagedResponse(Page<LoanApplicationEntity> page) {
+        List<LoanApplicationResponse> content = page.getContent().stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
+        return PagedResponse.<LoanApplicationResponse>builder()
+                .content(content)
+                .pageNumber(page.getNumber())
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+                .build();
     }
 
     private LoanApplicationResponse mapToResponse(LoanApplicationEntity entity) {
