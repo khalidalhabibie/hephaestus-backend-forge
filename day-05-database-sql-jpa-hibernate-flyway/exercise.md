@@ -592,30 +592,30 @@ GROUP BY l.status;
 
 ## Acceptance Criteria
 
-- [ ] Application menggunakan Java 17.
-- [ ] Application menggunakan Spring Boot 3.x.
-- [ ] Application bisa berjalan di `localhost:8080`.
-- [ ] Application terkoneksi ke PostgreSQL.
-- [ ] Flyway berhasil membuat semua table.
-- [ ] Entity menggunakan `jakarta.persistence`.
-- [ ] Validation menggunakan `jakarta.validation`.
-- [ ] Customer bisa dibuat dan disimpan ke database.
-- [ ] Loan application bisa dibuat untuk customer yang valid.
-- [ ] Loan application gagal dibuat jika customer tidak ditemukan.
-- [ ] Repayment schedule bisa diambil berdasarkan loan application.
-- [ ] Payment transaction bisa dibuat untuk repayment schedule.
-- [ ] Search customer by name berjalan.
-- [ ] Filter loan by status berjalan.
-- [ ] Query join loan dengan customer berjalan.
-- [ ] Native query summary berjalan.
-- [ ] Relationship menggunakan `FetchType.LAZY`.
-- [ ] Response menggunakan DTO.
-- [ ] Tidak return Entity langsung.
-- [ ] Validation error menghasilkan 400.
-- [ ] Not found error menghasilkan 404.
-- [ ] Duplicate NIK/email menghasilkan error yang sesuai.
-- [ ] Response JSON menggunakan `snake_case`.
-- [ ] Pull Request dibuat ke branch `master`.
+- [x] Application menggunakan Java 17.
+- [x] Application menggunakan Spring Boot 3.x.
+- [x] Application bisa berjalan di `localhost:8080`.
+- [x] Application terkoneksi ke PostgreSQL.
+- [x] Flyway berhasil membuat semua table.
+- [x] Entity menggunakan `jakarta.persistence`.
+- [x] Validation menggunakan `jakarta.validation`.
+- [x] Customer bisa dibuat dan disimpan ke database.
+- [x] Loan application bisa dibuat untuk customer yang valid.
+- [x] Loan application gagal dibuat jika customer tidak ditemukan.
+- [x] Repayment schedule bisa diambil berdasarkan loan application.
+- [x] Payment transaction bisa dibuat untuk repayment schedule.
+- [x] Search customer by name berjalan.
+- [x] Filter loan by status berjalan.
+- [x] Query join loan dengan customer berjalan.
+- [x] Native query summary berjalan.
+- [x] Relationship menggunakan `FetchType.LAZY`.
+- [x] Response menggunakan DTO.
+- [x] Tidak return Entity langsung.
+- [x] Validation error menghasilkan 400.
+- [x] Not found error menghasilkan 404.
+- [x] Duplicate NIK/email menghasilkan error yang sesuai.
+- [x] Response JSON menggunakan `snake_case`.
+- [x] Pull Request dibuat ke branch `master`.
 
 ## Optional Challenge
 
