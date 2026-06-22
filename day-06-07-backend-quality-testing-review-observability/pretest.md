@@ -17,7 +17,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang testing mind
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bekerja dengan code dan code yang dipercayai
 ```
 
 2. Kenapa testing disebut sebagai risk reduction?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+kerena dapat menghindari error yang berdampak ke prod yang merugikan, dan dari testing jadi gerbang pertama dalam memastikan program berjalan sesuai yang diharapkan
 ```
 
 3. Apa itu Given-When-Then?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu
 ```
 
 4. Apa perbedaan unit test dan integration test?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+kalau unit test bisa dilakukan sendiri oleh developer atau bisa dilakukan oleh QA kalau integrated Test pasti di test oleh QA untuk mencari dan mencoba segala bentuk scenarion
 ```
 
 5. Kenapa service layer biasanya cocok untuk unit test?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena bisa ditembak testingnya dengan API karena jika di service layer sudah aamn harusnya meminimalisir error atau ketidaktepatan kode
 ```
 
 6. Apa fungsi JUnit 5?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu
 ```
 
 7. Apa fungsi Mockito?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu
 ```
 
 8. Kenapa dependency seperti repository sering dimock saat unit test?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu alasan pastinya
 ```
 
 9. Apa contoh test case penting untuk `LoanApplicationService`?
@@ -81,7 +81,16 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+1. Create loan berhasil → customer ditemukan, status awal SUBMITTED.
+2. Create loan gagal → customer tidak ditemukan.
+3. Find loan by ID berhasil.
+4. Find loan by ID gagal → loan tidak ditemukan.
+5. Update status valid → status berhasil berubah.
+6. Update status tidak valid → menghasilkan error.
+7. Loan dengan status final tidak bisa diubah lagi.
+8. APPROVED → DISBURSED → repayment schedule otomatis dibuat.
+9. DISBURSED → CLOSED berhasil jika semua cicilan PAID.
+10. DISBURSED → CLOSED gagal jika masih ada cicilan yang belum PAID.
 ```
 
 10. Apa tujuan peer code review?
@@ -89,7 +98,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memastikan kode berkualitas, mudah dipahami, sesuai standar, dan mengurangi bug sebelum di-merge.
 ```
 
 11. Area apa saja yang perlu dicek saat code review backend?
@@ -97,7 +106,12 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+1. Logika program.
+2. Validasi input.
+3. Keamanan kode.
+4. Penanganan error.
+5. Query database dan performa.
+6. Keterbacaan serta konsistensi kode.
 ```
 
 12. Apa itu structured logging?
@@ -105,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu
 ```
 
 13. Apa fungsi `correlation_id`?
@@ -113,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu
 ```
 
 14. Kapan menggunakan log level `info`, `warn`, dan `error`?
@@ -121,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+belum tahu
 ```
 
 15. Sebutkan data yang tidak boleh ditulis mentah di log.
@@ -129,19 +143,19 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Data sensitif seperti password, token, API key, PIN, OTP, dan informasi pribadi pengguna (misalnya NIK atau nomor kartu kredit).
 ```
 
 ## Self Assessment
 
 | Area | Score 1-5 |
 |---|---|
-| Testing mindset | |
-| Given-When-Then | |
-| JUnit 5 | |
-| Mockito | |
-| Service layer testing | |
-| Peer code review | |
-| Structured logging | |
-| Correlation ID | |
-| PII safety | |
+| Testing mindset |3|
+| Given-When-Then |1|
+| JUnit 5 |1|
+| Mockito |1|
+| Service layer testing |2|
+| Peer code review |2|
+| Structured logging |1|
+| Correlation ID |1|
+| PII safety |1|
