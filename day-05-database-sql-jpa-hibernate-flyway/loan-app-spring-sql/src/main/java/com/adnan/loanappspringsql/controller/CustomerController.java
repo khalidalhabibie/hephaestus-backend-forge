@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.adnan.loanappspringsql.dto.CreateCustomerRequest;
 import com.adnan.loanappspringsql.dto.CustomerResponse;
+import com.adnan.loanappspringsql.dto.LoanApplicationResponse;
 import com.adnan.loanappspringsql.dto.api.ApiResponse;
 import com.adnan.loanappspringsql.service.CustomerService;
+import com.adnan.loanappspringsql.service.LoanApplicationService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,48 +22,53 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Validated
 public class CustomerController {
+        private final CustomerService customerService;
+        private final LoanApplicationService loanApplicationService;
 
-  private final CustomerService customerService;
+        @PostMapping
+        public ResponseEntity<ApiResponse<CustomerResponse>> create(
+                        @Valid @RequestBody CreateCustomerRequest request) {
+                CustomerResponse response = customerService.create(request);
 
-  @PostMapping
-  public ResponseEntity<ApiResponse<CustomerResponse>> create(
-      @Valid @RequestBody CreateCustomerRequest request) {
+                return ResponseEntity
+                                .status(HttpStatus.CREATED)
+                                .body(ApiResponse.success(
+                                                "Customer created successfully",
+                                                response));
+        }
 
-    CustomerResponse response = customerService.create(request);
+        @GetMapping("/{id}")
+        public ResponseEntity<ApiResponse<CustomerResponse>> findById(
+                        @PathVariable Long id) {
+                return ResponseEntity.ok(
+                                ApiResponse.success(
+                                                "Customer retrieved successfully",
+                                                customerService.findById(id)));
+        }
 
-    return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(ApiResponse.success(
-            "Customer created successfully",
-            response));
-  }
+        @GetMapping
+        public ResponseEntity<ApiResponse<List<CustomerResponse>>> findAll() {
+                return ResponseEntity.ok(
+                                ApiResponse.success(
+                                                "Customers retrieved successfully",
+                                                customerService.findAll()));
+        }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<ApiResponse<CustomerResponse>> findById(
-      @PathVariable Long id) {
+        @GetMapping("/search")
+        public ResponseEntity<ApiResponse<List<CustomerResponse>>> search(
+                        @RequestParam String name) {
+                return ResponseEntity.ok(
+                                ApiResponse.success(
+                                                "Customers retrieved successfully",
+                                                customerService.search(name)));
+        }
 
-    return ResponseEntity.ok(
-        ApiResponse.success(
-            "Customer retrieved successfully",
-            customerService.findById(id)));
-  }
-
-  @GetMapping
-  public ResponseEntity<ApiResponse<List<CustomerResponse>>> findAll() {
-
-    return ResponseEntity.ok(
-        ApiResponse.success(
-            "Customers retrieved successfully",
-            customerService.findAll()));
-  }
-
-  @GetMapping("/search")
-  public ResponseEntity<ApiResponse<List<CustomerResponse>>> search(
-      @RequestParam String name) {
-
-    return ResponseEntity.ok(
-        ApiResponse.success(
-            "Customers retrieved successfully",
-            customerService.search(name)));
-  }
+        @GetMapping("/{customerId}/loan-applications")
+        public ResponseEntity<ApiResponse<List<LoanApplicationResponse>>> findByCustomerId(
+                        @PathVariable Long customerId) {
+                return ResponseEntity.ok(
+                                ApiResponse.success(
+                                                "Loan applications retrieved successfully",
+                                                loanApplicationService.findByCustomerId(customerId)));
+        }
 }

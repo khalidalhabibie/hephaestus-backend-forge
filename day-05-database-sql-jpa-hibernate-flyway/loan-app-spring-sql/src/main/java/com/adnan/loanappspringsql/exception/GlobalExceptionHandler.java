@@ -13,73 +13,65 @@ import com.adnan.loanappspringsql.dto.FieldErrorResponse;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ErrorResponse<Void>> errorValidation(MethodArgumentNotValidException exception) {
-    List<FieldErrorResponse> errors = exception.getBindingResult()
-        .getFieldErrors()
-        .stream()
-        .map(error -> new FieldErrorResponse(
-            toSnakeCase(error.getField()),
-            error.getDefaultMessage()))
-        .toList();
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.error("VALIDATION_ERROR", "Invalid request", errors));
-  }
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        public ResponseEntity<ErrorResponse<Void>> errorValidation(MethodArgumentNotValidException exception) {
+                List<FieldErrorResponse> errors = exception.getBindingResult()
+                                .getFieldErrors()
+                                .stream()
+                                .map(error -> new FieldErrorResponse(
+                                                toSnakeCase(error.getField()),
+                                                error.getDefaultMessage()))
+                                .toList();
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(ErrorResponse.error("VALIDATION_ERROR", "Invalid request", errors));
+        }
 
-  @ExceptionHandler(BadRequestException.class)
-  public ResponseEntity<ErrorResponse<Void>> badRequest(BadRequestException exception) {
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.error("VALIDATION_ERROR",
-            exception.getMessage() != null ? exception.getMessage()
-                : "Invalid request",
-            null));
-  }
+        @ExceptionHandler(BadRequestException.class)
+        public ResponseEntity<ErrorResponse<Void>> badRequest(BadRequestException exception) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(ErrorResponse.error("VALIDATION_ERROR",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Invalid request",
+                                                null));
+        }
 
-  @ExceptionHandler(CustomerNotFoundException.class)
-  public ResponseEntity<ErrorResponse<Void>> notFoundCustomer(CustomerNotFoundException exception) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.error("CUSTOMER_NOT_FOUND",
-            exception.getMessage() != null ? exception.getMessage()
-                : "Data not found",
-            null));
-  }
+        @ExceptionHandler(NotFoundException.class)
+        public ResponseEntity<ErrorResponse<Void>> notFound(NotFoundException exception) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body(ErrorResponse.error("NOT_FOUND",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Resource not found",
+                                                null));
+        }
 
-  @ExceptionHandler(NotFoundException.class)
-  public ResponseEntity<ErrorResponse<Void>> notFound(NotFoundException exception) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.error("NOT_FOUND",
-            exception.getMessage() != null ? exception.getMessage()
-                : "Resource not found",
-            null));
-  }
+        @ExceptionHandler(ForbiddenException.class)
+        public ResponseEntity<ErrorResponse<Void>> forbidden(ForbiddenException exception) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                                .body(ErrorResponse.error("FORBIDDEN",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Access denied",
+                                                null));
+        }
 
-  @ExceptionHandler(ForbiddenException.class)
-  public ResponseEntity<ErrorResponse<Void>> forbidden(ForbiddenException exception) {
-    return ResponseEntity.status(HttpStatus.FORBIDDEN)
-        .body(ErrorResponse.error("FORBIDDEN",
-            exception.getMessage() != null ? exception.getMessage()
-                : "Access denied",
-            null));
-  }
+        @ExceptionHandler(UnauthorizedException.class)
+        public ResponseEntity<ErrorResponse<Void>> unauthorized(UnauthorizedException exception) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(ErrorResponse.error("UNAUTHORIZED",
+                                                exception.getMessage() != null ? exception.getMessage()
+                                                                : "Authentication is required",
+                                                null));
+        }
 
-  @ExceptionHandler(UnauthorizedException.class)
-  public ResponseEntity<ErrorResponse<Void>> unauthorized(UnauthorizedException exception) {
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body(ErrorResponse.error("UNAUTHORIZED",
-            exception.getMessage() != null ? exception.getMessage()
-                : "Authentication is required",
-            null));
-  }
+        @ExceptionHandler(Exception.class)
+        public ResponseEntity<ErrorResponse<Void>> internalServerError(Exception exception) {
+                System.out.println(exception.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                .body(ErrorResponse.error("INTERNAL_SERVER_ERROR", "Unexpected error occurred", null));
+        }
 
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ErrorResponse<Void>> internalServerError(Exception exception) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ErrorResponse.error("INTERNAL_SERVER_ERROR", "Unexpected error occurred", null));
-  }
-
-  public static String toSnakeCase(String value) {
-    return value
-        .replaceAll("([a-z])([A-Z])", "$1_$2")
-        .toLowerCase();
-  }
+        public static String toSnakeCase(String value) {
+                return value
+                                .replaceAll("([a-z])([A-Z])", "$1_$2")
+                                .toLowerCase();
+        }
 }

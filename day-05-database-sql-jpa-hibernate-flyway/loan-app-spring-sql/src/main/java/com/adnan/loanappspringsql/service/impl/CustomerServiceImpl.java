@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.adnan.loanappspringsql.dto.CreateCustomerRequest;
 import com.adnan.loanappspringsql.dto.CustomerResponse;
 import com.adnan.loanappspringsql.exception.BadRequestException;
-import com.adnan.loanappspringsql.exception.CustomerNotFoundException;
+import com.adnan.loanappspringsql.exception.NotFoundException;
 import com.adnan.loanappspringsql.model.Customer;
 import com.adnan.loanappspringsql.repository.CustomerRepository;
 import com.adnan.loanappspringsql.service.CustomerService;
@@ -23,7 +23,6 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   public CustomerResponse create(CreateCustomerRequest request) {
-
     if (customerRepository.existsByNik(request.getNik())) {
       throw new BadRequestException("NIK already exists");
     }
@@ -47,9 +46,8 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional(readOnly = true)
   public CustomerResponse findById(Long id) {
-
     Customer customer = customerRepository.findById(id)
-        .orElseThrow(() -> new CustomerNotFoundException(
+        .orElseThrow(() -> new NotFoundException(
             "Customer not found with id: " + id));
 
     return mapToResponse(customer);
@@ -58,7 +56,6 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional(readOnly = true)
   public List<CustomerResponse> findAll() {
-
     return customerRepository.findAll()
         .stream()
         .map(this::mapToResponse)
@@ -68,7 +65,6 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional(readOnly = true)
   public List<CustomerResponse> search(String name) {
-
     return customerRepository
         .findByFullNameContainingIgnoreCase(name)
         .stream()
@@ -76,6 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
         .toList();
   }
 
+  // Helper
   private CustomerResponse mapToResponse(Customer customer) {
     return CustomerResponse.builder()
         .id(customer.getId())
