@@ -1,7 +1,5 @@
 package com.example.main.controllers;
 
-import com.example.main.dto.request.PaymentTransactionRequest;
-import com.example.main.dto.request.RepaymentScheduleRequest;
 import com.example.main.dto.response.PaymentTransactionResponse;
 import com.example.main.dto.response.RepaymentScheduleResponse;
 import com.example.main.security.RequiresRoles;
@@ -14,25 +12,20 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 
 import java.util.List;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/payment-transactions")
 @Tag(name = "Payment Transaction Management", description = "Kumpulan API untuk mencatat dan mengelola pembayaran cicilan")
-public class RepaymentScheduleController {
+    public class RepaymentScheduleController {
 
     private final RepaymentScheduleService repaymentScheduleService;
-    private final PaymentTransactionService paymentTransactionService;
 
-    public RepaymentScheduleController(RepaymentScheduleService repaymentScheduleService, PaymentTransactionService paymentTransactionService) {
+    public RepaymentScheduleController(RepaymentScheduleService repaymentScheduleService) {
         this.repaymentScheduleService = repaymentScheduleService;
-        this.paymentTransactionService = paymentTransactionService;
     }
 
     @GetMapping("/{id}")
@@ -67,7 +60,7 @@ public class RepaymentScheduleController {
             @Parameter(description = "ID dari jadwal cicilan", example = "1") 
             @PathVariable("repayment_schedule_id") Long repaymentScheduleId) {
         
-        List<PaymentTransactionResponse> responses = paymentTransactionService.getTransactionsByScheduleId(repaymentScheduleId);
+        List<PaymentTransactionResponse> responses = repaymentScheduleService.getPaymentTransactionsByScheduleId(repaymentScheduleId);
         return ResponseEntity.ok(responses);
     }
 }

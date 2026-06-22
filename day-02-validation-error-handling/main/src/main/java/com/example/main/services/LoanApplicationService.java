@@ -34,11 +34,11 @@ public class LoanApplicationService {
     private static final BigDecimal MANAGER_MINIMUM_AMOUNT = new BigDecimal("10000000");
 
     public LoanApplicationService(LoanApplicationRepository loanApplicationRepository,
-            CustomerRepository customerRepository, RepaymentScheduleRepository repaymentScheduleRepository) {
+            CustomerRepository customerRepository, RepaymentScheduleRepository repaymentScheduleRepository, RepaymentScheduleService repaymentScheduleService) {
         this.loanApplicationRepository = loanApplicationRepository;
         this.customerRepository = customerRepository;
         this.repaymentScheduleRepository = repaymentScheduleRepository;
-        this.repaymentScheduleService = new RepaymentScheduleService(repaymentScheduleRepository);
+        this.repaymentScheduleService = repaymentScheduleService;
     }
 
     @Transactional

@@ -11,6 +11,7 @@ import com.example.main.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,7 @@ public class CustomerService {
         customer.setNik(request.getNik());
         customer.setEmail(request.getEmail());
         customer.setPhoneNumber(request.getPhoneNumber());
+        customer.setCreatedAt(LocalDateTime.now());
 
         CustomerEntity savedCustomer = customerRepository.save(customer);
         return toResponse(savedCustomer);
@@ -81,6 +83,7 @@ public class CustomerService {
         existingCustomer.setNik(request.getNik());
         existingCustomer.setEmail(request.getEmail());
         existingCustomer.setPhoneNumber(request.getPhoneNumber());
+        existingCustomer.setUpdatedAt(LocalDateTime.now());
 
         CustomerEntity updatedCustomer = customerRepository.save(existingCustomer);
         return toResponse(updatedCustomer);

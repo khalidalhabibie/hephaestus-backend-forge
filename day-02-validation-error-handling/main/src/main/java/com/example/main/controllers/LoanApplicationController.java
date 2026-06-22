@@ -47,25 +47,25 @@ public class LoanApplicationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping
-    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER, UserRole.MANAGER})
-    @Operation(
-        summary = "Mendapatkan semua pengajuan pinjaman", 
-        description = "Mengambil data seluruh pengajuan pinjaman. Mendukung filter opsional berdasarkan status dan ID customer. [Akses: Semua Role]"
-    )
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Berhasil mengambil daftar pengajuan pinjaman"),
-        @ApiResponse(responseCode = "400", description = "Parameter status yang dikirimkan tidak valid")
-    })
-    public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications(
-            @Parameter(description = "Filter berdasarkan status loan (e.g. SUBMITTED, APPROVED)", example = "SUBMITTED") 
-            @RequestParam(required = false) String status,
-            @Parameter(description = "Filter berdasarkan ID unik customer", example = "1") 
-            @RequestParam(required = false, name = "customer_id") Long customerId) {
+    // @GetMapping
+    // @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER, UserRole.MANAGER})
+    // @Operation(
+    //     summary = "Mendapatkan semua pengajuan pinjaman", 
+    //     description = "Mengambil data seluruh pengajuan pinjaman. Mendukung filter opsional berdasarkan status dan ID customer. [Akses: Semua Role]"
+    // )
+    // @ApiResponses({
+    //     @ApiResponse(responseCode = "200", description = "Berhasil mengambil daftar pengajuan pinjaman"),
+    //     @ApiResponse(responseCode = "400", description = "Parameter status yang dikirimkan tidak valid")
+    // })
+    // public ResponseEntity<List<LoanApplicationResponse>> getAllLoanApplications(
+    //         @Parameter(description = "Filter berdasarkan status loan (e.g. SUBMITTED, APPROVED)", example = "SUBMITTED") 
+    //         @RequestParam(required = false) String status,
+    //         @Parameter(description = "Filter berdasarkan ID unik customer", example = "1") 
+    //         @RequestParam(required = false, name = "customer_id") Long customerId) {
         
-        List<LoanApplicationResponse> response = loanApplicationService.getAllLoanApplications(status, customerId);
-        return ResponseEntity.ok(response);
-    }
+    //     List<LoanApplicationResponse> response = loanApplicationService.getAllLoanApplications(status, customerId);
+    //     return ResponseEntity.ok(response);
+    // }
 
     @GetMapping("/{id}")
     @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER, UserRole.MANAGER})
