@@ -1,6 +1,10 @@
 package com.example.spring_boot_database.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import org.hibernate.query.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.spring_boot_database.dto.*;
@@ -9,6 +13,7 @@ import com.example.spring_boot_database.service.LoanApplicationService;
 
 import jakarta.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -64,6 +69,22 @@ public class LoanApplicationController {
         return ApiResponse.success(
                 loanService.getSchedules(loanId),
                 "Repayment schedules retrieved successfully"
+        );
+    }
+
+    @GetMapping("/paged")
+    public ApiResponse<org.springframework.data.domain.Page<LoanApplicationResponse>> getPaged(
+            @RequestParam(required = false) Status status,
+            @RequestParam(required = false) LocalDateTime startDate,
+            @RequestParam(required = false) LocalDateTime endDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+
+        return ApiResponse.success(
+                loanService.findLoanPaged(status, startDate, endDate, pageable),
+                "Loan applications paginated"
         );
     }
 }

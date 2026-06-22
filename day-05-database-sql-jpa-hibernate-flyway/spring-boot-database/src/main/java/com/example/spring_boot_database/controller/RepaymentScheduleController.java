@@ -34,4 +34,14 @@ public class RepaymentScheduleController {
                 "Payment transactions retrieved successfully"
         );
     }
+
+    @GetMapping
+    public ApiResponse<List<RepaymentScheduleResponse>> getAll(
+            @RequestParam(required = false) String status) {
+
+        return ApiResponse.success(
+                scheduleService.findAll(status),
+                "Repayment schedules retrieved"
+        );
+    }
 }

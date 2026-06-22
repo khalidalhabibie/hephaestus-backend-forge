@@ -1,7 +1,10 @@
 package com.example.spring_boot_database.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +21,6 @@ import com.example.spring_boot_database.exception.LoanNotFoundException;
 import com.example.spring_boot_database.repository.LoanApplicationRepository;
 import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 
-// import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -140,4 +142,24 @@ public class LoanApplicationService {
                 .customer(customerService.toResponse(entity.getCustomer()))
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public Page<LoanApplicationResponse> findLoanPaged(Status status,
+                                                    LocalDateTime startDate,
+                                                    LocalDateTime endDate,
+                                                    Pageable pageable) {
+
+        Page<LoanApplicationEntity> page =
+                loanRepo.search(
+                        status != null ? status.name() : null,
+                        startDate,
+                        endDate,
+                        pageable
+                );
+
+        return page.map(this::toResponse);
+    }
+
+
+    
 }
