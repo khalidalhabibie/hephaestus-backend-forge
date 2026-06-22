@@ -1,6 +1,5 @@
 package com.example.spring_boot_database.service;
 
-import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -10,7 +9,6 @@ import com.example.spring_boot_database.entity.PaymentTransactionEntity;
 import com.example.spring_boot_database.entity.RepaymentScheduleEntity;
 import com.example.spring_boot_database.entity.StatusRepayment;
 import com.example.spring_boot_database.exception.BadRequestException;
-import com.example.spring_boot_database.exception.CustomerNotFoundException;
 import com.example.spring_boot_database.exception.RepaymentScheduleNotFoundException;
 import com.example.spring_boot_database.repository.PaymentTransactionRepository;
 import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
@@ -48,7 +46,6 @@ public class PaymentTransactionService {
 
         paymentRepo.save(entity);
 
-        // ✅ CHECK TOTAL PAYMENT
         var totalPaid = paymentRepo.sumPaidAmountByScheduleId(schedule.getId());
 
         if (totalPaid.compareTo(schedule.getTotalAmount()) >= 0) {

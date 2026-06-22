@@ -1,7 +1,6 @@
 package com.example.spring_boot_database.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,13 +11,10 @@ import com.example.spring_boot_database.dto.RepaymentScheduleResponse;
 import com.example.spring_boot_database.dto.UpdateLoanStatusRequest;
 import com.example.spring_boot_database.entity.CustomerEntity;
 import com.example.spring_boot_database.entity.LoanApplicationEntity;
-import com.example.spring_boot_database.entity.RepaymentScheduleEntity;
 import com.example.spring_boot_database.entity.Status;
 import com.example.spring_boot_database.entity.StatusRepayment;
 import com.example.spring_boot_database.exception.BadRequestException;
-import com.example.spring_boot_database.exception.CustomerNotFoundException;
 import com.example.spring_boot_database.exception.LoanNotFoundException;
-import com.example.spring_boot_database.repository.CustomerRepository;
 import com.example.spring_boot_database.repository.LoanApplicationRepository;
 import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 

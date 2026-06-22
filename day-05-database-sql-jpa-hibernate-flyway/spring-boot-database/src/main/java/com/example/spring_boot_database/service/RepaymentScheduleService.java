@@ -33,9 +33,7 @@ public class RepaymentScheduleService {
     @Value("${loan.interest.annual-rate}")
     private BigDecimal annualRate;
 
-    // ============================
-    // GENERATE SCHEDULE
-    // ============================
+
     public List<RepaymentScheduleEntity> generateRepaymentSchedule(LoanApplicationEntity loan) {
 
         int tenor = loan.getTenorMonth();
@@ -75,9 +73,7 @@ public class RepaymentScheduleService {
         return result;
     }
 
-    // ============================
-    // FIND BY ID
-    // ============================
+  
     @Transactional(readOnly = true)
     public RepaymentScheduleResponse findById(Long id) {
         return scheduleRepo.findById(id)
@@ -85,9 +81,7 @@ public class RepaymentScheduleService {
                 .orElseThrow(() -> new RepaymentScheduleNotFoundException(id));
     }
 
-    // ============================
-    // FIND ALL + FILTER STATUS
-    // ============================
+
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> findAll(String status) {
 
@@ -107,9 +101,7 @@ public class RepaymentScheduleService {
                 .toList();
     }
 
-    // ============================
-    // ✅ NEW METHOD (FIX ERROR)
-    // ============================
+
     @Transactional(readOnly = true)
     public List<PaymentTransactionResponse> findPaymentTransactionByRepaymentId(Long repaymentId) {
 
@@ -121,9 +113,7 @@ public class RepaymentScheduleService {
                 .toList();
     }
 
-    // ============================
-    // OPTIONAL: GET BY LOAN ID
-    // ============================
+
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> findByLoanId(Long loanId) {
 
