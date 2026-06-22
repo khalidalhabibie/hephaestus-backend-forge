@@ -17,7 +17,9 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang testing mind
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Working code : code yang tampak berjalan saat dicoba manual
+
+Trusted code : code dengan behavior penting yang sudah diverifikasi sehingga lebih aman diubah
 ```
 
 2. Kenapa testing disebut sebagai risk reduction?
@@ -25,7 +27,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+membantu menurunkan kemungkinan terjadinya masalah (risk) dan dampaknya terhadap sistem atau bisnis
 ```
 
 3. Apa itu Given-When-Then?
@@ -33,7 +35,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Given : menyiapkan kondisi awal
+When : menjalankan action
+Then : memverifikasi hasil
 ```
 
 4. Apa perbedaan unit test dan integration test?
@@ -41,7 +45,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- unit test : menguji logic kecil (Method/service kecil)
+
+- integration test : menguji beberapa komponen bersama (Beberapa layer)
 ```
 
 5. Kenapa service layer biasanya cocok untuk unit test?
@@ -49,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena mengandung business logic inti (tapi tidak terlalu tergantung pada detail teknis seperti database atau UI), mudah diisolasi dengan mock, cepat, tidak tergantung infrastruktur
 ```
 
 6. Apa fungsi JUnit 5?
@@ -57,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk menulis dan menjalankan unit test secara lebih modern, fleksibel, dan powerful
 ```
 
 7. Apa fungsi Mockito?
@@ -65,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk membuat objek tiruan dalam unit testing
 ```
 
 8. Kenapa dependency seperti repository sering dimock saat unit test?
@@ -73,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena cepat, stabil, dan benar-benar fokus pada logic yang sedang diuji, bukan pada database atau dependensi lain
 ```
 
 9. Apa contoh test case penting untuk `LoanApplicationService`?
@@ -81,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+mengecek pada decision logic dan mengecek apakah sesuai mengcover semua aturan bisnis utama
 ```
 
 10. Apa tujuan peer code review?
@@ -89,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk meningkatkan kualitas, mengurangi risiko, dan memastikan code yang masuk ke sistem sudah layak digunakan
 ```
 
 11. Area apa saja yang perlu dicek saat code review backend?
@@ -97,7 +103,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Apakah logic sudah benar?
+- Apakah securitynya sudah sesuai dan aman
+- Apakah kodenya readability dan maintainability
 ```
 
 12. Apa itu structured logging?
@@ -105,7 +113,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+cara mencatat log dalam format terstruktur agar mudah dianalisis, dicari, dan diproses oleh sistem
 ```
 
 13. Apa fungsi `correlation_id`?
@@ -113,7 +121,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk menandai dan melacak satu request di seluruh sistem
 ```
 
 14. Kapan menggunakan log level `info`, `warn`, dan `error`?
@@ -121,7 +129,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- `info` : untuk mencatat kejadian normal dalam aplikasi
+- `warn` : ada kondisi tidak ideal, tapi sistem masih bisa berjalan
+- `error` : ada error yang menyebabkan proses gagal atau tidak berjalan sesuai harapan
 ```
 
 15. Sebutkan data yang tidak boleh ditulis mentah di log.
@@ -129,19 +139,22 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Password
+- Data pribadi
+- Informasi rekening
+- Token & authentication data
 ```
 
 ## Self Assessment
 
 | Area | Score 1-5 |
 |---|---|
-| Testing mindset | |
-| Given-When-Then | |
-| JUnit 5 | |
-| Mockito | |
-| Service layer testing | |
-| Peer code review | |
-| Structured logging | |
-| Correlation ID | |
-| PII safety | |
+| Testing mindset |3|
+| Given-When-Then |3|
+| JUnit 5 |3|
+| Mockito |3|
+| Service layer testing |3|
+| Peer code review |3|
+| Structured logging |3|
+| Correlation ID |3|
+| PII safety |3|
