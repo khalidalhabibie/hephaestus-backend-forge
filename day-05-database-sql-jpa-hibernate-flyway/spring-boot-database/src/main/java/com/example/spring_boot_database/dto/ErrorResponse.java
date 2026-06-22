@@ -19,7 +19,7 @@ public class ErrorResponse <T> {
 
     private String message;
 
-    private List<T> errors;
+    private List<FieldErrorResponse> errors;
 }
 
 // {

@@ -1,9 +1,12 @@
 package com.example.spring_boot_database.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.criteria.Predicate;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,9 +86,9 @@ public class LoanApplicationService {
         validateTransition(current, next, entity);
 
         entity.setStatus(next.name());
+        entity.setUpdatedAt(LocalDateTime.now());
         LoanApplicationEntity updated = loanRepo.save(entity);
 
-        // CREATE SCHEDULE
         if (next == Status.DISBURSED) {
             if (scheduleRepo.findByLoanApplicationId(id).isEmpty()) {
                 scheduleRepo.saveAll(scheduleService.generateRepaymentSchedule(updated));
@@ -144,20 +147,31 @@ public class LoanApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public Page<LoanApplicationResponse> findLoanPaged(Status status,
-                                                    LocalDateTime startDate,
-                                                    LocalDateTime endDate,
-                                                    Pageable pageable) {
+    public Page<LoanApplicationResponse> findLoanPaged(
+            Status status,
+            LocalDateTime startDate,
+            LocalDateTime endDate,
+            Pageable pageable) {
 
-        Page<LoanApplicationEntity> page =
-                loanRepo.search(
-                        status != null ? status.name() : null,
-                        startDate,
-                        endDate,
-                        pageable
-                );
+        Specification<LoanApplicationEntity> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-        return page.map(this::toResponse);
+            if (status != null) {
+                predicates.add(cb.equal(root.get("status"), status.name()));
+            }
+
+            if (startDate != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), startDate));
+            }
+
+            if (endDate != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), endDate));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return loanRepo.findAll(spec, pageable).map(this::toResponse);
     }
 
 

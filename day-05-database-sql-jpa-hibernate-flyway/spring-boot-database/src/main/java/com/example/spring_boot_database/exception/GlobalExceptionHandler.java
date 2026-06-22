@@ -2,12 +2,41 @@ package com.example.spring_boot_database.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.spring_boot_database.dto.ErrorResponse;
+import com.example.spring_boot_database.dto.FieldErrorResponse;
+
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<?> methodArgumentNotValidException(MethodArgumentNotValidException exception){
+
+        List<FieldErrorResponse> errors = exception.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(err -> FieldErrorResponse.builder()
+                        .field(err.getField())
+                        .message(err.getDefaultMessage())
+                        .build()
+                )
+                .collect(Collectors.toList());
+
+        ErrorResponse<?> response = ErrorResponse.builder()
+                .code("VALIDATION_ERROR")
+                .message("Invalid request")
+                .errors(errors)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
 
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<?> handleCustomerNotFound(CustomerNotFoundException ex) {

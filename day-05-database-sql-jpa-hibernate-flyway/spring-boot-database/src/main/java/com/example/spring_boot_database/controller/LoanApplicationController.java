@@ -2,7 +2,6 @@ package com.example.spring_boot_database.controller;
 
 import lombok.RequiredArgsConstructor;
 
-import org.hibernate.query.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
