@@ -29,4 +29,23 @@ public class RepaymentScheduleService {
                 .interestAmount(schedule.getInterestAmount()).totalAmount(schedule.getTotalAmount())
                 .status(schedule.getStatus()).build();
     }
+
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public java.math.BigDecimal getCustomerOutstanding(Long customerId) {
+        // Memanggil query native SUM yang sudah kita buat sebelumnya di Repository
+        return scheduleRepository.getOutstandingAmountByCustomerId(customerId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RepaymentScheduleResponse> getByLoanIdAndStatus(Long loanId, String status) {
+        List<RepaymentScheduleEntity> entities;
+        
+        if (status != null && !status.isBlank()) {
+            entities = scheduleRepository.findByLoanApplicationIdAndStatus(loanId, status.toUpperCase());
+        } else {
+            entities = scheduleRepository.findByLoanApplicationId(loanId);
+        }
+        
+        return entities.stream().map(this::mapToResponse).toList();
+    }
 }

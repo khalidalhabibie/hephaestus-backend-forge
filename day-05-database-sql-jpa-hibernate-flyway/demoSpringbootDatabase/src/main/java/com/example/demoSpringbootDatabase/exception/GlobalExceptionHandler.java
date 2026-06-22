@@ -20,6 +20,18 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+            ErrorResponse.builder()
+                .success(false)
+                .code("BAD_REQUEST")
+                .message(ex.getMessage())
+                .errors(new ArrayList<>())
+                .build()
+        );
+    }
+    
     @ExceptionHandler(LoanApplicationNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleLoanNotFound(LoanApplicationNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(

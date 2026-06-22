@@ -46,4 +46,10 @@ public class CustomerService {
         return CustomerResponse.builder().id(entity.getId()).fullName(entity.getFullName())
                 .nik(entity.getNik()).email(entity.getEmail()).phoneNumber(entity.getPhoneNumber()).build();
     }
+
+    @Transactional
+    public void deleteCustomer(Long id) {
+        if (!customerRepository.existsById(id)) throw new CustomerNotFoundException(id);
+        customerRepository.deleteById(id); 
+    }
 }

@@ -3,6 +3,7 @@ package com.example.demoSpringbootDatabase.dto;
 import jakarta.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import com.example.demoSpringbootDatabase.dto.CreateCustomerRequest;
 
 @Data
 

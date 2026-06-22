@@ -10,12 +10,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class RepaymentScheduleController {
+    
+    // Kita gunakan nama scheduleService secara konsisten
     private final RepaymentScheduleService scheduleService;
-    public RepaymentScheduleController(RepaymentScheduleService scheduleService) { this.scheduleService = scheduleService; }
+    
+    public RepaymentScheduleController(RepaymentScheduleService scheduleService) { 
+        this.scheduleService = scheduleService; 
+    }
 
-    @GetMapping("/loan-applications/{loanApplicationId}/repayment-schedules")
-    public ResponseEntity<ApiResponse<List<RepaymentScheduleResponse>>> getByLoan(@PathVariable Long loanApplicationId) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Repayment schedules retrieved successfully", scheduleService.getByLoanId(loanApplicationId)));
+    /**
+     * Gabungan Method Pencarian: Mendukung GET biasa ATAU menggunakan filter status PAID/UNPAID
+     * URL Contoh: 
+     * - GET /api/v1/loan-applications/1/repayment-schedules
+     * - GET /api/v1/loan-applications/1/repayment-schedules?status=UNPAID
+     */
+    @GetMapping("/loan-applications/{loanId}/repayment-schedules")
+    public ResponseEntity<ApiResponse<List<RepaymentScheduleResponse>>> getByLoan(
+            @PathVariable Long loanId,
+            @RequestParam(value = "status", required = false) String status) {
+        
+        List<RepaymentScheduleResponse> res = scheduleService.getByLoanIdAndStatus(loanId, status);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Repayment schedules retrieved successfully", res));
     }
 
     @GetMapping("/repayment-schedules/{id}")

@@ -5,9 +5,14 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 @Entity
 @Table(name = "customers")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@SQLDelete(sql = "UPDATE customers SET is_deleted = true WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
