@@ -1,9 +1,8 @@
 package com.example.jpabackend.dto.request;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -16,7 +15,6 @@ public class UpdateCustomerRequest {
     private String email;
 
     @NotBlank
-    @Max(12)
-    @Min(10)
+    @Size(min = 10, max = 12)
     private String phoneNumber;
 }

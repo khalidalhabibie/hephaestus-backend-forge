@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import com.example.jpabackend.entity.RepaymentScheduleEntity;
+import com.example.jpabackend.enums.RepaymentStatus;
 
 public interface RepaymentScheduleRepository extends JpaRepository<RepaymentScheduleEntity, Long> {
     
     List<RepaymentScheduleEntity> findByLoanApplicationId(Long loanApplicationId);
 
-    List<RepaymentScheduleEntity> findByStatus(String status);
+    List<RepaymentScheduleEntity> findByStatus(RepaymentStatus status);
 
     @Query("""
         SELECT r

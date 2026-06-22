@@ -8,11 +8,15 @@ import org.springframework.data.repository.query.Param;
 import com.example.jpabackend.entity.LoanApplicationEntity;
 import com.example.jpabackend.enums.LoanStatus;
 
-
 public interface LoanApplicationRepository extends JpaRepository<LoanApplicationEntity, Long> {
-    List<LoanApplicationEntity> findByCustomerId(Long customerId);
+    List<LoanApplicationEntity> findByCustomer_Id(Long customerId);
 
     List<LoanApplicationEntity> findByStatus(LoanStatus status);
+
+    List<LoanApplicationEntity> findByCreatedAtBetween(
+        java.time.LocalDateTime start,
+        java.time.LocalDateTime end
+    );
 
     @Query("""
         SELECT l
@@ -36,4 +40,16 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
         GROUP BY l.status
     """)
     List<Object[]> countLoanByStatus();
+
+    @Query("""
+        SELECT 
+            c.id,
+            c.fullName,
+            SUM(l.loanAmount)
+        FROM LoanApplicationEntity l
+        JOIN l.customer c
+        WHERE l.status IN ('APPROVED', 'DISBURSED')
+        GROUP BY c.id, c.fullName
+    """)
+    List<Object[]> getOutstandingPerCustomer();
 }

@@ -3,9 +3,8 @@ package com.example.jpabackend.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -15,8 +14,7 @@ public class CreateCustomerRequest {
     private String fullName;
 
     @NotBlank
-    @Min(16)
-    @Max(16)
+    @Size(min = 16, max = 16)
     @JsonProperty("nik")
     private String nik;
 
@@ -25,8 +23,7 @@ public class CreateCustomerRequest {
     private String email;
 
     @NotBlank
-    @Min(10)
-    @Max(12)
+    @Size(min = 10, max = 12)
     @JsonProperty("phone_number")
     private String phoneNumber;
 }

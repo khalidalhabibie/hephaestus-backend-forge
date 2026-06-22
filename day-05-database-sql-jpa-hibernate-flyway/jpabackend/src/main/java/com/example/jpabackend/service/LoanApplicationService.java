@@ -1,7 +1,10 @@
 package com.example.jpabackend.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +13,8 @@ import com.example.jpabackend.dto.request.CreateLoanApplicationRequest;
 import com.example.jpabackend.dto.request.UpdateLoanStatusRequest;
 import com.example.jpabackend.dto.response.CustomerSummaryResponse;
 import com.example.jpabackend.dto.response.LoanApplicationResponse;
+import com.example.jpabackend.dto.response.LoanSummaryResponse;
+import com.example.jpabackend.dto.response.OutstandingCustomerResponse;
 import com.example.jpabackend.entity.CustomerEntity;
 import com.example.jpabackend.entity.LoanApplicationEntity;
 import com.example.jpabackend.enums.LoanStatus;
@@ -81,6 +86,17 @@ public class LoanApplicationService {
         System.out.println("Generated " + tenor + " repayment schedules");
     }
 
+    public List<OutstandingCustomerResponse> getOutstandingPerCustomer() {
+        return loanApplicationRepository.getOutstandingPerCustomer()
+            .stream()
+            .map(obj -> OutstandingCustomerResponse.builder()
+            .customerId((Long) obj[0])
+            .fullName((String) obj[1])
+            .outstandingAmount((BigDecimal) obj[2])
+            .build())
+            .toList();
+    }
+
     @Transactional
     public LoanApplicationResponse createLoanApplication(CreateLoanApplicationRequest request) {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId())
@@ -97,6 +113,13 @@ public class LoanApplicationService {
         return mapToResponse(savedLoan);
     }
 
+    @Transactional(readOnly = true)
+    public Page<LoanApplicationResponse> getLoans(Pageable pageable) {
+        return loanApplicationRepository
+            .findAll(pageable)
+            .map(this::mapToResponse);
+    }
+    
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> getAllLoans() {
         return loanApplicationRepository.findAll()
@@ -132,6 +155,19 @@ public class LoanApplicationService {
             .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<LoanSummaryResponse> getLoanSummary() {
+        return loanApplicationRepository
+            .countLoanByStatus()
+            .stream()
+            .map(row -> LoanSummaryResponse.builder()
+            .status((LoanStatus) row[0])
+            .totalLoan((Long) row[1])
+            .totalAmount((BigDecimal) row[2])
+            .build())
+            .toList();
+    }
+
     // @Transactional
     // public LoanApplicationResponse updateLoanStatus(Long id, UpdateLoanStatusRequest request) {
     //     LoanApplicationEntity loan = loanApplicationRepository.findById(id)
@@ -164,8 +200,8 @@ public class LoanApplicationService {
                 }
             }
             case APPROVED -> {
-                if (next != LoanStatus.DISBURSED && next != LoanStatus.REJECTED) {
-                    throw new IllegalStateException("APPROVED can only go to DISBURSED or REJECTED");
+                if (next != LoanStatus.DISBURSED) {
+                    throw new IllegalStateException("APPROVED can only go to DISBURSED");
                 }
             }
             case REJECTED -> {

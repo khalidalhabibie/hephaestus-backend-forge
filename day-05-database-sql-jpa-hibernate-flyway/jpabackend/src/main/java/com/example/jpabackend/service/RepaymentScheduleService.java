@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.jpabackend.dto.request.UpdateRepaymentScheduleStatusRequest;
 import com.example.jpabackend.dto.response.RepaymentScheduleResponse;
 import com.example.jpabackend.entity.RepaymentScheduleEntity;
+import com.example.jpabackend.enums.RepaymentStatus;
 import com.example.jpabackend.exception.LoanApplicationNotFoundException;
 import com.example.jpabackend.exception.RepaymentScheduleNotFoundException;
 import com.example.jpabackend.repository.LoanApplicationRepository;
@@ -33,6 +33,13 @@ public class RepaymentScheduleService {
             .build();
     }
 
+    public List<RepaymentScheduleResponse> getAll() {
+        return repaymentScheduleRepository.findAll()
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
+    }
+    
     @Transactional(readOnly = true)
     public RepaymentScheduleResponse getScheduleById(Long id) {
         RepaymentScheduleEntity schedule = repaymentScheduleRepository
@@ -50,6 +57,13 @@ public class RepaymentScheduleService {
         }
         return repaymentScheduleRepository
             .findByLoanApplicationId(loanApplicationId)
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
+    }
+
+    public List<RepaymentScheduleResponse> getByStatus(RepaymentStatus status) {
+        return repaymentScheduleRepository.findByStatus(status)
             .stream()
             .map(this::mapToResponse)
             .toList();
