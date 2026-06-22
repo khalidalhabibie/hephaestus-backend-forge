@@ -1,5 +1,6 @@
 package com.example.training.dto;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -10,18 +11,21 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CustomerResponse {
+public class LoanApplicationResponse {
+
     private UUID id;
 
-    @JsonProperty("full_name")
-    private String fullName;
+    private CustomerSummaryResponse customer;
 
-    private String nik;
+    @JsonProperty("loan_amount")
+    private BigDecimal loanAmount;
 
-    private String email;
+    @JsonProperty("tenor_month")
+    private Integer tenorMonth;
 
-    @JsonProperty("phone_number")
-    private String phoneNumber;
+    private String purpose;
+
+    private String status;
 
     @JsonProperty("created_at")
     private ZonedDateTime createdAt;

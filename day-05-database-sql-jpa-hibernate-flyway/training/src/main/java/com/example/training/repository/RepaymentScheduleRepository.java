@@ -12,8 +12,11 @@ import com.example.training.entity.RepaymentScheduleEntity;
 
 public interface RepaymentScheduleRepository extends JpaRepository<RepaymentScheduleEntity, UUID> {
 
-    List<RepaymentScheduleEntity> findByLoanApplicationId(Long loanApplicationId);
+    List<RepaymentScheduleEntity> findByLoanApplication_Id(UUID loanApplicationId);
+
+    boolean existsByLoanApplication_Id(UUID loanApplicationId);
 
     @Query("SELECT r FROM RepaymentScheduleEntity r JOIN FETCH r.loanApplication WHERE r.id = :id")
-    Optional<RepaymentScheduleEntity> findByIdWithLoanApplication(@Param("id") Long id);
+    Optional<RepaymentScheduleEntity> findByIdWithLoanApplication(@Param("id") UUID id);
+
 }

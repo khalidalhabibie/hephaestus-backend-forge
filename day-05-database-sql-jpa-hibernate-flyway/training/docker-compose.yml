@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:14-alpine
     environment:
-      PPOSTGRES_DB: finance_training
+      POSTGRES_DB: finance_training
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
