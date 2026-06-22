@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeleteCustomerDto {
-    private Boolean isDeleted;
+    @NotNull(message = "Deleted status must not be null")
+    private Boolean deleted;
 }
