@@ -28,6 +28,7 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
   private final RepaymentScheduleRepository repaymentScheduleRepository;
 
   @Override
+  @Transactional
   public PaymentTransactionResponse create(CreatePaymentTransactionRequest request) {
     RepaymentSchedule schedule = repaymentScheduleRepository.findById(
         request.getRepaymentScheduleId())
@@ -40,6 +41,17 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
           "Repayment schedule has already been paid");
     }
 
+    BigDecimal totalPaid = paymentTransactionRepository
+        .sumPaidAmountByScheduleId(schedule.getId());
+
+    BigDecimal remaining = schedule.getTotalAmount()
+        .subtract(totalPaid);
+
+    if (request.getPaidAmount().compareTo(remaining) > 0) {
+      throw new BadRequestException(
+          "Paid amount exceeds remaining outstanding amount");
+    }
+
     PaymentTransaction payment = PaymentTransaction.builder()
         .repaymentSchedule(schedule)
         .paymentReference(request.getPaymentReference())
@@ -50,10 +62,10 @@ public class PaymentTransactionServiceImpl implements PaymentTransactionService 
 
     paymentTransactionRepository.save(payment);
 
-    BigDecimal totalPaid = paymentTransactionRepository
+    BigDecimal newTotalPaid = paymentTransactionRepository
         .sumPaidAmountByScheduleId(schedule.getId());
 
-    if (totalPaid.compareTo(schedule.getTotalAmount()) >= 0) {
+    if (newTotalPaid.compareTo(schedule.getTotalAmount()) >= 0) {
       schedule.setStatus(RepaymentStatusEnum.PAID);
       repaymentScheduleRepository.save(schedule);
     }

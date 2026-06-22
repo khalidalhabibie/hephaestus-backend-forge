@@ -23,4 +23,10 @@ public interface RepaymentScheduleRepository extends JpaRepository<RepaymentSche
             @Param("id") Long id);
 
     boolean existsByLoanApplicationIdAndStatus(Long loanApplicationId, RepaymentStatusEnum status);
+
+    List<RepaymentSchedule> findByStatus(RepaymentStatusEnum status);
+
+    List<RepaymentSchedule> findByLoanApplicationIdAndStatus(
+            Long loanApplicationId,
+            RepaymentStatusEnum status);
 }

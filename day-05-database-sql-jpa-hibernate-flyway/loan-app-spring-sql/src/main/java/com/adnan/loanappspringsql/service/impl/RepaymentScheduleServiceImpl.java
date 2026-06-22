@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.adnan.loanappspringsql.dto.RepaymentScheduleResponse;
+import com.adnan.loanappspringsql.enums.RepaymentStatusEnum;
 import com.adnan.loanappspringsql.exception.NotFoundException;
 import com.adnan.loanappspringsql.model.RepaymentSchedule;
 import com.adnan.loanappspringsql.repository.LoanApplicationRepository;
@@ -49,6 +50,33 @@ public class RepaymentScheduleServiceImpl implements RepaymentScheduleService {
                 return mapToResponse(schedule);
         }
 
+        @Override
+        @Transactional(readOnly = true)
+        public List<RepaymentScheduleResponse> findByStatus(
+                        RepaymentStatusEnum status) {
+
+                return repaymentScheduleRepository.findByStatus(status)
+                                .stream()
+                                .map(this::mapToResponse)
+                                .toList();
+        }
+
+        @Override
+        @Transactional(readOnly = true)
+        public List<RepaymentScheduleResponse> findByLoanApplicationIdAndStatus(
+                        Long loanApplicationId,
+                        RepaymentStatusEnum status) {
+
+                return repaymentScheduleRepository
+                                .findByLoanApplicationIdAndStatus(
+                                                loanApplicationId,
+                                                status)
+                                .stream()
+                                .map(this::mapToResponse)
+                                .toList();
+        }
+
+        // Helper
         private RepaymentScheduleResponse mapToResponse(
                         RepaymentSchedule schedule) {
                 return RepaymentScheduleResponse.builder()
