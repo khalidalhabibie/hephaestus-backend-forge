@@ -34,8 +34,11 @@ public class PaymentTransactionController {
     PaymentTransactionService paymentTransactionService;
     AuthService authService;
 
-    public PaymentTransactionController(PaymentTransactionRepository paymentTransactionRepository) {
+    public PaymentTransactionController(PaymentTransactionRepository paymentTransactionRepository,
+        PaymentTransactionService paymentTransactionService, AuthService authService) {
         this.paymentTransactionRepository = paymentTransactionRepository;
+        this.paymentTransactionService = paymentTransactionService;
+        this.authService = authService;
     }
     
     @PostMapping
