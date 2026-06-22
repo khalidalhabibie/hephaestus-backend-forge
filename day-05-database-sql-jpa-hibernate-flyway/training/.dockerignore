@@ -1,0 +1,10 @@
+target/
+*.jar
+*.class
+.idea/
+*.iml
+.git/
+.gitignore
+README.md
+Makefile
+*.md
