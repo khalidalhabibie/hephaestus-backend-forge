@@ -1,35 +1,37 @@
 package com.example.spring_boot_database.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.spring_boot_database.dto.ApiResponse;
 import com.example.spring_boot_database.dto.PaymentTransactionResponse;
 import com.example.spring_boot_database.dto.RepaymentScheduleResponse;
-import com.example.spring_boot_database.service.PaymentTransactionService;
-import com.example.spring_boot_database.service.RepaymentScheduleSevice;
+import com.example.spring_boot_database.service.RepaymentScheduleService;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/repayment-schedules")
 @RequiredArgsConstructor
-
 public class RepaymentScheduleController {
-    private final RepaymentScheduleSevice repaymentScheduleSevice;
-    private final PaymentTransactionService paymentTransactionService;
+
+    private final RepaymentScheduleService scheduleService;
 
     @GetMapping("/{id}")
     public ApiResponse<RepaymentScheduleResponse> getById(@PathVariable Long id) {
-        return ApiResponse.success(repaymentScheduleSevice.findById(id), "Customer Found");
+        return ApiResponse.success(
+                scheduleService.findById(id),
+                "Repayment schedule retrieved successfully"
+        );
     }
 
-    @GetMapping("/{repayment_schedule_id}/payment-transactions")
-    public ApiResponse<List<PaymentTransactionResponse>> getPaymentTransactionByRepaymentId(@PathVariable Long repayment_schedule_id) {
-        return ApiResponse.success(repaymentScheduleSevice.findPaymentTransactionByRepaymentId(repayment_schedule_id), "Customer Found");
+    @GetMapping("/{id}/payment-transactions")
+    public ApiResponse<List<PaymentTransactionResponse>> getPayments(
+            @PathVariable Long id) {
+
+        return ApiResponse.success(
+                scheduleService.findPaymentTransactionByRepaymentId(id),
+                "Payment transactions retrieved successfully"
+        );
     }
 }

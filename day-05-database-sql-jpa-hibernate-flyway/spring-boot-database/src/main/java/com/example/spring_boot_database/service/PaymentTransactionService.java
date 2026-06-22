@@ -9,7 +9,9 @@ import com.example.spring_boot_database.dto.PaymentTransactionResponse;
 import com.example.spring_boot_database.entity.PaymentTransactionEntity;
 import com.example.spring_boot_database.entity.RepaymentScheduleEntity;
 import com.example.spring_boot_database.entity.StatusRepayment;
+import com.example.spring_boot_database.exception.BadRequestException;
 import com.example.spring_boot_database.exception.CustomerNotFoundException;
+import com.example.spring_boot_database.exception.RepaymentScheduleNotFoundException;
 import com.example.spring_boot_database.repository.PaymentTransactionRepository;
 import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 
@@ -19,49 +21,50 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PaymentTransactionService {
-    private final RepaymentScheduleRepository repaymentScheduleRepository;
-    private final PaymentTransactionRepository paymentTransactionRepository;
 
-    public RepaymentScheduleEntity getByIdRepayment(Long id) {
-        return repaymentScheduleRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id));
+    private final RepaymentScheduleRepository scheduleRepo;
+    private final PaymentTransactionRepository paymentRepo;
+
+    private RepaymentScheduleEntity getSchedule(Long id) {
+        return scheduleRepo.findById(id)
+                .orElseThrow(() -> new RepaymentScheduleNotFoundException(id));
     }
 
-private void fill(PaymentTransactionEntity entity, CreatePaymentTransactionRequest request, RepaymentScheduleEntity schedule) {
-    entity.setRepaymentSchedule(schedule);
-    entity.setPaymentReference(request.getPaymentReference());
-    entity.setPaidAmount(request.getPaidAmount());
-    entity.setPaidAt(request.getPaidAt());
-    entity.setStatus(StatusRepayment.PAID.name());
-}
+    @Transactional
+    public PaymentTransactionResponse create(CreatePaymentTransactionRequest req) {
 
-@Transactional
-public PaymentTransactionResponse createPaymentTransaction(CreatePaymentTransactionRequest request) {
+        RepaymentScheduleEntity schedule = getSchedule(req.getRepaymentSchedule_id());
 
-    RepaymentScheduleEntity schedule = getByIdRepayment(request.getRepaymentSchedule_id());
+        if (schedule.getStatus().equals(StatusRepayment.PAID.name())) {
+            throw new BadRequestException("Schedule already paid");
+        }
 
-    if (schedule.getStatus().equals(StatusRepayment.PAID.name())) {
-        throw new RuntimeException("This installment is already paid");
+        PaymentTransactionEntity entity = new PaymentTransactionEntity();
+        entity.setRepaymentSchedule(schedule);
+        entity.setPaidAmount(req.getPaidAmount());
+        entity.setPaymentReference(req.getPaymentReference());
+        entity.setPaidAt(req.getPaidAt());
+        entity.setStatus(StatusRepayment.PAID.name());
+
+        paymentRepo.save(entity);
+
+        // ✅ CHECK TOTAL PAYMENT
+        var totalPaid = paymentRepo.sumPaidAmountByScheduleId(schedule.getId());
+
+        if (totalPaid.compareTo(schedule.getTotalAmount()) >= 0) {
+            schedule.setStatus(StatusRepayment.PAID.name());
+            scheduleRepo.save(schedule);
+        }
+
+        return toResponse(entity);
     }
 
-    PaymentTransactionEntity entity = new PaymentTransactionEntity();
-    fill(entity, request, schedule);
-
-    PaymentTransactionEntity saved = paymentTransactionRepository.save(entity);
-
-    schedule.setStatus(StatusRepayment.PAID.name());
-    repaymentScheduleRepository.save(schedule);
-
-    return toResponse(saved);
-}
-
-    public PaymentTransactionResponse toResponse(PaymentTransactionEntity entity) {
-
+    private PaymentTransactionResponse toResponse(PaymentTransactionEntity e) {
         return PaymentTransactionResponse.builder()
-            .repaymentScheduleId(entity.getRepaymentSchedule().getId())
-            .paidAmount(entity.getPaidAmount())
-            .paymentReference(entity.getPaymentReference()) 
-            .paidAt(LocalDateTime.now()) 
-            .build();
+                .repaymentScheduleId(e.getRepaymentSchedule().getId())
+                .paidAmount(e.getPaidAmount())
+                .paymentReference(e.getPaymentReference())
+                .paidAt(e.getPaidAt())
+                .build();
     }
 }

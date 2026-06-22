@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.spring_boot_database.dto.CreateLoanApplicationRequest;
 import com.example.spring_boot_database.dto.LoanApplicationResponse;
@@ -14,169 +15,133 @@ import com.example.spring_boot_database.entity.LoanApplicationEntity;
 import com.example.spring_boot_database.entity.RepaymentScheduleEntity;
 import com.example.spring_boot_database.entity.Status;
 import com.example.spring_boot_database.entity.StatusRepayment;
+import com.example.spring_boot_database.exception.BadRequestException;
 import com.example.spring_boot_database.exception.CustomerNotFoundException;
 import com.example.spring_boot_database.exception.LoanNotFoundException;
 import com.example.spring_boot_database.repository.CustomerRepository;
 import com.example.spring_boot_database.repository.LoanApplicationRepository;
 import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 
-import jakarta.transaction.Transactional;
+// import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class LoanApplicationService {
 
-    private final CustomerRepository customerRepository;
-    private final LoanApplicationRepository loanApplicationRepository;
-    private final RepaymentScheduleRepository repaymentScheduleRepository;
+    private final LoanApplicationRepository loanRepo;
     private final CustomerService customerService;
-    private final RepaymentScheduleSevice repaymentScheduleSevice;
+    private final RepaymentScheduleRepository scheduleRepo;
+    private final RepaymentScheduleService scheduleService;
 
-    public CustomerEntity getByIdCustomer(Long id) {
-        return customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id));
-    }
+    @Transactional
+    public LoanApplicationResponse createLoanApplication(CreateLoanApplicationRequest req) {
 
-    private void fill(LoanApplicationEntity entity, CreateLoanApplicationRequest request) {
-        entity.setCustomer(getByIdCustomer(request.getCustomerId()));
-        entity.setLoanAmount(request.getLoanAmount());
-        entity.setPurpose(request.getPurpose());
-        entity.setTenorMonth(request.getTenorMonth());
-        entity.setStatus(Status.SUBMITTED.name());
-    }
+        CustomerEntity customer = customerService.getById(req.getCustomerId());
 
-    public LoanApplicationResponse createLoanApplication(CreateLoanApplicationRequest request) {
         LoanApplicationEntity entity = new LoanApplicationEntity();
-        fill(entity, request);
-        return toResponse(loanApplicationRepository.save(entity));
+        entity.setCustomer(customer);
+        entity.setLoanAmount(req.getLoanAmount());
+        entity.setTenorMonth(req.getTenorMonth());
+        entity.setPurpose(req.getPurpose());
+        entity.setStatus(Status.SUBMITTED.name());
+
+        return toResponse(loanRepo.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public LoanApplicationEntity getById(Long id) {
-        return loanApplicationRepository.findById(id)
+        return loanRepo.findByIdWithCustomer(id)
                 .orElseThrow(() -> new LoanNotFoundException(id));
     }
 
+    @Transactional(readOnly = true)
     public LoanApplicationResponse findById(Long id) {
         return toResponse(getById(id));
     }
 
-    public List<LoanApplicationResponse> findLoanApplication(Status status) {
+    @Transactional(readOnly = true)
+    public List<LoanApplicationResponse> findLoan(Status status) {
+        List<LoanApplicationEntity> data =
+                (status != null)
+                        ? loanRepo.findByStatus(status.name())
+                        : loanRepo.findAll();
 
-        List<LoanApplicationEntity> data;
-
-        if (status != null) {
-            data = loanApplicationRepository.findByStatus(status.name());
-        } else {
-            data = loanApplicationRepository.findAll();
-        }
-
-        return data.stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+        return data.stream().map(this::toResponse).toList();
     }
 
     @Transactional
-    public LoanApplicationResponse updateStatusLoanApplication(Long id, UpdateLoanStatusRequest request) {
+    public LoanApplicationResponse updateStatus(Long id, UpdateLoanStatusRequest req) {
 
-        if (request.getStatus() == null) {
-            throw new RuntimeException("Status is required");
+        if (req.getStatus() == null) {
+            throw new BadRequestException("Status is required");
         }
 
         LoanApplicationEntity entity = getById(id);
 
-        Status currentStatus = Status.valueOf(entity.getStatus());
-        Status newStatus = request.getStatus();
+        Status current = Status.valueOf(entity.getStatus());
+        Status next = req.getStatus();
 
-        if (currentStatus == Status.REJECTED || currentStatus == Status.CLOSED) {
-            throw new RuntimeException("Cannot change status from final state");
-        }
+        validateTransition(current, next, entity);
 
-        switch (currentStatus) {
+        entity.setStatus(next.name());
+        LoanApplicationEntity updated = loanRepo.save(entity);
 
-            case SUBMITTED:
-                if (!(newStatus == Status.APPROVED || newStatus == Status.REJECTED)) {
-                    throw new RuntimeException("SUBMITTED can only go to APPROVED or REJECTED");
-                }
-                break;
-
-            case APPROVED:
-                if (newStatus != Status.DISBURSED) {
-                    throw new RuntimeException("APPROVED can only go to DISBURSED");
-                }
-                break;
-
-            case DISBURSED:
-                if (newStatus != Status.CLOSED) {
-                    throw new RuntimeException("DISBURSED can only go to CLOSED");
-                }
-
-                boolean allPaid = repaymentScheduleRepository
-                        .findByLoanApplicationId(entity.getId())
-                        .stream()
-                        .allMatch(s -> s.getStatus() == StatusRepayment.PAID.name());
-
-                if (!allPaid) {
-                    throw new RuntimeException("Cannot close loan, repayment not fully paid");
-                }
-                break;
-
-            case REJECTED:
-            case CLOSED:
-                throw new RuntimeException("Cannot change status from final state");
-        }
-
-
-        entity.setStatus(newStatus.name());
-        LoanApplicationEntity updated = loanApplicationRepository.save(entity);
-
-        if (newStatus == Status.DISBURSED) {
-
-            if (repaymentScheduleRepository.findByLoanApplicationId(updated.getId()).isEmpty()) {
-
-                List<RepaymentScheduleEntity> schedules =
-                        repaymentScheduleSevice.generateRepaymentSchedule(updated);
-
-                repaymentScheduleRepository.saveAll(schedules);
+        // CREATE SCHEDULE
+        if (next == Status.DISBURSED) {
+            if (scheduleRepo.findByLoanApplicationId(id).isEmpty()) {
+                scheduleRepo.saveAll(scheduleService.generateRepaymentSchedule(updated));
             }
         }
 
         return toResponse(updated);
     }
 
-    public List<RepaymentScheduleResponse> findRepaymentScheduleByLoanId(Long loanId) {
+    private void validateTransition(Status current, Status next, LoanApplicationEntity entity) {
 
-        List<RepaymentScheduleEntity> data;
-
-        if (loanId != null) {
-            data = repaymentScheduleRepository.findByLoanApplicationId(loanId);
-        } else {
-            data = repaymentScheduleRepository.findAll();
+        if (current == Status.REJECTED || current == Status.CLOSED) {
+            throw new BadRequestException("Final state cannot be changed");
         }
 
-        return data.stream()
-                .map(this::toResponseRepaymentSchedule)
-                .collect(Collectors.toList());
+        switch (current) {
+            case SUBMITTED -> {
+                if (!(next == Status.APPROVED || next == Status.REJECTED))
+                    throw new BadRequestException("Invalid transition");
+            }
+            case APPROVED -> {
+                if (next != Status.DISBURSED)
+                    throw new BadRequestException("Invalid transition");
+            }
+            case DISBURSED -> {
+                if (next != Status.CLOSED)
+                    throw new BadRequestException("Invalid transition");
+
+                boolean allPaid = scheduleRepo.findByLoanApplicationId(entity.getId())
+                        .stream()
+                        .allMatch(s -> s.getStatus().equals(StatusRepayment.PAID.name()));
+
+                if (!allPaid) {
+                    throw new BadRequestException("Loan cannot be closed, not fully paid");
+                }
+            }
+        }
     }
 
-    public RepaymentScheduleResponse toResponseRepaymentSchedule(RepaymentScheduleEntity entity) {
-        return RepaymentScheduleResponse.builder()
-                .id(entity.getId())
-                .installmentNumber(entity.getInstallmentNumber())
-                .dueDate(entity.getDueDate())
-                .principalAmount(entity.getPrincipalAmount())
-                .interestAmount(entity.getInterestAmount())
-                .totalAmount(entity.getTotalAmount())
-                .build();
+    @Transactional(readOnly = true)
+    public List<RepaymentScheduleResponse> getSchedules(Long loanId) {
+        return scheduleRepo.findByLoanApplicationId(loanId)
+                .stream()
+                .map(scheduleService::toResponse)
+                .toList();
     }
 
-    public LoanApplicationResponse toResponse(LoanApplicationEntity loanApplication) {
+    private LoanApplicationResponse toResponse(LoanApplicationEntity entity) {
         return LoanApplicationResponse.builder()
-                .loanAmount(loanApplication.getLoanAmount())
-                .tenorMonth(loanApplication.getTenorMonth())
-                .purpose(loanApplication.getPurpose())
-                .status(Status.valueOf(loanApplication.getStatus()))
-                .customer(customerService.toResponse(loanApplication.getCustomer()))
+                .loanAmount(entity.getLoanAmount())
+                .tenorMonth(entity.getTenorMonth())
+                .purpose(entity.getPurpose())
+                .status(Status.valueOf(entity.getStatus()))
+                .customer(customerService.toResponse(entity.getCustomer()))
                 .build();
     }
 }

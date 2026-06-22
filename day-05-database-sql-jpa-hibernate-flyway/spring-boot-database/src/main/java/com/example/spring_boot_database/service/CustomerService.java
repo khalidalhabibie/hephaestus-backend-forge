@@ -13,6 +13,7 @@ import com.example.spring_boot_database.entity.CustomerEntity;
 import com.example.spring_boot_database.entity.LoanApplicationEntity;
 import com.example.spring_boot_database.entity.Status;
 import com.example.spring_boot_database.exception.CustomerNotFoundException;
+import com.example.spring_boot_database.exception.DuplicateCustomerException;
 import com.example.spring_boot_database.repository.CustomerRepository;
 import com.example.spring_boot_database.repository.LoanApplicationRepository;
 
@@ -25,80 +26,79 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final LoanApplicationRepository loanApplicationRepository;
 
-    private void fill(CustomerEntity customer, CreateCustomerRequest request) {
-        customer.setNik(request.getNik());
-        customer.setFullName(request.getFullName());
-        customer.setEmail(request.getEmail());
-        customer.setPhoneNumber(request.getPhoneNumber());
+    private void fill(CustomerEntity entity, CreateCustomerRequest req) {
+        entity.setNik(req.getNik());
+        entity.setFullName(req.getFullName());
+        entity.setEmail(req.getEmail());
+        entity.setPhoneNumber(req.getPhoneNumber());
     }
 
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
 
         if (customerRepository.existsByNik(request.getNik())) {
-            throw new RuntimeException("Customer NIK already exists");
+            throw new DuplicateCustomerException("nik", request.getNik());
         }
 
-        CustomerEntity customer = new CustomerEntity();
-        fill(customer, request);
+        if (customerRepository.existsByEmail(request.getEmail())) {
+            throw new DuplicateCustomerException("email", request.getEmail());
+        }
 
-        return toResponse(customerRepository.save(customer));
+        CustomerEntity entity = new CustomerEntity();
+        fill(entity, request);
+
+        return toResponse(customerRepository.save(entity));
     }
 
+    @Transactional(readOnly = true)
     public CustomerEntity getById(Long id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse findById(Long id) {
         return toResponse(getById(id));
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> findCustomer(String name) {
-        if (name != null && !name.isBlank()) {
-            return customerRepository.findByFullNameContainingIgnoreCase(name)
-                    .stream()
-                    .map(this::toResponse)
-                    .collect(Collectors.toList());
-        }
-        return customerRepository.findAll()
+        return (name != null && !name.isBlank()
+                ? customerRepository.findByFullNameContainingIgnoreCase(name)
+                : customerRepository.findAll())
                 .stream()
                 .map(this::toResponse)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public List<LoanApplicationResponse> findLoanApplicationByCustomerId(Long customerId) {
+    @Transactional(readOnly = true)
+    public List<LoanApplicationResponse> findLoanByCustomer(Long customerId) {
 
-        List<LoanApplicationEntity> data;
+        getById(customerId); // validasi exists
 
-        if (customerId != null) {
-            data = loanApplicationRepository.findByCustomerId(customerId);
-        } else {
-            data = loanApplicationRepository.findAll();
-        }
-
-        return data.stream()
-                .map(this::toLoanApplicationResponse)
-                .collect(Collectors.toList());
+        return loanApplicationRepository.findLoansByCustomerId(customerId)
+                .stream()
+                .map(this::toLoanResponse)
+                .toList();
     }
 
-    public LoanApplicationResponse toLoanApplicationResponse(LoanApplicationEntity loanApplication) {
+    private LoanApplicationResponse toLoanResponse(LoanApplicationEntity loan) {
         return LoanApplicationResponse.builder()
-                .loanAmount(loanApplication.getLoanAmount())
-                .tenorMonth(loanApplication.getTenorMonth())
-                .purpose(loanApplication.getPurpose())
-                .status(Status.valueOf(loanApplication.getStatus()))
-                .customer(toResponse(loanApplication.getCustomer()))
+                .loanAmount(loan.getLoanAmount())
+                .tenorMonth(loan.getTenorMonth())
+                .purpose(loan.getPurpose())
+                .status(Status.valueOf(loan.getStatus()))
+                .customer(toResponse(loan.getCustomer()))
                 .build();
     }
 
-    public CustomerResponse toResponse(CustomerEntity customer) {
+    public CustomerResponse toResponse(CustomerEntity entity) {
         return CustomerResponse.builder()
-                .id(customer.getId())
-                .fullName(customer.getFullName())
-                .nik(customer.getNik())
-                .email(customer.getEmail())
-                .phoneNumber(customer.getPhoneNumber())
+                .id(entity.getId())
+                .fullName(entity.getFullName())
+                .nik(entity.getNik())
+                .email(entity.getEmail())
+                .phoneNumber(entity.getPhoneNumber())
                 .build();
     }
 }

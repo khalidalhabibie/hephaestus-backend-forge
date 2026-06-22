@@ -3,6 +3,7 @@ package com.example.spring_boot_database.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.example.spring_boot_database.entity.StatusRepayment;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +34,9 @@ public class RepaymentScheduleResponse {
 
     @JsonProperty("total_amount")
     private BigDecimal totalAmount;
+
+    @JsonProperty("status")
+    private StatusRepayment status;
     
 }
 

@@ -20,4 +20,5 @@ public interface LoanApplicationRepository extends JpaRepository<LoanApplication
 
     @Query("SELECT l FROM LoanApplicationEntity l JOIN l.customer c WHERE c.id = :customerId")
     List<LoanApplicationEntity> findLoansByCustomerId(@Param("customerId") Long customerId);
+
 }
