@@ -1,0 +1,5 @@
+# Created at 2026-06-22T07:56:41.798
+Boot Manifest-JAR contains absolute paths in classpath 'D:\MT FIF\hephaestus-backend-forge\day-05-database-sql-jpa-hibernate-flyway\spring-boot-database\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
