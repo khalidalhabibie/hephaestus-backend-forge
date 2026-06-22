@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.training_2.dto.CreateCustomerRequest;
 import com.example.training_2.dto.CustomerResponse;
+import com.example.training_2.dto.CustomerSummaryResponse;
 import com.example.training_2.dto.LoanApplicationResponse;
 import com.example.training_2.dto.PatchCustomerRequest;
 import com.example.training_2.dto.UpdateCustomerRequest;
@@ -145,10 +146,19 @@ public class CustomerService {
     private LoanApplicationResponse mapLoanApplicationToResponse(
             LoanApplication loanApplication) {
 
+        Customer customer = loanApplication.getCustomer();
+
         LoanApplicationResponse response = new LoanApplicationResponse();
 
+        CustomerSummaryResponse customerResponse = CustomerSummaryResponse.builder()
+                .id(customer.getId())
+                .fullName(customer.getFullName())
+                .nik(customer.getNik())
+                .email(customer.getEmail())
+                .build();
+
         response.setId(loanApplication.getId());
-        response.setCustomerId(loanApplication.getCustomer().getId());
+        response.setCustomer(customerResponse);
         response.setLoanAmount(loanApplication.getLoanAmount());
         response.setTenorMonth(loanApplication.getTenorMonth());
         response.setPurpose(loanApplication.getPurpose());

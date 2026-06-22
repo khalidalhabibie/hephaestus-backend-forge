@@ -19,9 +19,6 @@ import lombok.NoArgsConstructor;
 public class LoanApplicationResponse {
     private Long id;
 
-    @JsonProperty("customer_id")
-    private Long customerId;
-
     @JsonProperty("loan_amount")
     private BigDecimal loanAmount;
 
@@ -37,4 +34,6 @@ public class LoanApplicationResponse {
 
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
+
+    private CustomerSummaryResponse customer;
 }

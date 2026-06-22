@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.training_2.dto.CreateLoanApplicationRequest;
+import com.example.training_2.dto.CustomerSummaryResponse;
 import com.example.training_2.dto.LoanApplicationResponse;
 import com.example.training_2.dto.RepaymentScheduleResponse;
 import com.example.training_2.dto.UpdateLoanStatusRequest;
@@ -23,136 +24,151 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class LoanApplicationService {
-    private final LoanApplicationRepository loanApplicationRepository;
-    private final RepaymentScheduleService repaymentScheduleService;
-    private final CustomerRepository customerRepository;
-    private final RepaymentScheduleRepository repaymentScheduleRepository;
+        private final LoanApplicationRepository loanApplicationRepository;
+        private final RepaymentScheduleService repaymentScheduleService;
+        private final CustomerRepository customerRepository;
+        private final RepaymentScheduleRepository repaymentScheduleRepository;
 
-    private LoanApplicationResponse mapToResponse(LoanApplication loanApplication) {
-        return LoanApplicationResponse.builder().id(loanApplication.getId())
-                .customerId(loanApplication.getId())
-                .loanAmount(loanApplication.getLoanAmount())
-                .tenorMonth(loanApplication.getTenorMonth())
-                .status(loanApplication.getStatus())
-                .purpose(loanApplication.getPurpose())
-                // .repaymentSchedules(loanApplication.getRepaymentSchedules())
-                .build();
-    }
+        private LoanApplicationResponse mapToResponse(LoanApplication loanApplication) {
 
-    @Transactional
-    public LoanApplicationResponse create(
-            CreateLoanApplicationRequest request) {
+                Customer customer = loanApplication.getCustomer();
 
-        Customer customer = customerRepository.findById(
-                request.getCustomerId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Customer not found"));
+                CustomerSummaryResponse customerResponse = CustomerSummaryResponse.builder()
+                                .id(customer.getId())
+                                .fullName(customer.getFullName())
+                                .nik(customer.getNik())
+                                .email(customer.getEmail())
+                                .build();
 
-        LoanApplication loanApplication = new LoanApplication();
+                return LoanApplicationResponse.builder()
+                                .id(loanApplication.getId())
+                                .loanAmount(loanApplication.getLoanAmount())
+                                .tenorMonth(loanApplication.getTenorMonth())
+                                .purpose(loanApplication.getPurpose())
+                                .status(loanApplication.getStatus())
+                                .customer(customerResponse)
+                                .createdAt(loanApplication.getCreatedAt())
+                                .updatedAt(loanApplication.getUpdatedAt())
+                                .build();
 
-        loanApplication.setCustomer(customer);
-
-        loanApplication.setLoanAmount(
-                request.getLoanAmount());
-
-        loanApplication.setTenorMonth(
-                request.getTenorMonth());
-
-        loanApplication.setPurpose(
-                request.getPurpose());
-
-        loanApplication.setStatus(
-                LoanApplicationStatus.SUBMITTED);
-
-        LoanApplication savedLoan = loanApplicationRepository.save(
-                loanApplication);
-
-        return mapToResponse(savedLoan);
-    }
-
-    public List<LoanApplicationResponse> getAll(LoanApplicationStatus status) {
-        List<LoanApplication> result;
-
-        if (status != null) {
-            result = loanApplicationRepository.findByStatus(status);
-        } else {
-            result = loanApplicationRepository.findAll();
-        }
-        List<LoanApplicationResponse> loanApplications = new ArrayList<>();
-        for (LoanApplication loanApplication : result) {
-            loanApplications.add(mapToResponse(loanApplication));
-        }
-        return loanApplications;
-    }
-
-    public LoanApplicationResponse getById(Long id) {
-        LoanApplication loanApplication = loanApplicationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Loan Application Not Found"));
-        return mapToResponse(loanApplication);
-    }
-
-    @Transactional
-    public LoanApplicationResponse patchStatus(
-            Long id,
-            UpdateLoanStatusRequest request) {
-        LoanApplication loanApplication = loanApplicationRepository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("Loan Application not found with id: " + id));
-
-        LoanApplicationStatus oldStatus = loanApplication.getStatus();
-        loanApplication.setStatus(request.getStatus());
-
-        LoanApplication updatedLoanApplication = loanApplicationRepository.save(loanApplication);
-
-        if (oldStatus != LoanApplicationStatus.APPROVED
-                && request.getStatus() == LoanApplicationStatus.APPROVED) {
-            repaymentScheduleService.generateSchedules(loanApplication);
         }
 
-        return mapToResponse(updatedLoanApplication);
-    }
+        @Transactional
+        public LoanApplicationResponse create(
+                        CreateLoanApplicationRequest request) {
 
-    private RepaymentScheduleResponse mapScheduleToResponse(
-            RepaymentSchedule schedule) {
+                Customer customer = customerRepository.findById(
+                                request.getCustomerId())
+                                .orElseThrow(() -> new RuntimeException(
+                                                "Customer not found"));
 
-        RepaymentScheduleResponse response = new RepaymentScheduleResponse();
+                LoanApplication loanApplication = new LoanApplication();
 
-        response.setId(schedule.getId());
+                loanApplication.setCustomer(customer);
 
-        response.setInstallmentNumber(
-                schedule.getInstallmentNumber());
+                loanApplication.setLoanAmount(
+                                request.getLoanAmount());
 
-        response.setPrincipalAmount(
-                schedule.getPrincipalAmount());
+                loanApplication.setTenorMonth(
+                                request.getTenorMonth());
 
-        response.setInterestAmount(
-                schedule.getInterestAmount());
+                loanApplication.setPurpose(
+                                request.getPurpose());
 
-        response.setTotalAmount(
-                schedule.getTotalAmount());
+                loanApplication.setStatus(
+                                LoanApplicationStatus.SUBMITTED);
 
-        response.setDueDate(
-                schedule.getDueDate());
+                LoanApplication savedLoan = loanApplicationRepository.save(
+                                loanApplication);
 
-        response.setStatus(
-                schedule.getStatus().toString());
+                return mapToResponse(savedLoan);
+        }
 
-        return response;
-    }
+        public List<LoanApplicationResponse> getAll(LoanApplicationStatus status) {
+                List<LoanApplication> result;
 
-    public List<RepaymentScheduleResponse> getRepaymentSchedulesByLoanAppsId(
-            Long loanApplicationId) {
+                if (status != null) {
+                        result = loanApplicationRepository.findByStatus(status);
+                } else {
+                        result = loanApplicationRepository.findAll();
+                }
+                List<LoanApplicationResponse> loanApplications = new ArrayList<>();
+                for (LoanApplication loanApplication : result) {
+                        loanApplications.add(mapToResponse(loanApplication));
+                }
+                return loanApplications;
+        }
 
-        LoanApplication loanApplication = loanApplicationRepository.findById(
-                loanApplicationId)
-                .orElseThrow(() -> new RuntimeException(
-                        "Loan Application not found"));
+        public LoanApplicationResponse getById(Long id) {
+                LoanApplication loanApplication = loanApplicationRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Loan Application Not Found"));
+                return mapToResponse(loanApplication);
+        }
 
-        List<RepaymentSchedule> schedules = repaymentScheduleRepository
-                .findByLoanApplicationId(loanApplicationId);
+        @Transactional
+        public LoanApplicationResponse patchStatus(
+                        Long id,
+                        UpdateLoanStatusRequest request) {
+                LoanApplication loanApplication = loanApplicationRepository
+                                .findById(id)
+                                .orElseThrow(() -> new RuntimeException("Loan Application not found with id: " + id));
 
-        return schedules.stream()
-                .map(this::mapScheduleToResponse)
-                .toList();
-    }
+                LoanApplicationStatus oldStatus = loanApplication.getStatus();
+                loanApplication.setStatus(request.getStatus());
+
+                LoanApplication updatedLoanApplication = loanApplicationRepository.save(loanApplication);
+
+                if (oldStatus != LoanApplicationStatus.APPROVED
+                                && request.getStatus() == LoanApplicationStatus.APPROVED) {
+                        repaymentScheduleService.generateSchedules(loanApplication);
+                }
+
+                return mapToResponse(updatedLoanApplication);
+        }
+
+        private RepaymentScheduleResponse mapScheduleToResponse(
+                        RepaymentSchedule schedule) {
+
+                RepaymentScheduleResponse response = new RepaymentScheduleResponse();
+
+                response.setId(schedule.getId());
+
+                response.setInstallmentNumber(
+                                schedule.getInstallmentNumber());
+
+                response.setPrincipalAmount(
+                                schedule.getPrincipalAmount());
+
+                response.setInterestAmount(
+                                schedule.getInterestAmount());
+
+                response.setTotalAmount(
+                                schedule.getTotalAmount());
+
+                response.setDueDate(
+                                schedule.getDueDate());
+
+                response.setStatus(
+                                schedule.getStatus().toString());
+
+                response.setLoanApplicationId(schedule.getLoanApplication().getId());
+
+                return response;
+        }
+
+        public List<RepaymentScheduleResponse> getRepaymentSchedulesByLoanAppsId(
+                        Long loanApplicationId) {
+
+                LoanApplication loanApplication = loanApplicationRepository.findById(
+                                loanApplicationId)
+                                .orElseThrow(() -> new RuntimeException(
+                                                "Loan Application not found"));
+
+                List<RepaymentSchedule> schedules = repaymentScheduleRepository
+                                .findByLoanApplicationId(loanApplicationId);
+
+                return schedules.stream()
+                                .map(this::mapScheduleToResponse)
+                                .toList();
+        }
 }
