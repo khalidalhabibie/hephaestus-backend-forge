@@ -5,6 +5,8 @@ import com.fif.exercise2.entity.RepaymentScheduleEntity;
 import com.fif.exercise2.exception.RepaymentScheduleNotFoundException;
 import com.fif.exercise2.repository.RepaymentScheduleRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RepaymentScheduleService {
 
+    private static final Logger log = LoggerFactory.getLogger(RepaymentScheduleService.class);
+
     private final RepaymentScheduleRepository repaymentScheduleRepository;
 
     @Transactional(readOnly = true)
@@ -23,6 +27,14 @@ public class RepaymentScheduleService {
         List<RepaymentScheduleEntity> result = status != null
             ? repaymentScheduleRepository.findByLoanApplicationIdAndStatus(loanApplicationId, status)
             : repaymentScheduleRepository.findByLoanApplicationId(loanApplicationId);
+
+        // INFO: query data — berguna untuk trace apakah data berhasil diambil
+        // Tidak ada PII di sini, hanya ID dan jumlah data
+        log.info("event=repayment_schedule_fetched loan_application_id={} status_filter={} result_count={}",
+                loanApplicationId,
+                status != null ? status : "ALL",
+                result.size());
+
         return result.stream()
             .map(this::buildResponse)
             .collect(Collectors.toList());
@@ -32,6 +44,12 @@ public class RepaymentScheduleService {
     public RepaymentScheduleResponse getById(Long id) {
         RepaymentScheduleEntity entity = repaymentScheduleRepository.findById(id)
             .orElseThrow(() -> new RepaymentScheduleNotFoundException(id));
+
+        // INFO: level debug sebenarnya lebih tepat untuk get by id,
+        // tapi karena tidak ada debug level di requirement, pakai info
+        log.info("event=repayment_schedule_fetched schedule_id={} status={}",
+                entity.getId(), entity.getStatus());
+
         return buildResponse(entity);
     }
 

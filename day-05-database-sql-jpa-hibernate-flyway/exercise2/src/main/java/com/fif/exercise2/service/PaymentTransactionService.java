@@ -8,6 +8,8 @@ import com.fif.exercise2.exception.RepaymentScheduleNotFoundException;
 import com.fif.exercise2.repository.PaymentTransactionRepository;
 import com.fif.exercise2.repository.RepaymentScheduleRepository;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class PaymentTransactionService {
 
+    private static final Logger log = LoggerFactory.getLogger(PaymentTransactionService.class);
+
     private final PaymentTransactionRepository paymentTransactionRepository;
     private final RepaymentScheduleRepository repaymentScheduleRepository;
 
@@ -29,7 +33,6 @@ public class PaymentTransactionService {
             .findById(request.getRepaymentScheduleId())
             .orElseThrow(() -> new RepaymentScheduleNotFoundException(request.getRepaymentScheduleId()));
 
-        // Simpan payment transaction
         PaymentTransactionEntity entity = new PaymentTransactionEntity();
         entity.setRepaymentSchedule(schedule);
         entity.setPaymentReference(request.getPaymentReference());
@@ -46,16 +49,22 @@ public class PaymentTransactionService {
             .sumPaidAmountByScheduleId(schedule.getId());
 
         if (totalPaid.compareTo(schedule.getTotalAmount()) >= 0) {
-            // Sudah lunas
             schedule.setStatus("PAID");
         } else if (totalPaid.compareTo(BigDecimal.ZERO) > 0) {
-            // Baru bayar sebagian
             schedule.setStatus("PARTIAL");
         }
-        // Kalau 0 tetap UNPAID, tidak perlu diubah
 
         schedule.setUpdatedAt(ZonedDateTime.now());
         repaymentScheduleRepository.save(schedule);
+
+        // INFO: pembayaran berhasil — event bisnis penting untuk audit trail
+        // Log payment_reference aman (bukan PII), amount aman untuk audit
+        // schedule_status dicatat agar mudah trace perubahan status angsuran
+        log.info("event=payment_transaction_created transaction_id={} schedule_id={} paid_amount={} schedule_status={}",
+                entity.getId(),
+                schedule.getId(),
+                entity.getPaidAmount(),
+                schedule.getStatus());
 
         return buildResponse(entity);
     }

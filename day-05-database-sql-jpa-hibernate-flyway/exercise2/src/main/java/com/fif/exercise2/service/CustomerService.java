@@ -6,7 +6,12 @@ import com.fif.exercise2.entity.CustomerEntity;
 import com.fif.exercise2.exception.CustomerNotFoundException;
 import com.fif.exercise2.exception.DuplicateCustomerException;
 import com.fif.exercise2.repository.CustomerRepository;
+import com.fif.exercise2.util.PiiMaskingUtil;
+
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,18 +19,25 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    String correlationId = MDC.get("correlation_id");
 
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
         if (customerRepository.existsByNik(request.getNik())) {
+            // WARN: duplikat NIK adalah kondisi bisnis yang bisa diprediksi
+            // Mask NIK sebelum masuk log — jangan pernah log NIK mentah
+            log.warn("event=validation_error_code=DUPLICATE_CUSTOMER nik_masked={}", PiiMaskingUtil.maskNik(request.getNik()));
             throw new DuplicateCustomerException("NIK already exists: " + request.getNik());
         }
         if (customerRepository.existsByEmail(request.getEmail())) {
+            // Mask email sebelum log
+            log.warn("event=validation_error error_code=DUPLICATE_CUSTOMER email_masked={}", PiiMaskingUtil.maskEmail(request.getEmail()));
             throw new DuplicateCustomerException("Email already exists: " + request.getEmail());
         }
 
@@ -38,13 +50,16 @@ public class CustomerService {
         entity.setUpdatedAt(ZonedDateTime.now());
 
         CustomerEntity saved = customerRepository.save(entity);
+
+        // INFO: customer berhasil dibuat — event bisnis penting
+        // Log ID (aman) dan email yang sudah di-mask, BUKAN NIK/phone mentah
+        log.info("event=customer_created customer_id={} phone_number_masked={} email_masked={} nik_masked={} correlation_id={}", saved.getId(), PiiMaskingUtil.maskEmail(saved.getEmail()), correlationId);
         return buildResponse(saved);
     }
 
     @Transactional(readOnly = true)
     public CustomerResponse getCustomerById(Long id) {
-        CustomerEntity entity = customerRepository.findById(id)
-            .orElseThrow(() -> new CustomerNotFoundException(id));
+        CustomerEntity entity = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
         return buildResponse(entity);
     }
 
@@ -78,9 +93,9 @@ public class CustomerService {
 
     @Transactional
     public void softDeleteCustomer(Long id) {
-        CustomerEntity customer = customerRepository.findById(id)
-            .orElseThrow(() -> new CustomerNotFoundException(id));
+        CustomerEntity customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(id));
         customer.setDeletedAt(ZonedDateTime.now());
         customerRepository.save(customer);
+        log.info("event=customer_deleted customer_id={}",id);
     }
 }

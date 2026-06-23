@@ -10,6 +10,8 @@ import com.fif.exercise2.exception.LoanApplicationNotFoundException;
 import com.fif.exercise2.repository.CustomerRepository;
 import com.fif.exercise2.repository.LoanApplicationRepository;
 import com.fif.exercise2.repository.RepaymentScheduleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +31,8 @@ import java.util.stream.Collectors;
 @Service
 public class LoanApplicationService {
 
+    private static final Logger log = LoggerFactory.getLogger(LoanApplicationService.class);
+
     private final LoanApplicationRepository loanApplicationRepository;
     private final CustomerRepository customerRepository;
     private final RepaymentScheduleRepository repaymentScheduleRepository;
@@ -42,7 +46,7 @@ public class LoanApplicationService {
         this.repaymentScheduleRepository = repaymentScheduleRepository;
     }
 
-    @Value("${loan.interest.annual-rate}") /// @value tidak bisa bersamaan dengan @AllArgsConstructor sehingga contructor dibuat manual
+    @Value("${loan.interest.annual-rate}")
     private double annualInterestRate;
 
     @Transactional
@@ -60,6 +64,12 @@ public class LoanApplicationService {
         entity.setUpdatedAt(ZonedDateTime.now());
 
         LoanApplicationEntity saved = loanApplicationRepository.save(entity);
+
+        // INFO: pengajuan loan adalah event bisnis utama — wajib dicatat
+        // Log ID, customer_id, dan amount — TIDAK log nama/NIK/phone customer
+        log.info("event=loan_application_submitted application_id={} customer_id={} amount={}",
+                saved.getId(), customer.getId(), saved.getLoanAmount());
+
         return buildResponse(saved);
     }
 
@@ -95,8 +105,7 @@ public class LoanApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public Page<LoanApplicationResponse> getAllLoanApplicationsPaged(
-            int page, int size, String status) {
+    public Page<LoanApplicationResponse> getAllLoanApplicationsPaged(int page, int size, String status) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<LoanApplicationEntity> result = status != null
             ? loanApplicationRepository.findByStatus(status, pageable)
@@ -109,29 +118,54 @@ public class LoanApplicationService {
         LoanApplicationEntity entity = loanApplicationRepository.findById(id)
             .orElseThrow(() -> new LoanApplicationNotFoundException(id));
 
-        // Validasi status flow
-        validateStatusTransition(entity.getStatus(), request.getStatus());
+        String previousStatus = entity.getStatus();
+        validateStatusTransition(previousStatus, request.getStatus());
 
         entity.setStatus(request.getStatus());
         entity.setUpdatedAt(ZonedDateTime.now());
 
-        // Generate repayment schedule hanya saat DISBURSED
         if (request.getStatus().equals("DISBURSED")) {
             generateRepaymentSchedules(entity);
         }
 
         LoanApplicationEntity saved = loanApplicationRepository.save(entity);
+
+        // Pilih log event yang tepat berdasarkan status baru
+        logStatusChangeEvent(saved.getId(), previousStatus, request.getStatus());
+
         return buildResponse(saved);
     }
 
+    /**
+     * Log event perubahan status loan.
+     * Approve/reject dicatat sebagai INFO karena merupakan proses bisnis normal.
+     */
+    private void logStatusChangeEvent(Long applicationId, String fromStatus, String toStatus) {
+        switch (toStatus) {
+            case "APPROVED" -> log.info(
+                    "event=loan_application_approved application_id={} from_status={}",
+                    applicationId, fromStatus);
+            case "REJECTED" -> log.info(
+                    "event=loan_application_rejected application_id={} from_status={}",
+                    applicationId, fromStatus);
+            case "DISBURSED" -> log.info(
+                    "event=loan_application_disbursed application_id={} from_status={}",
+                    applicationId, fromStatus);
+            case "CLOSED" -> log.info(
+                    "event=loan_application_closed application_id={} from_status={}",
+                    applicationId, fromStatus);
+            default -> log.info(
+                    "event=loan_status_changed application_id={} from={} to={}",
+                    applicationId, fromStatus, toStatus);
+        }
+    }
+
     private void validateStatusTransition(String currentStatus, String newStatus) {
-        // Status akhir tidak bisa diubah
         if (currentStatus.equals("REJECTED") || currentStatus.equals("CLOSED")) {
             throw new InvalidLoanStatusException(
                 "Loan with status " + currentStatus + " cannot be changed");
         }
 
-        // Validasi urutan status
         boolean valid = switch (currentStatus) {
             case "SUBMITTED" -> newStatus.equals("APPROVED") || newStatus.equals("REJECTED");
             case "APPROVED"  -> newStatus.equals("DISBURSED");
@@ -146,16 +180,12 @@ public class LoanApplicationService {
     }
 
     private void generateRepaymentSchedules(LoanApplicationEntity loan) {
-        // Hitung bunga dari config
         BigDecimal monthlyRate = BigDecimal.valueOf(annualInterestRate / 12);
-
         BigDecimal principal = loan.getLoanAmount()
             .divide(BigDecimal.valueOf(loan.getTenorMonth()), 0, RoundingMode.HALF_UP);
-
         BigDecimal interest = loan.getLoanAmount()
             .multiply(monthlyRate)
             .setScale(0, RoundingMode.HALF_UP);
-
         BigDecimal total = principal.add(interest);
 
         List<RepaymentScheduleEntity> schedules = new ArrayList<>();
@@ -206,8 +236,7 @@ public class LoanApplicationService {
     }
 
     @Transactional(readOnly = true)
-    public List<LoanApplicationResponse> getLoansByDateRange(
-            ZonedDateTime start, ZonedDateTime end) {
+    public List<LoanApplicationResponse> getLoansByDateRange(ZonedDateTime start, ZonedDateTime end) {
         return loanApplicationRepository.findByCreatedAtBetween(start, end)
             .stream()
             .map(this::buildResponse)
