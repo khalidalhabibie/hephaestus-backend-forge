@@ -28,7 +28,7 @@ import com.example.training.enums.LoanStatus;
 import com.example.training.exception.NotFoundException;
 import com.example.training.repository.CustomerRepository;
 import com.example.training.repository.LoanApplicationRepository;
-import com.example.training.service.RepaymentScheduleService;
+
 
 @ExtendWith(MockitoExtension.class)
 class LoanApplicationServiceTest {

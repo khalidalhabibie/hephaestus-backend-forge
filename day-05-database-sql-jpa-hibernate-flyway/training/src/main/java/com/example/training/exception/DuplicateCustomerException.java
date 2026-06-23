@@ -8,4 +8,8 @@ public class DuplicateCustomerException extends RuntimeException {
         super(message);
         this.code = code;
     }
+
+    public String getCode() {
+        return code;
+    }
 }
