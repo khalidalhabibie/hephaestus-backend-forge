@@ -42,10 +42,13 @@ public class LoanApplicationService {
 
     @Transactional
     public LoanApplicationResponse create(CreateLoanApplicationRequest request) {
+        log.info("Creating loan application: customerId={}, amount={}", request.getCustomerId(), request.getLoanAmount());
         if (!customerRepository.existsById(request.getCustomerId())) {
+            log.warn("Customer not found: id={}", request.getCustomerId());
             throw new CustomerNotFoundException("Customer not found with id: " + request.getCustomerId());
         }
         if(customerRepository.findUserByIdAndIsDeleted(request.getCustomerId())){
+            log.warn("Customer is deleted: id={}", request.getCustomerId());
             throw new CustomerNotFoundException("Customer with id: " + request.getCustomerId() + " is deleted");
         }
         LoanApplicationEntity loan = LoanApplicationEntity.builder()
@@ -58,6 +61,10 @@ public class LoanApplicationService {
 
         LoanApplicationEntity saved = loanRepository.save(loan);
 
+        LoggingUtil.audit("LOAN_SUBMITTED", "CREATE", 
+                "Loan id=" + saved.getId() + ", amount=" + request.getLoanAmount() + ", customer=" + request.getCustomerId());
+        log.info("Loan application created successfully: id={}", saved.getId());
+
         // Generate repayment schedules
         // generateRepaymentSchedules(saved);
 
@@ -66,37 +73,54 @@ public class LoanApplicationService {
 
     @Transactional(readOnly = true)
     public LoanApplicationDetailResponse findById(Long id) {
+        log.info("Fetching loan application by id: {}", id);
         LoanApplicationEntity loan = loanRepository.findByIdWithCustomer(id)
-                .orElseThrow(() -> new LoanApplicationNotFoundException("Loan application not found with id: " + id));
+                .orElseThrow(() -> {
+                    log.warn("Loan application not found: id={}", id);
+                    return new LoanApplicationNotFoundException("Loan application not found with id: " + id);
+                });
+        log.debug("Loan application found: id={}, status={}", loan.getId(), loan.getStatus());
         return toDetailResponse(loan);
     }
 
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> findAll() {
-        return loanRepository.findAll().stream()
+        log.info("Fetching all loan applications");
+        List<LoanApplicationResponse> result = loanRepository.findAll().stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+        log.debug("Retrieved {} loan applications", result.size());
+        return result;
+
     }
 
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> findByStatus(LoanStatus status) {
-        return loanRepository.findByStatus(status).stream()
+        log.info("Fetching loan applications by status: {}", status);
+        List<LoanApplicationResponse> result = loanRepository.findByStatus(status).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+        log.debug("Found {} loan applications with status: {}", result.size(), status);
+        return result;
     }
 
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> findByCustomerId(Long customerId) {
+        log.info("Fetching loan applications for customer: {}", customerId);
         if(customerRepository.findUserByIdAndIsDeleted(customerId)){
+            log.warn("Customer is deleted: id={}", customerId);
             throw new CustomerNotFoundException("Customer with id: " + customerId + " is deleted");
         }
-        return loanRepository.findByCustomerId(customerId).stream()
+        List<LoanApplicationResponse> result = loanRepository.findByCustomerId(customerId).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+        log.debug("Found {} loan applications for customer: {}", result.size(), customerId);
+        return result;
     }
 
     @Transactional(readOnly = true)
     public Page<LoanApplicationResponse> getAllLoanPagination(LoanStatus status, ZonedDateTime startDate, ZonedDateTime endDate, Pageable pageable){
+        log.info("Fetching loan applications with pagination: status={}, startDate={}, endDate={}", status, startDate, endDate);
         if(startDate == null){
             startDate = Instant.EPOCH.atZone(ZoneId.of("Asia/Jakarta"));
         }
@@ -104,6 +128,8 @@ public class LoanApplicationService {
             endDate = ZonedDateTime.now();
         }
         Page<LoanApplicationEntity> entityPage = loanRepository.findByStatusAndDateRangeWithPage(status, startDate, endDate, pageable);
+        log.debug("Retrieved {} loan applications in page {}/{}", 
+                entityPage.getNumberOfElements(), entityPage.getNumber(), entityPage.getTotalPages());
         return entityPage.map(this::toResponse);
     }
 
@@ -117,62 +143,82 @@ public class LoanApplicationService {
 
     @Transactional
     public LoanApplicationResponse updateStatus(Long id, UpdateLoanStatusRequest request) {
+        log.info("Updating loan status: id={}, newStatus={}", id, request.getStatus());
+        
         LoanApplicationEntity loan = loanRepository.findById(id)
-                .orElseThrow(() -> new LoanApplicationNotFoundException("Loan not found"));
+                .orElseThrow(() -> {
+                    log.warn("Loan not found: id={}", id);
+                    return new LoanApplicationNotFoundException("Loan not found");
+                });
 
         LoanStatus current = loan.getStatus();
         LoanStatus next = request.getStatus();
+        log.debug("Current status={}, requested status={}", current, next);
 
-        // Rule 1: Terminal states cannot be changed
         if (TERMINAL_STATUSES.contains(current)) {
+            log.error("Cannot change terminal status: id={}, current={}", id, current);
             throw new IllegalStateException(
                 "Loan with status " + current + " cannot be changed. Terminal state.");
         }
 
-        // Rule 2: Validate state transition
         validateStateTransition(current, next);
 
-        // Rule 3: Create repayment schedule ONLY when transitioning to DISBURSED
         if (next == LoanStatus.DISBURSED) {
             if (repaymentScheduleRepository.findByLoanApplicationId(id).isEmpty()) {
+                log.info("Generating repayment schedules for loan: id={}", id);
                 generateRepaymentSchedules(loan);
+                log.info("Repayment schedules generated for loan: id={}", id);
+            } else {
+                log.warn("Repayment schedules already exist for loan: id={}", id);
             }
         }
 
-        // Rule 4: CLOSED only if all repayment schedules are PAID
         if (next == LoanStatus.CLOSED) {
             boolean hasUnpaid = repaymentScheduleRepository.existsUnpaidByLoanApplicationId(id);
             if (hasUnpaid) {
+                log.error("Cannot close loan with unpaid schedules: id={}", id);
                 throw new IllegalStateException(
                     "Cannot close loan. There are still unpaid repayment schedules.");
             }
+            log.info("All repayment schedules paid for loan: id={}", id);
         }
         
         loan.setStatus(next);
-        return toResponse(loanRepository.save(loan));
+        LoanApplicationEntity saved = loanRepository.save(loan);
+        
+        LoggingUtil.audit("LOAN_STATUS_CHANGED", next.name(), 
+                "Loan id=" + id + ", from=" + current + ", to=" + next);
+        log.info("Loan status updated successfully: id={}, from={} to={}", id, current, next);
+        
+        return toResponse(saved);
     }
 
     private void validateStateTransition(LoanStatus current, LoanStatus next) {
+        log.debug("Validating state transition: {} -> {}", current, next);
         switch (current) {
             case SUBMITTED:
                 if (next != LoanStatus.APPROVED && next != LoanStatus.REJECTED) {
+                    log.error("Invalid transition: SUBMITTED -> {}", next);
                     throw new IllegalStateException(
                         "SUBMITTED can only become APPROVED or REJECTED");
                 }
                 break;
             case APPROVED:
                 if (next != LoanStatus.DISBURSED) {
+                    log.error("Invalid transition: APPROVED -> {}", next);
                     throw new IllegalStateException(
                         "APPROVED can only become DISBURSED");
                 }
                 break;
             case DISBURSED:
                 if (next != LoanStatus.CLOSED) {
+                    log.error("Invalid transition: DISBURSED -> {}", next);
                     throw new IllegalStateException(
                         "DISBURSED can only become CLOSED");
                 }
                 break;
             default:
+                log.error("Invalid state transition: {} -> {}", current, next);
                 throw new IllegalStateException("Invalid transition");
         }
     }
@@ -180,7 +226,8 @@ public class LoanApplicationService {
 
     @Transactional(readOnly = true)
     public List<LoanReportDto> getLoanSummaryByStatus() {
-        return loanRepository.summarizeByStatus().stream()
+        log.info("Generating loan summary by status");
+        List<LoanReportDto> result = loanRepository.summarizeByStatus().stream()
                 .map(p -> LoanReportDto.builder()
                         .status(p.getStatus())
                         .totalLoans(p.getTotalLoans())
@@ -190,18 +237,21 @@ public class LoanApplicationService {
                         .maxAmount(p.getMaxAmount())
                         .build())
                 .collect(Collectors.toList());
+        log.debug("Generated summary for {} status groups", result.size());
+        return result;
     }
 
     @Transactional(readOnly = true)
     public List<LoanReportDto> getLoanSummaryByStatusAndDateRange(
             ZonedDateTime startDate, ZonedDateTime endDate) {
-            if(startDate == null){
+            log.info("Generating loan summary by status and date range: startDate={}, endDate={}", startDate, endDate);
+        if(startDate == null){
             startDate = Instant.EPOCH.atZone(ZoneId.of("Asia/Jakarta"));
-            }
-            if(endDate == null){
-                endDate = ZonedDateTime.now();
-            }
-        return loanRepository.summarizeByStatusAndDateRange(startDate, endDate).stream()
+        }
+        if(endDate == null){
+            endDate = ZonedDateTime.now();
+        }
+        List<LoanReportDto> result = loanRepository.summarizeByStatusAndDateRange(startDate, endDate).stream()
                 .map(p -> LoanReportDto.builder()
                         .status(p.getStatus())
                         .totalLoans(p.getTotalLoans())
@@ -211,24 +261,36 @@ public class LoanApplicationService {
                         .maxAmount(p.getMaxAmount())
                         .build())
                 .collect(Collectors.toList());
+        log.debug("Generated summary for {} status groups in date range", result.size());
+        return result;
     }
 
     @Transactional(readOnly = true)
     public List<CustomerOutstandingDto> getCustomerOutstandingReport() {
-        return loanRepository.findCustomerOutstandingReport().stream()
+        log.info("Generating customer outstanding report");
+        List<CustomerOutstandingDto> result = loanRepository.findCustomerOutstandingReport().stream()
                 .map(this::toOutstandingDto)
                 .collect(Collectors.toList());
+        log.debug("Generated outstanding report for {} customers", result.size());
+        return result;
     }
 
     @Transactional(readOnly = true)
     public CustomerOutstandingDto getCustomerOutstandingById(Long customerId) {
+        log.info("Fetching customer outstanding by id: {}", customerId);
         if(customerRepository.findUserByIdAndIsDeleted(customerId)){
+            log.warn("Customer is deleted: id={}", customerId);
             throw new CustomerNotFoundException("Customer with id: " + customerId + " is deleted");
         }
-        return loanRepository.findCustomerOutstandingById(customerId)
+        CustomerOutstandingDto result = loanRepository.findCustomerOutstandingById(customerId)
                 .map(this::toOutstandingDto)
-                .orElseThrow(() -> new CustomerNotFoundException(
-                    "Customer not found or has no loans: " + customerId));
+                .orElseThrow(() -> {
+                    log.warn("Customer not found or has no loans: id={}", customerId);
+                    return new CustomerNotFoundException(
+                        "Customer not found or has no loans: " + customerId);
+                });
+        log.debug("Customer outstanding retrieved: id={}", customerId);
+        return result;
     }
 
     private CustomerOutstandingDto toOutstandingDto(CustomerOutstandingProjection p) {
@@ -252,9 +314,10 @@ public class LoanApplicationService {
     }
 
     private void generateRepaymentSchedules(LoanApplicationEntity loan) {
+        log.info("Generating repayment schedules for loan: id={}, tenor={}", loan.getId(), loan.getTenorMonth());
         BigDecimal monthlyPrincipal = loan.getLoanAmount()
                 .divide(BigDecimal.valueOf(loan.getTenorMonth()), 2, RoundingMode.HALF_UP);
-        BigDecimal interestRate = new BigDecimal("0.01"); // 1% per month example
+        BigDecimal interestRate = new BigDecimal("0.01");
         BigDecimal monthlyInterest = loan.getLoanAmount().multiply(interestRate)
                 .setScale(2, RoundingMode.HALF_UP);
         BigDecimal totalMonthly = monthlyPrincipal.add(monthlyInterest);
@@ -274,6 +337,7 @@ public class LoanApplicationService {
             repaymentScheduleRepository.save(schedule);
             dueDate = dueDate.plusMonths(1);
         }
+        log.info("Generated {} repayment schedules for loan: id={}", loan.getTenorMonth(), loan.getId());
     }
 
     private LoanApplicationResponse toResponse(LoanApplicationEntity entity) {

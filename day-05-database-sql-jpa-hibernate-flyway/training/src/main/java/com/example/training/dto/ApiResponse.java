@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.slf4j.MDC;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -30,6 +32,9 @@ public class ApiResponse<T> {
     @JsonProperty("errors")
     private List<FieldErrorResponse> errors;
 
+    @JsonProperty("correlation_id")
+    private String correlationId;
+
     @JsonProperty("timestamp")
     private LocalDateTime timestamp;
 
@@ -39,6 +44,7 @@ public class ApiResponse<T> {
                 .code("SUCCESS")
                 .message(message)
                 .data(data)
+                .correlationId(MDC.get("correlation_id")) 
                 .timestamp(LocalDateTime.now())
                 .build();
     }
@@ -49,6 +55,7 @@ public class ApiResponse<T> {
                 .code(code)
                 .message(message)
                 .errors(errors)
+                .correlationId(MDC.get("correlation_id")) 
                 .timestamp(LocalDateTime.now())
                 .build();
     }
