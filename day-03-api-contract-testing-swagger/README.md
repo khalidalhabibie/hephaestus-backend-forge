@@ -66,3 +66,208 @@ Day 3 belum membahas:
 - Docker.
 - Deployment.
 - Advanced OpenAPI customization.
+
+
+
+# Customer Management API - Full Documentation & API Contract
+
+## Environment
+* **Base URL:** `http://localhost:8081`
+* **API Version:** `v1`
+* **Format Data:** `application/json`
+* **Aturan Penamaan:** JSON menggunakan `snake_case`, Java menggunakan `camelCase`.
+
+---
+
+## Response Schema
+
+### 1.Success Response 
+Mengembalikan objek data langsung secara *flat* atau berupa *array* objek.
+* Properti utama: `id`, `full_name`, `email`, `phone_number`.
+
+### 2. Error Response
+Sesuai dengan kriteria penerimaan, seluruh jalur *error* yang ditangani oleh `@ControllerAdvice` akan mengembalikan struktur berikut:
+
+```json
+{
+  "code": "STRING (KODE_ERROR)",
+  "message": "STRING (Pesan error ringkas)",
+  "errors": [
+    {
+      "field": "STRING (Nama properti yang bermasalah)",
+      "message": "STRING (Detail alasan kegagalan)"
+    }
+  ]
+}
+```
+
+---
+
+## API Contract 
+
+###  1. Create Customer
+- Method: **POST**
+- URL: **/api/v1/customers**
+- Headers: **Content-Type: application/json**
+- Request:
+```json
+{
+  "full_name": "Budi Santoso", -> String; Min 3; Max 100; Required
+  "email": "budi.santoso@mail.com", -> Required
+  "phone_number": "081234567890" -> Required; Min 10
+} 
+```
+- Responses:
+-- Code: 201 Created
+```json
+{
+  "id": 1,
+  "full_name": "Davin Bennett",
+  "email": "davin@mail.com",
+  "phone_number": "081234567890"
+}
+```
+-- Code: 400 Bad Request
+```json
+{
+  "code": "VALIDATION_ERROR",
+  "message": "Invalid request",
+  "errors": [
+    {
+      "field": "full_name",
+      "message": "length must be between 3 and 100 characters"
+    },
+    {
+      "field": "email",
+      "message": "email format is invalid"
+    }
+  ]
+}
+```
+
+###  2. Get Customer List
+- Method: **GET**
+- URL: **/api/v1/customers**
+- Headers: **Content-Type: application/json**
+- Responses:
+-- Code: 200 OK
+```json
+[
+  {
+    "id": 1,
+    "full_name": "Davin Bennett",
+    "email": "davin@mail.com",
+    "phone_number": "081234567890"
+  }
+]
+```
+
+###  3. Get Customer By ID
+- Method: **GET**
+- URL: **/api/v1/customers/{id}**
+- Headers: **Content-Type: application/json**
+- Responses:
+-- Code: 200 OK
+```json
+[
+  {
+    "id": 1,
+    "full_name": "Davin Bennett",
+    "email": "davin@mail.com",
+    "phone_number": "081234567890"
+  }
+]
+```
+-- Code: 404 Not Found
+```json
+{
+  "code": "CUSTOMER_NOT_FOUND",
+  "message": "Customer not found with id: 999",
+  "errors": []
+}
+```
+
+###  4. PUT Customer
+- Method: **PUT**
+- URL: **/api/v1/customers/{id}**
+- Headers: **Content-Type: application/json**
+- Request:
+```json
+{
+  "full_name": "Budi Santoso Sunting",
+  "email": "budi.baru@mail.com",
+  "phone_number": "089999888877"
+}
+- Responses:
+-- Code: 200 OK
+```json
+{
+  "id": 1,
+  "full_name": "Budi Santoso Sunting",
+  "email": "budi.baru@mail.com",
+  "phone_number": "089999888877"
+}
+```
+-- Code: 404 Not Found
+```json
+{
+  "code": "CUSTOMER_NOT_FOUND",
+  "message": "Customer not found with id: 999",
+  "errors": []
+}
+```
+-- Code: 400 Bad Request
+```json
+{
+  "code": "VALIDATION_ERROR",
+  "message": "Invalid request",
+  "errors": [
+    {
+      "field": "full_name",
+      "message": "length must be between 3 and 100 characters"
+    }
+  ]
+}
+```
+
+###  5. PATCH Customer
+- Method: **PATCH**
+- URL: **/api/v1/customers/{id}**
+- Headers: **Content-Type: application/json**
+- Request:
+```json
+{
+  "phone_number": "089999888877"
+}
+- Responses:
+-- Code: 200 OK
+```json
+{
+  "id": 1,
+  "full_name": "Budi Santoso Sunting",
+  "email": "budi.baru@mail.com",
+  "phone_number": "089999888877"
+}
+```
+-- Code: 404 Not Found
+```json
+{
+  "code": "CUSTOMER_NOT_FOUND",
+  "message": "Customer not found with id: 999",
+  "errors": []
+}
+```
+-- Code: 400 Bad Request
+```json
+{
+  "code": "VALIDATION_ERROR",
+  "message": "Invalid request",
+  "errors": [
+    {
+      "field": "full_name",
+      "message": "length must be between 3 and 100 characters"
+    }
+  ]
+}
+```
+
