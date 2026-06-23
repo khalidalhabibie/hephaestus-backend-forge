@@ -155,50 +155,50 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
-        String correlationId = MDC.get("correlation_id");
+    // @Transactional
+    // public CustomerResponse patchCustomer(Long id, PatchCustomerRequest request) {
+    //     String correlationId = MDC.get("correlation_id");
 
-        CustomerEntity existingCustomer = customerRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.warn("{{\"level\":\"warn\",\"event\":\"customer_patch_failed\",\"reason\":\"Customer not found\",\"customer_id\":{},\"correlation_id\":\"{}\"}}", 
-                            id, correlationId);
-                    return new NotFoundException("Customer not found");
-                });
+    //     CustomerEntity existingCustomer = customerRepository.findById(id)
+    //             .orElseThrow(() -> {
+    //                 log.warn("{{\"level\":\"warn\",\"event\":\"customer_patch_failed\",\"reason\":\"Customer not found\",\"customer_id\":{},\"correlation_id\":\"{}\"}}", 
+    //                         id, correlationId);
+    //                 return new NotFoundException("Customer not found");
+    //             });
 
-        if (request.getFullName() != null) {
-            existingCustomer.setFullName(request.getFullName());
-        }
+    //     if (request.getFullName() != null) {
+    //         existingCustomer.setFullName(request.getFullName());
+    //     }
 
-        if (request.getNik() != null) {
-            if (!existingCustomer.getNik().equals(request.getNik()) && customerRepository.existsByNik(request.getNik())) {
-                log.warn("{{\"level\":\"warn\",\"event\":\"customer_patch_failed\",\"reason\":\"NIK already exists\",\"customer_id\":{},\"nik\":\"{}\",\"correlation_id\":\"{}\"}}", 
-                        id, LogUtils.maskNik(request.getNik()), correlationId);
-                throw new DuplicateException("NIK already exists");
-            }
-            existingCustomer.setNik(request.getNik());
-        }
+    //     if (request.getNik() != null) {
+    //         if (!existingCustomer.getNik().equals(request.getNik()) && customerRepository.existsByNik(request.getNik())) {
+    //             log.warn("{{\"level\":\"warn\",\"event\":\"customer_patch_failed\",\"reason\":\"NIK already exists\",\"customer_id\":{},\"nik\":\"{}\",\"correlation_id\":\"{}\"}}", 
+    //                     id, LogUtils.maskNik(request.getNik()), correlationId);
+    //             throw new DuplicateException("NIK already exists");
+    //         }
+    //         existingCustomer.setNik(request.getNik());
+    //     }
 
-        if (request.getEmail() != null) {
-            if (!existingCustomer.getEmail().equals(request.getEmail()) && customerRepository.existsByEmail(request.getEmail())) {
-                log.warn("{{\"level\":\"warn\",\"event\":\"customer_patch_failed\",\"reason\":\"Email already exists\",\"customer_id\":{},\"email\":\"{}\",\"correlation_id\":\"{}\"}}", 
-                        id, request.getEmail(), correlationId);
-                throw new DuplicateException("Email already exists");
-            }
-            existingCustomer.setEmail(request.getEmail());
-        }
+    //     if (request.getEmail() != null) {
+    //         if (!existingCustomer.getEmail().equals(request.getEmail()) && customerRepository.existsByEmail(request.getEmail())) {
+    //             log.warn("{{\"level\":\"warn\",\"event\":\"customer_patch_failed\",\"reason\":\"Email already exists\",\"customer_id\":{},\"email\":\"{}\",\"correlation_id\":\"{}\"}}", 
+    //                     id, request.getEmail(), correlationId);
+    //             throw new DuplicateException("Email already exists");
+    //         }
+    //         existingCustomer.setEmail(request.getEmail());
+    //     }
 
-        if (request.getPhoneNumber() != null) {
-            existingCustomer.setPhoneNumber(request.getPhoneNumber());
-        }
+    //     if (request.getPhoneNumber() != null) {
+    //         existingCustomer.setPhoneNumber(request.getPhoneNumber());
+    //     }
 
-        CustomerEntity updatedCustomer = customerRepository.save(existingCustomer);
+    //     CustomerEntity updatedCustomer = customerRepository.save(existingCustomer);
 
-        log.info("{{\"level\":\"info\",\"event\":\"customer_updated\",\"customer_id\":{},\"type\":\"PARTIAL\",\"correlation_id\":\"{}\"}}", 
-                updatedCustomer.getId(), correlationId);
+    //     log.info("{{\"level\":\"info\",\"event\":\"customer_updated\",\"customer_id\":{},\"type\":\"PARTIAL\",\"correlation_id\":\"{}\"}}", 
+    //             updatedCustomer.getId(), correlationId);
 
-        return toResponse(updatedCustomer);
-    }
+    //     return toResponse(updatedCustomer);
+    // }
 
     private CustomerResponse toResponse(CustomerEntity customer) {
         CustomerResponse response = new CustomerResponse();

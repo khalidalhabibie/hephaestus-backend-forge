@@ -97,20 +97,20 @@ public class CustomerController {
         return ResponseEntity.ok(Response.ok(data, "Customer fully updated successfully"));
     }
 
-    @PatchMapping("/{id}")
-    @RequiresRoles({UserRole.ADMIN, UserRole.STAFF})
-    @Operation(summary = "Memperbarui data customer secara parsial (PATCH)", description = "Hanya memperbarui field yang dikirimkan saja.")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Customer berhasil diperbarui sebagian"),
-        @ApiResponse(responseCode = "400", description = "Constraint validasi field tidak terpenuhi"),
-        @ApiResponse(responseCode = "404", description = "Customer tidak ditemukan")
-    })
-    public ResponseEntity<Response<CustomerResponse>> patchCustomer(
-            @PathVariable Long id, 
-            @Valid @RequestBody PatchCustomerRequest request) {
-        CustomerResponse data = customerService.patchCustomer(id, request);
-        return ResponseEntity.ok(Response.ok(data, "Customer partially updated successfully"));
-    }
+    // @PatchMapping("/{id}")
+    // @RequiresRoles({UserRole.ADMIN, UserRole.STAFF})
+    // @Operation(summary = "Memperbarui data customer secara parsial (PATCH)", description = "Hanya memperbarui field yang dikirimkan saja.")
+    // @ApiResponses({
+    //     @ApiResponse(responseCode = "200", description = "Customer berhasil diperbarui sebagian"),
+    //     @ApiResponse(responseCode = "400", description = "Constraint validasi field tidak terpenuhi"),
+    //     @ApiResponse(responseCode = "404", description = "Customer tidak ditemukan")
+    // })
+    // public ResponseEntity<Response<CustomerResponse>> patchCustomer(
+    //         @PathVariable Long id, 
+    //         @Valid @RequestBody PatchCustomerRequest request) {
+    //     CustomerResponse data = customerService.patchCustomer(id, request);
+    //     return ResponseEntity.ok(Response.ok(data, "Customer partially updated successfully"));
+    // }
 
     @GetMapping("/search")
     @RequiresRoles({UserRole.ADMIN, UserRole.STAFF, UserRole.APPROVER})
