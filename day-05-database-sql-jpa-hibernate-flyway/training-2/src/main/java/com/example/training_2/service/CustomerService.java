@@ -114,9 +114,6 @@ public class CustomerService {
     }
 
     public CustomerResponse getById(Long id) {
-        // log.debug("Finding customer. id={}", id);
-        // Customer customer = customerRepository.findById(id)
-        // .orElseThrow(() -> new RuntimeException("Customer Not Found"));
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Customer not found. id={}", id);
@@ -129,8 +126,6 @@ public class CustomerService {
     public CustomerResponse update(Long id, UpdateCustomerRequest request) {
         log.info("Updating customer. id={}", id);
 
-        // Customer customer = customerRepository.findById(id)
-        // .orElseThrow(() -> new RuntimeException("Customer not found"));
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Customer not found. id={}", id);
@@ -179,9 +174,6 @@ public class CustomerService {
 
         log.info("Deleting customer. id={}", id);
 
-        // Customer customer = customerRepository.findById(id)
-        // .orElseThrow(() -> new RuntimeException("Customer not found"));
-
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> {
                     log.warn("Customer not found. id={}", id);
@@ -196,8 +188,7 @@ public class CustomerService {
     public List<LoanApplicationResponse> getLoanApplicationsByCustomerId(Long customerId) {
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException(
-                        "Customer not found with id: " + customerId));
+                .orElseThrow(() -> new RuntimeException("Customer not found with id: " + customerId));
 
         List<LoanApplication> loanApplications = loanApplicationRepository.findLoansByCustomerId(customerId);
 
