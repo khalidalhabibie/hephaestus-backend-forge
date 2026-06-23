@@ -4,6 +4,8 @@ package com.example.training.DTO;
 
 import java.time.ZonedDateTime;
 
+import org.slf4j.MDC;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -29,11 +31,15 @@ public class ApiResponse<T> {
     @JsonProperty("timestamp")
     private ZonedDateTime timestamp;
 
+    @JsonProperty("correlation_id")
+    private String correlationId;
+
     public static <T> ApiResponse<T> success(String message, T data) {
         return ApiResponse.<T>builder()
                 .success(true)
                 .message(message)
                 .data(data)
+                .correlationId(MDC.get("correlation_id"))
                 .timestamp(ZonedDateTime.now())
                 .build();
     }

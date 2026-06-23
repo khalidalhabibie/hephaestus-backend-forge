@@ -16,7 +16,9 @@ import com.example.training.Repository.RepaymentScheduleRepository;
 
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class RepaymentScheduleService {
@@ -26,7 +28,10 @@ public class RepaymentScheduleService {
 
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> getByLoanApplicationId(Long loanApplicationId) {
+        log.info("event=repayment_list_by_loan_requested, loan_id={}", loanApplicationId); 
+        
         if (!loanApplicationRepository.existsById(loanApplicationId)) {
+            log.warn("event=repayment_list_by_loan_failed, reason=loan_not_found, loan_id={}", loanApplicationId);  // ← TAMBAHKAN
             throw new LoanApplicationNotFoundException(loanApplicationId);
         }
         return repaymentScheduleRepository.findByLoanApplicationId(loanApplicationId).stream()
@@ -34,10 +39,14 @@ public class RepaymentScheduleService {
                 .collect(Collectors.toList());
     }
 
-    // ========== Filter Repayment Schedule Berdasarkan Status PAID / UNPAID (START) ========== //
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> getByLoanIdAndStatus(Long loanApplicationId, String status) {
+        log.info("event=repayment_list_by_loan_and_status_requested, loan_id={}, status={}", 
+                loanApplicationId, status);
+        
         if (!loanApplicationRepository.existsById(loanApplicationId)) {
+            log.warn("event=repayment_list_by_loan_and_status_failed, reason=loan_not_found, loan_id={}", 
+                    loanApplicationId);
             throw new LoanApplicationNotFoundException(loanApplicationId);
         }
         RepaymentScheduleEntity.ScheduleStatus scheduleStatus = null;
@@ -48,12 +57,16 @@ public class RepaymentScheduleService {
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
-    // ========== Filter Repayment Schedule Berdasarkan Status PAID / UNPAID (END) ========== //
 
     @Transactional(readOnly = true)
     public RepaymentScheduleResponse getById(Long id) {
+        log.info("event=repayment_fetch_requested, schedule_id={}", id);
+        
         RepaymentScheduleEntity entity = repaymentScheduleRepository.findByIdWithLoanApplication(id)
-                .orElseThrow(() -> new RepaymentScheduleNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.warn("event=repayment_fetch_failed, reason=not_found, schedule_id={}", id);
+                    return new RepaymentScheduleNotFoundException(id);
+                });
         return mapToResponse(entity);
     }
 

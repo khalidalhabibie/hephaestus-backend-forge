@@ -4,6 +4,7 @@ package com.example.training.DTO;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)  // 4
 public class ErrorResponse {
 
     @JsonProperty("success")
@@ -28,6 +30,9 @@ public class ErrorResponse {
 
     @JsonProperty("errors")
     private List<FieldErrorResponse> errors;
+
+    @JsonProperty("correlation_id") // 4 (annotation @JsonInclude)
+    private String corelationId; // 4 (Tambahkan field correlationId)
 
     public static ErrorResponse of(String code, String message) {
         return ErrorResponse.builder()
