@@ -16,29 +16,13 @@ public interface LoanApplicationService {
 
         LoanApplicationResponse findById(Long id);
 
-        PageResponse<LoanApplicationResponse> findAll(int page, int size);
+        PageResponse<LoanApplicationResponse> findAll(LoanStatusEnum status, LocalDate startDate, LocalDate endDate,
+                        int page,
+                        int size);
 
         List<LoanApplicationResponse> findByCustomerId(Long customerId);
 
         LoanApplicationResponse updateStatus(Long id, UpdateLoanStatusRequest request);
-
-        PageResponse<LoanApplicationResponse> findByStatus(
-                        LoanStatusEnum status,
-                        int page,
-                        int size);
-
-        PageResponse<LoanApplicationResponse> findByCreatedDate(
-                        LocalDate startDate,
-                        LocalDate endDate,
-                        int page,
-                        int size);
-
-        PageResponse<LoanApplicationResponse> findByStatusAndCreatedDate(
-                        LoanStatusEnum status,
-                        LocalDate startDate,
-                        LocalDate endDate,
-                        int page,
-                        int size);
 
         List<LoanStatusSummaryResponse> getLoanSummaryByStatus();
 

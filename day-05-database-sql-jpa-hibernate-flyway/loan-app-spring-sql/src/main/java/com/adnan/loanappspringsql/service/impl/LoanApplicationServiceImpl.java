@@ -34,9 +34,12 @@ import com.adnan.loanappspringsql.repository.CustomerRepository;
 import com.adnan.loanappspringsql.repository.LoanApplicationRepository;
 import com.adnan.loanappspringsql.repository.RepaymentScheduleRepository;
 import com.adnan.loanappspringsql.service.LoanApplicationService;
+import com.adnan.loanappspringsql.utils.LogUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -50,10 +53,16 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
 
         @Override
         public LoanApplicationResponse create(CreateLoanApplicationRequest request) {
+                log.info(LogUtil.format(
+                                "loan_application_create_requested"));
                 Customer customer = customerRepository.findById(request.getCustomerId())
-                                .orElseThrow(() -> new NotFoundException(
-                                                "Customer not found with id: "
-                                                                + request.getCustomerId()));
+                                .orElseThrow(() -> {
+                                        log.warn(LogUtil.format(
+                                                        "customer_not_found",
+                                                        "customerId", request.getCustomerId()));
+                                        return new NotFoundException(
+                                                        "Customer not found with id: " + request.getCustomerId());
+                                });
 
                 LoanApplication loan = LoanApplication.builder()
                                 .customer(customer)
@@ -64,6 +73,11 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
                                 .build();
 
                 loanApplicationRepository.save(loan);
+                log.info(LogUtil.format(
+                                "loan_application_creted",
+                                "loanId", loan.getId(),
+                                "customerId", customer.getId(),
+                                "status", loan.getStatus()));
 
                 return mapToResponse(loan);
         }
@@ -71,139 +85,110 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         @Override
         @Transactional(readOnly = true)
         public LoanApplicationResponse findById(Long id) {
+                log.info(LogUtil.format(
+                                "loan_application_lookup",
+                                "loanId", id));
                 LoanApplication loan = loanApplicationRepository
                                 .findByIdWithCustomer(id)
-                                .orElseThrow(() -> new NotFoundException(
-                                                "Loan application not found with id: " + id));
+                                .orElseThrow(() -> {
+                                        log.warn(LogUtil.format(
+                                                        "loan_application_not_found",
+                                                        "loanId", id));
+                                        return new NotFoundException(
+                                                        "Loan application not found with id: " + id);
+                                });
+                log.info(LogUtil.format(
+                                "loan_application_found",
+                                "loanId", id));
 
                 return mapToResponse(loan);
         }
 
         @Override
         @Transactional(readOnly = true)
-        public PageResponse<LoanApplicationResponse> findAll(
-                        int page,
-                        int size) {
+        public PageResponse<LoanApplicationResponse> findAll(LoanStatusEnum status, LocalDate startDate,
+                        LocalDate endDate, int page, int size) {
+                log.info(LogUtil.format(
+                                "loan_application_search",
+                                "hasStatus", status != null,
+                                "hasDateRange", startDate != null && endDate != null));
+
                 Pageable pageable = PageRequest.of(page, size);
+                ZonedDateTime start = startDate == null ? null : startDate.atStartOfDay(ZoneId.systemDefault());
+                ZonedDateTime end = endDate == null ? null
+                                : endDate.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault());
 
-                Page<LoanApplication> loanPage = loanApplicationRepository.findAll(pageable);
+                Page<LoanApplication> loanPage;
+                if (status != null && startDate != null && endDate != null) {
+                        loanPage = loanApplicationRepository.findByStatusAndCreatedAtBetween(status, start, end,
+                                        pageable);
+                } else if (status != null) {
+                        loanPage = loanApplicationRepository.findByStatus(status, pageable);
+                } else if (startDate != null && endDate != null) {
+                        loanPage = loanApplicationRepository.findByCreatedAtBetween(start, end, pageable);
+                } else {
+                        loanPage = loanApplicationRepository.findAll(pageable);
+                }
+                log.info(LogUtil.format(
+                                "loan_application_search_completed",
+                                "page", loanPage.getNumber(),
+                                "size", loanPage.getSize(),
+                                "totalElements", loanPage.getTotalElements(),
+                                "totalPages", loanPage.getTotalPages()));
 
-                List<LoanApplicationResponse> content = loanPage.getContent()
-                                .stream()
-                                .map(this::mapToResponse)
-                                .toList();
-
-                return PageResponse.<LoanApplicationResponse>builder()
-                                .content(content)
-                                .page(loanPage.getNumber())
-                                .size(loanPage.getSize())
-                                .totalElements(loanPage.getTotalElements())
-                                .totalPages(loanPage.getTotalPages())
-                                .last(loanPage.isLast())
-                                .build();
+                return toPageResponse(loanPage);
         }
 
         @Override
         @Transactional(readOnly = true)
         public List<LoanApplicationResponse> findByCustomerId(Long customerId) {
-                return loanApplicationRepository
+                log.info(LogUtil.format(
+                                "loan_application_find_by_customer",
+                                "customerId", customerId));
+                List<LoanApplicationResponse> loans = loanApplicationRepository
                                 .findByCustomerId(customerId)
                                 .stream()
                                 .map(this::mapToResponse)
                                 .toList();
-        }
+                log.info(LogUtil.format(
+                                "loan_application_find_by_customer_completed",
+                                "customerId", customerId,
+                                "total", loans.size()));
 
-        @Override
-        @Transactional(readOnly = true)
-        public PageResponse<LoanApplicationResponse> findByStatus(
-                        LoanStatusEnum status,
-                        int page,
-                        int size) {
-                Pageable pageable = PageRequest.of(page, size);
-
-                Page<LoanApplication> loanPage = loanApplicationRepository.findByStatus(status, pageable);
-
-                List<LoanApplicationResponse> content = loanPage.getContent()
-                                .stream()
-                                .map(this::mapToResponse)
-                                .toList();
-
-                return PageResponse.<LoanApplicationResponse>builder()
-                                .content(content)
-                                .page(loanPage.getNumber())
-                                .size(loanPage.getSize())
-                                .totalElements(loanPage.getTotalElements())
-                                .totalPages(loanPage.getTotalPages())
-                                .last(loanPage.isLast())
-                                .build();
-        }
-
-        @Override
-        @Transactional(readOnly = true)
-        public PageResponse<LoanApplicationResponse> findByCreatedDate(
-                        LocalDate startDate,
-                        LocalDate endDate,
-                        int page,
-                        int size) {
-
-                Pageable pageable = PageRequest.of(page, size);
-
-                ZonedDateTime start = startDate.atStartOfDay(ZoneId.systemDefault());
-
-                ZonedDateTime end = endDate.atTime(LocalTime.MAX)
-                                .atZone(ZoneId.systemDefault());
-
-                return toPageResponse(
-                                loanApplicationRepository.findByCreatedAtBetween(
-                                                start,
-                                                end,
-                                                pageable));
-        }
-
-        @Override
-        @Transactional(readOnly = true)
-        public PageResponse<LoanApplicationResponse> findByStatusAndCreatedDate(
-                        LoanStatusEnum status,
-                        LocalDate startDate,
-                        LocalDate endDate,
-                        int page,
-                        int size) {
-
-                Pageable pageable = PageRequest.of(page, size);
-
-                ZonedDateTime start = startDate.atStartOfDay(ZoneId.systemDefault());
-
-                ZonedDateTime end = endDate.atTime(LocalTime.MAX)
-                                .atZone(ZoneId.systemDefault());
-
-                return toPageResponse(
-                                loanApplicationRepository.findByStatusAndCreatedAtBetween(
-                                                status,
-                                                start,
-                                                end,
-                                                pageable));
+                return loans;
         }
 
         @Override
         public LoanApplicationResponse updateStatus(
                         Long id,
                         UpdateLoanStatusRequest request) {
+                log.info(LogUtil.format(
+                                "loan_status_update_requested",
+                                "loanId", id,
+                                "newStatus", request.getStatus()));
+
                 LoanApplication loan = loanApplicationRepository
                                 .findByIdWithCustomer(id)
-                                .orElseThrow(() -> new NotFoundException(
-                                                "Loan application not found with id: " + id));
+                                .orElseThrow(() -> {
+                                        log.warn(LogUtil.format(
+                                                        "loan_application_not_found",
+                                                        "loanId", id));
+                                        return new NotFoundException("Loan application not found with id: " + id);
+                                });
+                validateStatusFlow(loan, request.getStatus());
 
-                validateStatusFlow(
-                                loan,
-                                request.getStatus());
-
+                LoanStatusEnum oldStatus = loan.getStatus();
                 loan.setStatus(request.getStatus());
-
                 if (request.getStatus() == LoanStatusEnum.DISBURSED) {
                         generateRepaymentSchedule(loan);
                 }
 
                 loanApplicationRepository.save(loan);
+                log.info(LogUtil.format(
+                                "loan_status_updated",
+                                "loanId", loan.getId(),
+                                "oldStatus", oldStatus,
+                                "newStatus", loan.getStatus()));
 
                 return mapToResponse(loan);
         }
@@ -211,7 +196,10 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         @Override
         @Transactional(readOnly = true)
         public List<LoanStatusSummaryResponse> getLoanSummaryByStatus() {
-                return loanApplicationRepository
+                log.info(LogUtil.format(
+                                "loan_summary_requested"));
+
+                List<LoanStatusSummaryResponse> summary = loanApplicationRepository
                                 .countLoanByStatus()
                                 .stream()
                                 .map(row -> LoanStatusSummaryResponse.builder()
@@ -219,21 +207,35 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
                                                 .total((Long) row[1])
                                                 .build())
                                 .toList();
+                log.info(LogUtil.format(
+                                "loan_summary_completed",
+                                "totalStatus", summary.size()));
+
+                return summary;
         }
 
         @Override
         @Transactional(readOnly = true)
         public OutstandingAmountResponse getOutstandingAmountCustomer(Long customerId) {
+                log.info(LogUtil.format(
+                                "outstanding_amount_requested",
+                                "customerId", customerId));
 
                 Customer customer = customerRepository.findById(customerId)
-                                .orElseThrow(() -> new NotFoundException(
-                                                "Customer not found"));
+                                .orElseThrow(() -> {
+                                        log.warn(LogUtil.format(
+                                                        "customer_not_found",
+                                                        "customerId", customerId));
+                                        return new NotFoundException("Customer not found");
+                                });
 
                 BigDecimal totalRepayment = loanApplicationRepository.getTotalRepayment(customerId);
-
                 BigDecimal totalPaid = loanApplicationRepository.getTotalPaid(customerId);
-
                 BigDecimal outstanding = totalRepayment.subtract(totalPaid);
+                log.info(LogUtil.format(
+                                "outstanding_amount_completed",
+                                "customerId", customerId,
+                                "hasOutstanding", outstanding.compareTo(BigDecimal.ZERO) > 0));
 
                 return OutstandingAmountResponse.builder()
                                 .customerId(customer.getId())

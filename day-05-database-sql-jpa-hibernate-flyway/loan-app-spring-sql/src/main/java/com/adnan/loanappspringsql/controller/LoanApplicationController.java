@@ -56,39 +56,11 @@ public class LoanApplicationController {
                         @RequestParam(required = false) LoanStatusEnum status,
                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-                if (status != null && startDate != null && endDate != null) {
-                        return ResponseEntity.ok(ApiResponse.success(
-                                        "Loan applications retrieved successfully",
-                                        loanApplicationService.findByStatusAndCreatedDate(
-                                                        status,
-                                                        startDate,
-                                                        endDate,
-                                                        page,
-                                                        size)));
-                }
-
-                if (startDate != null && endDate != null) {
-                        return ResponseEntity.ok(ApiResponse.success(
-                                        "Loan applications retrieved successfully",
-                                        loanApplicationService.findByCreatedDate(
-                                                        startDate,
-                                                        endDate,
-                                                        page,
-                                                        size)));
-                }
-
-                if (status != null) {
-                        return ResponseEntity.ok(ApiResponse.success(
-                                        "Loan applications retrieved successfully",
-                                        loanApplicationService.findByStatus(
-                                                        status,
-                                                        page,
-                                                        size)));
-                }
-
-                return ResponseEntity.ok(ApiResponse.success(
-                                "Loan applications retrieved successfully",
-                                loanApplicationService.findAll(page, size)));
+                return ResponseEntity.ok(
+                                ApiResponse.success(
+                                                "Loan applications retrieved successfully",
+                                                loanApplicationService.findAll(status, startDate, endDate, page,
+                                                                size)));
         }
 
         @PatchMapping("/{id}/status")

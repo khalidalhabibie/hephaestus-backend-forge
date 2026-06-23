@@ -1,4 +1,4 @@
-package com.adnan.loanappspringsql.dto;
+package com.adnan.loanappspringsql.dto.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
