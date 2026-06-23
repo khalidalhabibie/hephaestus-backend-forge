@@ -28,7 +28,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponse create(CreateCustomerRequest request) {
         String correlationId = MDC.get("correlation_id");
-        log.debug("event=customer_create_request loan_amount={} tenor={} correlation_id={}",
+        log.debug("event=customer_create_request full_name={} correlation_id={}",
                 request.getFullName(), correlationId);
 
         if (customerRepository.existsByNik(request.getNik())) {
