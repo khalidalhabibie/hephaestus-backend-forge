@@ -39,7 +39,8 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponseDto<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
-        return new ApiResponseDto<>(true, "Customer Created!", response);
+        return ApiResponseDto.success("Customer Created!", response);
+
     }
 
     // GET CUSTOMER BY UID
@@ -47,7 +48,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<CustomerResponse> getCustomerById(@Valid @PathVariable UUID uid) {
         CustomerResponse response = customerService.getCustomerById(uid);
-        return new ApiResponseDto<>(true, "Customer retrieved", response);
+        return ApiResponseDto.success("Customer retrieved", response);
     }
 
     // GET ALL CUSTOMER
@@ -58,7 +59,7 @@ public class CustomerController {
             @RequestParam(required = false) String email) {
 
         List<CustomerResponse> response = customerService.getAllCustomers(fullName, nik, email);
-        return new ApiResponseDto<>(true, "List of customers", response);
+        return ApiResponseDto.success("List of customers", response);
 
     }
 
@@ -67,7 +68,8 @@ public class CustomerController {
     public ApiResponseDto<List<LoanApplicationResponse>> getLoanApplicationByCustomerUid(
             @Valid @PathVariable("customerUid") UUID CustomerUid) {
         List<LoanApplicationResponse> responses = loanApplicationService.getLoanApplicationByCustomerUid(CustomerUid);
-        return new ApiResponseDto<>(true, "List loan application by customer retrived succesfully!", responses);
+        return ApiResponseDto.success("List loan application by customer retrived succesfully!", responses);
+
     }
 
     // PUT Customer
@@ -76,7 +78,7 @@ public class CustomerController {
     public ApiResponseDto<CustomerResponse> updateCustomer(@Valid @PathVariable UUID uid,
             @RequestBody CreateCustomerRequest request) {
         CustomerResponse response = customerService.editCustomer(uid, request);
-        return new ApiResponseDto<>(true, "Customer data updated successfully!", response);
+        return ApiResponseDto.success("Customer data updated successfully!", response);
     }
 
     // DELETE Customer

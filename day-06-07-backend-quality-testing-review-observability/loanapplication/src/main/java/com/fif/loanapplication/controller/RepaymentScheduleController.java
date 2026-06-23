@@ -31,7 +31,7 @@ public class RepaymentScheduleController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<RepaymentScheduleResponse> getRepaymentScheduleByUid(@Valid @PathVariable("uid") UUID uid) {
         RepaymentScheduleResponse response = repaymentScheduleService.getRepaymentScheduleByUid(uid);
-        return new ApiResponseDto<>(true, "Repayment Schedule Retrieved!", response);
+        return ApiResponseDto.success("Repayment Schedule Retrieved!", response);
     }
 
     @GetMapping({ "/{repayment_schedule_uid}/payment-transactions" })
@@ -39,7 +39,7 @@ public class RepaymentScheduleController {
     public ApiResponseDto<List<PaymentTransactionResponse>> getPaymentTransactionByRepaymentUid(
             @Valid @PathVariable("repayment_schedule_uid") UUID repaymentUid) {
         List<PaymentTransactionResponse> responses = paymentTransactionService.getPaymentByRepaymentUid(repaymentUid);
-        return new ApiResponseDto<>(true, "Payments Retrieved!", responses);
+        return ApiResponseDto.success("Payments Retrieved", responses);
 
     }
 

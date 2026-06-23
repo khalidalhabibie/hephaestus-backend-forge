@@ -27,7 +27,8 @@ public class PaymentTransactionController {
     public ApiResponseDto<PaymentTransactionResponse> createPaymentTransaction(
             @Valid @RequestBody CreatePaymentTransactionRequest request) {
         PaymentTransactionResponse response = paymentTransactionService.createPayments(request);
-        return new ApiResponseDto<>(true, "Payments Success!", response);
+        return ApiResponseDto.success("Payments Success!", response);
+
     }
 
 }

@@ -41,7 +41,7 @@ public class LoanApplicationController {
     public ApiResponseDto<LoanApplicationResponse> createLoanApplication(
             @Valid @RequestBody CreateLoanApplicationRequest request) {
         LoanApplicationResponse response = loanApplicationService.createLoanApplication(request);
-        return new ApiResponseDto<>(true, "Loan Application Created!", response);
+        return ApiResponseDto.success("Loan Application Created!", response);
 
     }
 
@@ -49,7 +49,7 @@ public class LoanApplicationController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponseDto<LoanApplicationResponse> getLoanApplicationByUid(@PathVariable UUID uid) {
         LoanApplicationResponse response = loanApplicationService.getLoanByUid(uid);
-        return new ApiResponseDto<>(true, "Loan Application Retrieved!", response);
+        return ApiResponseDto.success("Loan Application Retrieved!", response);
     }
 
     @GetMapping
@@ -58,7 +58,8 @@ public class LoanApplicationController {
             @RequestParam(required = false) String status) {
         LoanStatus loanStatus = loanApplicationUtils.parseLoanStatus(status);
         List<LoanApplicationResponse> responses = loanApplicationService.getLoans(loanStatus);
-        return new ApiResponseDto<>(true, "Loan Applications Retrieved!", responses);
+        return ApiResponseDto.success("Loan Application Retrieved!", responses);
+
     }
 
     @GetMapping({ "/{loan_application_uid}/repayment-schedules" })
@@ -67,7 +68,7 @@ public class LoanApplicationController {
             @Valid @PathVariable("loan_application_uid") UUID loanApplicationUid) {
         List<RepaymentScheduleResponse> responses = repaymentScheduleService
                 .getRepaymentScheduleByLoanApplicationUid(loanApplicationUid);
-        return new ApiResponseDto<>(true, "Repayment schedules retrieved!", responses);
+        return ApiResponseDto.success("Repayment schedules retrieved!", responses);
 
     }
 
@@ -76,7 +77,7 @@ public class LoanApplicationController {
     public ApiResponseDto<LoanApplicationResponse> approveLoanApplication(@Valid @PathVariable UUID uid,
             @RequestBody UpdateLoanStatusRequest request) {
         LoanApplicationResponse response = loanApplicationService.approveLoanApplicationByUid(uid, request);
-        return new ApiResponseDto<>(true, "Loan Application Approved!", response);
+        return ApiResponseDto.success("Loan Application Approved!", response);
     }
 
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.fif.loanapplication.dto.payment.CreatePaymentTransactionRequest;
 import com.fif.loanapplication.dto.payment.PaymentTransactionResponse;
-import com.fif.loanapplication.entity.LoanApplicationEntity;
 import com.fif.loanapplication.entity.PaymentTransactionEntity;
 import com.fif.loanapplication.entity.RepaymentScheduleEntity;
 import com.fif.loanapplication.entity.enums.PaymentStatus;
