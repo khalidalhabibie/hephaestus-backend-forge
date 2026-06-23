@@ -81,4 +81,8 @@ public class CreateLoanApplicationRequest {
         this.purpose = purpose;
     }
 
+    public CreateLoanApplicationRequest (){
+
+    }
+
 }

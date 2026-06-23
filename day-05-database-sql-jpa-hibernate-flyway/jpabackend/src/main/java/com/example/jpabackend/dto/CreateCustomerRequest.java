@@ -46,6 +46,10 @@ public class CreateCustomerRequest {
         this.phoneNumber = phoneNumber;
     }
 
+    public CreateCustomerRequest(){
+        
+    }
+
     public String getFullName() {
         return fullName;
     }

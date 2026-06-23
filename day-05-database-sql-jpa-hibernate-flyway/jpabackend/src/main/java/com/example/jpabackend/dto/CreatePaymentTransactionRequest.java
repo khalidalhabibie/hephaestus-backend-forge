@@ -77,4 +77,8 @@ public class CreatePaymentTransactionRequest {
         this.paidAt = paidAt;
     }
 
+    public CreatePaymentTransactionRequest (){
+        
+    }
+
 }
