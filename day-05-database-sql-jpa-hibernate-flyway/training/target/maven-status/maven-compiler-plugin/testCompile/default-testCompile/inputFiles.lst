@@ -1,0 +1,10 @@
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/TrainingApplicationTests.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/controller/CustomerControllerTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/controller/LoanApplicationControllerTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/controller/PaymentTransactionControllerTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/controller/RepaymentScheduleControllerTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/service/AuthServiceTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/service/CustomerServiceTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/service/LoanApplicationServiceTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/service/PaymentTransactionServiceTest.java
+/Users/andyana/hephaestus-backend-forge-Andy/day-05-database-sql-jpa-hibernate-flyway/training/src/test/java/com/example/training/service/RepaymentScheduleServiceTest.java

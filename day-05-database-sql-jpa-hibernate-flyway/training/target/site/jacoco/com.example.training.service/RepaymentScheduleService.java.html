@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepaymentScheduleService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report"></a> &gt; <a href="index.source.html" class="el_package">com.example.training.service</a> &gt; <span class="el_source">RepaymentScheduleService.java</span></div><h1>RepaymentScheduleService.java</h1><pre class="source lang-java linenums">package com.example.training.service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.training.dto.RepaymentScheduleResponse;
+import com.example.training.entity.LoanApplicationEntity;
+import com.example.training.enums.LoanStatus;
+import com.example.training.entity.RepaymentScheduleEntity;
+import com.example.training.enums.RepaymentStatus;
+import com.example.training.exception.NotFoundException;
+import com.example.training.repository.LoanApplicationRepository;
+import com.example.training.repository.RepaymentScheduleRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L27">@Slf4j</span>
+@Service
+@RequiredArgsConstructor
+public class RepaymentScheduleService {
+
+    private final RepaymentScheduleRepository repaymentScheduleRepository;
+    private final LoanApplicationRepository loanApplicationRepository;
+
+    @Value(&quot;${loan.interest.annual-rate:0.12}&quot;)
+    private BigDecimal annualInterestRate;
+
+    @Transactional
+    public List&lt;RepaymentScheduleResponse&gt; generateSchedule(UUID loanApplicationId) {
+<span class="fc" id="L40">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L41">        log.debug(&quot;event=schedule_generate_request loan_id={} correlation_id={}&quot;, loanApplicationId, correlationId);</span>
+
+<span class="fc" id="L43">        LoanApplicationEntity loan = loanApplicationRepository.findById(loanApplicationId)</span>
+<span class="fc" id="L44">                .orElseThrow(() -&gt; new NotFoundException(&quot;LOAN_APPLICATION_NOT_FOUND&quot;,</span>
+                        &quot;Loan application not found with id: &quot; + loanApplicationId));
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (loan.getStatus() != LoanStatus.DISBURSED) {</span>
+<span class="fc" id="L48">            log.debug(&quot;event=schedule_generate_invalid_status loan_id={} status={} correlation_id={}&quot;,</span>
+<span class="fc" id="L49">                    loanApplicationId, loan.getStatus(), correlationId);</span>
+<span class="fc" id="L50">            throw new IllegalStateException(</span>
+<span class="fc" id="L51">                    &quot;Loan must be DISBURSED before generating schedule. Current status: &quot; + loan.getStatus());</span>
+        }
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (repaymentScheduleRepository.existsByLoanApplication_Id(loanApplicationId)) {</span>
+<span class="fc" id="L55">            log.debug(&quot;event=schedule_generate_already_exists loan_id={} correlation_id={}&quot;, loanApplicationId, correlationId);</span>
+<span class="fc" id="L56">            throw new IllegalStateException(&quot;Repayment schedule already exists for this loan&quot;);</span>
+        }
+
+<span class="fc" id="L59">        int tenor = loan.getTenorMonth();</span>
+<span class="fc" id="L60">        BigDecimal loanAmount = loan.getLoanAmount();</span>
+
+<span class="fc" id="L62">        BigDecimal monthlyInterest = loanAmount.multiply(annualInterestRate)</span>
+<span class="fc" id="L63">                .divide(BigDecimal.valueOf(12), 2, RoundingMode.HALF_UP);</span>
+
+<span class="fc" id="L65">        BigDecimal monthlyPrincipal = loanAmount.divide(BigDecimal.valueOf(tenor), 2, RoundingMode.FLOOR);</span>
+<span class="fc" id="L66">        BigDecimal totalDistributed = monthlyPrincipal.multiply(BigDecimal.valueOf(tenor - 1));</span>
+<span class="fc" id="L67">        BigDecimal lastPrincipal = loanAmount.subtract(totalDistributed);</span>
+
+<span class="fc" id="L69">        log.debug(&quot;event=schedule_calculation loan_amount={} tenor={} monthly_interest={} monthly_principal={} last_principal={} correlation_id={}&quot;,</span>
+<span class="fc" id="L70">                loanAmount, tenor, monthlyInterest, monthlyPrincipal, lastPrincipal, correlationId);</span>
+
+<span class="fc" id="L72">        List&lt;RepaymentScheduleEntity&gt; schedules = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (int i = 0; i &lt; tenor; i++) {</span>
+<span class="fc" id="L74">            RepaymentScheduleEntity schedule = new RepaymentScheduleEntity();</span>
+<span class="fc" id="L75">            schedule.setLoanApplication(loan);</span>
+<span class="fc" id="L76">            schedule.setInstallmentNumber(i + 1);</span>
+<span class="fc" id="L77">            schedule.setDueDate(LocalDate.now().plusMonths(i + 1));</span>
+<span class="fc" id="L78">            schedule.setInterestAmount(monthlyInterest);</span>
+
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            boolean isLast = (i == tenor - 1);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            BigDecimal principal = isLast ? lastPrincipal : monthlyPrincipal;</span>
+<span class="fc" id="L82">            schedule.setPrincipalAmount(principal);</span>
+<span class="fc" id="L83">            schedule.setTotalAmount(principal.add(monthlyInterest));</span>
+<span class="fc" id="L84">            schedule.setStatus(RepaymentStatus.UNPAID);</span>
+
+<span class="fc" id="L86">            schedules.add(schedule);</span>
+
+<span class="fc" id="L88">            log.debug(&quot;event=schedule_installment_calculated installment={} principal={} total={} due_date={} correlation_id={}&quot;,</span>
+<span class="fc" id="L89">                    i + 1, principal, schedule.getTotalAmount(), schedule.getDueDate(), correlationId);</span>
+        }
+
+<span class="fc" id="L92">        log.debug(&quot;event=schedule_save_all installments={} correlation_id={}&quot;, schedules.size(), correlationId);</span>
+<span class="fc" id="L93">        List&lt;RepaymentScheduleEntity&gt; saved = repaymentScheduleRepository.saveAll(schedules);</span>
+
+<span class="fc" id="L95">        log.info(&quot;event=repayment_schedule_generated loan_id={} installments={} correlation_id={}&quot;,</span>
+<span class="fc" id="L96">                loanApplicationId, saved.size(), correlationId);</span>
+
+<span class="fc" id="L98">        return saved.stream().map(this::toResponse).toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;RepaymentScheduleResponse&gt; findByLoanApplicationId(UUID loanApplicationId) {
+<span class="fc" id="L103">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L104">        log.debug(&quot;event=schedule_find_by_loan loan_id={} correlation_id={}&quot;, loanApplicationId, correlationId);</span>
+<span class="fc" id="L105">        List&lt;RepaymentScheduleEntity&gt; schedules = repaymentScheduleRepository.findByLoanApplication_Id(loanApplicationId);</span>
+<span class="fc" id="L106">        log.debug(&quot;event=schedule_find_by_loan_result count={} correlation_id={}&quot;, schedules.size(), correlationId);</span>
+<span class="fc" id="L107">        return schedules.stream()</span>
+<span class="fc" id="L108">                .map(this::toResponse)</span>
+<span class="fc" id="L109">                .toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public RepaymentScheduleResponse findById(UUID id) {
+<span class="fc" id="L114">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+
+<span class="fc" id="L116">        RepaymentScheduleEntity schedule = repaymentScheduleRepository.findByIdWithLoanApplication(id)</span>
+<span class="fc" id="L117">                .orElseThrow(() -&gt; {</span>
+<span class="fc" id="L118">                    log.warn(&quot;event=repayment_schedule_not_found schedule_id={} correlation_id={}&quot;, id, correlationId);</span>
+<span class="fc" id="L119">                    return new NotFoundException(&quot;REPAYMENT_SCHEDULE_NOT_FOUND&quot;,</span>
+                            &quot;Repayment schedule not found with id: &quot; + id);
+                });
+<span class="fc" id="L122">        return toResponse(schedule);</span>
+    }
+
+    private RepaymentScheduleResponse toResponse(RepaymentScheduleEntity schedule) {
+<span class="fc" id="L126">        return RepaymentScheduleResponse.builder()</span>
+<span class="fc" id="L127">                .id(schedule.getId())</span>
+<span class="fc" id="L128">                .loanApplicationId(schedule.getLoanApplication().getId())</span>
+<span class="fc" id="L129">                .installmentNumber(schedule.getInstallmentNumber())</span>
+<span class="fc" id="L130">                .dueDate(schedule.getDueDate())</span>
+<span class="fc" id="L131">                .principalAmount(schedule.getPrincipalAmount())</span>
+<span class="fc" id="L132">                .interestAmount(schedule.getInterestAmount())</span>
+<span class="fc" id="L133">                .totalAmount(schedule.getTotalAmount())</span>
+<span class="fc" id="L134">                .status(schedule.getStatus().name())</span>
+<span class="fc" id="L135">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

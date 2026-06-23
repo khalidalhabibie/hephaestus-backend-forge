@@ -1,0 +1,6 @@
+com/example/training/service/CustomerServiceTest.class
+com/example/training/service/PaymentTransactionServiceTest.class
+com/example/training/service/RepaymentScheduleServiceTest.class
+com/example/training/service/AuthServiceTest.class
+com/example/training/service/LoanApplicationServiceTest.class
+com/example/training/TrainingApplicationTests.class
