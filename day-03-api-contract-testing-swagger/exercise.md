@@ -187,26 +187,26 @@ Make sure JSON appears.
 
 ## Acceptance Criteria
 
-- [ ] Project is created from Spring Initializr.
-- [ ] Project uses Java 8.
-- [ ] Project uses Spring Boot 2.7.x.
-- [ ] Spring Web dependency exists.
-- [ ] Validation dependency exists.
-- [ ] Swagger dependency exists.
-- [ ] Application runs on localhost:8080.
-- [ ] `POST /api/v1/customers` returns 201 Created.
-- [ ] `GET /api/v1/customers` returns 200 OK.
-- [ ] `GET /api/v1/customers/{id}` returns 200 OK for existing customer.
-- [ ] `GET /api/v1/customers/{id}` returns 404 for unknown customer.
-- [ ] `PUT /api/v1/customers/{id}` updates all fields.
-- [ ] `PATCH /api/v1/customers/{id}` updates only provided fields.
-- [ ] API contract is written in markdown.
-- [ ] Postman testing is completed.
-- [ ] Swagger UI can be opened.
-- [ ] API can be tested from Swagger UI.
-- [ ] `/v3/api-docs` returns OpenAPI JSON.
-- [ ] JSON uses snake_case.
-- [ ] Java fields use camelCase.
+- [V] Project is created from Spring Initializr.
+- [V] Project uses Java 8.
+- [V] Project uses Spring Boot 2.7.x.
+- [V] Spring Web dependency exists.
+- [V] Validation dependency exists.
+- [V] Swagger dependency exists.
+- [V] Application runs on localhost:8080.
+- [V] `POST /api/v1/customers` returns 201 Created.
+- [V] `GET /api/v1/customers` returns 200 OK.
+- [V] `GET /api/v1/customers/{id}` returns 200 OK for existing customer.
+- [V] `GET /api/v1/customers/{id}` returns 404 for unknown customer.
+- [V] `PUT /api/v1/customers/{id}` updates all fields.
+- [V] `PATCH /api/v1/customers/{id}` updates only provided fields.
+- [V] API contract is written in markdown.
+- [V] Postman testing is completed.
+- [V] Swagger UI can be opened.
+- [V] API can be tested from Swagger UI.
+- [V] `/v3/api-docs` returns OpenAPI JSON.
+- [V] JSON uses snake_case.
+- [V] Java fields use camelCase.
 
 ## Optional Challenge
 

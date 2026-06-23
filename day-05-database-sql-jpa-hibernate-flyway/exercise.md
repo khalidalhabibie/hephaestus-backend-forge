@@ -592,14 +592,14 @@ GROUP BY l.status;
 
 ## Acceptance Criteria
 
-- [ ] Application menggunakan Java 17.
-- [ ] Application menggunakan Spring Boot 3.x.
-- [ ] Application bisa berjalan di `localhost:8080`.
-- [ ] Application terkoneksi ke PostgreSQL.
-- [ ] Flyway berhasil membuat semua table.
-- [ ] Entity menggunakan `jakarta.persistence`.
-- [ ] Validation menggunakan `jakarta.validation`.
-- [ ] Customer bisa dibuat dan disimpan ke database.
+- [V] Application menggunakan Java 17.
+- [V] Application menggunakan Spring Boot 3.x.
+- [V] Application bisa berjalan di `localhost:8080`.
+- [V] Application terkoneksi ke PostgreSQL.
+- [V] Flyway berhasil membuat semua table.
+- [V] Entity menggunakan `jakarta.persistence`.
+- [V] Validation menggunakan `jakarta.validation`.
+- [V] Customer bisa dibuat dan disimpan ke database.
 - [ ] Loan application bisa dibuat untuk customer yang valid.
 - [ ] Loan application gagal dibuat jika customer tidak ditemukan.
 - [ ] Repayment schedule bisa diambil berdasarkan loan application.
