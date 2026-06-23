@@ -219,8 +219,9 @@ Hindari log yang berisi username bersama password, token, nama lengkap, NIK, dan
 
 ## Tasks
 
-1. Tambahkan unit test untuk.
-2. Gunakan Given-When-Then dan Mockito untuk happy path, negative path, behavior `401`/`403`, serta approve/reject loan.
+1. Tambahkan unit test untuk semua service dan coverage dan unit test di atas 92 persen.
+<!-- 2. Gunakan Given-When-Then dan Mockito untuk happy path, negative path, behavior `401`/`403`. -->
+
 3. Buat `CODE_REVIEW_CHECKLIST.md` sesuai area checklist di atas.
 4. Tambahkan support `X-Correlation-Id` dan `correlation_id` pada error response. (log)
 5. Tambahkan structured log untuk login, customer created, loan submitted, approve/reject, forbidden access, validation error, dan unexpected error. (log)
