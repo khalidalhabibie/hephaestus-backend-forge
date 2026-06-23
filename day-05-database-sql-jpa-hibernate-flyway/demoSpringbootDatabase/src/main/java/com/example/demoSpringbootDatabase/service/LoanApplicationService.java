@@ -9,6 +9,8 @@ import com.example.demoSpringbootDatabase.exception.LoanApplicationNotFoundExcep
 import com.example.demoSpringbootDatabase.repository.CustomerRepository;
 import com.example.demoSpringbootDatabase.repository.LoanApplicationRepository;
 import com.example.demoSpringbootDatabase.repository.RepaymentScheduleRepository;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 public class LoanApplicationService {
     private final LoanApplicationRepository loanRepository;
@@ -41,78 +44,98 @@ public class LoanApplicationService {
     @Transactional
     public LoanApplicationResponse createLoan(CreateLoanApplicationRequest request) {
         CustomerEntity customer = customerRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> new CustomerNotFoundException(request.getCustomerId()));
+                .orElseThrow(() -> {
+                    log.error("{\"event\":\"UNEXPECTED_ERROR\", \"message\":\"Customer with ID {} not found during loan creation\"}", request.getCustomerId());
+                    return new CustomerNotFoundException(request.getCustomerId());
+                });
 
         LoanApplicationEntity loan = LoanApplicationEntity.builder()
                 .customer(customer)
                 .loanAmount(request.getLoanAmount())
                 .tenorMonth(request.getTenorMonth())
                 .purpose(request.getPurpose())
-                .status("SUBMITTED") // Status awal wajib SUBMITTED
+                .status("SUBMITTED")
                 .build();
         
         loanRepository.save(loan);
+
+        // ✅ STRUCTURED LOG: LOAN_SUBMITTED (Aman tanpa membawa data mentah PII)
+        log.info("{\"event\":\"LOAN_SUBMITTED\", \"loan_id\":{}, \"customer_id\":{}, \"amount\":{}}", 
+                loan.getId(), request.getCustomerId(), loan.getLoanAmount());
+
         return mapToResponse(loan);
     }
 
     @Transactional
     public LoanApplicationResponse updateStatus(Long id, String targetStatus) {
         LoanApplicationEntity loan = loanRepository.findById(id)
-                .orElseThrow(() -> new LoanApplicationNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.error("{\"event\":\"UNEXPECTED_ERROR\", \"message\":\"Loan application with ID {} not found\"}", id);
+                    return new LoanApplicationNotFoundException(id);
+                });
         
         String currentStatus = loan.getStatus().toUpperCase();
         String nextStatus = targetStatus.toUpperCase();
 
-        // 1. VALIDASI ATURAN ALUR STATUS (STATE MACHINE RULES)
         if (currentStatus.equals(nextStatus)) {
-            return mapToResponse(loan); // Tidak ada perubahan
+            return mapToResponse(loan);
         }
 
-        // REJECTED dan CLOSED adalah status akhir, tidak boleh diubah lagi
+        // Validasi aturan transisi alur status akhir
         if ("REJECTED".equals(currentStatus) || "CLOSED".equals(currentStatus)) {
+            log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"Cannot change status from final state: {}\"}", currentStatus);
             throw new IllegalArgumentException("Cannot change status from final state: " + currentStatus);
         }
 
         switch (currentStatus) {
             case "SUBMITTED":
                 if (!"APPROVED".equals(nextStatus) && !"REJECTED".equals(nextStatus)) {
+                    log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"SUBMITTED loan can only transition to APPROVED or REJECTED\"}");
                     throw new IllegalArgumentException("SUBMITTED loan can only transition to APPROVED or REJECTED");
                 }
                 break;
                 
             case "APPROVED":
                 if (!"DISBURSED".equals(nextStatus)) {
+                    log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"APPROVED loan can only transition to DISBURSED\"}");
                     throw new IllegalArgumentException("APPROVED loan can only transition to DISBURSED");
                 }
                 break;
                 
             case "DISBURSED":
                 if (!"CLOSED".equals(nextStatus)) {
+                    log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"DISBURSED loan can only transition to CLOSED\"}");
                     throw new IllegalArgumentException("DISBURSED loan can only transition to CLOSED");
                 }
-                // Validasi kelunasan: Semua schedule wajib berstatus 'PAID'
+                
                 List<RepaymentScheduleEntity> schedules = scheduleRepository.findByLoanApplicationId(id);
                 boolean allPaid = !schedules.isEmpty() && schedules.stream()
                         .allMatch(schedule -> "PAID".equalsIgnoreCase(schedule.getStatus()));
                 
                 if (!allPaid) {
+                    log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"Cannot CLOSE loan. Repayment schedules not fully paid.\"}");
                     throw new IllegalArgumentException("Cannot CLOSE loan. Not all repayment schedules are PAID.");
                 }
                 break;
                 
             default:
+                log.error("{\"event\":\"UNEXPECTED_ERROR\", \"message\":\"Unknown current loan status: {}\"}", currentStatus);
                 throw new IllegalArgumentException("Unknown current loan status: " + currentStatus);
         }
 
-        // 2. EKSEKUSI TRANSISI STATUS
         loan.setStatus(nextStatus);
 
-        // TRIGGER UTAMA: Schedule hanya dibuat tepat saat status berubah menjadi DISBURSED
+        // TRIGGER UTAMA: Pembuatan jadwal cicilan
         if ("DISBURSED".equals(nextStatus)) {
             generateRepaymentSchedules(loan);
         }
 
         loanRepository.save(loan);
+
+        // ✅ STRUCTURED LOG: LOAN_STATUS_CHANGED (Mencakup event approve/reject/disburse/closed)
+        log.info("{\"event\":\"LOAN_STATUS_CHANGED\", \"loan_id\":{}, \"from\":\"{}\", \"to\":\"{}\"}", 
+                id, currentStatus, nextStatus);
+
         return mapToResponse(loan);
     }
 
@@ -120,25 +143,24 @@ public class LoanApplicationService {
         BigDecimal loanAmount = BigDecimal.valueOf(loan.getLoanAmount());
         BigDecimal tenor = BigDecimal.valueOf(loan.getTenorMonth());
         
-        // Pokok = loan_amount / tenor_month
         BigDecimal principalPerMonth = loanAmount.divide(tenor, 0, RoundingMode.HALF_UP);
         
-        // Bunga = loan_amount * (annual_rate / 12)
         BigDecimal monthlyInterestRate = BigDecimal.valueOf(annualInterestRate)
                 .divide(BigDecimal.valueOf(12), 4, RoundingMode.HALF_UP);
         BigDecimal interestPerMonth = loanAmount.multiply(monthlyInterestRate).setScale(0, RoundingMode.HALF_UP);
         
-        // Total per bulan = Pokok + Bunga
         BigDecimal totalPerMonth = principalPerMonth.add(interestPerMonth);
+
+        log.debug("Generating {} months of repayment schedules for loan ID: {}", loan.getTenorMonth(), loan.getId());
 
         for (int i = 1; i <= loan.getTenorMonth(); i++) {
             RepaymentScheduleEntity schedule = RepaymentScheduleEntity.builder()
                     .loanApplication(loan)
                     .installmentNumber(i)
-                    .dueDate(LocalDate.now().plusMonths(i)) // Jatuh tempo berurutan tiap bulan
+                    .dueDate(LocalDate.now().plusMonths(i))
                     .principalAmount(principalPerMonth.longValue())
                     .interestAmount(interestPerMonth.longValue())
-                    .totalAmount(totalPerMonth.longValue()) // Menyesuaikan nama setter entitas Anda
+                    .totalAmount(totalPerMonth.longValue())
                     .status("UNPAID")
                     .build();
             
@@ -150,11 +172,15 @@ public class LoanApplicationService {
     public LoanApplicationResponse getById(Long id) {
         return loanRepository.findByIdWithCustomer(id)
                 .map(this::mapToResponse)
-                .orElseThrow(() -> new LoanApplicationNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.error("{\"event\":\"UNEXPECTED_ERROR\", \"message\":\"Loan ID {} not found\"}", id);
+                    return new LoanApplicationNotFoundException(id);
+                });
     }
 
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> getAll(String status) {
+        log.debug("Fetching loan applications with status filter: {}", status);
         List<LoanApplicationEntity> loans = (status != null) ? 
                 loanRepository.findByStatus(status.toUpperCase()) : loanRepository.findAll();
         return loans.stream().map(this::mapToResponse).toList();
@@ -162,30 +188,23 @@ public class LoanApplicationService {
 
     @Transactional(readOnly = true)
     public List<LoanApplicationResponse> getByCustomerId(Long customerId) {
+        log.debug("Fetching loans for customer ID: {}", customerId);
         return loanRepository.findLoansByCustomerId(customerId).stream().map(this::mapToResponse).toList();
     }
 
-    /**
-     * BARU: Mendukung filter rentang tanggal pengajuan dan pagination halaman data
-     */
     @Transactional(readOnly = true)
     public Page<LoanApplicationResponse> getLoansWithPagination(String status, LocalDateTime start, LocalDateTime end, Pageable pageable) {
-        Page<LoanApplicationEntity> entities;
-        
-        if (status != null && !status.isBlank()) {
-            entities = loanRepository.findByStatusAndCreatedAtBetween(status.toUpperCase(), start, end, pageable);
-        } else {
-            entities = loanRepository.findByCreatedAtBetween(start, end, pageable);
-        }
+        log.debug("Executing paginated loan query between {} and {}", start, end);
+        Page<LoanApplicationEntity> entities = (status != null && !status.isBlank()) ? 
+                loanRepository.findByStatusAndCreatedAtBetween(status.toUpperCase(), start, end, pageable) :
+                loanRepository.findByCreatedAtBetween(start, end, pageable);
         
         return entities.map(this::mapToResponse);
     }
 
-    /**
-     * BARU: Mengambil data ringkasan total nominal berdasarkan status pinjaman
-     */
     @Transactional(readOnly = true)
     public List<LoanStatusSummaryDto> getStatusSummary() {
+        log.debug("Requesting loan status reporting summary matrix");
         return loanRepository.getSummaryByStatus();
     }
 
