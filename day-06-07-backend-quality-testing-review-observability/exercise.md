@@ -225,7 +225,7 @@ Hindari log yang berisi username bersama password, token, nama lengkap, NIK, dan
 4. Tambahkan support `X-Correlation-Id` dan `correlation_id` pada error response. (log)
 5. Tambahkan structured log untuk login, customer created, loan submitted, approve/reject, forbidden access, validation error, dan unexpected error. (log)
 6. Pastikan data sensitif serta raw PII tidak masuk log. (log)
-7. Test manual dengan Postman, baik dengan maupun tanpa header `X-Correlation-Id`.
+7. Test manual dengan Postman, baik dengan maupun tanpa header `X-Correlation-Id`. (log)
 8. Push ke fork dan buat Pull Request ke branch `master`.
 
 ## Acceptance Criteria
