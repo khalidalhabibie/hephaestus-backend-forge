@@ -28,8 +28,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponse create(CreateCustomerRequest request) {
         String correlationId = MDC.get("correlation_id");
-        log.debug("event=customer_create_request full_name={} correlation_id={}",
-                request.getFullName(), correlationId);
+        log.debug("event=customer_create_request correlation_id={}", correlationId);
 
         if (customerRepository.existsByNik(request.getNik())) {
             log.warn("event=customer_created_failed reason=DUPLICATE_NIK correlation_id={}", correlationId);
@@ -44,7 +43,7 @@ public class CustomerService {
         CustomerEntity customer = new CustomerEntity();
         fill(customer, request);
 
-        log.debug("event=customer_save_request full_name={} correlation_id={}", request.getFullName(), correlationId);
+        log.debug("event=customer_save_request correlation_id={}", correlationId);
         CustomerEntity savedCustomer = customerRepository.save(customer);
         log.debug("event=customer_saved customer_id={} correlation_id={}", savedCustomer.getId(), correlationId);
 
@@ -79,7 +78,7 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<CustomerResponse> searchByName(String fullName) {
         String correlationId = MDC.get("correlation_id");
-        log.debug("event=customer_search_by_name name={} correlation_id={}", fullName, correlationId);
+        log.debug("event=customer_search_by_name correlation_id={}", correlationId);
         List<CustomerEntity> customers = customerRepository.findByFullNameContainingIgnoreCase(fullName);
         log.debug("event=customer_search_by_name_result count={} correlation_id={}", customers.size(), correlationId);
         return customers.stream()
