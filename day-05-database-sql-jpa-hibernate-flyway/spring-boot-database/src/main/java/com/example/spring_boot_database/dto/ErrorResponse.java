@@ -20,6 +20,8 @@ public class ErrorResponse <T> {
     private String message;
 
     private List<FieldErrorResponse> errors;
+
+    private String correlationId;
 }
 
 // {
