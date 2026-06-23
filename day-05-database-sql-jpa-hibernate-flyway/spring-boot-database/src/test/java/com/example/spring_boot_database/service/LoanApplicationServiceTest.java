@@ -114,11 +114,11 @@ class LoanApplicationServiceTest {
         UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();
         req.setStatus(Status.DISBURSED);
 
-        RepaymentScheduleEntity schedule = new RepaymentScheduleEntity(); // ✅ FIX
+        RepaymentScheduleEntity schedule = new RepaymentScheduleEntity(); 
 
         when(loanRepo.findByIdWithCustomer(1L)).thenReturn(Optional.of(loan));
         when(scheduleRepo.findByLoanApplicationId(1L))
-                .thenReturn(List.of(schedule)); // ✅ FIX
+                .thenReturn(List.of(schedule)); 
         when(loanRepo.save(any())).thenReturn(loan);
         when(customerService.toResponse(any()))
                 .thenReturn(CustomerResponse.builder().id(1L).build());
@@ -152,7 +152,6 @@ class LoanApplicationServiceTest {
         UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();
         req.setStatus(Status.CLOSED);
 
-        // mock repayment belum PAID
         RepaymentScheduleEntity schedule = new RepaymentScheduleEntity();
         schedule.setStatus("UNPAID");
 
@@ -190,7 +189,7 @@ class LoanApplicationServiceTest {
 
     @Test
     void testUpdateStatus_unknownStateFallback() {
-        loan.setStatus("UNKNOWN"); // trigger default switch
+        loan.setStatus("UNKNOWN"); 
 
         UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();
         req.setStatus(Status.APPROVED);
@@ -251,7 +250,6 @@ class LoanApplicationServiceTest {
     }
 
 
-    // ================= FIND LOAN - FULL FILTER =================
     @Test
     void testFindLoan_fullFilter() {
         when(loanRepo.findAll(any(Specification.class)))

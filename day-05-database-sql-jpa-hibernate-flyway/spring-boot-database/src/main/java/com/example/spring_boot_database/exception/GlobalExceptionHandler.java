@@ -2,8 +2,13 @@ package com.example.spring_boot_database.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.example.spring_boot_database.dto.ApiResponse;
 
@@ -15,7 +20,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Void>> handleValidationException(
-            MethodArgumentNotValidException exception) {
+            MethodArgumentNotValidException exception
+    ) {
 
         List<String> details = exception.getBindingResult()
                 .getFieldErrors()
@@ -30,6 +36,71 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex
+    ) {
+        ApiResponse<Void> response = ApiResponse.error(
+                "MALFORMED_JSON",
+                "Request body is invalid or malformed",
+                List.of("JSON request body is not readable")
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMethodArgumentTypeMismatch(
+            MethodArgumentTypeMismatchException ex
+    ) {
+        ApiResponse<Void> response = ApiResponse.error(
+                "INVALID_PARAMETER",
+                "Invalid parameter value",
+                List.of(ex.getName() + " has invalid value")
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMissingServletRequestParameter(
+            MissingServletRequestParameterException ex
+    ) {
+        ApiResponse<Void> response = ApiResponse.error(
+                "MISSING_PARAMETER",
+                "Required request parameter is missing",
+                List.of(ex.getParameterName() + " is required")
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleHttpMediaTypeNotSupported(
+            HttpMediaTypeNotSupportedException ex
+    ) {
+        ApiResponse<Void> response = ApiResponse.error(
+                "UNSUPPORTED_MEDIA_TYPE",
+                "Content type is not supported",
+                List.of(ex.getContentType() == null ? "Unsupported content type" : ex.getContentType().toString())
+        );
+
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(response);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ApiResponse<Void>> handleHttpRequestMethodNotSupported(
+            HttpRequestMethodNotSupportedException ex
+    ) {
+        ApiResponse<Void> response = ApiResponse.error(
+                "METHOD_NOT_ALLOWED",
+                "HTTP method is not supported",
+                List.of(ex.getMethod() + " method is not allowed for this endpoint")
+        );
+
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(response);
     }
 
     @ExceptionHandler(CustomerNotFoundException.class)
@@ -68,7 +139,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
-
 
     private ResponseEntity<ApiResponse<Void>> build(
             HttpStatus status,
