@@ -1,5 +1,8 @@
 package com.example.jpabackend.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.jpabackend.entity.CustomerEntity;
 import com.example.jpabackend.exception.CustomerNotFoundException;
 import com.example.jpabackend.exception.DuplicateCustomerException;
@@ -14,6 +17,7 @@ import java.util.List;
 
 @Service
 public class CustomerService {
+    private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 
     private final CustomerRepository repository;
 
@@ -26,10 +30,20 @@ public class CustomerService {
     public CustomerResponse createCustomer(CreateCustomerRequest req) {
 
         if (repository.existsByNik(req.getNik())) {
+
+            log.warn(
+                "event=validation_error field=nik error=duplicate_nik"
+            );
+        
             throw new DuplicateCustomerException("Customer NIK already exists");
         }
 
         if (repository.existsByEmail(req.getEmail())) {
+
+            log.info(
+                "event=validation_error field=email error=duplicate_email"
+            );
+        
             throw new DuplicateCustomerException("Customer email already exists");
         }
 
@@ -43,6 +57,13 @@ public class CustomerService {
         customer.setUpdatedAt(ZonedDateTime.now());
 
         repository.save(customer);
+        
+        
+        log.info(
+            "event=customer_created customer_id={}",
+            customer.getId()
+        );
+
 
         return toResponse(customer);
     }
@@ -52,7 +73,13 @@ public class CustomerService {
     public CustomerResponse getById(Long id) {
 
         CustomerEntity customer = repository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id));
+        .orElseThrow(() -> {
+            log.warn(
+                "event=customer_not_found customer_id={}",
+                id
+            );
+            return new CustomerNotFoundException(id);
+        });
 
         return toResponse(customer);
     }
@@ -81,7 +108,13 @@ public class CustomerService {
     public void deleteCustomer(Long id) {
 
         CustomerEntity customer = repository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id));
+        .orElseThrow(() -> {
+            log.warn(
+                "event=customer_not_found customer_id={}",
+                id
+            );
+            return new CustomerNotFoundException(id);
+        });
 
         customer.setIsDeleted(true);
     }

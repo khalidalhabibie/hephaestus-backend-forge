@@ -1,5 +1,8 @@
 package com.example.jpabackend.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.example.jpabackend.entity.*;
 import com.example.jpabackend.repository.*;
 import com.example.jpabackend.dto.*;
@@ -17,6 +20,8 @@ import java.util.Map;
 
 @Service
 public class LoanApplicationService {
+
+    private static final Logger log = LoggerFactory.getLogger(LoanApplicationService.class);
 
     private final LoanApplicationRepository loanRepo;
     private final CustomerRepository customerRepo;
@@ -50,6 +55,11 @@ public class LoanApplicationService {
         loan.setUpdatedAt(ZonedDateTime.now());
 
         loanRepo.save(loan);
+        
+        log.info(
+                "event=loan_application_submitted application_id={} customer_id={}",
+                loan.getId(),
+                customer.getId());
 
         return toResponse(loan);
     }
@@ -59,7 +69,12 @@ public class LoanApplicationService {
     public LoanApplicationResponse getById(Long id) {
 
         LoanApplicationEntity loan = loanRepo.findByIdWithCustomer(id)
-                .orElseThrow(() -> new LoanApplicationNotFoundException(id));
+        .orElseThrow(() -> {
+                    log.warn(
+                            "event=loan_application_not_found application_id={}",
+                            id);
+                    return new LoanApplicationNotFoundException(id);
+                });
 
         return toResponse(loan);
     }
@@ -99,30 +114,50 @@ public class LoanApplicationService {
     public LoanApplicationResponse updateStatus(Long id, String status) {
 
         LoanApplicationEntity loan = loanRepo.findById(id)
-                .orElseThrow(() -> new LoanApplicationNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.warn(
+                            "event=loan_application_not_found application_id={}",
+                            id);
+                    return new LoanApplicationNotFoundException(id);
+                });
                 
         status = status.trim().toUpperCase();
         // VALID STATUS BARU
         if (!List.of("SUBMITTED", "APPROVED", "REJECTED", "DISBURSED").contains(status)) {
+            log.warn(
+                    "event=validation_error field=status error=invalid_status value={}",
+                    status          );
             throw new RuntimeException("INVALID_STATUS");
         }
 
         // OPTIONAL: VALIDASI FLOW (biar tidak loncat status)
         String currentStatus = loan.getStatus().trim().toUpperCase();
+        String oldStatus = currentStatus; // simpan sebelum update
         
-        System.out.println("CURRENT: " + currentStatus);
-        System.out.println("NEW: " + status);
+        log.info(
+                "event=status_check application_id={} old_status={} new_status={}",
+                loan.getId(),
+                currentStatus,
+                status);
 
         switch (currentStatus) {
 
             case "SUBMITTED":
                 if (!status.equals("APPROVED")) {
+                    log.warn(
+                            "event=validation_error error=invalid_status_transition old_status={} new_status={}",
+                            currentStatus,
+                            status                  );
                     throw new RuntimeException("INVALID_STATUS_TRANSITION");
                 }
                 break;
 
             case "APPROVED":
                 if (!status.equals("DISBURSED")) {
+                    log.warn(
+                            "event=validation_error error=invalid_status_transition old_status={} new_status={}",
+                            currentStatus,
+                            status                  );
                     throw new RuntimeException("INVALID_STATUS_TRANSITION");
                 }
                 break;
@@ -135,7 +170,37 @@ public class LoanApplicationService {
 
         loanRepo.saveAndFlush(loan);
 
+
+        if ("APPROVED".equals(status)) {
+            log.info(
+                    "event=loan_application_approved application_id={} customer_id={} old_status={} new_status={}",
+                    loan.getId(),
+                    loan.getCustomer().getId(),
+                    oldStatus,
+                    status);
+        }
+
+        if ("REJECTED".equals(status)) {
+            log.info(
+                    "event=loan_application_rejected application_id={} customer_id={} old_status={} new_status={}",
+                    loan.getId(),
+                    loan.getCustomer().getId(),
+                    oldStatus,
+                    status);
+        }
+
         // BARU SETELAH STATUS UPDATE
+        // log business event (selalu kalau DISBURSED)
+        if ("DISBURSED".equals(status) && !"DISBURSED".equals(currentStatus)) {
+            log.info(
+                    "event=loan_application_disbursed application_id={} customer_id={} old_status={} new_status={}",
+                    loan.getId(),
+                    loan.getCustomer().getId(),
+                    oldStatus,
+                    status);
+        }
+
+        // generate logic schedule hanya kalau belum ada
         if ("DISBURSED".equals(status)
                 && !"DISBURSED".equals(currentStatus)
                 && !repaymentService.existsByLoanId(loan.getId())) {

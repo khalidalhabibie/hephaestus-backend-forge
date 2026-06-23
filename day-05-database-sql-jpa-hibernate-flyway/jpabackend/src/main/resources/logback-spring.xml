@@ -1,0 +1,19 @@
+<configuration>
+
+    <property name="PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss} [%X{correlationId}] %-5level %logger - %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ada 3 level : debug, info, warn, error (level info: nanti akan muncul info,warn,error)
+    debug/info biasa buat local, kalo production warn/error buat production karena
+    akan memunculkan data yg banyak dan bikin full, jadi tampilin level warn aja -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

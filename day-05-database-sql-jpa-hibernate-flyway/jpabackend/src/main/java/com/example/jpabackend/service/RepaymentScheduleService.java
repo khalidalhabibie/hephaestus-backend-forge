@@ -17,9 +17,12 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class RepaymentScheduleService {
+    private static final Logger log = LoggerFactory.getLogger(RepaymentScheduleService.class);
 
     private final RepaymentScheduleRepository repaymentRepo;
     private final LoanApplicationRepository loanRepo;
@@ -37,7 +40,12 @@ public class RepaymentScheduleService {
     public List<RepaymentScheduleResponse> getByLoanId(Long loanId) {
 
         LoanApplicationEntity loan = loanRepo.findById(loanId)
-                .orElseThrow(() -> new LoanApplicationNotFoundException(loanId));
+                .orElseThrow(() -> {
+                    log.warn(
+                            "event=loan_application_not_found application_id={}",
+                            loanId);
+                    return new LoanApplicationNotFoundException(loanId);
+                });
 
         return repaymentRepo.findByLoanApplicationId(loan.getId())
                 .stream()
@@ -51,7 +59,12 @@ public class RepaymentScheduleService {
     public RepaymentScheduleResponse getById(Long id) {
 
         RepaymentScheduleEntity r = repaymentRepo.findByIdWithLoan(id)
-                .orElseThrow(() -> new RepaymentScheduleNotFoundException(id));
+                .orElseThrow(() -> {
+                    log.warn(
+                            "event=repayment_schedule_not_found schedule_id={}",
+                            id);
+                    return new RepaymentScheduleNotFoundException(id);
+                });
 
         return toResponse(r);
     }
@@ -69,9 +82,19 @@ public class RepaymentScheduleService {
     public void generateSchedule(Long loanId) {
 
         LoanApplicationEntity loan = loanRepo.findById(loanId)
-                .orElseThrow();
+                .orElseThrow(() -> {
+                    log.warn(
+                            "event=loan_application_not_found application_id={}",
+                            loanId);
+                    return new LoanApplicationNotFoundException(loanId);
+                });
 
         if (repaymentRepo.existsByLoanApplication_Id(loanId)) {
+
+            log.warn(
+                    "event=repayment_schedule_already_exists application_id={}",
+                    loanId);
+
             return;
         }
 
@@ -106,6 +129,12 @@ public class RepaymentScheduleService {
 
             repaymentRepo.save(schedule);
         }
+        log.info(
+                "event=repayment_schedule_generated application_id={} tenor={} total_loan_amount={}",
+                loanId,
+                tenor,
+                loanAmount
+        );
     }
 
     // FILTER BY STATUS
