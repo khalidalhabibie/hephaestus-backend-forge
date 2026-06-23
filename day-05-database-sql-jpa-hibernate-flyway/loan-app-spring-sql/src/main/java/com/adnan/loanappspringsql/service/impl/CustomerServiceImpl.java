@@ -12,9 +12,13 @@ import com.adnan.loanappspringsql.exception.NotFoundException;
 import com.adnan.loanappspringsql.model.Customer;
 import com.adnan.loanappspringsql.repository.CustomerRepository;
 import com.adnan.loanappspringsql.service.CustomerService;
+import com.adnan.loanappspringsql.utils.LogUtil;
+import com.adnan.loanappspringsql.utils.SensitiveDataLogUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -23,11 +27,21 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   public CustomerResponse create(CreateCustomerRequest request) {
+    log.info(LogUtil.format(
+        "customer_create_requested"));
     if (customerRepository.existsByNik(request.getNik())) {
+      log.warn(LogUtil.format(
+          "customer_create_failed",
+          "reason", "duplicate_nik",
+          "nik", SensitiveDataLogUtil.maskNik(request.getNik())));
       throw new BadRequestException("NIK already exists");
     }
 
     if (customerRepository.existsByEmail(request.getEmail())) {
+      log.warn(LogUtil.format(
+          "customer_create_failed",
+          "reason", "duplicate_email",
+          "email", SensitiveDataLogUtil.maskEmail(request.getEmail())));
       throw new BadRequestException("Email already exists");
     }
 
@@ -39,6 +53,9 @@ public class CustomerServiceImpl implements CustomerService {
         .build();
 
     customerRepository.save(customer);
+    log.info(LogUtil.format(
+        "customer_created",
+        "customerId", customer.getId()));
 
     return mapToResponse(customer);
   }
@@ -46,9 +63,20 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional(readOnly = true)
   public CustomerResponse findById(Long id) {
+    log.info(LogUtil.format(
+        "customer_lookup",
+        "customerId", id));
     Customer customer = customerRepository.findById(id)
-        .orElseThrow(() -> new NotFoundException(
-            "Customer not found with id: " + id));
+        .orElseThrow(() -> {
+          log.warn(LogUtil.format(
+              "customer_not_found",
+              "customerId", id));
+          return new NotFoundException(
+              "Customer not found with id: " + id);
+        });
+    log.info(LogUtil.format(
+        "customer_found",
+        "customerId", id));
 
     return mapToResponse(customer);
   }
@@ -56,20 +84,34 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional(readOnly = true)
   public List<CustomerResponse> findAll() {
-    return customerRepository.findAll()
+    log.info(LogUtil.format(
+        "customer_find_all"));
+    List<CustomerResponse> customers = customerRepository.findAll()
         .stream()
         .map(this::mapToResponse)
         .toList();
+    log.info(LogUtil.format(
+        "customer_find_all_completed",
+        "total", customers.size()));
+
+    return customers;
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<CustomerResponse> search(String name) {
-    return customerRepository
+    log.info(LogUtil.format(
+        "customer_search"));
+    List<CustomerResponse> customers = customerRepository
         .findByFullNameContainingIgnoreCase(name)
         .stream()
         .map(this::mapToResponse)
         .toList();
+    log.info(LogUtil.format(
+        "customer_search_completed",
+        "total", customers.size()));
+
+    return customers;
   }
 
   // Helper

@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.adnan.loanappspringsql.dto.ErrorResponse;
 import com.adnan.loanappspringsql.dto.FieldErrorResponse;
+import com.adnan.loanappspringsql.utils.LogUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
         @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -22,12 +26,18 @@ public class GlobalExceptionHandler {
                                                 toSnakeCase(error.getField()),
                                                 error.getDefaultMessage()))
                                 .toList();
+                log.warn(LogUtil.format(
+                                "validation_error",
+                                "fieldCount", errors.size()));
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                 .body(ErrorResponse.error("VALIDATION_ERROR", "Invalid request", errors));
         }
 
         @ExceptionHandler(BadRequestException.class)
         public ResponseEntity<ErrorResponse<Void>> badRequest(BadRequestException exception) {
+                log.warn(LogUtil.format(
+                                "bad_request",
+                                "message", exception.getMessage()));
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                 .body(ErrorResponse.error("VALIDATION_ERROR",
                                                 exception.getMessage() != null ? exception.getMessage()
@@ -37,6 +47,9 @@ public class GlobalExceptionHandler {
 
         @ExceptionHandler(NotFoundException.class)
         public ResponseEntity<ErrorResponse<Void>> notFound(NotFoundException exception) {
+                log.warn(LogUtil.format(
+                                "resource_not_found",
+                                "message", exception.getMessage()));
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                 .body(ErrorResponse.error("NOT_FOUND",
                                                 exception.getMessage() != null ? exception.getMessage()
@@ -46,6 +59,8 @@ public class GlobalExceptionHandler {
 
         @ExceptionHandler(ForbiddenException.class)
         public ResponseEntity<ErrorResponse<Void>> forbidden(ForbiddenException exception) {
+                log.warn(LogUtil.format(
+                                "forbidden_access"));
                 return ResponseEntity.status(HttpStatus.FORBIDDEN)
                                 .body(ErrorResponse.error("FORBIDDEN",
                                                 exception.getMessage() != null ? exception.getMessage()
@@ -55,6 +70,8 @@ public class GlobalExceptionHandler {
 
         @ExceptionHandler(UnauthorizedException.class)
         public ResponseEntity<ErrorResponse<Void>> unauthorized(UnauthorizedException exception) {
+                log.warn(LogUtil.format(
+                                "unauthorized_access"));
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                 .body(ErrorResponse.error("UNAUTHORIZED",
                                                 exception.getMessage() != null ? exception.getMessage()
@@ -64,7 +81,9 @@ public class GlobalExceptionHandler {
 
         @ExceptionHandler(Exception.class)
         public ResponseEntity<ErrorResponse<Void>> internalServerError(Exception exception) {
-                System.out.println(exception.getMessage());
+                log.error(LogUtil.format(
+                                "unexpected_error"),
+                                exception);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                 .body(ErrorResponse.error("INTERNAL_SERVER_ERROR", "Unexpected error occurred", null));
         }
