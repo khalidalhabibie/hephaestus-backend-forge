@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari Vali
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+proses pengecekan data yang dikirim client agar sesuai dengan aturan
 ```
 
 ### 2. Kenapa backend tetap perlu validasi walaupun frontend sudah validasi?
@@ -17,7 +17,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena frontend bisa dilewati, sehingga backend tetap harus memastikan data aman
 ```
 
 ### 3. Apa fungsi @Valid?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memicu proses validasi pada object request berdasarkan annotation validasi
 ```
 
 ### 4. Apa fungsi @NotBlank?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memastikan field tidak bernilai null, tidak kosong, dan tidak hanya berisi spasi
 ```
 
 ### 5. Apa perbedaan @NotBlank dan @NotNull?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotNull hanya memastikan value tidak null, sedangkan @NotBlank juga memastikan value tidak kosong dan tidak hanya spasi
 ```
 
 ### 6. Apa fungsi @Email?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memastikan format string sesuai dengan format email yang valid
 ```
 
 ### 7. Apa fungsi @Size?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk membatasi panjang minimum dan/atau maksimum string, collection, atau array
 ```
 
 ### 8. Apa yang terjadi jika request gagal validasi?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Spring akan melempar exception dan mengembalikan response error ke client
 ```
 
 ### 9. Apa itu MethodArgumentNotValidException?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+exception yang terjadi ketika validasi request body gagal saat menggunakan @Valid pada method controller
 ```
 
 ### 10. Apa itu standard error response?
@@ -81,7 +81,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+format response error yang konsisten, biasanya berisi status, message, error code
 ```
 
 ### 11. Kenapa error response perlu konsisten?
@@ -89,7 +89,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar mudah dipahami client, memudahkan handling di frontend
 ```
 
 ### 12. Apa itu field-level error?
@@ -97,7 +97,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+error yang terjadi pada field tertentu dalam request
 ```
 
 ### 13. Apa itu custom exception?
@@ -105,7 +105,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+exception buatan sendiri yang merepresentasikan error bisnis tertentu
 ```
 
 ### 14. Kenapa CustomerNotFoundException lebih baik daripada RuntimeException biasa?
@@ -113,7 +113,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena lebih spesifik, mudah dipahami, dan mempermudah mapping ke HTTP status
 ```
 
 ### 15. Apa fungsi @ControllerAdvice?
@@ -121,7 +121,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk menangani exception secara global (centralized) di seluruh controller.
 ```
 
 ### 16. Apa fungsi @ExceptionHandler?
@@ -129,7 +129,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk menentukan method yang menangani exception tertentu.
 ```
 
 ### 17. Kenapa error handling sebaiknya centralized?
@@ -137,7 +137,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar kode lebih rapi, konsisten, mudah dirawat, dan tidak duplikasi logic error
 ```
 
 ### 18. Kapan menggunakan 400 Bad Request?
@@ -145,7 +145,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika request dari client tidak valid
 ```
 
 ### 19. Kapan menggunakan 404 Not Found?
@@ -153,7 +153,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika resource yang diminta tidak ditemukan
 ```
 
 ### 20. Kapan menggunakan 500 Internal Server Error?
@@ -161,7 +161,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ketika terjadi error di sisi server yang tidak terduga
 ```
 
 ### 21. Kenapa stack trace tidak boleh dikirim ke client?
@@ -169,7 +169,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena bisa membocorkan informasi internal aplikasi dan berisiko terhadap keamanan
 ```
 
 ### 22. Jelaskan flow ketika POST /api/v1/customers menerima email invalid.
@@ -177,7 +177,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+request masuk → @Valid memicu validasi → field email gagal @Email → MethodArgumentNotValidException dilempar → ditangani ControllerAdvice → response 400 dengan field error dikirim ke client
 ```
 
 ### 23. Jelaskan flow ketika GET /api/v1/customers/999 tidak menemukan data.
@@ -185,7 +185,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+controller memanggil service → data tidak ditemukan → CustomerNotFoundException dilempar → ditangani ControllerAdvice → response 404 dikirim ke client
 ```
 
 ### 24. Apa perbedaan validation error, business error, dan system error?
@@ -193,7 +193,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validation error: data request tidak valid
+Business error: aturan bisnis tidak terpenuhi
+System error: error teknis/internal server
+
 ```
 
 ### 25. Bagian mana yang paling sulit dari exercise Day 2?
@@ -201,7 +204,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+diawal bingung kenapa bisa memanggil global exception tanpa membuat object
 ```
 
 ## Reflection
@@ -209,20 +212,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. Cara kerja Spring Boot membaca component
+2. Peletakan Error Handling
+3. Clean Architecture (controller, service, repository)
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
+1. Syntax spring boot
 2.
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+apa aja syntax spring yang sangat useful untuk dipakai dikepedannya
 ```
