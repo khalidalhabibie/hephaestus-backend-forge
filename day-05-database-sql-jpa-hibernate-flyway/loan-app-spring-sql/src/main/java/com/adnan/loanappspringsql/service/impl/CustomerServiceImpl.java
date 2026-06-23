@@ -23,105 +23,105 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
-  private final CustomerRepository customerRepository;
+        private final CustomerRepository customerRepository;
 
-  @Override
-  public CustomerResponse create(CreateCustomerRequest request) {
-    log.info(LogUtil.format(
-        "customer_create_requested"));
-    if (customerRepository.existsByNik(request.getNik())) {
-      log.warn(LogUtil.format(
-          "customer_create_failed",
-          "reason", "duplicate_nik",
-          "nik", SensitiveDataLogUtil.maskNik(request.getNik())));
-      throw new BadRequestException("NIK already exists");
-    }
+        @Override
+        public CustomerResponse create(CreateCustomerRequest request) {
+                log.info(LogUtil.format(
+                                "customer_create_requested"));
+                if (customerRepository.existsByNik(request.getNik())) {
+                        log.warn(LogUtil.format(
+                                        "customer_create_failed",
+                                        "reason", "duplicate_nik",
+                                        "nik", SensitiveDataLogUtil.maskNik(request.getNik())));
+                        throw new BadRequestException("NIK already exists");
+                }
 
-    if (customerRepository.existsByEmail(request.getEmail())) {
-      log.warn(LogUtil.format(
-          "customer_create_failed",
-          "reason", "duplicate_email",
-          "email", SensitiveDataLogUtil.maskEmail(request.getEmail())));
-      throw new BadRequestException("Email already exists");
-    }
+                if (customerRepository.existsByEmail(request.getEmail())) {
+                        log.warn(LogUtil.format(
+                                        "customer_create_failed",
+                                        "reason", "duplicate_email",
+                                        "email", SensitiveDataLogUtil.maskEmail(request.getEmail())));
+                        throw new BadRequestException("Email already exists");
+                }
 
-    Customer customer = Customer.builder()
-        .fullName(request.getFullName())
-        .nik(request.getNik())
-        .email(request.getEmail())
-        .phoneNumber(request.getPhoneNumber())
-        .build();
+                Customer customer = Customer.builder()
+                                .fullName(request.getFullName())
+                                .nik(request.getNik())
+                                .email(request.getEmail())
+                                .phoneNumber(request.getPhoneNumber())
+                                .build();
 
-    customerRepository.save(customer);
-    log.info(LogUtil.format(
-        "customer_created",
-        "customerId", customer.getId()));
+                customerRepository.save(customer);
+                log.info(LogUtil.format(
+                                "customer_created",
+                                "customerId", customer.getId()));
 
-    return mapToResponse(customer);
-  }
+                return mapToResponse(customer);
+        }
 
-  @Override
-  @Transactional(readOnly = true)
-  public CustomerResponse findById(Long id) {
-    log.info(LogUtil.format(
-        "customer_lookup",
-        "customerId", id));
-    Customer customer = customerRepository.findById(id)
-        .orElseThrow(() -> {
-          log.warn(LogUtil.format(
-              "customer_not_found",
-              "customerId", id));
-          return new NotFoundException(
-              "Customer not found with id: " + id);
-        });
-    log.info(LogUtil.format(
-        "customer_found",
-        "customerId", id));
+        @Override
+        @Transactional(readOnly = true)
+        public CustomerResponse findById(Long id) {
+                log.info(LogUtil.format(
+                                "customer_lookup",
+                                "customerId", id));
+                Customer customer = customerRepository.findById(id)
+                                .orElseThrow(() -> {
+                                        log.warn(LogUtil.format(
+                                                        "customer_not_found",
+                                                        "customerId", id));
+                                        return new NotFoundException(
+                                                        "Customer not found with id: " + id);
+                                });
+                log.info(LogUtil.format(
+                                "customer_found",
+                                "customerId", id));
 
-    return mapToResponse(customer);
-  }
+                return mapToResponse(customer);
+        }
 
-  @Override
-  @Transactional(readOnly = true)
-  public List<CustomerResponse> findAll() {
-    log.info(LogUtil.format(
-        "customer_find_all"));
-    List<CustomerResponse> customers = customerRepository.findAll()
-        .stream()
-        .map(this::mapToResponse)
-        .toList();
-    log.info(LogUtil.format(
-        "customer_find_all_completed",
-        "total", customers.size()));
+        @Override
+        @Transactional(readOnly = true)
+        public List<CustomerResponse> findAll() {
+                log.info(LogUtil.format(
+                                "customer_find_all"));
+                List<CustomerResponse> customers = customerRepository.findAll()
+                                .stream()
+                                .map(this::mapToResponse)
+                                .toList();
+                log.info(LogUtil.format(
+                                "customer_find_all_completed",
+                                "total", customers.size()));
 
-    return customers;
-  }
+                return customers;
+        }
 
-  @Override
-  @Transactional(readOnly = true)
-  public List<CustomerResponse> search(String name) {
-    log.info(LogUtil.format(
-        "customer_search"));
-    List<CustomerResponse> customers = customerRepository
-        .findByFullNameContainingIgnoreCase(name)
-        .stream()
-        .map(this::mapToResponse)
-        .toList();
-    log.info(LogUtil.format(
-        "customer_search_completed",
-        "total", customers.size()));
+        @Override
+        @Transactional(readOnly = true)
+        public List<CustomerResponse> search(String name) {
+                log.info(LogUtil.format(
+                                "customer_search"));
+                List<CustomerResponse> customers = customerRepository
+                                .findByFullNameContainingIgnoreCase(name)
+                                .stream()
+                                .map(this::mapToResponse)
+                                .toList();
+                log.info(LogUtil.format(
+                                "customer_search_completed",
+                                "total", customers.size()));
 
-    return customers;
-  }
+                return customers;
+        }
 
-  // Helper
-  private CustomerResponse mapToResponse(Customer customer) {
-    return CustomerResponse.builder()
-        .id(customer.getId())
-        .fullName(customer.getFullName())
-        .nik(customer.getNik())
-        .email(customer.getEmail())
-        .phoneNumber(customer.getPhoneNumber())
-        .build();
-  }
+        // Helper
+        private CustomerResponse mapToResponse(Customer customer) {
+                return CustomerResponse.builder()
+                                .id(customer.getId())
+                                .fullName(customer.getFullName())
+                                .nik(customer.getNik())
+                                .email(customer.getEmail())
+                                .phoneNumber(customer.getPhoneNumber())
+                                .build();
+        }
 }

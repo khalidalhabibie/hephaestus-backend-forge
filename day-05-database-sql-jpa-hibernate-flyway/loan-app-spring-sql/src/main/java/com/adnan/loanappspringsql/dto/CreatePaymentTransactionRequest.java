@@ -7,9 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreatePaymentTransactionRequest {
   @JsonProperty("repayment_schedule_id")
   @NotNull(message = "repayment_schedule_id is required")
