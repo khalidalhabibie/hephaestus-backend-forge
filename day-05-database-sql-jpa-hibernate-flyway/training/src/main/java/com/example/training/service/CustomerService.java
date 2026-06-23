@@ -15,6 +15,9 @@ import com.example.training.exception.DuplicateCustomerException;
 import com.example.training.exception.NotFoundException;
 import com.example.training.repository.CustomerRepository;
 
+import com.example.training.auth.AuthContext;
+import com.example.training.exception.ForbiddenException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +29,10 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public CustomerResponse create(CreateCustomerRequest request) {
+    public CustomerResponse create(CreateCustomerRequest request, AuthContext auth) {
+        if ("APPROVER".equals(auth.getRole())) {
+            throw new ForbiddenException("FORBIDDEN", "APPROVER is not allowed to create customers");
+        }
         String correlationId = MDC.get("correlation_id");
         log.debug("event=customer_create_request correlation_id={}", correlationId);
 

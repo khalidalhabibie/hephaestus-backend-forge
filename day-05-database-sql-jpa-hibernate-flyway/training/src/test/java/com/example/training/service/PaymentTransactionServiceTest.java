@@ -125,4 +125,43 @@ class PaymentTransactionServiceTest {
 
         assertThat(result).isEmpty();
     }
+
+    @Test
+    void create_shouldThrow_whenScheduleIsAlreadyPaid() {
+        schedule.setStatus(RepaymentStatus.PAID);
+
+        CreatePaymentTransactionRequest request = new CreatePaymentTransactionRequest();
+        request.setRepaymentScheduleId(scheduleId);
+        request.setPaymentReference("PAY-001");
+        request.setPaidAmount(new BigDecimal("950000"));
+        request.setPaidAt(OffsetDateTime.parse("2026-06-19T10:00:00+07:00"));
+
+        when(repaymentScheduleRepository.findById(scheduleId)).thenReturn(Optional.of(schedule));
+
+        assertThatThrownBy(() -> paymentTransactionService.create(request))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("already PAID");
+    }
+
+    @Test
+    void create_shouldMarkScheduleAsPaid_whenTotalPaidMeetsAmount() {
+        schedule.setTotalAmount(new BigDecimal("950000"));
+
+        CreatePaymentTransactionRequest request = new CreatePaymentTransactionRequest();
+        request.setRepaymentScheduleId(scheduleId);
+        request.setPaymentReference("PAY-FULL");
+        request.setPaidAmount(new BigDecimal("950000"));
+        request.setPaidAt(OffsetDateTime.parse("2026-06-19T10:00:00+07:00"));
+
+        when(repaymentScheduleRepository.findById(scheduleId)).thenReturn(Optional.of(schedule));
+        when(paymentTransactionRepository.save(any(PaymentTransactionEntity.class))).thenReturn(payment);
+        when(paymentTransactionRepository.sumPaidAmountByScheduleId(scheduleId))
+                .thenReturn(new BigDecimal("950000"));
+
+        PaymentTransactionResponse response = paymentTransactionService.create(request);
+
+        assertThat(response.getStatus()).isEqualTo("SUCCESS");
+        verify(repaymentScheduleRepository).save(schedule);
+        assertThat(schedule.getStatus()).isEqualTo(RepaymentStatus.PAID);
+    }
 }

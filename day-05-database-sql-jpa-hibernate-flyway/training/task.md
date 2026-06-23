@@ -87,6 +87,6 @@ void should_throw_forbidden_when_staff_tries_to_approve_loan() {
 
 ## Acceptance Criteria
 
-- [ ] semua service memiliki unit test dengan JUnit 5, Mockito, dan Given-When-Then.
+- [ ] semua di folder service memiliki unit test dengan JUnit 5, Mockito, dan Given-When-Then.
 - [ ] Happy path, negative path,semuaa service.
 

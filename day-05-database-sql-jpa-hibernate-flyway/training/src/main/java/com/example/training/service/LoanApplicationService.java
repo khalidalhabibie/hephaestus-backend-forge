@@ -19,6 +19,9 @@ import com.example.training.exception.NotFoundException;
 import com.example.training.repository.CustomerRepository;
 import com.example.training.repository.LoanApplicationRepository;
 
+import com.example.training.auth.AuthContext;
+import com.example.training.exception.ForbiddenException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -183,6 +186,26 @@ public class LoanApplicationService {
                         "All repayment schedules must be PAID before closing the loan");
             }
         }
+    }
+
+    @Transactional
+    public LoanApplicationResponse approveLoan(UUID id, AuthContext auth) {
+        if (!"APPROVER".equals(auth.getRole())) {
+            throw new ForbiddenException("FORBIDDEN", "Only APPROVER can approve loans");
+        }
+        UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();
+        req.setStatus("APPROVED");
+        return updateStatus(id, req);
+    }
+
+    @Transactional
+    public LoanApplicationResponse rejectLoan(UUID id, AuthContext auth) {
+        if (!"APPROVER".equals(auth.getRole())) {
+            throw new ForbiddenException("FORBIDDEN", "Only APPROVER can reject loans");
+        }
+        UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();
+        req.setStatus("REJECTED");
+        return updateStatus(id, req);
     }
 
     private LoanApplicationResponse toResponse(LoanApplicationEntity loan) {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.training.dto.ApiResponse;
 import com.example.training.dto.CreateCustomerRequest;
+import com.example.training.auth.AuthContext;
 import com.example.training.dto.CustomerResponse;
 import com.example.training.service.CustomerService;
 
@@ -27,7 +28,7 @@ public class CustomerController {
 
     @PostMapping
     public ApiResponse<CustomerResponse> create(@Valid @RequestBody CreateCustomerRequest request) {
-        return ApiResponse.success(customerService.create(request));
+        return ApiResponse.success(customerService.create(request, new AuthContext("system", "STAFF")));
     }
 
     @GetMapping

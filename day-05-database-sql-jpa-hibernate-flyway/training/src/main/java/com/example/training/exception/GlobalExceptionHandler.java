@@ -34,6 +34,14 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.error(ex.getCode(), ex.getMessage(), correlationId, null));
     }
 
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiResponse<Void>> handleForbidden(ForbiddenException ex) {
+        String correlationId = MDC.get("correlation_id");
+        log.warn("event=forbidden code={} correlation_id={}", ex.getCode(), correlationId);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ApiResponse.error(ex.getCode(), ex.getMessage(), correlationId, null));
+    }
+
     @ExceptionHandler(SecurityException.class)
     public ResponseEntity<ApiResponse<Void>> handleSecurity(SecurityException ex) {
         String correlationId = MDC.get("correlation_id");
