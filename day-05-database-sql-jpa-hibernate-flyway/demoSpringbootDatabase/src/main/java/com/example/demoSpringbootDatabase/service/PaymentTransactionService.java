@@ -59,8 +59,8 @@ public class PaymentTransactionService {
 
         // 3. ✅ STRUCTURED LOG & MASKING REFERENSI PEMBAYARAN
         String maskedRef = maskReference(request.getPaymentReference());
-        log.info("{\"event\":\"PAYMENT_SUCCESS\", \"schedule_id\":{}, \"loan_id\":{}, \"amount\":{}, \"reference\":\"{}\"}",
-                schedule.getId(), schedule.getLoanApplication().getId(), request.getPaidAmount(), maskedRef);
+        // log.info("{\"event\":\"PAYMENT_SUCCESS\", \"schedule_id\":{}, \"loan_id\":{}, \"amount\":{}, \"reference\":\"{}\"}",
+        //         schedule.getId(), schedule.getLoanApplication().getId(), request.getPaidAmount(), maskedRef);
 
         return mapToResponse(trx);
     }

@@ -27,13 +27,13 @@ public class CustomerService {
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
         // Validasi Duplikasi NIK
         if (customerRepository.existsByNik(request.getNik())) {
-            log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"NIK already registered\"}");
+            log.warn("{\"event\":\"VALIDATION_ERROR\", \"message\":\"NIK already registered\"}");
             throw new DuplicateCustomerException("NIK already registered");
         }
         
         // Validasi Duplikasi Email
         if (customerRepository.existsByEmail(request.getEmail())) {
-            log.error("{\"event\":\"VALIDATION_ERROR\", \"message\":\"Email already registered\"}");
+            log.warn("{\"event\":\"VALIDATION_ERROR\", \"message\":\"Email already registered\"}");
             throw new DuplicateCustomerException("Email already registered");
         }
 

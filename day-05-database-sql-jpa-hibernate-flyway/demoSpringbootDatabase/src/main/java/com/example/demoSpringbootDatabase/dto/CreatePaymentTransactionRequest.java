@@ -23,4 +23,9 @@ public class CreatePaymentTransactionRequest {
     @NotNull(message = "paid_at is required")
     @JsonProperty("paid_at")
     private LocalDateTime paidAt;
+
+    public void setCustomerId(long l) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCustomerId'");
+    }
 }
