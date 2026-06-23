@@ -11,6 +11,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 
+
+//sebenarnya ini termasuk ke requestId karena harus di generate masing, sedangkan
+//correlationId digunakan untuk digunakan di service lain, tapi terdiri dari beberapa req id
+//corr id = Order 999:
+// req id:
+// -tiket 123(check stock)
+// -tiket 124(payment)
+// -tiket 125(delivery)
+
 @Component
 public class RequestIdFilter extends OncePerRequestFilter {
 
