@@ -43,8 +43,8 @@ public class LoanApplicationEntity {
     private String purpose;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private LoanStatus status;
+    @Column(name = "status" ,nullable = false)
+    private LoanStatus Status;
 
     @Column(name = "created_at")
     private ZonedDateTime createdAt;
