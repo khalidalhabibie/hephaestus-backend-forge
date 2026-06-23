@@ -11,7 +11,6 @@ import com.example.dbbackend.repaymentschedule.dto.RepaymentScheduleResponse;
 import com.example.dbbackend.repaymentschedule.entity.RepaymentScheduleEntity;
 import com.example.dbbackend.repaymentschedule.entity.RepaymentStatus;
 import com.example.dbbackend.repaymentschedule.repository.RepaymentScheduleRepository;
-
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 public class RepaymentScheduleService {
-
     private final RepaymentScheduleRepository repository;
     private final LoanApplicationRepository loanRepository;
 
-    public RepaymentScheduleService(RepaymentScheduleRepository repository,
-            LoanApplicationRepository loanRepository) {
+    public RepaymentScheduleService(RepaymentScheduleRepository repository, LoanApplicationRepository loanRepository) {
         this.repository = repository;
         this.loanRepository = loanRepository;
     }
