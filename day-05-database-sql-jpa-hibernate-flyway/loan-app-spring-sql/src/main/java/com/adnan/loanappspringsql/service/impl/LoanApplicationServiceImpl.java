@@ -245,9 +245,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         }
 
         // Helper
-        private void validateStatusFlow(
-                        LoanApplication loan,
-                        LoanStatusEnum newStatus) {
+        private void validateStatusFlow(LoanApplication loan, LoanStatusEnum newStatus) {
                 LoanStatusEnum currentStatus = loan.getStatus();
                 switch (currentStatus) {
                         case SUBMITTED -> {
@@ -287,9 +285,7 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
         }
 
         private void generateRepaymentSchedule(LoanApplication loan) {
-                if (!repaymentScheduleRepository
-                                .findByLoanApplicationId(loan.getId())
-                                .isEmpty()) {
+                if (!repaymentScheduleRepository.findByLoanApplicationId(loan.getId()).isEmpty()) {
                         throw new BadRequestException(
                                         "Repayment schedule has already been generated");
                 }
@@ -298,20 +294,16 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
                                 BigDecimal.valueOf(12),
                                 10,
                                 RoundingMode.HALF_UP);
-
                 BigDecimal principalAmount = loan.getLoanAmount().divide(
                                 BigDecimal.valueOf(loan.getTenorMonth()),
                                 2,
                                 RoundingMode.HALF_UP);
-
                 BigDecimal interestAmount = loan.getLoanAmount()
                                 .multiply(monthlyInterestRate)
                                 .setScale(2, RoundingMode.HALF_UP);
 
                 BigDecimal totalAmount = principalAmount.add(interestAmount);
-
                 LocalDate disbursementDate = LocalDate.now();
-
                 List<RepaymentSchedule> schedules = new ArrayList<>();
 
                 for (int i = 1; i <= loan.getTenorMonth(); i++) {
@@ -330,26 +322,23 @@ public class LoanApplicationServiceImpl implements LoanApplicationService {
                 repaymentScheduleRepository.saveAll(schedules);
         }
 
-        private LoanApplicationResponse mapToResponse(
-                        LoanApplication loan) {
+        private LoanApplicationResponse mapToResponse(LoanApplication loan) {
                 return LoanApplicationResponse.builder()
                                 .id(loan.getId())
                                 .loanAmount(loan.getLoanAmount())
                                 .tenorMonth(loan.getTenorMonth())
                                 .purpose(loan.getPurpose())
                                 .status(loan.getStatus())
-                                .customer(
-                                                CustomerSummaryResponse.builder()
-                                                                .id(loan.getCustomer().getId())
-                                                                .fullName(loan.getCustomer().getFullName())
-                                                                .nik(loan.getCustomer().getNik())
-                                                                .email(loan.getCustomer().getEmail())
-                                                                .build())
+                                .customer(CustomerSummaryResponse.builder()
+                                                .id(loan.getCustomer().getId())
+                                                .fullName(loan.getCustomer().getFullName())
+                                                .nik(loan.getCustomer().getNik())
+                                                .email(loan.getCustomer().getEmail())
+                                                .build())
                                 .build();
         }
 
-        private PageResponse<LoanApplicationResponse> toPageResponse(
-                        Page<LoanApplication> loanPage) {
+        private PageResponse<LoanApplicationResponse> toPageResponse(Page<LoanApplication> loanPage) {
                 return PageResponse.<LoanApplicationResponse>builder()
                                 .content(
                                                 loanPage.getContent()
