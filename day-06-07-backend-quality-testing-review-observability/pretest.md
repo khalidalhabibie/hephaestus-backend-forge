@@ -17,7 +17,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang testing mind
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Working code hanya berjalan sesuai skenario tertentu, sedangkan trusted code sudah teruji sehingga dapat dipercaya benar di berbagai kondisi.
 ```
 
 2. Kenapa testing disebut sebagai risk reduction?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena testing mengurangi risiko bug di production dengan menemukan masalah lebih awal sebelum deploy.
 ```
 
 3. Apa itu Given-When-Then?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Format penulisan test: Given (kondisi awal), When (aksi dilakukan), Then (hasil yang diharapkan).
 ```
 
 4. Apa perbedaan unit test dan integration test?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Unit test menguji satu komponen secara terisolasi, sedangkan integration test menguji interaksi antar komponen (misalnya service dengan database)
 ```
 
 5. Kenapa service layer biasanya cocok untuk unit test?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena berisi business logic utama dan bisa diuji tanpa bergantung ke external system dengan cara mock dependency.
 ```
 
 6. Apa fungsi JUnit 5?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Framework untuk menulis dan menjalankan unit test di Java.
 ```
 
 7. Apa fungsi Mockito?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Library untuk membuat mock object agar dependency bisa disimulasikan saat testing.
 ```
 
 8. Kenapa dependency seperti repository sering dimock saat unit test?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar test fokus ke logic yang diuji dan tidak tergantung ke database atau sistem eksternal.
 ```
 
 9. Apa contoh test case penting untuk `LoanApplicationService`?
@@ -81,7 +81,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Pengajuan loan valid berhasil
+- Pengajuan ditolak jika data tidak sesuai format
+- response sesuai
 ```
 
 10. Apa tujuan peer code review?
@@ -89,7 +91,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk meningkatkan kualitas code, menemukan bug, dan memastikan standar coding terpenuhi.
 ```
 
 11. Area apa saja yang perlu dicek saat code review backend?
@@ -97,7 +99,12 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Logic correctness
+- Error handling
+- Security (PII, injection)
+- Performance
+- Readability & maintainability
+- Test coverage
 ```
 
 12. Apa itu structured logging?
@@ -105,7 +112,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Logging dengan format terstruktur (misalnya JSON) sehingga mudah dibaca dan dianalisis oleh sistem.
 ```
 
 13. Apa fungsi `correlation_id`?
@@ -113,7 +120,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melacak satu request end-to-end di berbagai service dalam sistem terdistribusi.
 ```
 
 14. Kapan menggunakan log level `info`, `warn`, dan `error`?
@@ -121,7 +128,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- info: proses normal (misalnya request masuk)
+- warn: kondisi tidak normal tapi masih berjalan
+- error: kegagalan yang mengganggu proses
 ```
 
 15. Sebutkan data yang tidak boleh ditulis mentah di log.
@@ -129,19 +138,23 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Password
+- Token / API key
+- Nomor KTP / NIK
+- Nomor rekening / kartu kredit
+- Data pribadi sensitif
 ```
 
 ## Self Assessment
 
 | Area | Score 1-5 |
 |---|---|
-| Testing mindset | |
-| Given-When-Then | |
-| JUnit 5 | |
-| Mockito | |
-| Service layer testing | |
-| Peer code review | |
-| Structured logging | |
-| Correlation ID | |
-| PII safety | |
+| Testing mindset |3|
+| Given-When-Then |2|
+| JUnit 5 |2|
+| Mockito |2|
+| Service layer testing |3|
+| Peer code review |3|
+| Structured logging |3|
+| Correlation ID |2|
+| PII safety |2|
