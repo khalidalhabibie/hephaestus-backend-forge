@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -27,15 +26,13 @@ import java.util.List;
 class CustomerControllerTest {
   @Autowired
   private MockMvc mockMvc;
+
   private ObjectMapper objectMapper = new ObjectMapper();
 
   @MockitoBean
   private CustomerServiceImpl customerService;
   @MockitoBean
   private LoanApplicationServiceImpl loanApplicationService;
-
-  @InjectMocks
-  private CustomerController customerController;
 
   @Test
   void create_shouldReturnCreated() throws Exception {
@@ -56,6 +53,7 @@ class CustomerControllerTest {
     when(customerService.create(any())).thenReturn(response);
 
     mockMvc.perform(post("/api/v1/customers")
+        .accept(MediaType.APPLICATION_JSON)
         .contentType(MediaType.APPLICATION_JSON)
         .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isCreated())
