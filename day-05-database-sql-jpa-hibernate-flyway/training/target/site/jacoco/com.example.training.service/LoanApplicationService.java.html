@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoanApplicationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report"></a> &gt; <a href="index.source.html" class="el_package">com.example.training.service</a> &gt; <span class="el_source">LoanApplicationService.java</span></div><h1>LoanApplicationService.java</h1><pre class="source lang-java linenums">package com.example.training.service;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.slf4j.MDC;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.training.dto.CreateLoanApplicationRequest;
+import com.example.training.dto.CustomerSummaryResponse;
+import com.example.training.dto.LoanApplicationResponse;
+import com.example.training.dto.UpdateLoanStatusRequest;
+import com.example.training.entity.CustomerEntity;
+import com.example.training.entity.LoanApplicationEntity;
+import com.example.training.enums.LoanStatus;
+import com.example.training.enums.RepaymentStatus;
+import com.example.training.exception.NotFoundException;
+import com.example.training.repository.CustomerRepository;
+import com.example.training.repository.LoanApplicationRepository;
+
+import com.example.training.auth.AuthContext;
+import com.example.training.exception.ForbiddenException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+<span class="fc" id="L28">@Slf4j</span>
+@Service
+@RequiredArgsConstructor
+public class LoanApplicationService {
+
+    private final LoanApplicationRepository loanApplicationRepository;
+    private final CustomerRepository customerRepository;
+    private final RepaymentScheduleService repaymentScheduleService;
+
+    @Transactional
+    public LoanApplicationResponse create(CreateLoanApplicationRequest request) {
+<span class="fc" id="L39">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L40">        log.debug(&quot;event=loan_create_request customer_id={} loan_amount={} tenor={} correlation_id={}&quot;,</span>
+<span class="fc" id="L41">                request.getCustomerId(), request.getLoanAmount(), request.getTenorMonth(), correlationId);</span>
+
+<span class="fc" id="L43">        CustomerEntity customer = customerRepository.findById(request.getCustomerId())</span>
+<span class="fc" id="L44">                .orElseThrow(() -&gt; {</span>
+<span class="fc" id="L45">                    log.warn(&quot;event=loan_submit_failed reason=customer_not_found customer_id={} correlation_id={}&quot;,</span>
+<span class="fc" id="L46">                            request.getCustomerId(), correlationId);</span>
+<span class="fc" id="L47">                    return new NotFoundException(&quot;CUSTOMER_NOT_FOUND&quot;,</span>
+<span class="fc" id="L48">                            &quot;Customer not found with id: &quot; + request.getCustomerId());</span>
+                });
+
+<span class="fc" id="L51">        LoanApplicationEntity loan = new LoanApplicationEntity();</span>
+<span class="fc" id="L52">        loan.setCustomer(customer);</span>
+<span class="fc" id="L53">        loan.setLoanAmount(request.getLoanAmount());</span>
+<span class="fc" id="L54">        loan.setTenorMonth(request.getTenorMonth());</span>
+<span class="fc" id="L55">        loan.setPurpose(request.getPurpose());</span>
+<span class="fc" id="L56">        loan.setStatus(LoanStatus.SUBMITTED);</span>
+
+<span class="fc" id="L58">        log.debug(&quot;event=loan_save_request correlation_id={}&quot;, correlationId);</span>
+<span class="fc" id="L59">        LoanApplicationEntity savedLoan = loanApplicationRepository.save(loan);</span>
+<span class="fc" id="L60">        log.debug(&quot;event=loan_saved loan_id={} customer_id={} correlation_id={}&quot;,</span>
+<span class="fc" id="L61">                savedLoan.getId(), customer.getId(), correlationId);</span>
+
+<span class="fc" id="L63">        log.info(&quot;event=loan_application_submitted loan_id={} customer_id={} correlation_id={}&quot;,</span>
+<span class="fc" id="L64">                savedLoan.getId(), customer.getId(), correlationId);</span>
+
+<span class="fc" id="L66">        return toResponse(savedLoan);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public LoanApplicationResponse findById(UUID id) {
+<span class="fc" id="L71">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+
+<span class="fc" id="L73">        return loanApplicationRepository.findByIdWithCustomer(id)</span>
+<span class="fc" id="L74">                .map(this::toResponse)</span>
+<span class="fc" id="L75">                .orElseThrow(() -&gt; {</span>
+<span class="fc" id="L76">                    log.warn(&quot;event=loan_not_found loan_id={} correlation_id={}&quot;, id, correlationId);</span>
+<span class="fc" id="L77">                    return new NotFoundException(&quot;LOAN_APPLICATION_NOT_FOUND&quot;,</span>
+                            &quot;Loan application not found with id: &quot; + id);
+                });
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;LoanApplicationResponse&gt; findAll() {
+<span class="fc" id="L84">        log.debug(&quot;event=loan_find_all correlation_id={}&quot;, MDC.get(&quot;correlation_id&quot;));</span>
+<span class="fc" id="L85">        List&lt;LoanApplicationEntity&gt; loans = loanApplicationRepository.findAll();</span>
+<span class="fc" id="L86">        log.debug(&quot;event=loan_find_all_result count={} correlation_id={}&quot;, loans.size(), MDC.get(&quot;correlation_id&quot;));</span>
+<span class="fc" id="L87">        return loans.stream()</span>
+<span class="fc" id="L88">                .map(this::toResponse)</span>
+<span class="fc" id="L89">                .toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;LoanApplicationResponse&gt; findByStatus(String status) {
+<span class="fc" id="L94">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L95">        log.debug(&quot;event=loan_find_by_status status={} correlation_id={}&quot;, status, correlationId);</span>
+<span class="fc" id="L96">        LoanStatus loanStatus = LoanStatus.valueOf(status.toUpperCase());</span>
+<span class="fc" id="L97">        List&lt;LoanApplicationEntity&gt; loans = loanApplicationRepository.findByStatus(loanStatus);</span>
+<span class="fc" id="L98">        log.debug(&quot;event=loan_find_by_status_result status={} count={} correlation_id={}&quot;, status, loans.size(), correlationId);</span>
+<span class="fc" id="L99">        return loans.stream()</span>
+<span class="fc" id="L100">                .map(this::toResponse)</span>
+<span class="fc" id="L101">                .toList();</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;LoanApplicationResponse&gt; findByCustomerId(UUID customerId) {
+<span class="fc" id="L106">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L107">        log.debug(&quot;event=loan_find_by_customer customer_id={} correlation_id={}&quot;, customerId, correlationId);</span>
+
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (!customerRepository.existsById(customerId)) {</span>
+<span class="fc" id="L110">            log.warn(&quot;event=customer_not_found customer_id={} correlation_id={}&quot;, customerId, correlationId);</span>
+<span class="fc" id="L111">            throw new NotFoundException(&quot;CUSTOMER_NOT_FOUND&quot;,</span>
+                    &quot;Customer not found with id: &quot; + customerId);
+        }
+
+<span class="fc" id="L115">        List&lt;LoanApplicationEntity&gt; loans = loanApplicationRepository.findLoansByCustomerId(customerId);</span>
+<span class="fc" id="L116">        log.debug(&quot;event=loan_find_by_customer_result customer_id={} count={} correlation_id={}&quot;, customerId, loans.size(), correlationId);</span>
+<span class="fc" id="L117">        return loans.stream()</span>
+<span class="fc" id="L118">                .map(this::toResponse)</span>
+<span class="fc" id="L119">                .toList();</span>
+    }
+
+    @Transactional
+    public LoanApplicationResponse updateStatus(UUID id, UpdateLoanStatusRequest request) {
+<span class="fc" id="L124">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+
+<span class="fc" id="L126">        LoanApplicationEntity loan = loanApplicationRepository.findByIdWithCustomer(id)</span>
+<span class="fc" id="L127">                .orElseThrow(() -&gt; {</span>
+<span class="fc" id="L128">                    log.warn(&quot;event=loan_not_found loan_id={} correlation_id={}&quot;, id, correlationId);</span>
+<span class="fc" id="L129">                    return new NotFoundException(&quot;LOAN_APPLICATION_NOT_FOUND&quot;,</span>
+                            &quot;Loan application not found with id: &quot; + id);
+                });
+
+<span class="fc" id="L133">        LoanStatus current = loan.getStatus();</span>
+<span class="fc" id="L134">        LoanStatus next = LoanStatus.valueOf(request.getStatus().toUpperCase());</span>
+<span class="fc" id="L135">        log.debug(&quot;event=loan_update_status_request loan_id={} from={} to={} correlation_id={}&quot;,</span>
+                id, current, next, correlationId);
+
+<span class="fc" id="L138">        validateTransition(current, next, loan);</span>
+
+<span class="fc" id="L140">        loan.setStatus(next);</span>
+<span class="fc" id="L141">        log.debug(&quot;event=loan_save_after_status_change loan_id={} correlation_id={}&quot;, id, correlationId);</span>
+<span class="fc" id="L142">        LoanApplicationEntity savedLoan = loanApplicationRepository.save(loan);</span>
+
+        String eventName;
+<span class="fc bfc" id="L145" title="All 2 branches covered.">        if (next == LoanStatus.APPROVED) {</span>
+<span class="fc" id="L146">            eventName = &quot;loan_application_approved&quot;;</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        } else if (next == LoanStatus.REJECTED) {</span>
+<span class="fc" id="L148">            eventName = &quot;loan_application_rejected&quot;;</span>
+        } else {
+<span class="fc" id="L150">            eventName = &quot;loan_status_updated&quot;;</span>
+        }
+
+<span class="fc" id="L153">        log.info(&quot;event={} loan_id={} from_status={} to_status={} correlation_id={}&quot;,</span>
+<span class="fc" id="L154">                eventName, savedLoan.getId(), current, next, correlationId);</span>
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (next == LoanStatus.DISBURSED) {</span>
+<span class="fc" id="L157">            log.debug(&quot;event=loan_generating_schedule loan_id={} correlation_id={}&quot;, savedLoan.getId(), correlationId);</span>
+<span class="fc" id="L158">            repaymentScheduleService.generateSchedule(savedLoan.getId());</span>
+        }
+
+<span class="fc" id="L161">        log.debug(&quot;event=loan_update_status_complete loan_id={} final_status={} correlation_id={}&quot;,</span>
+<span class="fc" id="L162">                savedLoan.getId(), next, correlationId);</span>
+<span class="fc" id="L163">        return toResponse(savedLoan);</span>
+    }
+
+    private void validateTransition(LoanStatus current, LoanStatus next, LoanApplicationEntity loan) {
+<span class="fc" id="L167">        log.debug(&quot;event=loan_validate_transition from={} to={} correlation_id={}&quot;,</span>
+<span class="fc" id="L168">                current, next, MDC.get(&quot;correlation_id&quot;));</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        if (current.isFinal()) {</span>
+<span class="fc" id="L170">            throw new IllegalStateException(&quot;Loan is already in final status: &quot; + current);</span>
+        }
+
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (!current.canTransitionTo(next)) {</span>
+<span class="fc" id="L174">            throw new IllegalStateException(</span>
+                    current + &quot; loan can only transition to its allowed next statuses&quot;);
+        }
+
+<span class="pc bpc" id="L178" title="1 of 4 branches missed.">        if (current == LoanStatus.DISBURSED &amp;&amp; next == LoanStatus.CLOSED) {</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">            boolean allPaid = loan.getRepaymentSchedules() != null</span>
+<span class="fc bfc" id="L180" title="All 2 branches covered.">                    &amp;&amp; !loan.getRepaymentSchedules().isEmpty()</span>
+<span class="fc" id="L181">                    &amp;&amp; loan.getRepaymentSchedules().stream()</span>
+<span class="fc bfc" id="L182" title="All 4 branches covered.">                    .allMatch(s -&gt; s.getStatus() == RepaymentStatus.PAID);</span>
+
+<span class="fc bfc" id="L184" title="All 2 branches covered.">            if (!allPaid) {</span>
+<span class="fc" id="L185">                throw new IllegalStateException(</span>
+                        &quot;All repayment schedules must be PAID before closing the loan&quot;);
+            }
+        }
+<span class="fc" id="L189">    }</span>
+
+    @Transactional
+    public LoanApplicationResponse approveLoan(UUID id, AuthContext auth) {
+<span class="fc bfc" id="L193" title="All 2 branches covered.">        if (!&quot;APPROVER&quot;.equals(auth.getRole())) {</span>
+<span class="fc" id="L194">            throw new ForbiddenException(&quot;FORBIDDEN&quot;, &quot;Only APPROVER can approve loans&quot;);</span>
+        }
+<span class="fc" id="L196">        UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();</span>
+<span class="fc" id="L197">        req.setStatus(&quot;APPROVED&quot;);</span>
+<span class="fc" id="L198">        return updateStatus(id, req);</span>
+    }
+
+    @Transactional
+    public LoanApplicationResponse rejectLoan(UUID id, AuthContext auth) {
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        if (!&quot;APPROVER&quot;.equals(auth.getRole())) {</span>
+<span class="fc" id="L204">            throw new ForbiddenException(&quot;FORBIDDEN&quot;, &quot;Only APPROVER can reject loans&quot;);</span>
+        }
+<span class="fc" id="L206">        UpdateLoanStatusRequest req = new UpdateLoanStatusRequest();</span>
+<span class="fc" id="L207">        req.setStatus(&quot;REJECTED&quot;);</span>
+<span class="fc" id="L208">        return updateStatus(id, req);</span>
+    }
+
+    private LoanApplicationResponse toResponse(LoanApplicationEntity loan) {
+<span class="fc" id="L212">        CustomerEntity c = loan.getCustomer();</span>
+
+<span class="fc" id="L214">        CustomerSummaryResponse customerSummary = CustomerSummaryResponse.builder()</span>
+<span class="fc" id="L215">                .id(c.getId())</span>
+<span class="fc" id="L216">                .fullName(c.getFullName())</span>
+<span class="fc" id="L217">                .nik(c.getNik())</span>
+<span class="fc" id="L218">                .email(c.getEmail())</span>
+<span class="fc" id="L219">                .phoneNumber(c.getPhoneNumber())</span>
+<span class="fc" id="L220">                .build();</span>
+
+<span class="fc" id="L222">        return LoanApplicationResponse.builder()</span>
+<span class="fc" id="L223">                .id(loan.getId())</span>
+<span class="fc" id="L224">                .customer(customerSummary)</span>
+<span class="fc" id="L225">                .loanAmount(loan.getLoanAmount())</span>
+<span class="fc" id="L226">                .tenorMonth(loan.getTenorMonth())</span>
+<span class="fc" id="L227">                .purpose(loan.getPurpose())</span>
+<span class="fc" id="L228">                .status(loan.getStatus().name())</span>
+<span class="fc" id="L229">                .createdAt(loan.getCreatedAt())</span>
+<span class="fc" id="L230">                .updatedAt(loan.getUpdatedAt())</span>
+<span class="fc" id="L231">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

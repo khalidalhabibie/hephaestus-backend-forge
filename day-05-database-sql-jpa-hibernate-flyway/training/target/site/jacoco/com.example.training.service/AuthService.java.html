@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report"></a> &gt; <a href="index.source.html" class="el_package">com.example.training.service</a> &gt; <span class="el_source">AuthService.java</span></div><h1>AuthService.java</h1><pre class="source lang-java linenums">package com.example.training.service;
+
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.stereotype.Service;
+
+import com.example.training.auth.AuthContext;
+import com.example.training.exception.ForbiddenException;
+
+@Service
+<span class="fc" id="L13">public class AuthService {</span>
+
+    // ponytail: hardcoded users for training — replace with real auth in prod
+<span class="fc" id="L16">    private static final Map&lt;String, AuthContext&gt; TOKENS = new ConcurrentHashMap&lt;&gt;();</span>
+
+    private static final String VALID_TOKEN = &quot;token-123&quot;;
+    private static final String APPROVER_TOKEN = &quot;token-approver&quot;;
+
+    public String login(String username, String password) {
+<span class="fc bfc" id="L22" title="All 4 branches covered.">        if (&quot;admin&quot;.equals(username) &amp;&amp; &quot;password&quot;.equals(password)) {</span>
+<span class="fc" id="L23">            String token = UUID.randomUUID().toString();</span>
+<span class="fc" id="L24">            TOKENS.put(token, new AuthContext(&quot;user-staff&quot;, &quot;STAFF&quot;));</span>
+<span class="fc" id="L25">            return token;</span>
+        }
+<span class="pc bpc" id="L27" title="1 of 4 branches missed.">        if (&quot;approver&quot;.equals(username) &amp;&amp; &quot;password&quot;.equals(password)) {</span>
+<span class="fc" id="L28">            String token = UUID.randomUUID().toString();</span>
+<span class="fc" id="L29">            TOKENS.put(token, new AuthContext(&quot;user-approver&quot;, &quot;APPROVER&quot;));</span>
+<span class="fc" id="L30">            return token;</span>
+        }
+<span class="fc" id="L32">        throw new ForbiddenException(&quot;UNAUTHORIZED&quot;, &quot;Invalid username or password&quot;);</span>
+    }
+
+    public AuthContext getCurrentUser(String token) {
+<span class="fc bfc" id="L36" title="All 4 branches covered.">        if (token == null || token.isBlank()) {</span>
+<span class="fc" id="L37">            throw new ForbiddenException(&quot;UNAUTHORIZED&quot;, &quot;Token is missing&quot;);</span>
+        }
+<span class="fc" id="L39">        AuthContext ctx = TOKENS.get(token);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (ctx == null) {</span>
+<span class="fc" id="L41">            throw new ForbiddenException(&quot;UNAUTHORIZED&quot;, &quot;Token is invalid&quot;);</span>
+        }
+<span class="fc" id="L43">        return ctx;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

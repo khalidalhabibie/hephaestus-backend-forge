@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report"></a> &gt; <a href="index.source.html" class="el_package">com.example.training.exception</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.example.training.exception;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.slf4j.MDC;
+
+import lombok.extern.slf4j.Slf4j;
+
+import com.example.training.dto.ApiResponse;
+import com.example.training.dto.FieldErrorResponse;
+
+<span class="fc" id="L17">@Slf4j</span>
+@RestControllerAdvice
+<span class="fc" id="L19">public class GlobalExceptionHandler {</span>
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleNotFound(NotFoundException ex) {
+<span class="fc" id="L23">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L24">        log.warn(&quot;event=not_found code={} correlation_id={}&quot;, ex.getCode(), correlationId);</span>
+<span class="fc" id="L25">        return ResponseEntity.status(HttpStatus.NOT_FOUND)</span>
+<span class="fc" id="L26">                .body(ApiResponse.error(ex.getCode(), ex.getMessage(), correlationId, null));</span>
+    }
+
+    @ExceptionHandler(DuplicateCustomerException.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleDuplicate(DuplicateCustomerException ex) {
+<span class="fc" id="L31">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L32">        log.warn(&quot;event=duplicate_data code={} correlation_id={}&quot;, ex.getCode(), correlationId);</span>
+<span class="fc" id="L33">        return ResponseEntity.status(HttpStatus.CONFLICT)</span>
+<span class="fc" id="L34">                .body(ApiResponse.error(ex.getCode(), ex.getMessage(), correlationId, null));</span>
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleForbidden(ForbiddenException ex) {
+<span class="nc" id="L39">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="nc" id="L40">        log.warn(&quot;event=forbidden code={} correlation_id={}&quot;, ex.getCode(), correlationId);</span>
+<span class="nc" id="L41">        return ResponseEntity.status(HttpStatus.FORBIDDEN)</span>
+<span class="nc" id="L42">                .body(ApiResponse.error(ex.getCode(), ex.getMessage(), correlationId, null));</span>
+    }
+
+    @ExceptionHandler(SecurityException.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleSecurity(SecurityException ex) {
+<span class="nc" id="L47">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="nc" id="L48">        log.warn(&quot;event=access_denied message={} correlation_id={}&quot;, ex.getMessage(), correlationId);</span>
+<span class="nc" id="L49">        return ResponseEntity.status(HttpStatus.FORBIDDEN)</span>
+<span class="nc" id="L50">                .body(ApiResponse.error(&quot;FORBIDDEN&quot;, ex.getMessage(), correlationId, null));</span>
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleValidation(MethodArgumentNotValidException ex) {
+<span class="fc" id="L55">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L56">        List&lt;FieldErrorResponse&gt; errors = ex.getBindingResult().getFieldErrors().stream()</span>
+<span class="fc" id="L57">                .map(fe -&gt; FieldErrorResponse.builder()</span>
+<span class="fc" id="L58">                        .field(fe.getField())</span>
+<span class="fc" id="L59">                        .message(fe.getDefaultMessage())</span>
+<span class="fc" id="L60">                        .build())</span>
+<span class="fc" id="L61">                .toList();</span>
+
+<span class="fc" id="L63">        log.warn(&quot;event=validation_error field_count={} correlation_id={}&quot;, errors.size(), correlationId);</span>
+<span class="fc" id="L64">        return ResponseEntity.status(HttpStatus.BAD_REQUEST)</span>
+<span class="fc" id="L65">                .body(ApiResponse.error(&quot;VALIDATION_ERROR&quot;, &quot;Invalid request&quot;, correlationId, errors));</span>
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleIllegalState(IllegalStateException ex) {
+<span class="nc" id="L70">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="nc" id="L71">        log.warn(&quot;event=invalid_state message={} correlation_id={}&quot;, ex.getMessage(), correlationId);</span>
+<span class="nc" id="L72">        return ResponseEntity.status(HttpStatus.CONFLICT)</span>
+<span class="nc" id="L73">                .body(ApiResponse.error(&quot;INVALID_STATE&quot;, ex.getMessage(), correlationId, null));</span>
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;ApiResponse&lt;Void&gt;&gt; handleUnexpected(Exception ex) {
+<span class="fc" id="L78">        String correlationId = MDC.get(&quot;correlation_id&quot;);</span>
+<span class="fc" id="L79">        log.error(&quot;event=unexpected_error error_code=INTERNAL_ERROR correlation_id={}&quot;, correlationId, ex);</span>
+<span class="fc" id="L80">        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)</span>
+<span class="fc" id="L81">                .body(ApiResponse.error(&quot;INTERNAL_ERROR&quot;, &quot;Something went wrong&quot;, correlationId, null));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
