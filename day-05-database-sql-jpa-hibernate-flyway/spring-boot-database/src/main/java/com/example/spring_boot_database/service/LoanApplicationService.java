@@ -29,7 +29,9 @@ import com.example.spring_boot_database.repository.LoanApplicationRepository;
 import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoanApplicationService {
@@ -42,26 +44,46 @@ public class LoanApplicationService {
     @Transactional
     public LoanApplicationResponse createLoanApplication(CreateLoanApplicationRequest req) {
 
-        CustomerEntity customer = customerService.getById(req.getCustomerId());
+        log.info("event_name=loan_application_create_attempt customer_id={} amount={} tenor={}",
+                req.getCustomerId(), req.getLoanAmount(), req.getTenorMonth());
 
-        LoanApplicationEntity entity = new LoanApplicationEntity();
-        entity.setCustomer(customer);
-        entity.setLoanAmount(req.getLoanAmount());
-        entity.setTenorMonth(req.getTenorMonth());
-        entity.setPurpose(req.getPurpose());
-        entity.setStatus(Status.SUBMITTED.name());
+        try {
+            CustomerEntity customer = customerService.getById(req.getCustomerId());
 
-        return toResponse(loanRepo.save(entity));
+            LoanApplicationEntity entity = new LoanApplicationEntity();
+            entity.setCustomer(customer);
+            entity.setLoanAmount(req.getLoanAmount());
+            entity.setTenorMonth(req.getTenorMonth());
+            entity.setPurpose(req.getPurpose());
+            entity.setStatus(Status.SUBMITTED.name());
+
+            LoanApplicationEntity saved = loanRepo.save(entity);
+
+            log.info("event_name=loan_application_created resource_id={} customer_id={} amount={} status={}",
+                    saved.getId(), req.getCustomerId(), saved.getLoanAmount(), saved.getStatus());
+
+            return toResponse(saved);
+
+        } catch (Exception e) {
+            log.error("event_name=loan_application_create_failed customer_id={} error={}",
+                    req.getCustomerId(), e.getMessage(), e);
+            throw e;
+        }
     }
 
     @Transactional(readOnly = true)
     public LoanApplicationEntity getById(Long id) {
         return loanRepo.findByIdWithCustomer(id)
-                .orElseThrow(() -> new LoanNotFoundException(id));
+                .orElseThrow(() -> {log.warn("event_name=loan_not_found resource_id={}"); 
+                return new LoanNotFoundException(id);
+            });
     }
 
     @Transactional(readOnly = true)
     public LoanApplicationResponse findById(Long id) {
+        
+        log.info("event_name=loan_find_by_id resource_id={}", id);
+
         return toResponse(getById(id));
     }
 
@@ -71,6 +93,9 @@ public class LoanApplicationService {
             LocalDate startDate,
             LocalDate endDate) {
 
+        log.debug("event_name=loan_search_filter status={} start_date={} end_date={}",
+            status, startDate, endDate);
+
         validateDateRange(startDate, endDate);
 
         Specification<LoanApplicationEntity> spec = buildLoanSpecification(
@@ -79,16 +104,23 @@ public class LoanApplicationService {
                 endDate
         );
 
-        return loanRepo.findAll(spec)
-                .stream()
+        List<LoanApplicationEntity> results = loanRepo.findAll(spec);
+
+        log.info("event_name=loan_search_result status={} result_count={}",
+                status, results.size());
+
+        return results.stream()
                 .map(this::toResponse)
                 .toList();
     }
 
     @Transactional
     public LoanApplicationResponse updateStatus(Long id, UpdateLoanStatusRequest req) {
+        log.info("event_name=loan_status_update_attempt resource_id={} new_status={}",
+                id, req.getStatus());
 
         if (req.getStatus() == null) {
+            log.warn("event_name=loan_status_update_invalid resource_id={} reason=null_status", id);
             throw new BadRequestException("Status is required");
         }
 
@@ -97,41 +129,76 @@ public class LoanApplicationService {
         Status current = Status.valueOf(entity.getStatus());
         Status next = req.getStatus();
 
-        validateTransition(current, next, entity);
+        log.debug("event_name=loan_status_transition_check resource_id={} current_status={} next_status={}",
+                id, current, next);
 
-        entity.setStatus(next.name());
-        entity.setUpdatedAt(LocalDateTime.now());
+        try {
+            validateTransition(current, next, entity);
 
-        LoanApplicationEntity updated = loanRepo.save(entity);
+            entity.setStatus(next.name());
+            entity.setUpdatedAt(LocalDateTime.now());
 
-        if (next == Status.DISBURSED) {
-            if (scheduleRepo.findByLoanApplicationId(id).isEmpty()) {
-                scheduleRepo.saveAll(scheduleService.generateRepaymentSchedule(updated));
+            LoanApplicationEntity updated = loanRepo.save(entity);
+
+            log.info("event_name=loan_status_updated resource_id={} previous_status={} new_status={}",
+                    id, current, next);
+
+            if (next == Status.APPROVED) {
+                log.info("event_name=loan_application_approved resource_id={} approved_amount={} next_status={}",
+                        id, updated.getLoanAmount(), next);
             }
-        }
 
-        return toResponse(updated);
-    }
+            if (next == Status.DISBURSED) {
+
+                log.info("event_name=loan_disbursement_started resource_id={}", id);
+
+                if (scheduleRepo.findByLoanApplicationId(id).isEmpty()) {
+
+                    log.debug("event_name=repayment_schedule_generate_start resource_id={}", id);
+
+                    scheduleRepo.saveAll(scheduleService.generateRepaymentSchedule(updated));
+
+                    log.info("event_name=repayment_schedule_generated resource_id={}", id);
+                } else {
+                    log.warn("event_name=repayment_schedule_already_exists resource_id={}", id);
+                }
+            }
+
+            return toResponse(updated);
+
+        } catch (Exception e) {
+            log.error("event_name=loan_status_update_failed resource_id={} error={}",
+                    id, e.getMessage(), e);
+            throw e;
+        }    }
 
     private void validateTransition(Status current, Status next, LoanApplicationEntity entity) {
 
         if (current == Status.REJECTED || current == Status.CLOSED) {
+            log.warn("event_name=invalid_transition_final_state resource_id={} current_status={} next_status={}",
+                    entity.getId(), current, next);
             throw new BadRequestException("Final state cannot be changed");
         }
 
         switch (current) {
             case SUBMITTED -> {
                 if (!(next == Status.APPROVED || next == Status.REJECTED)) {
+                    log.warn("event_name=invalid_transition resource_id={} from={} to={}",
+                            entity.getId(), current, next);
                     throw new BadRequestException("Invalid transition");
                 }
             }
             case APPROVED -> {
                 if (next != Status.DISBURSED) {
+                    log.warn("event_name=invalid_transition resource_id={} from={} to={}",
+                            entity.getId(), current, next);
                     throw new BadRequestException("Invalid transition");
                 }
             }
             case DISBURSED -> {
                 if (next != Status.CLOSED) {
+                    log.warn("event_name=invalid_transition resource_id={} from={} to={}",
+                            entity.getId(), current, next);
                     throw new BadRequestException("Invalid transition");
                 }
 
@@ -140,34 +207,53 @@ public class LoanApplicationService {
                         .allMatch(s -> s.getStatus().equals(StatusRepayment.PAID.name()));
 
                 if (!allPaid) {
+                    log.warn("event_name=loan_close_failed_not_paid resource_id={}", entity.getId());
                     throw new BadRequestException("Loan cannot be closed, not fully paid");
                 }
             }
-            default -> throw new BadRequestException("Invalid transition");
+            default -> {
+            log.error("event_name=unknown_transition_state resource_id={} current_status={}",
+                entity.getId(), current);
+            throw new BadRequestException("Invalid transition");}
         }
     }
 
     @Transactional(readOnly = true)
     public List<RepaymentScheduleResponse> getSchedules(Long loanId) {
 
-        getById(loanId);
+        log.info("event_name=loan_schedule_fetch resource_id={}", loanId);
 
-        return scheduleRepo.findByLoanApplicationId(loanId)
-                .stream()
-                .map(scheduleService::toResponse)
-                .toList();
+        List<RepaymentScheduleResponse> schedules =
+                scheduleRepo.findByLoanApplicationId(loanId)
+                        .stream()
+                        .map(scheduleService::toResponse)
+                        .toList();
+
+        log.info("event_name=loan_schedule_result resource_id={} schedule_count={}",
+                loanId, schedules.size());
+
+        return schedules;
     }
 
     @Transactional(readOnly = true)
     public List<LoanSummaryByStatusResponse> getSummaryByStatus() {
-        return loanRepo.summarizeTotalLoanByStatus()
-                .stream()
-                .map(row -> LoanSummaryByStatusResponse.builder()
-                        .status(Status.valueOf((String) row[0]))
-                        .totalLoan((Long) row[1])
-                        .totalLoanAmount((BigDecimal) row[2])
-                        .build())
-                .toList();
+        log.info("event_name=loan_summary_by_status_requested");
+
+        List<LoanSummaryByStatusResponse> result =
+                loanRepo.summarizeTotalLoanByStatus()
+                        .stream()
+                        .map(row -> LoanSummaryByStatusResponse.builder()
+                                .status(Status.valueOf((String) row[0]))
+                                .totalLoan((Long) row[1])
+                                .totalLoanAmount((BigDecimal) row[2])
+                                .build())
+                        .toList();
+
+        log.info("event_name=loan_summary_by_status_result total_rows={}",
+                result.size());
+
+        return result;
+
     }
 
     private LoanApplicationResponse toResponse(LoanApplicationEntity entity) {

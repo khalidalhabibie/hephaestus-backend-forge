@@ -1,26 +1,30 @@
 // package com.example.spring_boot_database.service;
 
-// public class tes {
-//     package com.example.spring_boot_database.service;
-
 // import java.math.BigDecimal;
+// import java.time.LocalDate;
 // import java.time.LocalDateTime;
+// import java.util.ArrayList;
 // import java.util.List;
 
-// import org.springframework.dao.DataAccessException;
+// import jakarta.persistence.criteria.Predicate;
+
+// import org.springframework.data.domain.Pageable;
+// import org.springframework.data.jpa.domain.Specification;
+// import org.springframework.data.domain.Page;
 // import org.springframework.stereotype.Service;
 // import org.springframework.transaction.annotation.Transactional;
 
-// import com.example.spring_boot_database.dto.CreateCustomerRequest;
-// import com.example.spring_boot_database.dto.CustomerResponse;
+// import com.example.spring_boot_database.dto.CreateLoanApplicationRequest;
 // import com.example.spring_boot_database.dto.LoanApplicationResponse;
-// import com.example.spring_boot_database.dto.OutstandingAmountResponse;
+// import com.example.spring_boot_database.dto.LoanSummaryByStatusResponse;
+// import com.example.spring_boot_database.dto.RepaymentScheduleResponse;
+// import com.example.spring_boot_database.dto.UpdateLoanStatusRequest;
 // import com.example.spring_boot_database.entity.CustomerEntity;
 // import com.example.spring_boot_database.entity.LoanApplicationEntity;
 // import com.example.spring_boot_database.entity.Status;
-// import com.example.spring_boot_database.exception.CustomerNotFoundException;
-// import com.example.spring_boot_database.exception.DuplicateCustomerException;
-// import com.example.spring_boot_database.repository.CustomerRepository;
+// import com.example.spring_boot_database.entity.StatusRepayment;
+// import com.example.spring_boot_database.exception.BadRequestException;
+// import com.example.spring_boot_database.exception.LoanNotFoundException;
 // import com.example.spring_boot_database.repository.LoanApplicationRepository;
 // import com.example.spring_boot_database.repository.RepaymentScheduleRepository;
 
@@ -30,190 +34,305 @@
 // @Slf4j
 // @Service
 // @RequiredArgsConstructor
-// public class CustomerService {
+// // public class LoanApplicationService {
 
-//     private final CustomerRepository customerRepository;
-//     private final LoanApplicationRepository loanApplicationRepository;
-//     private final RepaymentScheduleRepository repaymentScheduleRepository;
-
-//     private void fill(CustomerEntity entity, CreateCustomerRequest req) {
-//         entity.setNik(req.getNik());
-//         entity.setFullName(req.getFullName());
-//         entity.setEmail(req.getEmail());
-//         entity.setPhoneNumber(req.getPhoneNumber());
-//     }
+//     private final LoanApplicationRepository loanRepo;
+//     private final CustomerService customerService;
+//     private final RepaymentScheduleRepository scheduleRepo;
+//     private final RepaymentScheduleService scheduleService;
 
 //     @Transactional
-//     public CustomerResponse createCustomer(CreateCustomerRequest request) {
-//         log.debug("event_name=customer_create_requested");
+//     public LoanApplicationResponse createLoanApplication(CreateLoanApplicationRequest req) {
 
-//         if (customerRepository.existsByNikAndDeletedAtIsNull(request.getNik())) {
-//             log.warn("event_name=customer_create_rejected reason=duplicate_nik");
-//             throw new DuplicateCustomerException("nik", request.getNik());
-//         }
-
-//         if (customerRepository.existsByEmailAndDeletedAtIsNull(request.getEmail())) {
-//             log.warn("event_name=customer_create_rejected reason=duplicate_email");
-//             throw new DuplicateCustomerException("email", request.getEmail());
-//         }
-
-//         CustomerEntity entity = new CustomerEntity();
-//         fill(entity, request);
+//         log.info("event_name=loan_application_create_attempt customer_id={} amount={} tenor={}",
+//                 req.getCustomerId(), req.getLoanAmount(), req.getTenorMonth());
 
 //         try {
-//             CustomerEntity saved = customerRepository.save(entity);
+//             CustomerEntity customer = customerService.getById(req.getCustomerId());
 
-//             log.info("event_name=customer_created customer_id={}", saved.getId());
+//             LoanApplicationEntity entity = new LoanApplicationEntity();
+//             entity.setCustomer(customer);
+//             entity.setLoanAmount(req.getLoanAmount());
+//             entity.setTenorMonth(req.getTenorMonth());
+//             entity.setPurpose(req.getPurpose());
+//             entity.setStatus(Status.SUBMITTED.name());
+
+//             LoanApplicationEntity saved = loanRepo.save(entity);
+
+//             log.info("event_name=loan_application_created resource_id={} customer_id={} amount={} status={}",
+//                     saved.getId(), req.getCustomerId(), saved.getLoanAmount(), saved.getStatus());
 
 //             return toResponse(saved);
-//         } catch (DataAccessException ex) {
-//             log.error("event_name=customer_create_failed reason=database_error", ex);
-//             throw ex;
+
+//         } catch (Exception e) {
+//             log.error("event_name=loan_application_create_failed customer_id={} error={}",
+//                     req.getCustomerId(), e.getMessage(), e);
+//             throw e;
 //         }
 //     }
 
 //     @Transactional(readOnly = true)
-//     public CustomerEntity getById(Long id) {
-//         log.debug("event_name=customer_lookup_requested customer_id={}", id);
+//     public LoanApplicationEntity getById(Long id) {
 
-//         return customerRepository.findByIdAndDeletedAtIsNull(id)
+//         log.debug("event_name=loan_get_by_id_attempt resource_id={}", id);
+
+//         return loanRepo.findByIdWithCustomer(id)
 //                 .orElseThrow(() -> {
-//                     log.warn("event_name=customer_lookup_failed customer_id={} reason=not_found_or_deleted", id);
-//                     return new CustomerNotFoundException(id);
+//                     log.warn("event_name=loan_not_found resource_id={}", id);
+//                     return new LoanNotFoundException(id);
 //                 });
 //     }
 
 //     @Transactional(readOnly = true)
-//     public CustomerResponse findById(Long id) {
-//         CustomerEntity customer = getById(id);
+//     public LoanApplicationResponse findById(Long id) {
 
-//         log.info("event_name=customer_detail_retrieved customer_id={}", id);
+//         log.info("event_name=loan_find_by_id resource_id={}", id);
 
-//         return toResponse(customer);
+//         return toResponse(getById(id));
 //     }
 
 //     @Transactional(readOnly = true)
-//     public List<CustomerResponse> findCustomer(String name) {
-//         boolean searchByName = name != null && !name.isBlank();
+//     public List<LoanApplicationResponse> findLoan(
+//             Status status,
+//             LocalDate startDate,
+//             LocalDate endDate) {
 
-//         log.debug("event_name=customer_search_requested search_by_name={}", searchByName);
+//         log.debug("event_name=loan_search_filter status={} start_date={} end_date={}",
+//                 status, startDate, endDate);
 
-//         List<CustomerEntity> customers = searchByName
-//                 ? customerRepository.findByFullNameContainingIgnoreCaseAndDeletedAtIsNull(name)
-//                 : customerRepository.findByDeletedAtIsNull();
+//         validateDateRange(startDate, endDate);
 
-//         if (customers.isEmpty()) {
-//             log.warn("event_name=customer_search_completed result_count=0 search_by_name={}", searchByName);
-//         } else {
-//             log.info("event_name=customer_search_completed result_count={} search_by_name={}",
-//                     customers.size(),
-//                     searchByName);
-//         }
+//         Specification<LoanApplicationEntity> spec =
+//                 buildLoanSpecification(status, startDate, endDate);
 
-//         return customers.stream()
+//         List<LoanApplicationEntity> results = loanRepo.findAll(spec);
+
+//         log.info("event_name=loan_search_result status={} result_count={}",
+//                 status, results.size());
+
+//         return results.stream()
 //                 .map(this::toResponse)
 //                 .toList();
 //     }
 
-//     @Transactional(readOnly = true)
-//     public List<LoanApplicationResponse> findLoanByCustomer(Long customerId) {
-//         log.debug("event_name=customer_loans_lookup_requested customer_id={}", customerId);
-
-//         getById(customerId);
-
-//         List<LoanApplicationEntity> loans =
-//                 loanApplicationRepository.findLoansByCustomerId(customerId);
-
-//         if (loans.isEmpty()) {
-//             log.warn("event_name=customer_loans_lookup_completed customer_id={} loan_count=0", customerId);
-//         } else {
-//             log.info("event_name=customer_loans_lookup_completed customer_id={} loan_count={}",
-//                     customerId,
-//                     loans.size());
-//         }
-
-//         return loans.stream()
-//                 .map(this::toLoanResponse)
-//                 .toList();
-//     }
-
-//     @Transactional(readOnly = true)
-//     public OutstandingAmountResponse getOutstandingAmountByCustomer(Long customerId) {
-//         log.debug("event_name=customer_outstanding_amount_requested customer_id={}", customerId);
-
-//         getById(customerId);
-
-//         BigDecimal outstandingAmount =
-//                 repaymentScheduleRepository.calculateOutstandingAmountByCustomerId(customerId);
-
-//         if (outstandingAmount == null) {
-//             log.warn("event_name=customer_outstanding_amount_calculated customer_id={} outstanding_amount=null reason=no_repayment_schedule_found",
-//                     customerId);
-
-//             outstandingAmount = BigDecimal.ZERO;
-//         } else if (outstandingAmount.compareTo(BigDecimal.ZERO) == 0) {
-//             log.info("event_name=customer_outstanding_amount_calculated customer_id={} outstanding_amount=0 status=no_outstanding_balance",
-//                     customerId);
-//         } else {
-//             log.info("event_name=customer_outstanding_amount_calculated customer_id={} outstanding_amount={}",
-//                     customerId,
-//                     outstandingAmount);
-//         }
-
-//         return OutstandingAmountResponse.builder()
-//                 .customerId(customerId)
-//                 .outstandingAmount(outstandingAmount)
-//                 .build();
-//     }
-
 //     @Transactional
-//     public CustomerResponse softDeleteCustomer(Long id) {
-//         log.debug("event_name=customer_soft_delete_requested customer_id={}", id);
+//     public LoanApplicationResponse updateStatus(Long id, UpdateLoanStatusRequest req) {
 
-//         CustomerEntity customer = getById(id);
+//         log.info("event_name=loan_status_update_attempt resource_id={} new_status={}",
+//                 id, req.getStatus());
 
-//         customer.setDeletedAt(LocalDateTime.now());
+//         if (req.getStatus() == null) {
+//             log.warn("event_name=loan_status_update_invalid resource_id={} reason=null_status", id);
+//             throw new BadRequestException("Status is required");
+//         }
+
+//         LoanApplicationEntity entity = getById(id);
+
+//         Status current = Status.valueOf(entity.getStatus());
+//         Status next = req.getStatus();
+
+//         log.debug("event_name=loan_status_transition_check resource_id={} current_status={} next_status={}",
+//                 id, current, next);
 
 //         try {
-//             CustomerEntity updated = customerRepository.save(customer);
+//             validateTransition(current, next, entity);
 
-//             log.info("event_name=customer_soft_deleted customer_id={} deleted_at={}",
-//                     updated.getId(),
-//                     updated.getDeletedAt());
+//             entity.setStatus(next.name());
+//             entity.setUpdatedAt(LocalDateTime.now());
+
+//             LoanApplicationEntity updated = loanRepo.save(entity);
+
+//             log.info("event_name=loan_status_updated resource_id={} previous_status={} new_status={}",
+//                     id, current, next);
+
+//             if (next == Status.APPROVED) {
+//                 log.info("event_name=loan_application_approved resource_id={} approved_amount={} next_status={}",
+//                         id, updated.getLoanAmount(), next);
+//             }
+
+//             if (next == Status.DISBURSED) {
+
+//                 log.info("event_name=loan_disbursement_started resource_id={}", id);
+
+//                 if (scheduleRepo.findByLoanApplicationId(id).isEmpty()) {
+
+//                     log.debug("event_name=repayment_schedule_generate_start resource_id={}", id);
+
+//                     scheduleRepo.saveAll(scheduleService.generateRepaymentSchedule(updated));
+
+//                     log.info("event_name=repayment_schedule_generated resource_id={}", id);
+//                 } else {
+//                     log.warn("event_name=repayment_schedule_already_exists resource_id={}", id);
+//                 }
+//             }
 
 //             return toResponse(updated);
-//         } catch (DataAccessException ex) {
-//             log.error("event_name=customer_soft_delete_failed customer_id={} reason=database_error", id, ex);
-//             throw ex;
+
+//         } catch (Exception e) {
+//             log.error("event_name=loan_status_update_failed resource_id={} error={}",
+//                     id, e.getMessage(), e);
+//             throw e;
 //         }
 //     }
 
-//     private LoanApplicationResponse toLoanResponse(LoanApplicationEntity loan) {
-//         log.debug("event_name=loan_application_mapping_started loan_amount={} tenor_month={} status={}",
-//                 loan.getLoanAmount(),
-//                 loan.getTenorMonth(),
-//                 loan.getStatus());
+//     private void validateTransition(Status current, Status next, LoanApplicationEntity entity) {
 
+//         if (current == Status.REJECTED || current == Status.CLOSED) {
+//             log.warn("event_name=invalid_transition_final_state resource_id={} current_status={} next_status={}",
+//                     entity.getId(), current, next);
+//             throw new BadRequestException("Final state cannot be changed");
+//         }
+
+//         switch (current) {
+//             case SUBMITTED -> {
+//                 if (!(next == Status.APPROVED || next == Status.REJECTED)) {
+//                     log.warn("event_name=invalid_transition resource_id={} from={} to={}",
+//                             entity.getId(), current, next);
+//                     throw new BadRequestException("Invalid transition");
+//                 }
+//             }
+//             case APPROVED -> {
+//                 if (next != Status.DISBURSED) {
+//                     log.warn("event_name=invalid_transition resource_id={} from={} to={}",
+//                             entity.getId(), current, next);
+//                     throw new BadRequestException("Invalid transition");
+//                 }
+//             }
+//             case DISBURSED -> {
+//                 if (next != Status.CLOSED) {
+//                     log.warn("event_name=invalid_transition resource_id={} from={} to={}",
+//                             entity.getId(), current, next);
+//                     throw new BadRequestException("Invalid transition");
+//                 }
+
+//                 boolean allPaid = scheduleRepo.findByLoanApplicationId(entity.getId())
+//                         .stream()
+//                         .allMatch(s -> s.getStatus().equals(StatusRepayment.PAID.name()));
+
+//                 if (!allPaid) {
+//                     log.warn("event_name=loan_close_failed_not_paid resource_id={}", entity.getId());
+//                     throw new BadRequestException("Loan cannot be closed, not fully paid");
+//                 }
+//             }
+//             default -> {
+//                 log.error("event_name=unknown_transition_state resource_id={} current_status={}",
+//                         entity.getId(), current);
+//                 throw new BadRequestException("Invalid transition");
+//             }
+//         }
+//     }
+
+//     @Transactional(readOnly = true)
+//     public List<RepaymentScheduleResponse> getSchedules(Long loanId) {
+
+//         log.info("event_name=loan_schedule_fetch resource_id={}", loanId);
+
+//         getById(loanId);
+
+//         List<RepaymentScheduleResponse> schedules =
+//                 scheduleRepo.findByLoanApplicationId(loanId)
+//                         .stream()
+//                         .map(scheduleService::toResponse)
+//                         .toList();
+
+//         log.info("event_name=loan_schedule_result resource_id={} schedule_count={}",
+//                 loanId, schedules.size());
+
+//         return schedules;
+//     }
+
+//     @Transactional(readOnly = true)
+//     public List<LoanSummaryByStatusResponse> getSummaryByStatus() {
+
+//         log.info("event_name=loan_summary_by_status_requested");
+
+//         List<LoanSummaryByStatusResponse> result =
+//                 loanRepo.summarizeTotalLoanByStatus()
+//                         .stream()
+//                         .map(row -> LoanSummaryByStatusResponse.builder()
+//                                 .status(Status.valueOf((String) row[0]))
+//                                 .totalLoan((Long) row[1])
+//                                 .totalLoanAmount((BigDecimal) row[2])
+//                                 .build())
+//                         .toList();
+
+//         log.info("event_name=loan_summary_by_status_result total_rows={}",
+//                 result.size());
+
+//         return result;
+//     }
+
+//     @Transactional(readOnly = true)
+//     public Page<LoanApplicationResponse> findLoanPaged(
+//             Status status,
+//             LocalDate startDate,
+//             LocalDate endDate,
+//             Pageable pageable) {
+
+//         log.debug("event_name=loan_search_paged status={} page={} size={}",
+//                 status, pageable.getPageNumber(), pageable.getPageSize());
+
+//         validateDateRange(startDate, endDate);
+
+//         Specification<LoanApplicationEntity> spec =
+//                 buildLoanSpecification(status, startDate, endDate);
+
+//         Page<LoanApplicationResponse> result =
+//                 loanRepo.findAll(spec, pageable).map(this::toResponse);
+
+//         log.info("event_name=loan_search_paged_result total_elements={} total_pages={}",
+//                 result.getTotalElements(), result.getTotalPages());
+
+//         return result;
+//     }
+
+//     private Specification<LoanApplicationEntity> buildLoanSpecification(
+//             Status status,
+//             LocalDate startDate,
+//             LocalDate endDate) {
+
+//         return (root, query, cb) -> {
+
+//             List<Predicate> predicates = new ArrayList<>();
+
+//             predicates.add(cb.isNull(root.get("customer").get("deletedAt")));
+
+//             if (status != null) {
+//                 predicates.add(cb.equal(root.get("status"), status.name()));
+//             }
+
+//             if (startDate != null) {
+//                 LocalDateTime startDateTime = startDate.atStartOfDay();
+//                 predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), startDateTime));
+//             }
+
+//             if (endDate != null) {
+//                 LocalDateTime endDateTimeExclusive = endDate.plusDays(1).atStartOfDay();
+//                 predicates.add(cb.lessThan(root.get("createdAt"), endDateTimeExclusive));
+//             }
+
+//             return cb.and(predicates.toArray(new Predicate[0]));
+//         };
+//     }
+
+//     private void validateDateRange(LocalDate startDate, LocalDate endDate) {
+
+//         if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+
+//             log.warn("event_name=invalid_date_range start_date={} end_date={}",
+//                     startDate, endDate);
+
+//             throw new BadRequestException("startDate cannot be after endDate");
+//         }
+//     }
+
+//     private LoanApplicationResponse toResponse(LoanApplicationEntity entity) {
 //         return LoanApplicationResponse.builder()
-//                 .loanAmount(loan.getLoanAmount())
-//                 .tenorMonth(loan.getTenorMonth())
-//                 .purpose(loan.getPurpose())
-//                 .status(Status.valueOf(loan.getStatus()))
-//                 .customer(toResponse(loan.getCustomer()))
+//                 .loanAmount(entity.getLoanAmount())
+//                 .tenorMonth(entity.getTenorMonth())
+//                 .purpose(entity.getPurpose())
+//                 .status(Status.valueOf(entity.getStatus()))
+//                 .customer(customerService.toResponse(entity.getCustomer()))
 //                 .build();
 //     }
-
-//     public CustomerResponse toResponse(CustomerEntity entity) {
-//         log.debug("event_name=customer_mapping_started customer_id={}", entity.getId());
-
-//         return CustomerResponse.builder()
-//                 .id(entity.getId())
-//                 .fullName(entity.getFullName())
-//                 .nik(entity.getNik())
-//                 .email(entity.getEmail())
-//                 .phoneNumber(entity.getPhoneNumber())
-//                 .build();
-//     }
-// }
-    
 // }
