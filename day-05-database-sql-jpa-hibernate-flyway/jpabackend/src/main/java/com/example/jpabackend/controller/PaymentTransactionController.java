@@ -34,7 +34,7 @@ public class PaymentTransactionController {
         PaymentTransactionResponse response = service.createPayment(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                ApiResponse.success("Customer created successfully", response));
+                ApiResponse.success("Payment created successfully", response));
     }
 
     // GET BY REPAYMENT SCHEDULE ID
