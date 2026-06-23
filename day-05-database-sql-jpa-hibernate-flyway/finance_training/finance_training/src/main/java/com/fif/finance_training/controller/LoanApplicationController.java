@@ -4,6 +4,8 @@ import com.fif.finance_training.dto.*;
 import com.fif.finance_training.service.LoanApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+
+import org.jboss.logging.MDC;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -72,7 +74,9 @@ public class LoanApplicationController {
                 .success(true)
                 .message("Loan applications retrieved successfully")
                 .data(response)
+                .correlationId(org.slf4j.MDC.get("correlationId"))
                 .build();
+                
                 
         return ResponseEntity.ok(apiResponse);
     }

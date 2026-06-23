@@ -7,9 +7,11 @@ import com.fif.finance_training.entity.RepaymentScheduleEntity;
 import com.fif.finance_training.entity.enums.PaymentStatus;
 import com.fif.finance_training.entity.enums.RepaymentStatus;
 import com.fif.finance_training.exception.RepaymentScheduleNotFoundException;
+import com.fif.finance_training.web.StructuredLogger;
 import com.fif.finance_training.repository.PaymentTransactionRepository;
 import com.fif.finance_training.repository.RepaymentScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +20,28 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentTransactionService {
 
     private final PaymentTransactionRepository paymentTransactionRepository;
     private final RepaymentScheduleRepository repaymentScheduleRepository;
+    private final StructuredLogger logger;
 
     @Transactional
     public PaymentTransactionResponse createPayment(CreatePaymentTransactionRequest request) {
+        logger.info("PAYMENT_CREATE_ATTEMPT", "Processing payment",
+                "scheduleId", request.getRepaymentScheduleId().toString(),
+                "paidAmount", request.getPaidAmount().toString(),
+                "reference", request.getPaymentReference());
+
         RepaymentScheduleEntity schedule = repaymentScheduleRepository.findById(request.getRepaymentScheduleId())
-                .orElseThrow(() -> new RepaymentScheduleNotFoundException("Repayment schedule not found with id: " + request.getRepaymentScheduleId()));
+                .orElseThrow(() -> {
+                    logger.warn("PAYMENT_FAILED", "Repayment schedule not found",
+                            "scheduleId", request.getRepaymentScheduleId().toString());
+                    return new RepaymentScheduleNotFoundException("Repayment schedule not found with id: " + request.getRepaymentScheduleId());
+                });
 
         PaymentTransactionEntity transaction = PaymentTransactionEntity.builder()
                 .repaymentSchedule(schedule)
@@ -42,10 +55,21 @@ public class PaymentTransactionService {
 
         BigDecimal totalPaid = paymentTransactionRepository.sumPaidAmountByScheduleId(schedule.getId());
         
-        if (totalPaid != null && totalPaid.compareTo(schedule.getTotalAmount()) >= 0) {
+        boolean fullyPaid = totalPaid != null && totalPaid.compareTo(schedule.getTotalAmount()) >= 0;
+        if (fullyPaid) {
             schedule.setStatus(RepaymentStatus.PAID);
             repaymentScheduleRepository.save(schedule);
+            logger.info("SCHEDULE_PAID", "Repayment schedule fully paid",
+                    "scheduleId", schedule.getId().toString(),
+                    "totalPaid", totalPaid.toString(),
+                    "loanId", schedule.getLoanApplication().getId().toString());
         }
+
+        logger.info("PAYMENT_SUCCESS", "Payment processed successfully",
+                "transactionId", saved.getId().toString(),
+                "scheduleId", schedule.getId().toString(),
+                "paidAmount", saved.getPaidAmount().toString(),
+                "scheduleFullyPaid", String.valueOf(fullyPaid));
 
         return mapToResponse(saved);
     }

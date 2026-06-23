@@ -8,10 +8,12 @@ import com.fif.finance_training.entity.enums.LoanStatus;
 import com.fif.finance_training.entity.enums.RepaymentStatus;
 import com.fif.finance_training.exception.CustomerNotFoundException;
 import com.fif.finance_training.exception.LoanApplicationNotFoundException;
+import com.fif.finance_training.web.StructuredLogger;
 import com.fif.finance_training.repository.CustomerRepository;
 import com.fif.finance_training.repository.LoanApplicationRepository;
 import com.fif.finance_training.repository.RepaymentScheduleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LoanApplicationService {
@@ -30,11 +33,21 @@ public class LoanApplicationService {
     private final CustomerRepository customerRepository;
     private final RepaymentScheduleService repaymentScheduleService;
     private final RepaymentScheduleRepository repaymentScheduleRepository;
+    private final StructuredLogger logger;
 
     @Transactional
     public LoanApplicationResponse createLoan(CreateLoanApplicationRequest request) {
+        logger.info("LOAN_CREATE_ATTEMPT", "Creating new loan application",
+                "customerId", request.getCustomerId().toString(),
+                "loanAmount", request.getLoanAmount().toString(),
+                "tenorMonth", request.getTenorMonth().toString());
+
         CustomerEntity customer = customerRepository.findById(request.getCustomerId())
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with id: " + request.getCustomerId()));
+                .orElseThrow(() -> {
+                    logger.warn("LOAN_CREATE_FAILED", "Customer not found for loan",
+                            "customerId", request.getCustomerId().toString());
+                    return new CustomerNotFoundException("Customer not found with id: " + request.getCustomerId());
+                });
 
         LoanApplicationEntity entity = LoanApplicationEntity.builder()
                 .customer(customer)
@@ -45,11 +58,22 @@ public class LoanApplicationService {
                 .build();
 
         LoanApplicationEntity saved = loanApplicationRepository.save(entity);
+        
+        logger.info("LOAN_SUBMITTED", "Loan application submitted successfully",
+                "loanId", saved.getId().toString(),
+                "customerId", customer.getId().toString(),
+                "loanAmount", saved.getLoanAmount().toString(),
+                "status", saved.getStatus().name());
+
         return mapToResponse(saved);
     }
 
     @Transactional
     public LoanApplicationResponse updateLoanStatus(Long id, UpdateLoanStatusRequest request) {
+        logger.info("LOAN_STATUS_UPDATE_ATTEMPT", "Updating loan status",
+                "loanId", id.toString(),
+                "requestedStatus", request.getStatus());
+
         LoanApplicationEntity loan = loanApplicationRepository.findByIdWithCustomer(id)
                 .orElseThrow(() -> new LoanApplicationNotFoundException("Loan not found with id: " + id));
 
@@ -59,6 +83,9 @@ public class LoanApplicationService {
         try {
             newStatus = LoanStatus.valueOf(request.getStatus().toUpperCase());
         } catch (IllegalArgumentException e) {
+            logger.warn("LOAN_STATUS_INVALID", "Invalid status value",
+                    "loanId", id.toString(),
+                    "requestedStatus", request.getStatus());
             throw new IllegalArgumentException("Invalid status value: " + request.getStatus());
         }
 
@@ -70,7 +97,20 @@ public class LoanApplicationService {
             List<RepaymentScheduleEntity> existing = repaymentScheduleRepository.findByLoanApplicationId(loan.getId());
             if (existing.isEmpty()) {
                 repaymentScheduleService.generateSchedulesForLoan(loan);
+                logger.info("LOAN_DISBURSED", "Loan disbursed, repayment schedules generated",
+                        "loanId", id.toString(),
+                        "tenorMonth", loan.getTenorMonth().toString());
             }
+        }
+
+        if (newStatus == LoanStatus.APPROVED) {
+            logger.info("LOAN_APPROVED", "Loan application approved",
+                    "loanId", id.toString(),
+                    "customerId", loan.getCustomer().getId().toString());
+        } else if (newStatus == LoanStatus.REJECTED) {
+            logger.info("LOAN_REJECTED", "Loan application rejected",
+                    "loanId", id.toString(),
+                    "customerId", loan.getCustomer().getId().toString());
         }
 
         LoanApplicationEntity updated = loanApplicationRepository.save(loan);
@@ -92,6 +132,9 @@ public class LoanApplicationService {
                     List<RepaymentScheduleEntity> schedules = repaymentScheduleRepository.findByLoanApplicationId(loan.getId());
                     boolean allPaid = schedules.stream().allMatch(s -> s.getStatus() == RepaymentStatus.PAID);
                     if (!allPaid) {
+                        logger.warn("LOAN_CLOSE_FAILED", "Cannot close loan, not all schedules paid",
+                                "loanId", loan.getId().toString(),
+                                "totalSchedules", String.valueOf(schedules.size()));
                         throw new IllegalArgumentException("Cannot close loan. Not all repayment schedules are PAID.");
                     }
                     isValid = true;
@@ -103,6 +146,9 @@ public class LoanApplicationService {
         }
 
         if (!isValid) {
+            logger.warn("LOAN_STATUS_TRANSITION_INVALID", "Invalid status transition",
+                    "currentStatus", currentStatus.name(),
+                    "newStatus", newStatus.name());
             throw new IllegalArgumentException("Invalid status transition from " + currentStatus + " to " + newStatus);
         }
     }
