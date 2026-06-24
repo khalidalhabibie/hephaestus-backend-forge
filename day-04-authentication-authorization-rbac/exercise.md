@@ -642,25 +642,25 @@ src/main/java/com/example/training/
 # Tasks
 
 1. Lanjutkan project dari exercise sebelumnya.
-2. Buat model `User`.
-3. Buat dummy user `admin`, `staff`, dan `approver`.
-4. Buat DTO `LoginRequest`.
-5. Buat DTO `LoginResponse`.
-6. Buat DTO `UserResponse`.
-7. Buat `AuthService`.
-8. Buat `AuthController`.
-9. Buat endpoint `POST /api/v1/auth/login`.
-10. Buat endpoint `GET /api/v1/auth/me`.
-11. Buat helper untuk membaca token dari header `Authorization`.
-12. Buat validasi token sederhana.
-13. Buat validasi role sederhana.
-14. Proteksi Customer API menggunakan token.
-15. Buat model `LoanApplication`.
-16. Buat DTO `CreateLoanApplicationRequest`.
-17. Buat DTO `LoanApplicationResponse`.
-18. Buat `LoanApplicationService`.
-19. Buat `LoanApplicationController`.
-20. Buat endpoint Loan Application API.
+2. Buat model `User`. (done)
+3. Buat dummy user `admin`, `staff`, dan `approver`. (done)
+4. Buat DTO `LoginRequest`. (done)
+5. Buat DTO `LoginResponse`.(done)
+6. Buat DTO `UserResponse`. (done)
+7. Buat `AuthService`. (done)
+8. Buat `AuthController`. (done)
+9. Buat endpoint `POST /api/v1/auth/login`. (done)
+10. Buat endpoint `GET /api/v1/auth/me`. (done)
+11. Buat helper untuk membaca token dari header `Authorization`. (done)
+12. Buat validasi token sederhana. (done)
+13. Buat validasi role sederhana. (done)
+14. Proteksi Customer API menggunakan token. (done)
+15. Buat model `LoanApplication`. (done)
+16. Buat DTO `CreateLoanApplicationRequest`. (done)
+17. Buat DTO `LoanApplicationResponse`. (done)
+18. Buat `LoanApplicationService`. (done)
+19. Buat `LoanApplicationController`. (done)
+20. Buat endpoint Loan Application API. (done)
 21. Terapkan authorization sesuai role.
 22. Return `401 Unauthorized` jika token kosong atau invalid.
 23. Return `403 Forbidden` jika role tidak punya akses.
