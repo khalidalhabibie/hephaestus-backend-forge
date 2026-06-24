@@ -9,7 +9,9 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari Data
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+In-memory Map itu nyimpen data di RAM, jadi cepat tapi kalau aplikasi mati datanya ikut hilang.
+
+Database nyimpen data di storage (disk), jadi datanya tetap ada walaupun aplikasi dimatikan.
 ```
 
 2. Kenapa database diperlukan pada aplikasi backend production?
@@ -17,7 +19,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena kita butuh data yang tersimpan permanen, bisa dipakai banyak user, dan aman. Jika cuma pakai memory, datanya hilang dan tidak cocok untuk aplikasi real.
 ```
 
 3. Apa fungsi SELECT, INSERT, UPDATE, dan DELETE pada SQL?
@@ -25,7 +27,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT: ambil data
+INSERT: tambah data  
+UPDATE: ubah data  
+DELETE: hapus data  
 ```
 
 4. Apa fungsi WHERE dan ILIKE di PostgreSQL?
@@ -33,7 +38,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+WHERE: untuk filter data sesuai kondisi
+ILIKE: untuk cari text tanpa peduli huruf besar/kecil  
 ```
 
 5. Apa itu primary key dan foreign key?
@@ -41,7 +47,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Primary key merupakan field dalam suatu tabel yang sifatnya unik dan sebagai identitas pembeda suatu row data, 
+- Foreign key: penghubung ke tabel lain (relasi)
+ 
 ```
 
 6. Apa itu JPA dan Hibernate, serta apa perbedaannya?
@@ -49,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JPA itu standar (aturan), sedangkan Hibernate itu implementasinya. Sehingga Hibernate yang benar-benar dijalankan, JPA cuma konsepnya.
 ```
 
 7. Apa itu Entity dan apa fungsi anotasi `@Entity`, `@Id`, serta `@GeneratedValue`?
@@ -57,7 +65,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Entity itu representasi tabel di Java.
+- @Entity: tandain class sebagai tabel  
+- @Id: primary key  
+- @GeneratedValue: ID dibuat otomatis  
 ```
 
 8. Apa fungsi `@Table` dan `@Column`?
@@ -65,7 +76,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- @Table: nama tabel di database
+- @Column: nama kolom di tabel  
 ```
 
 9. Apa itu Repository dan apa manfaat `JpaRepository`?
@@ -73,7 +85,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Repository itu tempat akses database. JpaRepository memudahkan karena sudah ada CRUD tanpa harus dibuat manual
+
 ```
 
 10. Apa itu derived query method? Berikan contoh method untuk mencari customer berdasarkan email.
@@ -81,7 +94,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Query yang dibuat dari nama method, Contoh: findByEmail(String email)
 ```
 
 11. Apa fungsi `@Query`? Jelaskan perbedaan JPQL dan native query.
@@ -89,7 +102,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Query dipakai kalau query custom.
+
+JPQL pakai entity (Java object) sedangkan native query pakai SQL asli database  
 ```
 
 12. Apa itu Flyway dan kenapa database migration penting?
@@ -97,7 +112,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Flyway untuk ngatur perubahan database. Penting supaya semua environment punya struktur database yang sama.
 ```
 
 13. Apa maksud penamaan file migration seperti `V1__create_customers_table.sql`? Kenapa migration lama sebaiknya tidak diubah setelah dijalankan?
@@ -105,7 +120,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+(V1) = versi, (create_table) = deskripsi
+Migration lama tidak diubah karena bisa bikin error di environment lain.
 ```
 
 14. Jelaskan relationship one-to-many dan many-to-one dengan contoh Customer dan Order.
@@ -113,7 +129,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Satu Customer bisa punya banyak Order (one-to-many). Satu Order cuma milik satu Customer (many-to-one)
 ```
 
 15. Apa fungsi `@ManyToOne`, `@OneToMany`, dan `@JoinColumn`?
@@ -121,7 +137,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ManyToOne: banyak ke satu
+@OneToMany: satu ke banyak  
+@JoinColumn: kolom foreign key  
 ```
 
 16. Apa perbedaan lazy loading dan eager loading? Kenapa `FetchType.LAZY` sering lebih aman sebagai default?
@@ -129,7 +147,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Lazy: data diambil saat dibutuhkan
+Eager: langsung diambil semua  
+
+Lazy biasanya lebih aman biar tidak ambil data berlebihan
 ```
 
 17. Apa itu SQL join? Jelaskan perbedaan `INNER JOIN` dan `LEFT JOIN`.
@@ -137,7 +158,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Join untuk gabung tabel
+
+- INNER JOIN: ambil yang cocok saja  
+- LEFT JOIN: ambil semua dari kiri + yang cocok dari kanan  
 ```
 
 18. Apa itu N+1 query problem dan bagaimana cara sederhana menguranginya?
@@ -145,7 +169,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Terjadi saat query utama diikuti banyak query tambahan.
+Cara sederhana: pakai join fetch atau optimasi query
 ```
 
 19. Kenapa Entity sebaiknya tidak langsung dikembalikan sebagai API response? Apa manfaat DTO?
@@ -153,7 +178,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena bisa membocorkan data yang tidak perlu. DTO dipakai supaya data yang keluar lebih aman dan sesuai kebutuhan
 ```
 
 20. Apa fungsi `@Transactional` dan kapan menggunakan `@Transactional(readOnly = true)`?
@@ -161,7 +186,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk mengatur transaksi database. readOnly = true dipakai kalau cuma baca data supaya lebih ringan.
 ```
 
 ## Reflection
@@ -169,20 +194,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. Perbedaan antara penyimpanan data di memory dan database
+2. Cara kerja dasar JPA, Hibernate, dan repository
+3. Konsep relasi antar tabel seperti one-to-many dan many-to-one
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. Cara mengatasi N+1 problem secara optimal di project real
+2. Kapan sebaiknya pakai JPQL dibanding native query
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+Dalam project production, lebih sering pakai JPQL atau native query untuk performa yang lebih baik?
 ```
