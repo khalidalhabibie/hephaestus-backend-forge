@@ -20,7 +20,7 @@ Estimasi waktu: 20-30 menit.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variabel adalah sebuah data yang akan diberikan tipe dan value nantinya.
 ```
 
 ### 2. Apa itu data type?
@@ -28,7 +28,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Data type adalah deklarasi dari variabel itu bertipa apa. Terdiri dari number, string, boolean, dll.
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
@@ -36,7 +36,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+text = string, number = int, float, long, double, dll, true/false = boolean.
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
@@ -44,7 +44,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+variabel declaration adalah pembuatan variabel itu sendiri, kalau assignment itu memberi nilai dari variabel tersebut.
 ```
 
 ### 5. Apa itu camelCase?
@@ -52,7 +52,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+metode penulisan yang umumnya digunakan di java. dimana jika suatu nama objek terdiri dari 2 kata, kedua kata tersebut disatukan dan kata ke-2 diawali huruf besar.
 ```
 
 ## Section B - Class and Object
@@ -62,7 +62,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi yang berisi inisiasi yang akan digunakan
 ```
 
 ### 7. Apa itu object?
@@ -70,7 +70,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Penerapan dari inisiasi yang dibuat di kelas
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -78,7 +78,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class itu templatenya, object yang menerapkan
 ```
 
 ## Section C - Field, Method, Constructor
@@ -88,7 +88,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Atribut untuk menyimpan data/nilai
 ```
 
 ### 10. Apa itu method?
@@ -96,7 +96,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi untuk melakukan aksi
 ```
 
 ### 11. Apa itu parameter?
@@ -104,7 +104,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menerima input kedalam sebuah method.
 ```
 
 ### 12. Apa itu return value?
@@ -112,7 +112,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Nilai yang dikembalikan dalam suatu fungsi
 ```
 
 ### 13. Apa itu constructor?
@@ -120,7 +120,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+fungsi yang akan dibaca terlebih dahulu pada saat dijalankan
 ```
 
 ## Section D - Access Modifier
@@ -130,7 +130,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi yang hanya bisa di akses didalam kelas yang sama
 ```
 
 ### 15. Apa fungsi public?
@@ -138,7 +138,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi yang bisa diakses secara public, walaupun berada dalam folder yang berbeda
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
@@ -146,7 +146,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar tidak semua bagian program bisa mengubah nilainya secara bebas
 ```
 
 ## Section E - Getter and Setter
@@ -156,7 +156,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Utuk mengakses fungsi bertipe private, baik untuk membaca maupun mengubah
 ```
 
 ### 18. Apa fungsi setter?
@@ -164,7 +164,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Mengakses dan mengubah isi fungsi dalam bentuk private
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
@@ -172,7 +172,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena bisa menyebabkan banyak masalah dalam keamanan dan kontrol
 ```
 
 ## Section F - Collection
@@ -182,7 +182,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Sekumpulan data yang bertipe sama
 ```
 
 ### 21. Apa itu Map?
@@ -190,7 +190,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Sekumpulan data yang tipenya bebas
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -198,7 +198,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Jika data yang ada berada dalam 1 tipe yang sama, gunakan list, dan sebaliknya.
 ```
 
 ## Section G - OOP Basic
@@ -208,7 +208,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi untuk membungkus data dan method dalam satu class
 ```
 
 ### 24. Apa itu interface?
@@ -216,7 +216,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kumpulan fungsi yang akan digunakan oleh kelas yang memanggilnya.
 ```
 
 ### 25. Apa itu abstract class?
@@ -224,7 +224,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kelas yang digunakan sebagai template untuk kelas lain.
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
@@ -232,7 +232,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Fungsi yang berada dalam interface harus digunakan semua
 ```
 
 ## Self Assessment
@@ -241,10 +241,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [X] | [ ] |
+| Class and object | [ ] | [X] | [ ] |
+| Field/method/constructor | [ ] | [X] | [ ] |
+| Access modifier | [ ] | [X] | [ ] |
+| Getter/setter | [ ] | [X] | [ ] |
+| List/Map | [ ] | [X] | [ ] |
+| Interface/abstract class | [ ] | [X] | [ ] |
