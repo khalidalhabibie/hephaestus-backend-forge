@@ -1,0 +1,24 @@
+package com.adnan.exercisespring.dto;
+
+import com.adnan.exercisespring.enums.LoanApplicationStatusEnum;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class LoanApplicationResponse {
+  private Long id;
+
+  @JsonProperty("customer_id")
+  private Long customerId;
+
+  @JsonProperty("loan_amount")
+  private Long loanAmount;
+
+  @JsonProperty("tenor_month")
+  private Integer tenorMonth;
+
+  private String purpose;
+  private LoanApplicationStatusEnum status;
+}

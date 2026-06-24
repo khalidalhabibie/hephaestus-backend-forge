@@ -41,14 +41,14 @@ Ikuti langkah berikut:
 
 Project Metadata:
 
-| Field | Value |
-| --- | --- |
-| Group | `com.example` |
-| Artifact | `training` |
-| Name | `training` |
+| Field        | Value                  |
+| ------------ | ---------------------- |
+| Group        | `com.example`          |
+| Artifact     | `training`             |
+| Name         | `training`             |
 | Package name | `com.example.training` |
-| Packaging | `Jar` |
-| Java | `8` |
+| Packaging    | `Jar`                  |
+| Java         | `8`                    |
 
 Dependencies:
 
@@ -162,23 +162,23 @@ Client/Postman -> Controller -> Service -> Response DTO -> JSON response
 
 ## 9. HTTP Method
 
-| Method | Kegunaan |
-| --- | --- |
-| GET | Mengambil data |
-| POST | Membuat data baru |
-| PUT | Mengganti seluruh data |
-| PATCH | Mengubah sebagian data |
-| DELETE | Menghapus data |
+| Method | Kegunaan               |
+| ------ | ---------------------- |
+| GET    | Mengambil data         |
+| POST   | Membuat data baru      |
+| PUT    | Mengganti seluruh data |
+| PATCH  | Mengubah sebagian data |
+| DELETE | Menghapus data         |
 
 ## 10. HTTP Status Code
 
-| Status | Arti |
-| --- | --- |
-| 200 OK | Request berhasil |
-| 201 Created | Data baru berhasil dibuat |
-| 400 Bad Request | Request tidak valid |
-| 404 Not Found | Data tidak ditemukan |
-| 500 Internal Server Error | Error di server |
+| Status                    | Arti                      |
+| ------------------------- | ------------------------- |
+| 200 OK                    | Request berhasil          |
+| 201 Created               | Data baru berhasil dibuat |
+| 400 Bad Request           | Request tidak valid       |
+| 404 Not Found             | Data tidak ditemukan      |
+| 500 Internal Server Error | Error di server           |
 
 ## 11. Endpoint Naming
 
