@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari Auth
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Authentication adalah proses untuk memastikan identitas user, misalnya dengan login menggunakan username dan password
 ```
 
 ### 2. Apa itu authorization?
@@ -17,7 +17,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Authorization adalah proses untuk menentukan apa saja yang boleh dan tidak boleh dilakukan oleh user setelah dia ter authenticate
 ```
 
 ### 3. Apa perbedaan authentication dan authorization?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Authentication fokus ke siapa user tersebut, sedangkan authorization fokus ke hak akses atau izin apa yang dimiliki user
 ```
 
 ### 4. Kenapa user yang sudah login belum tentu boleh melakukan semua action?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena setiap user punya role dan permission yang berbeda, jadi walaupun sudah login, belum tentu punya izin untuk semua action
 ```
 
 ### 5. Apa itu token-based authentication?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Token-based authentication adalah metode authentication yang menggunakan token (misalnya JWT) sebagai bukti bahwa user sudah login
 ```
 
 ### 6. Apa fungsi Authorization header?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Authorization header digunakan untuk mengirim token dari client ke server saat mengakses API yang protected
 ```
 
 ### 7. Apa arti Bearer token?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Bearer token berarti siapa pun yang membawa token tersebut dianggap sebagai user yang sah
 ```
 
 ### 8. Apa itu JWT?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JWT (JSON Web Token) adalah format token yang berisi informasi user dan digunakan untuk authentication dan authorization
 ```
 
 ### 9. Apa itu claim pada JWT?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Claim adalah data atau informasi yang disimpan di dalam JWT payload, seperti user ID atau role
 ```
 
 ### 10. Sebutkan 4 claim yang umum ada pada JWT.
@@ -81,7 +81,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+
+iss (Issuer), sub (Subject), exp (Expiration Time) → Waktu kedaluwarsa token, iat (Issued At) 
 ```
 
 ### 11. Kenapa JWT payload tidak boleh dipercaya sebelum signature divalidasi?
@@ -89,7 +90,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena payload bisa dimodifikasi oleh client, jadi harus divalidasi signature-nya untuk memastikan data tidak diubah
 ```
 
 ### 12. Data apa saja yang tidak boleh disimpan di JWT?
@@ -97,7 +98,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Data sensitif seperti password, PIN, nomor kartu, atau data rahasia lainnya
 ```
 
 ### 13. Kenapa token perlu expiry?
@@ -105,7 +106,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk membatasi waktu penggunaan token dan mengurangi risiko jika token bocor
 ```
 
 ### 14. Apa perbedaan access token dan refresh token?
@@ -113,7 +114,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Access token digunakan untuk mengakses API dan biasanya short-lived, sedangkan refresh token digunakan untuk mendapatkan access token baru
 ```
 
 ### 15. Apa itu RBAC?
@@ -121,7 +122,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+RBAC (Role-Based Access Control) adalah sistem pengaturan akses berdasarkan role yang dimiliki user
 ```
 
 ### 16. Apa perbedaan role dan permission?
@@ -129,7 +130,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Role adalah kumpulan permission, sedangkan permission adalah izin untuk melakukan action tertentu
 ```
 
 ### 17. Berikan contoh role dalam loan system.
@@ -137,7 +138,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Staff, Admin, dan Approver
 ```
 
 ### 18. Berikan contoh permission dalam loan system.
@@ -145,7 +146,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+create_loan, approve_loan, view_loan
 ```
 
 ### 19. Kenapa role check saja tidak cukup?
@@ -153,7 +154,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena user dengan role yang sama belum tentu boleh mengakses semua resource, misalnya data milik user lain
 ```
 
 ### 20. Apa itu resource-level authorization?
@@ -161,7 +162,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Authorization yang mengecek apakah user boleh mengakses resource tertentu, bukan hanya berdasarkan role
 ```
 
 ### 21. Apa itu ownership check?
@@ -169,7 +170,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Pengecekan apakah resource tersebut memang dimiliki oleh user yang sedang login
 ```
 
 ### 22. Apa itu IDOR?
@@ -177,7 +178,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+IDOR (Insecure Direct Object Reference) adalah celah keamanan saat user bisa mengakses data lain hanya dengan mengganti ID
 ```
 
 ### 23. Bagaimana cara mencegah customer melihat data customer lain?
@@ -185,7 +186,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Dengan melakukan ownership check dan memastikan user hanya bisa mengakses data miliknya sendiri
 ```
 
 ### 24. Kapan menggunakan 401 Unauthorized?
@@ -193,7 +194,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat user belum login atau token tidak valid
 ```
 
 ### 25. Kapan menggunakan 403 Forbidden?
@@ -201,7 +202,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Saat user sudah login tapi tidak punya izin untuk mengakses resource tersebut
 ```
 
 ### 26. Apa perbedaan 401 dan 403?
@@ -209,7 +210,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+401 berarti belum ter-authenticate, sedangkan 403 berarti sudah login tapi tidak punya permission
 ```
 
 ### 27. Kenapa error message security tidak boleh terlalu detail?
@@ -217,7 +218,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena bisa dimanfaatkan attacker untuk mengetahui celah keamanan sistem
 ```
 
 ### 28. Apa itu principle of least privilege?
@@ -225,7 +226,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Prinsip memberikan akses seminimal mungkin sesuai kebutuhan user
 ```
 
 ### 29. Kenapa access log penting dalam finance backend?
@@ -233,7 +234,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk audit, monitoring aktivitas, dan mendeteksi penyalahgunaan atau fraud
 ```
 
 ### 30. Sebutkan field penting dalam access log.
@@ -241,7 +242,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+user_id, endpoint, method, timestamp, status_code
 ```
 
 ### 31. Bagaimana auth requirement ditulis di API contract?
@@ -249,7 +250,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Dengan menjelaskan jenis authentication, token yang dibutuhkan, dan role atau permission yang diperlukan
 ```
 
 ### 32. Bagaimana Swagger/OpenAPI membantu dokumentasi endpoint yang protected?
@@ -257,7 +258,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Dengan menampilkan security scheme dan menandai endpoint mana yang membutuhkan authorization
 ```
 
 ### 33. Apa risiko jika role dikirim dari client lalu langsung dipercaya?
@@ -265,7 +266,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Client bisa memanipulasi role dan mendapatkan akses yang seharusnya tidak dimiliki
 ```
 
 ### 34. Apa risiko token tanpa expiry?
@@ -273,7 +274,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Token bisa digunakan selamanya jika bocor, sehingga berisiko tinggi terhadap keamanan
 ```
 
 ### 35. Bagian mana yang paling sulit dari Day 4?
@@ -281,7 +282,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memahami perbedaan role check, permission, dan resource-level authorization
 ```
 
 ## Reflection
@@ -289,20 +290,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. Perbedaan authentication dan authorization
+2. Cara kerja JWT dan token-based authentication
+3. Pentingnya RBAC dan ownership check
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. Kapan sebaiknya menggunakan permission vs resource-level authorization
+2. Implementasi RBAC yang rapi di backend
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+Bagaimana best practice implementasi RBAC dan resource-level authorization di project nyata seperti finance?
 ```
