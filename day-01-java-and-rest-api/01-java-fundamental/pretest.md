@@ -20,7 +20,7 @@ Estimasi waktu: 20-30 menit.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah container untuk menampung tipe data
 ```
 
 ### 2. Apa itu data type?
@@ -28,7 +28,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Representasi jenis data (misal teks berupa String atau angka berupa Int)
 ```
 
 ### 3. Sebutkan contoh tipe data untuk text, number, dan true/false.
@@ -36,7 +36,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+String, integer dan boolean
 ```
 
 ### 4. Apa perbedaan variable declaration dan assignment?
@@ -44,7 +44,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+variable declaration hanya deklarasi data type nya, sedangkan assignment diisi value variable nya
 ```
 
 ### 5. Apa itu camelCase?
@@ -52,7 +52,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah naming convention berupa huruf kecil dan besar untuk memisahkan 2 kata
 ```
 
 ## Section B - Class and Object
@@ -62,7 +62,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Sebuah container untuk menampung beberapa atribut dan method
 ```
 
 ### 7. Apa itu object?
@@ -70,7 +70,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah wujud dari class, yang mewarisi semua atribut class ketika ingin dipanggil
 ```
 
 ### 8. Apa perbedaan class dan object?
@@ -78,7 +78,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class adalah blueprintnya, sedangkan object adalah bentuknya atau deklarasi nya ketika ingin digunakan
 ```
 
 ## Section C - Field, Method, Constructor
@@ -88,7 +88,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+atribut
 ```
 
 ### 10. Apa itu method?
@@ -96,7 +96,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah logic atau function
 ```
 
 ### 11. Apa itu parameter?
@@ -104,7 +104,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah input yang berisi atribut dan wajib ada ketika membuat sebuah method untuk set, sedangkan tidak wajib untuk get
 ```
 
 ### 12. Apa itu return value?
@@ -112,7 +112,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+berfungsi mengembalikan nilai setelah dieksekusi functionnya
 ```
 
 ### 13. Apa itu constructor?
@@ -120,7 +120,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah method yang berfungsi untuk inisialisasi sebuah objek ketika pertama kali dibuat, yang berisi atribut
 ```
 
 ## Section D - Access Modifier
@@ -130,7 +130,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar atribut/method yang kita punya tidak bisa sembarang diubah/diakses
 ```
 
 ### 15. Apa fungsi public?
@@ -138,7 +138,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar method lain dapat mengambil ataupun mengubah nilai dari sebuah atribut/method
 ```
 
 ### 16. Kenapa field biasanya dibuat private?
@@ -146,7 +146,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+supaya nilainya tidak bisa sembarang dimodifikasi
 ```
 
 ## Section E - Getter and Setter
@@ -156,7 +156,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+method untuk mengambil sebuah atribut tertentu
 ```
 
 ### 18. Apa fungsi setter?
@@ -164,7 +164,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+method untuk mengubah nilai sebuah atribut
 ```
 
 ### 19. Kenapa tidak semua field dibuat public?
@@ -172,7 +172,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena ada beberapa atribut yang sifatnya tidak boleh diubah
 ```
 
 ## Section F - Collection
@@ -182,7 +182,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+berfungsi menyimpan beberapa objek secara berurutan
 ```
 
 ### 21. Apa itu Map?
@@ -190,7 +190,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+berfungsi menyimpan objek dengan prinsip key dan value
 ```
 
 ### 22. Kapan menggunakan List dan kapan menggunakan Map?
@@ -198,7 +198,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+list digunakan ketika hanya butuh kumpulan data/value saja, sedangkan map digunakan apabila objek memiliki key dan value
 ```
 
 ## Section G - OOP Basic
@@ -208,7 +208,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah pembatasan akses terhadap sebuah method dan atribut
 ```
 
 ### 24. Apa itu interface?
@@ -216,7 +216,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah kontrak atau aturan yang wajib diimplementasi apabila sebuah class memakai interface
 ```
 
 ### 25. Apa itu abstract class?
@@ -224,7 +224,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+sebuah class yang memiliki beberapa atribut, namun tidak bisa dijadikan sebagai objek, apabila ingin digunakan maka wajib dari anaknya, yang mewarisi atribut dari parent class
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
@@ -232,7 +232,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+interface digunakan untuk aturan/kontrak yang wajib dilakukan pada sebuah class, sedangkan abstract digunakan sebagai parent class untuk mewarisi atribut
 ```
 
 ## Self Assessment
@@ -241,10 +241,10 @@ Beri tanda sesuai pemahaman kamu saat ini.
 
 | Topik | Belum paham | Mulai paham | Cukup paham |
 | --- | --- | --- | --- |
-| Basic syntax | [ ] | [ ] | [ ] |
-| Class and object | [ ] | [ ] | [ ] |
-| Field/method/constructor | [ ] | [ ] | [ ] |
-| Access modifier | [ ] | [ ] | [ ] |
-| Getter/setter | [ ] | [ ] | [ ] |
-| List/Map | [ ] | [ ] | [ ] |
-| Interface/abstract class | [ ] | [ ] | [ ] |
+| Basic syntax | [ ] | [ ] | [x] |
+| Class and object | [ ] | [ ] | [x] |
+| Field/method/constructor | [ ] | [ ] | [x] |
+| Access modifier | [ ] | [ ] | [x] |
+| Getter/setter | [ ] | [x] | [ ] |
+| List/Map | [ ] | [x] | [ ] |
+| Interface/abstract class | [ ] | [x] | [ ] |
