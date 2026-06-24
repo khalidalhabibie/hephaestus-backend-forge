@@ -7,7 +7,7 @@ Jawab pertanyaan berikut setelah membaca materi dan mengerjakan exercise Java Fu
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Variable adalah deklarasi dalam Java, contohnya adalah String name. name itu variablenya
 ```
 
 ### 2. Apa perbedaan String, int, Long, dan boolean?
@@ -15,7 +15,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+String itu untuk tipe text (cth. String name), Long itu untuk tipe number, boolean adalah true/false.
 ```
 
 ### 3. Kenapa Java menggunakan camelCase untuk variable?
@@ -23,7 +23,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+camelCase seperti namaNama.java atau String namaNama karena memang udah hatamnya. Kalau python dia snakecase
 ```
 
 ### 4. Apa perbedaan class dan object?
@@ -31,7 +31,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Class itu kayak nama file nya di Java. cth. public class namaClass {}.
 ```
 
 ### 5. Apa itu field?
@@ -39,7 +39,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field itu propertri di Java, kayak String nama
 ```
 
 ### 6. Apa itu method?
@@ -47,7 +47,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Function di Java, kayak  public void bacaRead(){}
 ```
 
 ### 7. Apa itu parameter?
@@ -55,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Isian () di method.
 ```
 
 ### 8. Apa itu return value?
@@ -63,7 +63,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Nilai kembalian method
 ```
 
 ### 9. Apa fungsi constructor?
@@ -71,7 +71,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Membuat object baru
 ```
 
 ### 10. Apa fungsi `this`?
@@ -79,7 +79,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk mengenali field milik kelas itu sendiri.
 ```
 
 ### 11. Kenapa field dibuat private?
@@ -87,7 +87,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk menjaga keamanan field tersebut sebagai access modifier
 ```
 
 ### 12. Apa fungsi getter dan setter?
@@ -95,7 +95,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Metode untuk membaca dan mengubah nilai field yang di-private
 ```
 
 ### 13. Apa itu encapsulation?
@@ -103,7 +103,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Access modifier yang ada seperti private, public, protected.
 ```
 
 ### 14. Apa perbedaan List dan Map?
@@ -111,7 +111,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+List itu sebuah collection, map itu dictionary yang melakukan store data dengan key dan value.
 ```
 
 ### 15. Kenapa CustomerService menggunakan Map<Long, Customer>?
@@ -119,7 +119,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena kita membutuhkan set key terhadap Long dan set Customer untuk menjadikan value dan kita bisa mengakses value customer berdasarkan index key
 ```
 
 ### 16. Kenapa getAllCustomers mengembalikan List<Customer>?
@@ -127,7 +127,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena getAllCustomers menggunakan return customer.
 ```
 
 ### 17. Apa itu interface?
@@ -135,7 +135,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kelas yang isinya method template tanpa isian/operasi methodnya.
 ```
 
 ### 18. Apa perbedaan interface dan abstract class?
@@ -143,7 +143,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+interface itu isinya method tanpa isiannya, kecuali pake default. abstract class itu kelas yang benmtuk nya tidak menentu dan bisa menerapkan kontrak terhadap kelas yang dieksten
 ```
 
 ### 19. Dari exercise, jelaskan flow createCustomer.
@@ -151,7 +151,14 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+public Customer createCustomer(String fullName, String email, String phoneNumber) {
+        Customer customer = new Customer(sequence, fullName, email, phoneNumber);
+        Long id = sequence;
+        sequence++;
+        customerStorage.put(id, customer);
+        return customer;
+
+membuat object customer dengan parimeter seq, fullName, email, phoneNumber. declare Long id = sequence, sequence +1, return customer.
 ```
 
 ### 20. Bagian mana yang paling sulit?
@@ -159,5 +166,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Abstract, interface
 ```
