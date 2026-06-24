@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari Data
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Kalo di map dia akan disimpan di ram, jadi kalo program di close data akan terhapus, kalo di database akan tersimpan walaupun program di close
 ```
 
 2. Kenapa database diperlukan pada aplikasi backend production?
@@ -17,7 +17,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Agar data tersimpan di persistance layer dan tidak terhapus saat aplikasi di close
 ```
 
 3. Apa fungsi SELECT, INSERT, UPDATE, dan DELETE pada SQL?
@@ -25,7 +25,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- SELECT : MENGAMBIL DATA
+- INSERT : INPUT DATA KE DATABASE
+- UPDATE : MENGUBAH NILAI DATA DI DATABASE
+- DELETE : MENGHAPUS DATA
 ```
 
 4. Apa fungsi WHERE dan ILIKE di PostgreSQL?
@@ -33,7 +36,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- WHERE : MELAKUKAN FILTERING SEBELUM MENGAMBIL DATA
+- ILIKE : MENCARI DATA YANG VALUENYA MIRIP DAN MENGABAIKAN UPPER LOWER
 ```
 
 5. Apa itu primary key dan foreign key?
@@ -41,7 +45,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- PRIMARY : NILAI KUNCI UNIK YANG MEMBEDAKAN VALUE YANG ADA DI DALAM DATABASE
+
+- FOREIGN KEY : NILAI KUNCI UNIK YANG MEMBEDAKAN VALUE TAMU DARI TABEL LAIN
 ```
 
 6. Apa itu JPA dan Hibernate, serta apa perbedaannya?
@@ -49,7 +55,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JPA UNTUK SINTAKSIS/PENGELOLA DALAM MENGAKSES DATABASE SEDANGKAN HIBERNATE UNTUK IMPLEMENTASI SINTAKSIS DARI JPA
 ```
 
 7. Apa itu Entity dan apa fungsi anotasi `@Entity`, `@Id`, serta `@GeneratedValue`?
@@ -57,7 +63,11 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- @ENTITY : MENDANDAKAN BAHWA CLASS MERUPAKAN CLASS YANG MENGGAMBARKAN TABEL DI DATABASE
+
+- @ID : MENANDAKAN KOLOM ADALAH PRIMARY KEY DARI CLASS YG MEREPRESENTASIKAN TABEL
+
+- @GENERATEDVALUE : UNTUK MELAKUKAN GENERATE ID OTOMATIS
 ```
 
 8. Apa fungsi `@Table` dan `@Column`?
@@ -65,7 +75,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@TABLE : MENAMAI CLASS ENTITY MENJADI TABEL DATABASE
+@COLUMN : REPRESENTASI KOLOM DI TABEL DATABASE
 ```
 
 9. Apa itu Repository dan apa manfaat `JpaRepository`?
@@ -73,7 +84,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+UNTUK MENGAKSES DATABASE MENGGUNAKAN SINTAKSIS YANG SUDAH DISEDIAKAN JPA
 ```
 
 10. Apa itu derived query method? Berikan contoh method untuk mencari customer berdasarkan email.
@@ -81,7 +92,12 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+QUERY METHODS DIMANA MEMUNGKINKAN KITA MELAKUKAN QUERY KE DATABASE HANYA MENGGUNAKAN FUNCTION/METHOD
+
+.FINDBYID()
+.SAVE()
+.DELETE()
+.FINDALL()
 ```
 
 11. Apa fungsi `@Query`? Jelaskan perbedaan JPQL dan native query.
@@ -89,7 +105,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@QUERY : UNTUK MENULISKAN QUERY
+KALO JPQL QUERY KE CLASS ENTITYNYA
+KALO NATIVE : RAW QUERY KE DATABASE/TABELNYA
 ```
 
 12. Apa itu Flyway dan kenapa database migration penting?
@@ -97,7 +115,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+AGAR KETIKA ADA PERUBAHAN DI DATABASE KITA HANYA PERLU MENAMBAHAKN FILE MIGRATION SAJA, TIDAK PERLU ALTERTABEL KE DATABASE LANGSUNG DAN AGAR APLIKASI BISA TERUS BERJALAN DAN GA CRASH
 ```
 
 13. Apa maksud penamaan file migration seperti `V1__create_customers_table.sql`? Kenapa migration lama sebaiknya tidak diubah setelah dijalankan?
@@ -105,7 +123,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+VERSI 1 - MEBUAT CUSTOMER TABEL
+KARENA KALO DIUBAH FLYAWAY AKAN CRASH, JADI HARUS BUAT FILE MIGRATION LAGI WALAUPUN PERUBAHAN SEKECIL APAPUN
 ```
 
 14. Jelaskan relationship one-to-many dan many-to-one dengan contoh Customer dan Order.
@@ -113,7 +132,12 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- ONE TO MANY : 1 ENTITY BISA MEMILIKI / BERELASI KE BANYAK ENTITY LAIN
+
+- MANY TO ONE : BANYAK ENTITY HANYA DIMILIKI OLEH 1 CUSTOMER
+
+CUSTOMER -> MEMILIKI BANYAK -> ORDER
+
 ```
 
 15. Apa fungsi `@ManyToOne`, `@OneToMany`, dan `@JoinColumn`?
@@ -121,7 +145,11 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+
+@ManyToOne  : relasi banyak ke satu
+@OneToMany  : relasi satu ke banyak
+@JoinColumn : menentukan kolom foreign key pada tabel
+
 ```
 
 16. Apa perbedaan lazy loading dan eager loading? Kenapa `FetchType.LAZY` sering lebih aman sebagai default?
@@ -129,7 +157,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+KARENA LAZY AKAN DIEKSEKUSI KETIKA DIPERLUKAN SAJA, BUKAN LANGSUNG DI AWAL SEPERTI EAGER. NAG JIKA EAGER LIST OF CUSTOMER YANG BANYAK MAKA QUERY AKAN BERAT DAN DATABASE AKAN CRASH
 ```
 
 17. Apa itu SQL join? Jelaskan perbedaan `INNER JOIN` dan `LEFT JOIN`.
@@ -137,7 +165,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+KALO INNER DIA AKAN RETURN VALUE YANG SAMA DI KEDUA TABEL INTERCEP, SEDANGKAN KALO LEFT JOIN AKAN RETURN BERDASARKAN TABEL YANG KIRI
 ```
 
 18. Apa itu N+1 query problem dan bagaimana cara sederhana menguranginya?
@@ -145,7 +173,12 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+1 QUERY DI IKUTI BANYAK QUERY YANG ADA DIBELAKANNGNYA
+CONTOH : CUSTOMER + 100 LOAN APPLICATION
+
+CARA MENGURANGI :
+- JOIN FETCH
+- PAKE LAZY DAN EGAER DENGAN TAPAT
 ```
 
 19. Kenapa Entity sebaiknya tidak langsung dikembalikan sebagai API response? Apa manfaat DTO?
@@ -153,7 +186,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+AGAR DATA YANG SENSITIF TIDAK IKUT KE RETURN KE CLIENT DAN TIDAK MEMBOCORKAN DATA.
 ```
 
 20. Apa fungsi `@Transactional` dan kapan menggunakan `@Transactional(readOnly = true)`?
@@ -161,7 +194,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@TRANSACTIONAL DIGUNAKAN KETIKA SERVICE MELAKUKAN TRANSAKSI DI DATABASE DAN ANTAR DATABASE, READ ONLY DIPAKE JIKA TRANSAKSI HANYA MENGAMBIL DATA SAJA KE DATABASE.
 ```
 
 ## Reflection
@@ -169,20 +202,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. PENGGUNAAN READ ONLY TRUE PADA DATABASE
+2. MENANGANI PERMASALAHAN QUERY N+1
+3. FILE MIGRATION HARUS DIBUAT KETIKA ADA PERUBAHAN FIELD DI DATABASE
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. PENGGUNAAN JPQL
+2. MEMBUAT SERVICE TRANSACTIONAL YANG LOGIKA BISNISNYA TIDAK HANYA CRUD
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+1. KAPAN KITA BISA MENYIMPULKAN BAHWA CODE KITA SUDAH BAIK. DAN JIKA KITA BEKERJA SENDIRI BAGAIMANA MENGURANGI TITIK BUTA
 ```
