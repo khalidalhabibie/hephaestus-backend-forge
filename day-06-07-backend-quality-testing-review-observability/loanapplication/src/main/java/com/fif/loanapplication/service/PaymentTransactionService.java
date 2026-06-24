@@ -28,7 +28,8 @@ public class PaymentTransactionService {
     private PaymentTransactionResponse toPaymentResponse(PaymentTransactionEntity paymentTransactionEntity) {
         return PaymentTransactionResponse.builder()
                 .uid(paymentTransactionEntity.getUid())
-                .repaymentScheduleUid(paymentTransactionEntity.getUid())
+                .repaymentScheduleUid(
+                        paymentTransactionEntity.getRepaymentSchedule().getUid())
                 .paymentReference(paymentTransactionEntity.getPaymentReference())
                 .paidAmount(paymentTransactionEntity.getPaidAmount())
                 .paidAt(paymentTransactionEntity.getPaidAt())

@@ -82,7 +82,7 @@ public class CustomerController {
     }
 
     // DELETE Customer
-    @DeleteMapping
+    @DeleteMapping("/{uid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteCustomer(@PathVariable UUID uid) {
         customerService.deleteCustomer(uid);
