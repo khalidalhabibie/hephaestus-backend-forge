@@ -670,34 +670,34 @@ src/main/java/com/example/training/
 
 # Acceptance Criteria
 
-* [ ] Application bisa berjalan di `localhost:8080`.
-* [ ] Login admin menghasilkan `token-admin`.
-* [ ] Login staff menghasilkan `token-staff`.
-* [ ] Login approver menghasilkan `token-approver`.
-* [ ] Login salah menghasilkan `401 Unauthorized`.
-* [ ] Request tanpa token menghasilkan `401 Unauthorized`.
-* [ ] Request dengan token tidak valid menghasilkan `401 Unauthorized`.
-* [ ] `GET /api/v1/auth/me` berjalan.
-* [ ] Customer API tetap berjalan.
-* [ ] `LoanApplicationService` berhasil dibuat.
-* [ ] `POST /api/v1/loan-applications` berjalan.
-* [ ] `GET /api/v1/loan-applications` berjalan.
-* [ ] `GET /api/v1/loan-applications/{id}` berjalan.
-* [ ] `PATCH /api/v1/loan-applications/{id}/approve` berjalan.
-* [ ] `PATCH /api/v1/loan-applications/{id}/reject` berjalan.
-* [ ] Staff bisa create loan application.
-* [ ] Staff tidak bisa approve loan application.
-* [ ] Approver bisa approve loan application.
-* [ ] Approver bisa reject loan application.
-* [ ] Approver tidak bisa create customer.
-* [ ] Admin bisa mengakses semua endpoint.
-* [ ] Akses tanpa permission menghasilkan `403 Forbidden`.
-* [ ] Response JSON menggunakan `snake_case`.
-* [ ] Controller tidak berisi business logic utama.
-* [ ] Service berisi business logic.
-* [ ] Data disimpan di memory.
-* [ ] Tidak menggunakan database.
-* [ ] Pull Request dibuat ke branch `master`.
+* [ X] Application bisa berjalan di `localhost:8080`.
+* [ X] Login admin menghasilkan `token-admin`.
+* [ X] Login staff menghasilkan `token-staff`.
+* [ X] Login approver menghasilkan `token-approver`.
+* [ X] Login salah menghasilkan `401 Unauthorized`.
+* [ X] Request tanpa token menghasilkan `401 Unauthorized`.
+* [ X] Request dengan token tidak valid menghasilkan `401 Unauthorized`.
+* [ X] `GET /api/v1/auth/me` berjalan.
+* [ X] Customer API tetap berjalan.
+* [ X] `LoanApplicationService` berhasil dibuat.
+* [ X] `POST /api/v1/loan-applications` berjalan.
+* [ X] `GET /api/v1/loan-applications` berjalan.
+* [ X] `GET /api/v1/loan-applications/{id}` berjalan.
+* [ X] `PATCH /api/v1/loan-applications/{id}/approve` berjalan.
+* [ X] `PATCH /api/v1/loan-applications/{id}/reject` berjalan.
+* [ X] Staff bisa create loan application.
+* [ X] Staff tidak bisa approve loan application.
+* [ X] Approver bisa approve loan application.
+* [ X] Approver bisa reject loan application.
+* [ X] Approver tidak bisa create customer.
+* [ X] Admin bisa mengakses semua endpoint.
+* [ X] Akses tanpa permission menghasilkan `403 Forbidden`.
+* [ X] Response JSON menggunakan `snake_case`.
+* [ X] Controller tidak berisi business logic utama.
+* [ X] Service berisi business logic.
+* [ X] Data disimpan di memory.
+* [ X] Tidak menggunakan database.
+* [ X] Pull Request dibuat ke branch `master`.
 
 # Optional Challenge
 
