@@ -18,7 +18,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang database, SQ
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Database adalah tempat atau wadah untuk menyimpan, mengelola, dan mengorganisir data agar bisa diakses, dicari, dan diubah dengan mudah oleh aplikasi.
 ```
 
 2. Apa perbedaan menyimpan data di Map dan menyimpan data di database?
@@ -26,7 +26,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Map -> menyimpan data di memory aplikasi dan biasanya hilang saat aplikasi diberhentikan.
+Database -> menyimpan data secara permanen di media penyimpanan, sehingga data tetap ada walaupun aplikasi dimatikan (e.g. products yang kita simpan di keranjang e-commerce).
 ```
 
 3. Apa itu table?
@@ -34,7 +35,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Table adalah struktur penyimpanan data di database.
 ```
 
 4. Apa itu row?
@@ -42,7 +43,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Row adalah satu data dalam sebuah table (e.g. pada table Customer satu row bisa berisi data satu Customer).
 ```
 
 5. Apa itu column?
@@ -50,7 +51,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Column adalah atribut atau field yang menjelaskan data yang disimpan (e.g. id, name, email, etc).
 ```
 
 6. Apa itu primary key?
@@ -58,7 +59,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Primary key adalah kolom yang digunakan untuk mengidentifikasi setiap row secara unik dalam sebuah table (e.g. id_customer).
 ```
 
 7. Apa itu foreign key?
@@ -66,7 +67,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Foreign key adalah kolom yang menghubungkan suatu table dengan table lain melalui primary key, di mana dapat membangun relasi antar table (e.g. id_customer pada table Order untuk melihat order dari masing-masing Customer).
 ```
 
 8. Kenapa aplikasi backend membutuhkan database driver?
@@ -74,7 +75,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena database driver berfungsi sebagai penghubung antara aplikasi dan database, sehingga aplikasi dapat mengirim query dan menerima hasil dari database.
 ```
 
 ## Section B - SQL Basic
@@ -84,7 +85,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT digunakan untuk mengambil atau membaca data dari database (e.g. SELECT * FROM customer).
 ```
 
 10. Apa fungsi INSERT?
@@ -92,7 +93,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+INSERT digunakan untuk menambahkan data baru ke table (e.g. INSERT INTO customer(name, email) VALUES ('Edith', 'edith@gmail.com')).
 ```
 
 11. Apa fungsi UPDATE?
@@ -100,7 +101,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+UPDATE digunakan untuk mengubah data yang sudah ada (e.g. UPDATE customer SET email = 'edith@gmail.com').
 ```
 
 12. Apa fungsi DELETE?
@@ -108,7 +109,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+DELETE digunakan untuk menghapus data (e.g. DELETE FROM customer).
 ```
 
 13. Apa fungsi WHERE?
@@ -116,7 +117,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+WHERE digunakan untuk memberikan kondisi pada query (e.g. UPDATE customer SET email = 'edith@gmail.com' WHERE salary = 5000000).
 ```
 
 14. Apa perbedaan LIKE dan ILIKE di PostgreSQL?
@@ -124,7 +125,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+LIKE -> membedakan huruf besar dan kecil.
+ILIKE -> tidak membedakan huruf besar dan kecil.
 ```
 
 15. Apa fungsi ORDER BY?
@@ -132,7 +134,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+ORDER BY digunakan untuk mengurutkan data.
 ```
 
 16. Apa fungsi LIMIT?
@@ -140,7 +142,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+LIMIT digunakan untuk membatasi jumlah data.
 ```
 
 17. Apa itu JOIN?
@@ -148,7 +150,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JOIN digunakan untuk menggabungkan data dari beberapa table yang saling berhubungan.
 ```
 
 18. Apa perbedaan INNER JOIN dan LEFT JOIN?
@@ -156,7 +158,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+INNER JOIN -> hanya menampilkan data yang memiliki relation.
+LEFT JOIN -> menampilkan semua data dari table kiri meskipun tidak memiliki relation.
 ```
 
 ## Section C - JPA & Hibernate
@@ -190,7 +193,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Entity adalah sebuah class Java yang merepresentasikan sebuah table di database.
 ```
 
 23. Apa fungsi @Entity?
@@ -198,7 +201,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Entity berfungsi untuk menandai bahwa sebuah Class adalah Entity dan akan dipetakan ke table database.
 ```
 
 24. Apa fungsi @Table?
@@ -322,7 +325,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+File migration versi 1 yang berisi code untuk membuat table customers.
 ```
 
 39. Apa risiko jika struktur database diubah manual tanpa migration?
@@ -340,7 +343,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Relationship antar table adalah hubungan antara data pada satu table dengan data pada table lain.
 ```
 
 41. Apa itu one-to-many?
@@ -348,7 +351,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Satu data pada table A dapat memiliki banyak data terkait pada table B.
 ```
 
 42. Apa itu many-to-one?
@@ -356,7 +359,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Banyak data pada table A terhubung ke satu data pada table B.
 ```
 
 43. Apa fungsi @ManyToOne?
@@ -422,7 +425,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena satu customer bisa mengajukan banyak pinjaman, sehingga data customer tidak perlu diulang pada setiap loan dan data menjadi lebih terstruktur dengan memisahkan table.
 ```
 
 51. Dalam sistem cicilan, kenapa repayment schedule perlu table sendiri?
@@ -430,7 +433,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena satu pinjaman biasanya memiliki banyak jadwal pembayaran.
 ```
 
 52. Apa contoh query yang berguna untuk melihat loan berdasarkan status?
@@ -438,7 +441,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT * FROM loan_application
+WHERE status = 'APPROVED';
 ```
 
 53. Apa contoh query yang berguna untuk melihat total pembayaran customer?
@@ -446,27 +450,32 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+SELECT customer_id,
+SUM(amount) AS total_payment
+FROM repayment
+GROUP BY customer_id;
 ```
 
 ## Self Assessment
 
 | Area | Score 1-5 |
 | --- | --- |
-| Database basic | |
-| SQL basic | |
-| JPA | |
-| Hibernate | |
-| Repository | |
-| Flyway | |
-| Relationship | |
-| Join query | |
-| Lazy loading | |
-| Finance data modeling | |
+| Database basic | 4 |
+| SQL basic | 4 |
+| JPA | 1 |
+| Hibernate | 1 |
+| Repository | 1 |
+| Flyway | 1 |
+| Relationship | 3 |
+| Join query | 4 |
+| Lazy loading | 1 |
+| Finance data modeling | 3 |
 
 ## Notes
 
 ```text
-Tulis bagian yang masih membingungkan.
+- Perbedaan detail JPQL dan native query;
+- Cara kerja Hibernate di belakang layar; dan;
+- Lazy loading, eager loading, dan N+1 query problem.
 ```
 
