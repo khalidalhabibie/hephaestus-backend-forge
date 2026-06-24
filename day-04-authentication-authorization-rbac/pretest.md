@@ -18,7 +18,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang authenticati
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk melindungi data sensitif (saldo, transaksi) agar hanya bisa diakses oleh pihak yang berhak dan mencegah fraud
 ```
 
 ### 2. Apa risiko jika semua user bisa mengakses semua data?
@@ -26,7 +26,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+terjadi kebocoran data, penyalahgunaan, fraud, dan pelanggaran privasi
 ```
 
 ### 3. Apa contoh data atau action yang harus dibatasi pada sistem loan?
@@ -34,7 +34,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+data pinjaman, approval loan, ubah status loan, dan melihat data nasabah
 ```
 
 ### 4. Kenapa backend tidak boleh hanya mengandalkan frontend untuk membatasi akses?
@@ -42,7 +42,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena frontend bisa dimanipulasi, sehingga backend harus tetap melakukan validasi akses
 ```
 
 ### 5. Apa maksud deny by default?
@@ -50,7 +50,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+semua akses ditolak secara default kecuali yang secara eksplisit diizinkan
 ```
 
 ## Section B - Authentication
@@ -60,7 +60,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+proses verifikasi identitas user
 ```
 
 ### 7. Apa contoh proses authentication?
@@ -68,7 +68,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+login dengan menggunakan username dan password
 ```
 
 ### 8. Apa itu token-based authentication?
@@ -76,7 +76,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+metode autentikasi menggunakan token sebagai pengganti session
 ```
 
 ### 9. Apa fungsi Authorization header?
@@ -84,7 +84,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk mengirim token dari client ke backend
 ```
 
 ### 10. Apa arti format Bearer token?
@@ -92,7 +92,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+menunjukkan bahwa token yang dikirim adalah access token (Bearer <token>)
 ```
 
 ### 11. Apa yang harus dilakukan backend saat menerima token?
@@ -100,7 +100,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+memvalidasi keaslian, signature, dan expiry token
 ```
 
 ### 12. Apa yang terjadi jika token tidak ada?
@@ -108,7 +108,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+request ditolak dengan status 401 Unauthorized
 ```
 
 ### 13. Apa yang terjadi jika token invalid?
@@ -116,7 +116,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+request ditolak karena token tidak valid (401 Unauthorized)
 ```
 
 ### 14. Apa yang terjadi jika token expired?
@@ -124,7 +124,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+request ditolak dan user harus login ulang (otomatis refresh token)
 ```
 
 ## Section C - JWT
@@ -134,7 +134,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JSON Web Token, token berbentuk JSON yang berisi informasi user dan signature
 ```
 
 ### 16. Apa itu claim pada JWT?
@@ -142,7 +142,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+data atau informasi yang disimpan dalam payload JWT
 ```
 
 ### 17. Sebutkan contoh claim yang umum ada di JWT.
@@ -150,7 +150,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+userId, username, role, exp
 ```
 
 ### 18. Kenapa payload JWT tidak boleh dipercaya sebelum signature divalidasi?
@@ -158,7 +158,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena payload bisa dimodifikasi jika signature tidak diverifikasi
 ```
 
 ### 19. Data apa saja yang tidak boleh disimpan di JWT?
@@ -166,7 +166,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+password, PIN, data sensitif seperti nomor kartu atau data pribadi penting
 ```
 
 ### 20. Kenapa JWT harus punya expiry?
@@ -174,7 +174,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar token tidak bisa digunakan selamanya dan mengurangi risiko penyalahgunaan
 ```
 
 ### 21. Apa perbedaan access token dan refresh token?
@@ -182,7 +182,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- access token untuk akses API (jangka pendek)
+- refresh token untuk mendapatkan token baru (jangka panjang)
 ```
 
 ## Section D - Authorization and RBAC
@@ -192,7 +193,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+proses menentukan apakah user boleh melakukan sesuatu di dalam sistem
 ```
 
 ### 23. Apa perbedaan authentication dan authorization?
@@ -200,7 +201,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- authentication menentukan siapa user
+- authorization menentukan apa yang boleh dilakukan
 ```
 
 ### 24. Apa itu RBAC?
@@ -208,7 +210,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+role-Based Access Control, akses ditentukan berdasarkan role user
 ```
 
 ### 25. Apa itu role?
@@ -216,7 +218,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+peran user dalam sistem, yang memiliki beberapa akses yang berbeda
 ```
 
 ### 26. Apa itu permission?
@@ -224,7 +226,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+hak akses spesifik untuk melakukan sesuatu
 ```
 
 ### 27. Apa contoh role dalam loan system?
@@ -232,7 +234,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Loan Officer, Customer, Auditor
 ```
 
 ### 28. Apa contoh permission dalam loan system?
@@ -240,7 +242,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+createLoan, approval, viewLoan, updateLoan
 ```
 
 ### 29. Kenapa user yang sudah login belum tentu boleh melakukan semua action?
@@ -248,7 +250,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena setiap user punya role dan permission yang berbeda
 ```
 
 ## Section E - Resource-Level Authorization
@@ -258,7 +260,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+pembatasan akses berdasarkan resource tertentu (misalnya data milik siapa)
 ```
 
 ### 31. Kenapa role check saja tidak cukup?
@@ -266,7 +268,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena user dengan role sama belum tentu boleh akses semua data (belum tentu punya akses yang sama)
 ```
 
 ### 32. Apa itu ownership check?
@@ -274,7 +276,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+pengecekan apakah resource tersebut milik user yang mengakses
 ```
 
 ### 33. Apa contoh kasus customer melihat loan milik customer lain?
@@ -282,7 +284,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+customer mencoba mengakses loan dengan ID milik user lain melalui URL
 ```
 
 ### 34. Apa risiko IDOR?
@@ -290,7 +292,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+kebocoran data sensitif dan data integrity rusak
 ```
 
 ### 35. Bagaimana cara backend mencegah data leakage karena salah akses resource?
@@ -298,7 +300,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+validasi ownership dan authorization di setiap request
 ```
 
 ## Section F - 401, 403, and Audit
@@ -308,7 +310,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat user belum login atau token tidak valid
 ```
 
 ### 37. Kapan menggunakan 403 Forbidden?
@@ -316,7 +318,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+saat user sudah login tapi tidak punya izin
 ```
 
 ### 38. Apa bedanya 401 dan 403?
@@ -324,7 +326,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- 401: belum terautentikasi
+- 403: tidak punya akses
 ```
 
 ### 39. Kenapa access log penting?
@@ -332,7 +335,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+untuk audit, monitoring, dan mendeteksi aktivitas yang mencurigakan
 ```
 
 ### 40. Field apa saja yang penting dalam access log?
@@ -340,20 +343,20 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+User ID, timestamp, endpoint, method, status code, IP address
 ```
 
 ## Self Assessment
 
 | Area | Score 1-5 |
 | --- | --- |
-| Authentication | |
-| Authorization | |
-| JWT | |
-| RBAC | |
-| Resource ownership | |
-| 401 vs 403 | |
-| Audit log | |
+| Authentication |3|
+| Authorization |3|
+| JWT |3|
+| RBAC |3|
+| Resource ownership |3|
+| 401 vs 403 |3|
+| Audit log |3|
 
 ## Notes
 
