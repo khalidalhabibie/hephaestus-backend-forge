@@ -251,7 +251,7 @@ src/main/resources/db/migration/V4__create_payment_transactions_table.sql
 
 ## Required Endpoints
 
-### Customer API
+### Customer API (done)
 
 ```text
 POST /api/v1/customers
