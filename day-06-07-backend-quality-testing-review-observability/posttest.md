@@ -14,7 +14,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari test
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena testing membantu mencegah bug sebelum masuk ke production
 ```
 
 2. Apa perbedaan working code dan trusted code?
@@ -22,7 +22,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Working code cuma jalan, trusted code sudah diuji dan bisa diandalkan
 ```
 
 3. Jelaskan pola Given-When-Then.
@@ -30,7 +30,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Given kondisi awal, When aksi dilakukan, Then hasil yang diharapkan
 ```
 
 4. Kenapa service layer cocok untuk unit test?
@@ -38,7 +38,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena business logic ada di situ dan bisa dites tanpa dependency luar
 ```
 
 5. Apa peran JUnit 5 dan Mockito dalam unit test?
@@ -46,7 +46,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+JUnit 5 untuk menjalankan test, Mockito untuk mock dependency
 ```
 
 6. Sebutkan 3 test case penting untuk `LoanApplicationService`.
@@ -54,7 +54,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+1. Loan disetujui jika memenuhi syarat
+2. Loan ditolak jika tidak valid
+3. Handling error saat data tidak lengkap
 ```
 
 7. Apa tujuan peer code review?
@@ -62,7 +64,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk memastikan kualitas kode dan mengurangi bug
 ```
 
 8. Apa itu structured logging dan kenapa penting?
@@ -70,7 +72,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Logging dengan format rapi supaya mudah dicari dan dianalisis
 ```
 
 9. Apa fungsi `correlation_id` pada log dan error response?
@@ -78,7 +80,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melacak satu request dari awal sampai akhir
 ```
 
 10. Sebutkan minimal 5 data yang tidak boleh ditulis mentah di log.
@@ -86,7 +88,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Password, token, PIN, nomor KTP, nomor kartu
 ```
 
 ## Reflection
@@ -94,20 +96,20 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+1. Testing bersifat penting untuk cegah bug
+2. Logging membantu untuk debugging
+3. Code review meningkatkan kualitas
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
-2.
+1. Strategi test yang lebih advance
+2. Best practice untuk logging di production
 ```
 
 Apa 1 hal yang akan kamu cek saat melakukan code review?
 
 ```text
-Tulis jawaban di sini.
+Apakah business logic yang di-coding sudah benar dan aman?
 ```
