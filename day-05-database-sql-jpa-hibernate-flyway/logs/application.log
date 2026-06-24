@@ -1,0 +1,131 @@
+2026-06-23 12:08:24.486 [main] INFO  c.example.training.DemoApplication [] - Starting DemoApplication using Java 21.0.10 with PID 28136 (D:\Pribadi\BackEnd\hephaestus-backend-forge\day-05-database-sql-jpa-hibernate-flyway\exercisespringboot2\target\classes started by 74521 in D:\Pribadi\BackEnd\hephaestus-backend-forge\day-05-database-sql-jpa-hibernate-flyway)
+2026-06-23 12:08:24.500 [main] INFO  c.example.training.DemoApplication [] - No active profile set, falling back to 1 default profile: "default"
+2026-06-23 12:08:25.509 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 9.1.0.Final
+2026-06-23 12:08:26.216 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-23 12:08:26.349 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 110 ms. Found 4 JPA repository interfaces.
+2026-06-23 12:08:27.369 [main] INFO  o.s.boot.tomcat.TomcatWebServer [] - Tomcat initialized with port 8080 (http)
+2026-06-23 12:08:27.391 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8080"]
+2026-06-23 12:08:27.397 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-06-23 12:08:27.398 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-06-23 12:08:27.553 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer [] - Root WebApplicationContext: initialization completed in 2946 ms
+2026-06-23 12:08:28.099 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-06-23 12:08:28.443 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6fef75c6
+2026-06-23 12:08:28.445 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-06-23 12:08:28.478 [main] INFO  org.flywaydb.core.FlywayExecutor [] - Database: jdbc:postgresql://localhost:5432/finance_training (PostgreSQL 14.23)
+2026-06-23 12:08:28.634 [main] INFO  o.f.core.internal.command.DbValidate [] - Successfully validated 4 migrations (execution time 00:00.071s)
+2026-06-23 12:08:28.678 [main] INFO  o.f.core.internal.command.DbMigrate [] - Current version of schema "public": 4
+2026-06-23 12:08:28.684 [main] INFO  o.f.core.internal.command.DbMigrate [] - Schema "public" is up to date. No migration necessary.
+2026-06-23 12:08:28.865 [main] INFO  org.hibernate.orm.jpa [] - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-23 12:08:28.958 [main] INFO  org.hibernate.orm.core [] - HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-06-23 12:08:29.523 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-23 12:08:29.618 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-23 12:08:29.649 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/finance_training]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 14.23
+	Default catalog/schema: finance_training/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-23 12:08:31.045 [main] INFO  org.hibernate.orm.core [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-23 12:08:31.123 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-23 12:08:31.239 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-23 12:08:33.537 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-23 12:08:34.446 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8080"]
+2026-06-23 12:08:34.521 [main] INFO  o.s.boot.tomcat.TomcatWebServer [] - Tomcat started on port 8080 (http) with context path '/'
+2026-06-23 12:08:34.538 [main] INFO  c.example.training.DemoApplication [] - Started DemoApplication in 11.242 seconds (process running for 12.23)
+2026-06-23 12:08:34.553 [main] WARN  o.s.c.events.SpringDocAppInitializer [] - SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-23 12:08:34.553 [main] WARN  o.s.c.events.SpringDocAppInitializer [] - SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-23 12:09:14.000 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-23 12:09:14.002 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-06-23 12:09:14.007 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 5 ms
+2026-06-23 12:09:14.297 [http-nio-8080-exec-2] INFO  c.e.training.Service.CustomerService [8f01b5d9-62ad-403c-a26c-853aa27d383d] - event=customer_creation_requested, nik_masked=****0987, email_domain=mail.com, phone_masked=****8909
+2026-06-23 12:09:14.503 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL [8f01b5d9-62ad-403c-a26c-853aa27d383d] - select ce1_0.id from customers ce1_0 where (ce1_0.deleted_at IS NULL) and ce1_0.nik=? fetch first ? rows only
+2026-06-23 12:09:14.503 [http-nio-8080-exec-2] TRACE org.hibernate.orm.jdbc.bind [8f01b5d9-62ad-403c-a26c-853aa27d383d] - binding parameter (1:VARCHAR) <- [0987654567890987]
+2026-06-23 12:09:14.503 [http-nio-8080-exec-2] TRACE org.hibernate.orm.jdbc.bind [8f01b5d9-62ad-403c-a26c-853aa27d383d] - binding parameter (2:INTEGER) <- [1]
+2026-06-23 12:09:14.555 [http-nio-8080-exec-2] WARN  c.e.training.Service.CustomerService [8f01b5d9-62ad-403c-a26c-853aa27d383d] - event=customer_creation_failed, reason=duplicate_nik, nik_masked=****0987
+2026-06-23 12:09:14.580 [http-nio-8080-exec-2] WARN  c.e.t.E.GlobalExceptionHandler [8f01b5d9-62ad-403c-a26c-853aa27d383d] - event=duplicate_customer_error, message=Customer already exists with nik: 0987654567890987
+2026-06-23 12:11:12.372 [http-nio-8080-exec-5] INFO  c.e.training.Service.CustomerService [188140a3-6a5c-4775-baa1-ce08165874fe] - event=customer_creation_requested, nik_masked=****0000, email_domain=mail.com, phone_masked=****8909
+2026-06-23 12:11:12.375 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL [188140a3-6a5c-4775-baa1-ce08165874fe] - select ce1_0.id from customers ce1_0 where (ce1_0.deleted_at IS NULL) and ce1_0.nik=? fetch first ? rows only
+2026-06-23 12:11:12.375 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (1:VARCHAR) <- [0000000000000000]
+2026-06-23 12:11:12.375 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (2:INTEGER) <- [1]
+2026-06-23 12:11:12.386 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL [188140a3-6a5c-4775-baa1-ce08165874fe] - select ce1_0.id from customers ce1_0 where (ce1_0.deleted_at IS NULL) and ce1_0.email=? fetch first ? rows only
+2026-06-23 12:11:12.387 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (1:VARCHAR) <- [aldy@mail.com]
+2026-06-23 12:11:12.388 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (2:INTEGER) <- [1]
+2026-06-23 12:11:12.484 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL [188140a3-6a5c-4775-baa1-ce08165874fe] - insert into customers (created_at,deleted_at,email,full_name,nik,phone_number,updated_at) values (?,?,?,?,?,?,?)
+2026-06-23 12:11:12.489 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (1:TIMESTAMP_UTC) <- [2026-06-23T12:11:12.417714100+07:00[Asia/Jakarta]]
+2026-06-23 12:11:12.492 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (2:TIMESTAMP_UTC) <- [null]
+2026-06-23 12:11:12.492 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (3:VARCHAR) <- [aldy@mail.com]
+2026-06-23 12:11:12.492 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (4:VARCHAR) <- [aldy]
+2026-06-23 12:11:12.492 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (5:VARCHAR) <- [0000000000000000]
+2026-06-23 12:11:12.492 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (6:VARCHAR) <- [098765678909]
+2026-06-23 12:11:12.492 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [188140a3-6a5c-4775-baa1-ce08165874fe] - binding parameter (7:TIMESTAMP_UTC) <- [2026-06-23T12:11:12.417714100+07:00[Asia/Jakarta]]
+2026-06-23 12:11:12.517 [http-nio-8080-exec-5] INFO  c.e.training.Service.CustomerService [188140a3-6a5c-4775-baa1-ce08165874fe] - event=customer_created, customer_id=15, nik_masked=****0000, email_domain=mail.com
+2026-06-23 12:20:41.858 [main] INFO  c.example.training.DemoApplication [] - Starting DemoApplication using Java 21.0.10 with PID 26672 (D:\Pribadi\BackEnd\hephaestus-backend-forge\day-05-database-sql-jpa-hibernate-flyway\exercisespringboot2\target\classes started by 74521 in D:\Pribadi\BackEnd\hephaestus-backend-forge\day-05-database-sql-jpa-hibernate-flyway)
+2026-06-23 12:20:41.866 [main] INFO  c.example.training.DemoApplication [] - No active profile set, falling back to 1 default profile: "default"
+2026-06-23 12:20:42.394 [background-preinit] INFO  o.h.validator.internal.util.Version [] - HV000001: Hibernate Validator 9.1.0.Final
+2026-06-23 12:20:44.029 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-23 12:20:44.148 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate [] - Finished Spring Data repository scanning in 101 ms. Found 4 JPA repository interfaces.
+2026-06-23 12:20:45.008 [main] INFO  o.s.boot.tomcat.TomcatWebServer [] - Tomcat initialized with port 8080 (http)
+2026-06-23 12:20:45.028 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Initializing ProtocolHandler ["http-nio-8080"]
+2026-06-23 12:20:45.033 [main] INFO  o.a.catalina.core.StandardService [] - Starting service [Tomcat]
+2026-06-23 12:20:45.033 [main] INFO  o.a.catalina.core.StandardEngine [] - Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-06-23 12:20:45.208 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer [] - Root WebApplicationContext: initialization completed in 2259 ms
+2026-06-23 12:20:45.926 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Starting...
+2026-06-23 12:20:46.252 [main] INFO  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@64910b2d
+2026-06-23 12:20:46.253 [main] INFO  com.zaxxer.hikari.HikariDataSource [] - HikariPool-1 - Start completed.
+2026-06-23 12:20:46.290 [main] INFO  org.flywaydb.core.FlywayExecutor [] - Database: jdbc:postgresql://localhost:5432/finance_training (PostgreSQL 14.23)
+2026-06-23 12:20:46.444 [main] INFO  o.f.core.internal.command.DbValidate [] - Successfully validated 4 migrations (execution time 00:00.063s)
+2026-06-23 12:20:46.507 [main] INFO  o.f.core.internal.command.DbMigrate [] - Current version of schema "public": 4
+2026-06-23 12:20:46.518 [main] INFO  o.f.core.internal.command.DbMigrate [] - Schema "public" is up to date. No migration necessary.
+2026-06-23 12:20:46.736 [main] INFO  org.hibernate.orm.jpa [] - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-06-23 12:20:46.827 [main] INFO  org.hibernate.orm.core [] - HHH000001: Hibernate ORM core version 7.4.1.Final
+2026-06-23 12:20:47.325 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo [] - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-23 12:20:47.412 [main] WARN  org.hibernate.orm.deprecation [] - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-23 12:20:47.444 [main] INFO  o.hibernate.orm.connections.pooling [] - HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/finance_training]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 14.23
+	Default catalog/schema: finance_training/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-06-23 12:20:48.828 [main] INFO  org.hibernate.orm.core [] - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-23 12:20:48.915 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean [] - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-23 12:20:49.022 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories [] - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-23 12:20:51.026 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration [] - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-23 12:20:51.983 [main] INFO  o.a.coyote.http11.Http11NioProtocol [] - Starting ProtocolHandler ["http-nio-8080"]
+2026-06-23 12:20:52.055 [main] INFO  o.s.boot.tomcat.TomcatWebServer [] - Tomcat started on port 8080 (http) with context path '/'
+2026-06-23 12:20:52.058 [main] INFO  c.example.training.DemoApplication [] - Started DemoApplication in 11.306 seconds (process running for 12.245)
+2026-06-23 12:20:52.073 [main] WARN  o.s.c.events.SpringDocAppInitializer [] - SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-06-23 12:20:52.073 [main] WARN  o.s.c.events.SpringDocAppInitializer [] - SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-06-23 12:21:30.879 [http-nio-8080-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] [] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-23 12:21:30.886 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Initializing Servlet 'dispatcherServlet'
+2026-06-23 12:21:30.890 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet [] - Completed initialization in 4 ms
+2026-06-23 12:21:31.176 [http-nio-8080-exec-3] WARN  c.e.t.E.GlobalExceptionHandler [a335fd97-055d-41af-bc43-ab486eac1a7f] - event=validation_error, fields=[phoneNumber], total_errors=1
+2026-06-23 12:21:38.478 [http-nio-8080-exec-5] INFO  c.e.training.Service.CustomerService [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - event=customer_creation_requested, nik_masked=****1212, email_masked=k***@mail.com, phone_masked=****8357
+2026-06-23 12:21:38.703 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - select ce1_0.id from customers ce1_0 where (ce1_0.deleted_at IS NULL) and ce1_0.nik=? fetch first ? rows only
+2026-06-23 12:21:38.703 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (1:VARCHAR) <- [1212121212121212]
+2026-06-23 12:21:38.707 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (2:INTEGER) <- [1]
+2026-06-23 12:21:38.745 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - select ce1_0.id from customers ce1_0 where (ce1_0.deleted_at IS NULL) and ce1_0.email=? fetch first ? rows only
+2026-06-23 12:21:38.745 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (1:VARCHAR) <- [kris@mail.com]
+2026-06-23 12:21:38.745 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (2:INTEGER) <- [1]
+2026-06-23 12:21:38.831 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - insert into customers (created_at,deleted_at,email,full_name,nik,phone_number,updated_at) values (?,?,?,?,?,?,?)
+2026-06-23 12:21:38.837 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (1:TIMESTAMP_UTC) <- [2026-06-23T12:21:38.776844200+07:00[Asia/Jakarta]]
+2026-06-23 12:21:38.839 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (2:TIMESTAMP_UTC) <- [null]
+2026-06-23 12:21:38.839 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (3:VARCHAR) <- [kris@mail.com]
+2026-06-23 12:21:38.840 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (4:VARCHAR) <- [kris]
+2026-06-23 12:21:38.840 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (5:VARCHAR) <- [1212121212121212]
+2026-06-23 12:21:38.840 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (6:VARCHAR) <- [9834512768357]
+2026-06-23 12:21:38.840 [http-nio-8080-exec-5] TRACE org.hibernate.orm.jdbc.bind [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - binding parameter (7:TIMESTAMP_UTC) <- [2026-06-23T12:21:38.776844200+07:00[Asia/Jakarta]]
+2026-06-23 12:21:38.869 [http-nio-8080-exec-5] INFO  c.e.training.Service.CustomerService [3cadfcd6-ecff-446c-ac79-8d2cc3792813] - event=customer_created, customer_id=16, nik_masked=****1212, email_masked=k***@mail.com, phone_masked=****8357
+2026-06-23 13:27:25.364 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h5m8s971ms606µs600ns).
+2026-06-23 13:36:01.324 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool [] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m35s960ms704µs900ns).
