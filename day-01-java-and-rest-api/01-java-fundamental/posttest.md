@@ -7,7 +7,7 @@ Jawab pertanyaan berikut setelah membaca materi dan mengerjakan exercise Java Fu
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+variable adalah sebuah nilai yang bisa kita set dan berubah ubah sesuai dengan kebutuhan kita
 ```
 
 ### 2. Apa perbedaan String, int, Long, dan boolean?
@@ -15,7 +15,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+String = untuk menyimpang kalimat
+int = untuk menyimpan angka
+boolean = untuk menyimpan true/false
 ```
 
 ### 3. Kenapa Java menggunakan camelCase untuk variable?
@@ -23,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena camelCase mempermudah pembacaan variable yang dimana hal ini sudah menjadi standar penulisan di java
 ```
 
 ### 4. Apa perbedaan class dan object?
@@ -31,7 +33,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+class adalah template untuk membuat objek
+object adalah instance dari class yang dibuat
 ```
 
 ### 5. Apa itu field?
@@ -39,7 +42,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+field adalah attribute dari objek itu sendiri
 ```
 
 ### 6. Apa itu method?
@@ -47,7 +50,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+method adalah fungsi di dalam class yang berisi kumpulan perintah yang akan dijalankan
 ```
 
 ### 7. Apa itu parameter?
@@ -55,7 +58,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+parameter adalah nilai input yang akan kita gunakan ke dalam method/functions
 ```
 
 ### 8. Apa itu return value?
@@ -63,7 +66,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+return value adalah nilai yang dikembalikan oleh method/function
 ```
 
 ### 9. Apa fungsi constructor?
@@ -71,7 +74,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+constructor digunakan untuk menginisialisasi object saat pertama kali dibuat
 ```
 
 ### 10. Apa fungsi `this`?
@@ -79,7 +82,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+this merujuk kepada object yang dibuat saat ini, biasanya untuk membedakan antara field dan parameter method
 ```
 
 ### 11. Kenapa field dibuat private?
@@ -87,7 +90,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+agar lebih aman dan terhindar dari diakses langsung dari luar class
 ```
 
 ### 12. Apa fungsi getter dan setter?
@@ -95,7 +98,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+getter digunakan untuk mengambil nilai dari field
+setter digunakan untuk mengsett nilai dari field
 ```
 
 ### 13. Apa itu encapsulation?
@@ -103,7 +107,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+konsep untuk mengatur data dan hanya memberikan akses melalui method tertentu
 ```
 
 ### 14. Apa perbedaan List dan Map?
@@ -111,7 +115,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+List menyimpan data secara berurutan
+Map menyimpan data dalam bentuk dengan key dan value
 ```
 
 ### 15. Kenapa CustomerService menggunakan Map<Long, Customer>?
@@ -119,7 +124,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena map memudahkan pencarian customer berdasarkan key yang unik
 ```
 
 ### 16. Kenapa getAllCustomers mengembalikan List<Customer>?
@@ -127,7 +132,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+karena list memudahkan untuk menampilkan semua data customer secara berurutan
 ```
 
 ### 17. Apa itu interface?
@@ -135,7 +140,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+interface adalah kumpulan method tanpa implementasi yang harus diimplementasikan oleh class yang menggunakannya (semuanya harus dipakai tanpa terkecuali)
 ```
 
 ### 18. Apa perbedaan interface dan abstract class?
@@ -143,7 +148,8 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+interface hanya berisi deklarasi method tanpa implementasi
+abstract class bisa punya method dengan implementasi maupun tanpa implementasi
 ```
 
 ### 19. Dari exercise, jelaskan flow createCustomer.
@@ -151,7 +157,10 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+user memanggil method createCustomer
+data customer dibuat menjadi object Customer
+object tersebut disimpan ke dalam Map di CustomerService
+id (sequence) digunakan sebagai key untuk menyimpan data
 ```
 
 ### 20. Bagian mana yang paling sulit?
@@ -159,5 +168,5 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+bagian saat membuat create customer karena saya lupa untuk menambahkan nilai sequencenya, dan saya baru mengerti ternyata sequence tinggal di set menjadi sequence++
 ```
