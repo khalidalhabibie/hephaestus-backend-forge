@@ -9,7 +9,7 @@ Posttest ini digunakan untuk mengukur pemahaman peserta setelah mempelajari Vali
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Validasi request adalah proses memeriksa dan memastikan data yang dikirim oleh client (user/aplikasi) ke server sudah benar, lengkap, dan sesuai aturan sebelum diproses lebih lanjut.
 ```
 
 ### 2. Kenapa backend tetap perlu validasi walaupun frontend sudah validasi?
@@ -17,7 +17,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Backend tetap perlu validasi karena frontend bisa dimanipulasi atau di-bypass, jadi backend harus memastikan data tetap valid dan aman.
 ```
 
 ### 3. Apa fungsi @Valid?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Valid adalah anotasi di Java (biasanya di Spring Boot) yang digunakan untuk mengaktifkan proses validasi otomatis terhadap data request berdasarkan aturan yang sudah didefinisikan.
 ```
 
 ### 4. Apa fungsi @NotBlank?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Memastikan sebuah field String tidak null, tidak kosong, dan tidak hanya berisi spasi
 ```
 
 ### 5. Apa perbedaan @NotBlank dan @NotNull?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@NotNull hanya memastikan nilai tidak boleh null, sedangkan @NotBlank memastikan nilai tidak boleh null, tidak kosong, dan tidak hanya berisi spasi.
 ```
 
 ### 6. Apa fungsi @Email?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Email berfungsi untuk memvalidasi bahwa nilai suatu field memiliki format email yang benar, sehingga input seperti "user@email.com" diterima, sedangkan format yang tidak sesuai seperti "useremail" akan ditolak.
 ```
 
 ### 7. Apa fungsi @Size?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@Size berfungsi untuk membatasi panjang (jumlah karakter) suatu field, baik minimal, maksimal, atau keduanya, sehingga nilai input harus berada dalam rentang yang ditentukan.
 ```
 
 ### 8. Apa yang terjadi jika request gagal validasi?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Jika request gagal validasi, maka server (backend) akan langsung menolak request tersebut dan mengembalikan error ke client, biasanya dengan status 400 (Bad Request), sehingga proses di controller atau business logic tidak dijalankan.
 ```
 
 ### 9. Apa itu MethodArgumentNotValidException?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+MethodArgumentNotValidException adalah exception di Spring Boot yang muncul ketika data request gagal lolos validasi @Valid, sehingga server menolak permintaan dengan error 400 dan tidak melanjutkan proses ke controller.
 ```
 
 ### 10. Apa itu standard error response?
@@ -81,7 +81,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Standard error response adalah format respon error yang konsisten dan terstruktur dari backend untuk memberitahu client tentang kesalahan yang terjadi dalam request.
 ```
 
 ### 11. Kenapa error response perlu konsisten?
@@ -89,7 +89,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Error response perlu konsisten agar client lebih mudah memahami, meng-handle, dan memproses error secara seragam, sehingga mempermudah debugging dan integrasi antar sistem.
 ```
 
 ### 12. Apa itu field-level error?
@@ -97,7 +97,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Field-level error adalah kesalahan validasi yang terjadi pada field tertentu dalam request, misalnya ketika satu kolom seperti email atau password tidak memenuhi aturan yang telah ditentukan.
 ```
 
 ### 13. Apa itu custom exception?
@@ -105,7 +105,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Custom exception adalah exception (kesalahan) yang dibuat sendiri oleh developer untuk menangani kondisi error tertentu sesuai kebutuhan bisnis aplikasi.
 ```
 
 ### 14. Kenapa CustomerNotFoundException lebih baik daripada RuntimeException biasa?
@@ -113,7 +113,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+CustomerNotFoundException lebih baik daripada RuntimeException biasa karena lebih spesifik menjelaskan jenis error yang terjadi, sehingga kode menjadi lebih jelas, mudah dipahami, dan mempermudah penanganan error secara tepat.
 ```
 
 ### 15. Apa fungsi @ControllerAdvice?
@@ -121,7 +121,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ControllerAdvice berfungsi untuk menangani exception secara global di seluruh controller, sehingga error handling menjadi lebih rapi, terpusat, dan konsisten di seluruh aplikasi.
 ```
 
 ### 16. Apa fungsi @ExceptionHandler?
@@ -129,7 +129,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+@ExceptionHandler berfungsi untuk menangkap dan menangani exception tertentu di controller atau secara global agar dapat mengembalikan response error yang sesuai.
 ```
 
 ### 17. Kenapa error handling sebaiknya centralized?
@@ -137,7 +137,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Error handling sebaiknya centralized karena memudahkan pengelolaan error secara konsisten di seluruh aplikasi, mengurangi duplikasi kode, dan membuat maintenance serta debugging menjadi lebih sederhana dan terstruktur.
 ```
 
 ### 18. Kapan menggunakan 400 Bad Request?
@@ -145,7 +145,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika request dari client tidak valid atau tidak sesuai dengan aturan yang ditentukan oleh server.
 ```
 
 ### 19. Kapan menggunakan 404 Not Found?
@@ -153,7 +153,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika resource atau data yang diminta tidak ditemukan di server, misalnya mencari user atau customer dengan ID tertentu tetapi datanya tidak ada di database.
 ```
 
 ### 20. Kapan menggunakan 500 Internal Server Error?
@@ -161,7 +161,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika terjadi kesalahan di sisi server yang tidak terduga, sehingga server gagal memproses request meskipun request dari client sudah valid.
 ```
 
 ### 21. Kenapa stack trace tidak boleh dikirim ke client?
@@ -169,7 +169,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Stack trace tidak boleh dikirim ke client karena dapat membocorkan informasi sensitif tentang struktur internal aplikasi, sehingga berisiko dimanfaatkan untuk serangan keamanan.
 ```
 
 ### 22. Jelaskan flow ketika POST /api/v1/customers menerima email invalid.
@@ -177,7 +177,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika endpoint **POST /api/v1/customers menerima email yang tidak valid, request akan gagal pada tahap validasi oleh @Valid, sehingga Spring melempar MethodArgumentNotValidException dan mengembalikan response 400 Bad Request tanpa melanjutkan ke proses business logic atau database.
 ```
 
 ### 23. Jelaskan flow ketika GET /api/v1/customers/999 tidak menemukan data.
@@ -185,7 +185,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Ketika endpoint **GET /api/v1/customers/999 tidak menemukan data, service biasanya melempar CustomerNotFoundException yang kemudian ditangkap oleh @ControllerAdvice untuk dikonversi menjadi response 404 Not Found, sehingga memberi tahu client bahwa resource yang diminta tidak tersedia.
 ```
 
 ### 24. Apa perbedaan validation error, business error, dan system error?
@@ -193,7 +193,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Perbedaannya adalah validation error terjadi karena input tidak valid, business error terjadi karena aturan bisnis dilanggar, sedangkan system error terjadi karena masalah teknis di server atau sistem.
 ```
 
 ### 25. Bagian mana yang paling sulit dari exercise Day 2?
@@ -201,7 +201,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Bagian yang paling sulit dari exercise Day 2 adalah memahami dan mengimplementasikan flow error handling secara lengkap (validasi, exception, hingga response yang konsisten) karena melibatkan banyak konsep sekaligus.
 ```
 
 ## Reflection
@@ -209,20 +209,22 @@ Tulis jawaban di sini.
 Apa 3 hal utama yang kamu pahami hari ini?
 
 ```text
-1.
-2.
-3.
+
+1. Pentingnya validasi request di backend untuk menjaga keamanan dan integritas data.
+2. Cara kerja @Valid dan berbagai anotasi seperti @NotBlank, @Email, dan @Size dalam proses validasi.
+3. Alur error handling di Spring Boot dari validasi hingga response menggunakan @ControllerAdvice dan @ExceptionHandler.
+
 ```
 
 Apa 2 hal yang masih membingungkan?
 
 ```text
-1.
+1. Cara membuat format standard error response yang lebih kompleks (misalnya ada kode error khusus).
 2.
 ```
 
 Apa 1 pertanyaan untuk mentor?
 
 ```text
-Tulis pertanyaan di sini.
+Bagaimana best practice untuk mendesain error response agar scalable dan tetap konsisten di aplikasi yang besar?
 ```
