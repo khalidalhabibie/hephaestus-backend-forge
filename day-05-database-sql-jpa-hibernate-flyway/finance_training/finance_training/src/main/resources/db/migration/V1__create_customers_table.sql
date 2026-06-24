@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS customers (
+    id BIGSERIAL PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    nik VARCHAR(16) NOT NULL UNIQUE,
+    email VARCHAR(255) UNIQUE,
+    phone_number VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP
+);
