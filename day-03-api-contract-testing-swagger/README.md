@@ -1,4 +1,4 @@
-# Day 3 - API Contract, API Testing & Swagger
+j# Day 3 - API Contract, API Testing & Swagger
 
 ## Goal
 
