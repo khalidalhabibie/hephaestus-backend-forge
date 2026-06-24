@@ -1,0 +1,217 @@
+{
+  "info": {
+    "_postman_id": "finance-training-api-v3",
+    "name": "Finance Training API v3",
+    "description": "Loan management system — Customer, Loan Application, Repayment Schedule (auto-generated), Payment Transaction.\n\nKey changes v3:\n- Schedule auto-generated when loan status becomes DISBURSED (no manual endpoint)\n- Payment auto-updates schedule to PAID when total paid >= total_amount\n- Specific error codes (CUSTOMER_NOT_FOUND, LOAN_APPLICATION_NOT_FOUND, etc.)\n\nPrerequisites:\n- docker compose up -d (PostgreSQL)\n- ./mvnw spring-boot:run (app on :8080)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "customerId", "value": "" },
+    { "key": "loanId", "value": "" },
+    { "key": "scheduleId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Customer",
+      "item": [
+        {
+          "name": "Create Customer — success",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('Body has id', () => pm.expect(pm.response.json().data.id).to.exist);","pm.collectionVariables.set('customerId', pm.response.json().data.id);"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"full_name\": \"Budi Santoso\",\n  \"nik\": \"3173010101900001\",\n  \"email\": \"budi@mail.com\",\n  \"phone_number\": \"08123456789\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/customers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers"] } }
+        },
+        {
+          "name": "Create Customer — duplicate NIK (409)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 409', () => pm.response.to.have.status(409));","pm.test('code DUPLICATE_DATA', () => pm.expect(pm.response.json().code).to.eql('DUPLICATE_DATA'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"full_name\": \"Budi Clone\",\n  \"nik\": \"3173010101900001\",\n  \"email\": \"clone@mail.com\",\n  \"phone_number\": \"08111111111\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/customers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers"] } }
+        },
+        {
+          "name": "Create Customer — validation error (400)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 400', () => pm.response.to.have.status(400));","pm.test('code VALIDATION_ERROR', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_ERROR'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"full_name\": \"\",\n  \"email\": \"invalid\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/customers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers"] } }
+        },
+        {
+          "name": "Get All Customers",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/customers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers"] } }
+        },
+        {
+          "name": "Get Customer by ID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/customers/{{customerId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers", "{{customerId}}"] } }
+        },
+        {
+          "name": "Search Customer by name",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/customers/search?name=budi", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers", "search"], "query": [{ "key": "name", "value": "budi" }] } }
+        },
+        {
+          "name": "Customer not found (404)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 404', () => pm.response.to.have.status(404));","pm.test('code CUSTOMER_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('CUSTOMER_NOT_FOUND'));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/customers/00000000-0000-0000-0000-000000000000", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers", "00000000-0000-0000-0000-000000000000"] } }
+        }
+      ]
+    },
+    {
+      "name": "Loan Application",
+      "item": [
+        {
+          "name": "Create Loan — success",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('Status is SUBMITTED', () => pm.expect(pm.response.json().data.status).to.eql('SUBMITTED'));","pm.collectionVariables.set('loanId', pm.response.json().data.id);"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"customer_id\": \"{{customerId}}\",\n  \"loan_amount\": 10000000,\n  \"tenor_month\": 12,\n  \"purpose\": \"Modal usaha\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications"] } }
+        },
+        {
+          "name": "Create Loan — customer not found (404)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 404', () => pm.response.to.have.status(404));","pm.test('code CUSTOMER_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('CUSTOMER_NOT_FOUND'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"customer_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"loan_amount\": 5000000,\n  \"tenor_month\": 6,\n  \"purpose\": \"Pendidikan\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications"] } }
+        },
+        {
+          "name": "Create Loan — validation error (400)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 400', () => pm.response.to.have.status(400));","pm.test('code VALIDATION_ERROR', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_ERROR'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"customer_id\": \"{{customerId}}\",\n  \"loan_amount\": -1000,\n  \"tenor_month\": 0,\n  \"purpose\": \"\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications"] } }
+        },
+        {
+          "name": "Get All Loans",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/loan-applications", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications"] } }
+        },
+        {
+          "name": "Get Loan by ID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('Has customer nested', () => pm.expect(pm.response.json().data.customer).to.exist);"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}"] } }
+        },
+        {
+          "name": "Filter Loans — SUBMITTED",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/loan-applications?status=SUBMITTED", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications"], "query": [{ "key": "status", "value": "SUBMITTED" }] } }
+        },
+        {
+          "name": "Get Loans by Customer ID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/customers/{{customerId}}/loan-applications", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers", "{{customerId}}", "loan-applications"] } }
+        },
+        {
+          "name": "Update Status — APPROVED",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('APPROVED', () => pm.expect(pm.response.json().data.status).to.eql('APPROVED'));"], "type": "text/javascript" } }],
+          "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"APPROVED\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "status"] } }
+        },
+        {
+          "name": "Update Status — DISBURSED (auto-generates schedule)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('DISBURSED', () => pm.expect(pm.response.json().data.status).to.eql('DISBURSED'));"], "type": "text/javascript" } }],
+          "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"DISBURSED\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "status"] } }
+        },
+        {
+          "name": "Update Status — invalid jump (409)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 409', () => pm.response.to.have.status(409));","pm.test('code INVALID_STATE', () => pm.expect(pm.response.json().code).to.eql('INVALID_STATE'));"], "type": "text/javascript" } }],
+          "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"CLOSED\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "status"] } }
+        }
+      ]
+    },
+    {
+      "name": "Repayment Schedule",
+      "item": [
+        {
+          "name": "Get Schedules by Loan ID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","const data = pm.response.json().data;","if (data && data.length > 0) {","  pm.collectionVariables.set('scheduleId', data[0].id);","  pm.test('First schedule UNPAID', () => pm.expect(data[0].status).to.eql('UNPAID'));","}"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/repayment-schedules", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "repayment-schedules"] } }
+        },
+        {
+          "name": "Get Schedule by ID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/repayment-schedules/{{scheduleId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "repayment-schedules", "{{scheduleId}}"] } }
+        },
+        {
+          "name": "Schedule not found (404)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 404', () => pm.response.to.have.status(404));","pm.test('code REPAYMENT_SCHEDULE_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('REPAYMENT_SCHEDULE_NOT_FOUND'));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/repayment-schedules/00000000-0000-0000-0000-000000000000", "host": ["{{baseUrl}}"], "path": ["api", "v1", "repayment-schedules", "00000000-0000-0000-0000-000000000000"] } }
+        }
+      ]
+    },
+    {
+      "name": "Payment Transaction",
+      "item": [
+        {
+          "name": "Create Payment — success",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('SUCCESS', () => pm.expect(pm.response.json().data.status).to.eql('SUCCESS'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"repayment_schedule_id\": \"{{scheduleId}}\",\n  \"payment_reference\": \"PAY-20260621-001\",\n  \"paid_amount\": 950000,\n  \"paid_at\": \"2026-06-21T10:00:00+07:00\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payment-transactions"] } }
+        },
+        {
+          "name": "Create Payment — pay full amount (schedule becomes PAID)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('SUCCESS', () => pm.expect(pm.response.json().data.status).to.eql('SUCCESS'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"repayment_schedule_id\": \"{{scheduleId}}\",\n  \"payment_reference\": \"PAY-20260621-FULL-002\",\n  \"paid_amount\": 1100000,\n  \"paid_at\": \"2026-06-21T12:00:00+07:00\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payment-transactions"] } }
+        },
+        {
+          "name": "Create Payment — already PAID (409)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 409', () => pm.response.to.have.status(409));","pm.test('code INVALID_STATE', () => pm.expect(pm.response.json().code).to.eql('INVALID_STATE'));","pm.test('message says already PAID', () => pm.expect(pm.response.json().message).to.include('already PAID'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"repayment_schedule_id\": \"{{scheduleId}}\",\n  \"payment_reference\": \"PAY-20260621-ALREADY-003\",\n  \"paid_amount\": 500000,\n  \"paid_at\": \"2026-06-21T13:00:00+07:00\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payment-transactions"] } }
+        },
+        {
+          "name": "Create Payment — schedule not found (404)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 404', () => pm.response.to.have.status(404));","pm.test('code REPAYMENT_SCHEDULE_NOT_FOUND', () => pm.expect(pm.response.json().code).to.eql('REPAYMENT_SCHEDULE_NOT_FOUND'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"repayment_schedule_id\": \"00000000-0000-0000-0000-000000000000\",\n  \"payment_reference\": \"PAY-20260621-NF-004\",\n  \"paid_amount\": 500000,\n  \"paid_at\": \"2026-06-21T11:00:00+07:00\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payment-transactions"] } }
+        },
+        {
+          "name": "Create Payment — validation error (400)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 400', () => pm.response.to.have.status(400));","pm.test('code VALIDATION_ERROR', () => pm.expect(pm.response.json().code).to.eql('VALIDATION_ERROR'));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"repayment_schedule_id\": \"{{scheduleId}}\",\n  \"payment_reference\": \"\",\n  \"paid_amount\": -1,\n  \"paid_at\": null\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payment-transactions"] } }
+        },
+        {
+          "name": "Get Payments by Schedule ID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/repayment-schedules/{{scheduleId}}/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "repayment-schedules", "{{scheduleId}}", "payment-transactions"] } }
+        },
+        {
+          "name": "Verify Schedule is PAID after full payment",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('Schedule status is PAID', () => pm.expect(pm.response.json().data.status).to.eql('PAID'));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/repayment-schedules/{{scheduleId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "repayment-schedules", "{{scheduleId}}"] } }
+        }
+      ]
+    },
+    {
+      "name": "E2E Full Flow (Runner)",
+      "description": "Run top-to-bottom: Create Customer → Loan → Approve → Disburse (auto-schedule) → Get Schedules → Pay → Verify PAID → Search",
+      "item": [
+        {
+          "name": "1 — Create Customer",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.collectionVariables.set('customerId', pm.response.json().data.id);"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"full_name\": \"Andi Pratama\",\n  \"nik\": \"3173010101900003\",\n  \"email\": \"andi@mail.com\",\n  \"phone_number\": \"08155512345\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/customers", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers"] } }
+        },
+        {
+          "name": "2 — Create Loan",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.collectionVariables.set('loanId', pm.response.json().data.id);"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"customer_id\": \"{{customerId}}\",\n  \"loan_amount\": 12000000,\n  \"tenor_month\": 12,\n  \"purpose\": \"Modal usaha\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications"] } }
+        },
+        {
+          "name": "3 — Approve Loan",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('APPROVED', () => pm.expect(pm.response.json().data.status).to.eql('APPROVED'));"], "type": "text/javascript" } }],
+          "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"APPROVED\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "status"] } }
+        },
+        {
+          "name": "4 — Disburse Loan (auto-generates 12 schedules)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('DISBURSED', () => pm.expect(pm.response.json().data.status).to.eql('DISBURSED'));"], "type": "text/javascript" } }],
+          "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"status\": \"DISBURSED\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/status", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "status"] } }
+        },
+        {
+          "name": "5 — Get Schedules (capture scheduleId)",
+          "event": [{ "listen": "test", "script": { "exec": ["const data = pm.response.json().data;","pm.test('12 installments', () => pm.expect(data.length).to.eql(12));","if (data.length > 0) {","  pm.collectionVariables.set('scheduleId', data[0].id);","  pm.test('First UNPAID', () => pm.expect(data[0].status).to.eql('UNPAID'));","}"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/loan-applications/{{loanId}}/repayment-schedules", "host": ["{{baseUrl}}"], "path": ["api", "v1", "loan-applications", "{{loanId}}", "repayment-schedules"] } }
+        },
+        {
+          "name": "6 — Make Full Payment (amount = total_amount 1.120.000)",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Payment OK', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"repayment_schedule_id\": \"{{scheduleId}}\",\n  \"payment_reference\": \"PAY-20260621-E2E-001\",\n  \"paid_amount\": 1120000,\n  \"paid_at\": \"2026-06-21T14:00:00+07:00\"\n}" }, "url": { "raw": "{{baseUrl}}/api/v1/payment-transactions", "host": ["{{baseUrl}}"], "path": ["api", "v1", "payment-transactions"] } }
+        },
+        {
+          "name": "7 — Verify Schedule PAID",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));","pm.test('Schedule is PAID', () => pm.expect(pm.response.json().data.status).to.eql('PAID'));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/repayment-schedules/{{scheduleId}}", "host": ["{{baseUrl}}"], "path": ["api", "v1", "repayment-schedules", "{{scheduleId}}"] } }
+        },
+        {
+          "name": "8 — Search Customer",
+          "event": [{ "listen": "test", "script": { "exec": ["pm.test('Status 200', () => pm.response.to.have.status(200));"], "type": "text/javascript" } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/api/v1/customers/search?name=andi", "host": ["{{baseUrl}}"], "path": ["api", "v1", "customers", "search"], "query": [{ "key": "name", "value": "andi" }] } }
+        }
+      ]
+    }
+  ]
+}
