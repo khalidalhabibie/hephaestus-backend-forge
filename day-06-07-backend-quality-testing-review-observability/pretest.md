@@ -17,7 +17,7 @@ Pretest ini digunakan untuk mengukur pemahaman awal peserta tentang testing mind
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Working code cuma bisa jalan, tapi belum tentu benar sedangkan trusted code sudah lebih bisa dipercaya karena sudah dites
 ```
 
 2. Kenapa testing disebut sebagai risk reduction?
@@ -25,7 +25,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena testing membantu mengurangi kemungkinan error saat aplikasi dipakai
 ```
 
 3. Apa itu Given-When-Then?
@@ -33,7 +33,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Cara menulis test: Given (kondisi), When (aksi), Then (hasil)
 ```
 
 4. Apa perbedaan unit test dan integration test?
@@ -41,7 +41,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Unit test fokus ke satu fungsi, sedangkan integration test cek gabungan beberapa bagian.
 ```
 
 5. Kenapa service layer biasanya cocok untuk unit test?
@@ -49,7 +49,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Karena di situ ada logic utama aplikasi.
 ```
 
 6. Apa fungsi JUnit 5?
@@ -57,7 +57,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk membuat dan menjalankan test di Java
 ```
 
 7. Apa fungsi Mockito?
@@ -65,7 +65,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk membuat data atau dependency palsu saat testing
 ```
 
 8. Kenapa dependency seperti repository sering dimock saat unit test?
@@ -73,7 +73,7 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Supaya tidak perlu akses database asli saat test
 ```
 
 9. Apa contoh test case penting untuk `LoanApplicationService`?
@@ -81,7 +81,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+- Data valid
+- Data tidak valid
+- Loan disetujui atau ditolak
 ```
 
 10. Apa tujuan peer code review?
@@ -89,31 +91,31 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Supaya code dicek oleh orang lain sebelum dipakai
 ```
 
 11. Area apa saja yang perlu dicek saat code review backend?
 
 Jawaban:
 
-```text
-Tulis jawaban di sini.
-```
+Logic, error handling, dan apakah code mudah dibaca
+
+````
 
 12. Apa itu structured logging?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
-```
+Logging yang terstruktur supaya mudah dibaca dan dicari
+````
 
 13. Apa fungsi `correlation_id`?
 
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Untuk melacak satu request yang sama di log
 ```
 
 14. Kapan menggunakan log level `info`, `warn`, dan `error`?
@@ -121,7 +123,9 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Info: normal
+Warn: agak bermasalah
+Error: terjadi error
 ```
 
 15. Sebutkan data yang tidak boleh ditulis mentah di log.
@@ -129,19 +133,19 @@ Tulis jawaban di sini.
 Jawaban:
 
 ```text
-Tulis jawaban di sini.
+Password, nomor kartu, dan data pribadi
 ```
 
 ## Self Assessment
 
-| Area | Score 1-5 |
-|---|---|
-| Testing mindset | |
-| Given-When-Then | |
-| JUnit 5 | |
-| Mockito | |
-| Service layer testing | |
-| Peer code review | |
-| Structured logging | |
-| Correlation ID | |
-| PII safety | |
+| Area                  | Score 1-5 |
+| --------------------- | --------- |
+| Testing mindset       |     4     |
+| Given-When-Then       |     3     |
+| JUnit 5               |     3     |
+| Mockito               |     4     |
+| Service layer testing |     3     |
+| Peer code review      |     3     |
+| Structured logging    |     3     |
+| Correlation ID        |     3     |
+| PII safety            |     2     |
