@@ -18,7 +18,7 @@ API harus mendukung:
 
 Data masih disimpan di memory menggunakan `Map`.
 
-## Task 1 - Create Project from Spring Initializr
+## Task 1 - Create Project from Spring Initializr (done)
 
 Use:
 
@@ -39,7 +39,7 @@ Spring Web
 Validation
 ```
 
-## Task 2 - Add Swagger Dependency
+## Task 2 - Add Swagger Dependency (done)
 
 Add to `pom.xml`:
 
@@ -51,7 +51,7 @@ Add to `pom.xml`:
 </dependency>
 ```
 
-## Task 3 - Create DTO
+## Task 3 - Create DTO (done)
 
 Create:
 
@@ -69,7 +69,7 @@ Rules:
 - Use `@JsonProperty`.
 - Use validation annotation where needed.
 
-## Task 4 - Create Model
+## Task 4 - Create Model (done)
 
 Create Customer model:
 
@@ -78,7 +78,7 @@ Create Customer model:
 - `email`
 - `phoneNumber`
 
-## Task 5 - Create Service
+## Task 5 - Create Service (done)
 
 Create `CustomerService` using in-memory `Map`.
 
@@ -90,7 +90,7 @@ Methods:
 - `updateCustomer`
 - `patchCustomer`
 
-## Task 6 - Create Controller
+## Task 6 - Create Controller (done)
 
 Create `CustomerController` with:
 
@@ -102,23 +102,23 @@ Create `CustomerController` with:
 
 Use:
 
-- `@RestController`
-- `@RequestMapping`
-- `@PostMapping`
-- `@GetMapping`
-- `@PutMapping`
-- `@PatchMapping`
-- `@RequestBody`
-- `@PathVariable`
-- `@Valid`
-- `ResponseEntity`
+- `@RestController` //untuk spring mengenali ini adalah kelas kontroler
+- `@RequestMapping` //untuk menulis API 
+- `@PostMapping` // untuk membuat API post
+- `@GetMapping` // untuk membuat API get
+- `@PutMapping` // untuk membuat API put
+- `@PatchMapping` //untuk membuat API patch
+- `@RequestBody` // untuk mengambil isi body dari APInya
+- `@PathVariable` //untuk mengambil nilai dari URL Path
+- `@Valid` //untuk menghubungkan ke DTO
+- `ResponseEntity` //untuk mengirim respon ke FE
 
-## Task 7 - Add Swagger Annotation
+## Task 7 - Add Swagger Annotation (done)
 
 Add:
 
-- `@Tag`
-- `@Operation`
+- `@Tag` //
+- `@Operation` 
 - `@ApiResponse`
 
 At minimum:
@@ -127,7 +127,7 @@ At minimum:
 - Add `@Operation` for every endpoint.
 - Add `@ApiResponse` for success and error response.
 
-## Task 8 - Write API Contract
+## Task 8 - Write API Contract (done)
 
 Write API contract in markdown for:
 
@@ -147,7 +147,7 @@ Each contract must include:
 - Error response
 - Status code
 
-## Task 9 - Test with Postman
+## Task 9 - Test with Postman (done)
 
 Test:
 
@@ -159,7 +159,7 @@ Test:
 - Update customer with PUT
 - Patch customer with PATCH
 
-## Task 10 - Test with Swagger UI
+## Task 10 - Test with Swagger UI (done)
 
 Open:
 
@@ -175,7 +175,7 @@ Test from Swagger UI:
 - PUT customer
 - PATCH customer
 
-## Task 11 - Check OpenAPI JSON
+## Task 11 - Check OpenAPI JSON (done)
 
 Open:
 
@@ -210,8 +210,8 @@ Make sure JSON appears.
 
 ## Optional Challenge
 
-- Add `created_at` and `updated_at` in `CustomerResponse`.
-- Add query parameter search by email.
+- Add `created_at` and `updated_at` in `CustomerResponse`. (done)
+- Add query parameter search by email. ()
 - Add simple pagination contract.
 - Add OpenAPI description for `ErrorResponse`.
 - Add screenshots of Swagger UI result.
