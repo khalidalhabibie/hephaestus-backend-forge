@@ -1,0 +1,6 @@
+/Users/andyana/MT/service_layer/hephaestus-backend-forge-Andy/day-01-java-and-rest-api/02-springboot-rest-api/exerciseday02/src/main/java/com/andyana/exerciseday02/Exerciseday02Application.java
+/Users/andyana/MT/service_layer/hephaestus-backend-forge-Andy/day-01-java-and-rest-api/02-springboot-rest-api/exerciseday02/src/main/java/com/andyana/exerciseday02/controller/CustomerController.java
+/Users/andyana/MT/service_layer/hephaestus-backend-forge-Andy/day-01-java-and-rest-api/02-springboot-rest-api/exerciseday02/src/main/java/com/andyana/exerciseday02/dto/CreateCustomerRequest.java
+/Users/andyana/MT/service_layer/hephaestus-backend-forge-Andy/day-01-java-and-rest-api/02-springboot-rest-api/exerciseday02/src/main/java/com/andyana/exerciseday02/dto/CustomerResponse.java
+/Users/andyana/MT/service_layer/hephaestus-backend-forge-Andy/day-01-java-and-rest-api/02-springboot-rest-api/exerciseday02/src/main/java/com/andyana/exerciseday02/model/Customer.java
+/Users/andyana/MT/service_layer/hephaestus-backend-forge-Andy/day-01-java-and-rest-api/02-springboot-rest-api/exerciseday02/src/main/java/com/andyana/exerciseday02/service/CustomerService.java
