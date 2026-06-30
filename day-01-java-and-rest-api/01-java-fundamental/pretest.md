@@ -223,16 +223,26 @@ Tulis jawaban di sini.
 
 Jawaban:
 
+<<<<<<< Updated upstream
 ```text
 Tulis jawaban di sini.
+=======
+```
+suatu kelas yang tidak dapat dibuat object secara langsung yang dimana abstract class ini menjadi blueprint untuk kelas turunannya 
+>>>>>>> Stashed changes
 ```
 
 ### 26. Apa perbedaan interface dan abstract class?
 
 Jawaban:
 
+<<<<<<< Updated upstream
 ```text
 Tulis jawaban di sini.
+=======
+```
+kalau interface diimplementasikan semua method didalamnya harus digunakan, kalau abstract tidak bisa dibuat object
+>>>>>>> Stashed changes
 ```
 
 ## Self Assessment
